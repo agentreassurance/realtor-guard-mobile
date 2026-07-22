@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <title>Realtor Guard Home</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: #ffffff;
+      color: #101828;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .home-screen {
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      padding: 28px 18px 36px;
+    }
+
+    .home-card {
+      width: 100%;
+      max-width: 430px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo {
+      width: min(78vw, 330px);
+      height: auto;
+      object-fit: contain;
+      margin-top: 8px;
+    }
+
+    .headline {
+      margin-top: 18px;
+      color: #780000;
+      font-size: clamp(24px, 7vw, 34px);
+      line-height: 1.15;
+      text-align: center;
+    }
+
+    .message {
+      max-width: 340px;
+      margin-top: 14px;
+      color: #475467;
+      font-size: 16px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .status {
+      width: 100%;
+      margin-top: 24px;
+      padding: 13px 16px;
+      border: 1px solid #b7dfbd;
+      border-radius: 12px;
+      background: #effaf1;
+      color: #176629;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .button-list {
+      width: 100%;
+      display: grid;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .home-button {
+      width: 100%;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #071c68;
+      border-radius: 12px;
+      background: #071c68;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: none;
+      transition:
+        transform 0.15s ease,
+        background 0.15s ease;
+    }
+
+    .home-button:active {
+      transform: scale(0.98);
+    }
+
+    .home-button.secondary {
+      background: #ffffff;
+      color: #071c68;
+    }
+
+    .notice {
+      margin-top: 26px;
+      color: #667085;
+      font-size: 13px;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .brand-line {
+      margin-top: auto;
+      padding-top: 28px;
+      color: #780000;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="home-screen">
+    <section class="home-card">
+      <img
+        class="logo"
+        src="logo.png"
+        alt="Realtor Guard"
+      >
+
+      <h1 class="headline">
+        Never Alone at a Showing or Open House
+      </h1>
+
+      <p class="message">
+        Realtor Guard connects real estate agents with verified observers
+        to provide added support and peace of mind during property showings.
+      </p>
+
+      <div class="status">
+        Virginia Active — More states coming soon
+      </div>
+
+      <nav class="button-list" aria-label="Main navigation">
+        <a class="home-button" href="#">
+          New Agent
+        </a>
+
+        <a class="home-button secondary" href="#">
+          Agent Dashboard
+        </a>
+
+        <a class="home-button" href="#">
+          New Observer
+        </a>
+
+        <a class="home-button secondary" href="#">
+          Observer Dashboard
+        </a>
+      </nav>
+
+      <p class="notice">
+        The buttons are displayed for this first navigation test.
+        We will connect each one to its correct page next.
+      </p>
+
+      <p class="brand-line">
+        REAL ESTATE SAFETY. TOGETHER.
+      </p>
+    </section>
+  </main>
+</body>
+</html>
