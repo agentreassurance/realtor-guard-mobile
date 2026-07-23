@@ -11,6 +11,15 @@
   <title>Realtor Guard Home</title>
 
   <style>
+    :root {
+      --red: #c90000;
+      --dark-red: #990000;
+      --light-red: #fff1f1;
+      --text: #171717;
+      --muted: #555555;
+      --white: #ffffff;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -26,167 +35,303 @@
     body {
       min-height: 100vh;
       min-height: 100dvh;
-      background: #ffffff;
-      color: #101828;
+      background: #f4f4f4;
+      color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    .home-screen {
-      width: 100%;
-      min-height: 100vh;
-      min-height: 100dvh;
-      display: flex;
-      justify-content: center;
-      padding: 28px 18px 36px;
-    }
-
-    .home-card {
+    .app {
       width: 100%;
       max-width: 430px;
-      display: flex;
-      flex-direction: column;
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0 auto;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .top-section {
+      position: relative;
+      min-height: 215px;
+      padding: calc(22px + env(safe-area-inset-top)) 22px 55px;
+      overflow: hidden;
+      background:
+        linear-gradient(150deg, #ef0000 0%, #bd0000 55%, #950000 100%);
+      color: var(--white);
+      text-align: center;
+    }
+
+    .top-section::after {
+      content: "";
+      position: absolute;
+      left: -10%;
+      bottom: -82px;
+      width: 120%;
+      height: 150px;
+      border-radius: 50% 50% 0 0;
+      background: var(--white);
+    }
+
+    .top-bar {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 42px 1fr 42px;
       align-items: center;
     }
 
-    .logo {
-      width: min(78vw, 330px);
+    .menu-button {
+      width: 42px;
+      height: 42px;
+      border: 0;
+      background: transparent;
+      color: var(--white);
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .brand-name {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-symbol {
+      font-size: 24px;
+    }
+
+    .main-content {
+      position: relative;
+      z-index: 3;
+      margin-top: -68px;
+      padding: 0 20px calc(24px + env(safe-area-inset-bottom));
+    }
+
+    .hero-logo {
+      width: min(72vw, 285px);
       height: auto;
+      display: block;
+      margin: 0 auto;
       object-fit: contain;
-      margin-top: 8px;
     }
 
-    .headline {
-      margin-top: 18px;
-      color: #780000;
-      font-size: clamp(24px, 7vw, 34px);
-      line-height: 1.15;
+    .tagline {
+      margin-top: 4px;
+      color: var(--dark-red);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
       text-align: center;
+      text-transform: uppercase;
     }
 
-    .message {
-      max-width: 340px;
-      margin-top: 14px;
-      color: #475467;
-      font-size: 16px;
-      line-height: 1.5;
-      text-align: center;
-    }
-
-    .status {
-      width: 100%;
-      margin-top: 24px;
-      padding: 13px 16px;
-      border: 1px solid #b7dfbd;
-      border-radius: 12px;
-      background: #effaf1;
-      color: #176629;
+    .we-are-here {
+      margin-top: 9px;
+      color: var(--dark-red);
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: 4px;
       text-align: center;
     }
 
     .button-list {
-      width: 100%;
       display: grid;
-      gap: 14px;
-      margin-top: 24px;
+      gap: 11px;
+      margin-top: 19px;
     }
 
-    .home-button {
-      width: 100%;
-      min-height: 58px;
-      display: flex;
+    .nav-card {
+      min-height: 65px;
+      display: grid;
+      grid-template-columns: 48px 1fr 28px;
       align-items: center;
-      justify-content: center;
-      border: 2px solid #071c68;
-      border-radius: 12px;
-      background: #071c68;
-      color: #ffffff;
-      font-size: 18px;
-      font-weight: 700;
+      gap: 11px;
+      padding: 8px 12px;
+      border: 1.5px solid #ec5a5a;
+      border-radius: 10px;
+      background: var(--white);
+      color: var(--text);
       text-decoration: none;
+      box-shadow: 0 3px 10px rgba(120, 0, 0, 0.06);
       transition:
         transform 0.15s ease,
         background 0.15s ease;
     }
 
-    .home-button:active {
+    .nav-card:active {
       transform: scale(0.98);
+      background: #fff8f8;
     }
 
-    .home-button.secondary {
-      background: #ffffff;
-      color: #071c68;
+    .icon-circle {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--light-red);
+      color: var(--red);
+      font-size: 24px;
     }
 
-    .notice {
-      margin-top: 26px;
-      color: #667085;
-      font-size: 13px;
-      line-height: 1.45;
-      text-align: center;
+    .nav-copy strong {
+      display: block;
+      color: var(--red);
+      font-size: 17px;
+      line-height: 1.15;
+      text-transform: uppercase;
     }
 
-    .brand-line {
-      margin-top: auto;
-      padding-top: 28px;
-      color: #780000;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-align: center;
+    .nav-copy span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .arrow {
+      color: var(--red);
+      font-size: 31px;
+      font-weight: 300;
+      text-align: right;
+    }
+
+    .state-card {
+      min-height: 58px;
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      align-items: center;
+      gap: 11px;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #fff4f4, #ffffff);
+    }
+
+    .state-card strong {
+      display: block;
+      color: var(--red);
+      font-size: 15px;
+      text-transform: uppercase;
+    }
+
+    .state-card span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (min-width: 700px) {
+      body {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 25px 0;
+      }
+
+      .app {
+        min-height: calc(100vh - 50px);
+        border-radius: 24px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <main class="home-screen">
-    <section class="home-card">
+  <main class="app">
+    <header class="top-section">
+      <div class="top-bar">
+        <button
+          class="menu-button"
+          type="button"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+
+        <div class="brand-name">
+          REALTOR GUARD
+        </div>
+
+        <div class="brand-symbol" aria-hidden="true">
+          🛡
+        </div>
+      </div>
+    </header>
+
+    <section class="main-content">
       <img
-        class="logo"
+        class="hero-logo"
         src="logo.png"
         alt="Realtor Guard"
       >
 
-      <h1 class="headline">
+      <p class="tagline">
         Never Alone at a Showing or Open House
-      </h1>
-
-      <p class="message">
-        Realtor Guard connects real estate agents with verified observers
-        to provide added support and peace of mind during property showings.
       </p>
 
-      <div class="status">
-        Virginia Active — More states coming soon
-      </div>
+      <p class="we-are-here">
+        WE ARE HERE
+      </p>
 
       <nav class="button-list" aria-label="Main navigation">
-        <a class="home-button" href="#">
-          New Agent
+        <a class="nav-card" href="#">
+          <div class="icon-circle" aria-hidden="true">⌂</div>
+
+          <div class="nav-copy">
+            <strong>New Agent</strong>
+            <span>Create your agent account</span>
+          </div>
+
+          <div class="arrow" aria-hidden="true">›</div>
         </a>
 
-        <a class="home-button secondary" href="#">
-          Agent Dashboard
+        <a class="nav-card" href="#">
+          <div class="icon-circle" aria-hidden="true">●</div>
+
+          <div class="nav-copy">
+            <strong>Agent Dashboard</strong>
+            <span>Login to your agent account</span>
+          </div>
+
+          <div class="arrow" aria-hidden="true">›</div>
         </a>
 
-        <a class="home-button" href="#">
-          New Observer
+        <a class="nav-card" href="#">
+          <div class="icon-circle" aria-hidden="true">♜</div>
+
+          <div class="nav-copy">
+            <strong>New Observer</strong>
+            <span>Sign up and start verification</span>
+          </div>
+
+          <div class="arrow" aria-hidden="true">›</div>
         </a>
 
-        <a class="home-button secondary" href="#">
-          Observer Dashboard
+        <a class="nav-card" href="#">
+          <div class="icon-circle" aria-hidden="true">●</div>
+
+          <div class="nav-copy">
+            <strong>Observer Dashboard</strong>
+            <span>Login to your observer account</span>
+          </div>
+
+          <div class="arrow" aria-hidden="true">›</div>
         </a>
       </nav>
 
-      <p class="notice">
-        The buttons are displayed for this first navigation test.
-        We will connect each one to its correct page next.
-      </p>
+      <div class="state-card">
+        <div class="icon-circle" aria-hidden="true">⌖</div>
 
-      <p class="brand-line">
-        REAL ESTATE SAFETY. TOGETHER.
-      </p>
+        <div>
+          <strong>Virginia Active</strong>
+          <span>More states coming soon.</span>
+        </div>
+      </div>
     </section>
   </main>
 </body>
