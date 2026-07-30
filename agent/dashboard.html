@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Agent Dashboard | Realtor Guard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px 16px;
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #222;
+    }
+
+    .dashboard {
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: block;
+      width: 105px;
+      margin: 0 auto 12px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      text-align: center;
+      color: #b91f24;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      text-align: center;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    .notice {
+      margin-bottom: 18px;
+      padding: 12px;
+      border: 1px solid #e4b5b5;
+      border-radius: 10px;
+      background: #fff4f4;
+      color: #8f171b;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 6px;
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px;
+      border: 1px solid #cfcfcf;
+      border-radius: 8px;
+      font-size: 16px;
+      background: #fff;
+    }
+
+    button {
+      width: 100%;
+      min-height: 50px;
+      margin-top: 18px;
+      border: none;
+      border-radius: 8px;
+      background: #b91f24;
+      color: #fff;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .refresh-button {
+      margin-top: 10px;
+      background: #333;
+    }
+
+    .request-card {
+      display: none;
+      margin-top: 22px;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #fafafa;
+    }
+
+    .request-card h2 {
+      margin-top: 0;
+      color: #b91f24;
+      font-size: 21px;
+    }
+
+    .request-card p {
+      margin: 8px 0;
+      line-height: 1.4;
+    }
+
+    .status {
+      font-weight: bold;
+      color: #b26b00;
+    }
+
+    .home-link {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      color: #b91f24;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="dashboard">
+    <img
+      class="logo"
+      src="../logo.png"
+      alt="Realtor Guard Logo"
+    >
+
+    <h1>Agent Dashboard</h1>
+
+    <p class="subtitle">
+      Request a verified observer for your showing or open house.
+    </p>
+
+    <div class="notice">
+      Virginia active — more states coming soon.
+    </div>
+
+    <form id="requestForm">
+      <label for="agentName">Agent Full Name</label>
+      <input
+        id="agentName"
+        type="text"
+        placeholder="Enter your full name"
+        required
+      >
+
+      <label for="address">Property Address</label>
+      <input
+        id="address"
+        type="text"
+        placeholder="Enter property address"
+        required
+      >
+
+      <label for="city">City</label>
+      <input
+        id="city"
+        type="text"
+        placeholder="Enter city"
+        required
+      >
+
+      <label for="state">State</label>
+      <select id="state" required>
+        <option value="">Select state</option>
+        <option value="Virginia">Virginia</option>
+      </select>
+
+      <label for="date">Date</label>
+      <input id="date" type="date" required>
+
+      <label for="time">Time</label>
+      <input id="time" type="time" required>
+
+      <label for="duration">Duration</label>
+      <select id="duration" required>
+        <option value="">Select duration</option>
+        <option>30 minutes</option>
+        <option>1 hour</option>
+        <option>1 hour 30 minutes</option>
+        <option>2 hours</option>
+        <option>3 hours</option>
+        <option>4 hours</option>
+      </select>
+
+      <label for="timezone">Time Zone</label>
+      <select id="timezone" required>
+        <option value="">Select time zone</option>
+        <option>Eastern Time</option>
+        <option>Central Time</option>
+        <option>Mountain Time</option>
+        <option>Pacific Time</option>
+      </select>
+
+      <button type="submit">Request Observer</button>
+      <button type="button" class="refresh-button" onclick="location.reload()">
+        Refresh
+      </button>
+    </form>
+
+    <section class="request-card" id="requestCard">
+      <h2>Observer Request</h2>
+      <p><strong>Agent:</strong> <span id="summaryName"></span></p>
+      <p><strong>Location:</strong> <span id="summaryLocation"></span></p>
+      <p><strong>Date:</strong> <span id="summaryDate"></span></p>
+      <p><strong>Time:</strong> <span id="summaryTime"></span></p>
+      <p><strong>Duration:</strong> <span id="summaryDuration"></span></p>
+      <p><strong>Status:</strong> <span class="status">Pending</span></p>
+    </section>
+
+    <a class="home-link" href="../home.html">Return to Home</a>
+  </main>
+
+  <script>
+    const requestForm = document.getElementById("requestForm");
+    const requestCard = document.getElementById("requestCard");
+
+    requestForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const agentName = document.getElementById("agentName").value;
+      const address = document.getElementById("address").value;
+      const city = document.getElementById("city").value;
+      const state = document.getElementById("state").value;
+      const date = document.getElementById("date").value;
+      const time = document.getElementById("time").value;
+      const duration = document.getElementById("duration").value;
+
+      document.getElementById("summaryName").textContent = agentName;
+      document.getElementById("summaryLocation").textContent =
+        address + ", " + city + ", " + state;
+      document.getElementById("summaryDate").textContent = date;
+      document.getElementById("summaryTime").textContent = time;
+      document.getElementById("summaryDuration").textContent = duration;
+
+      requestCard.style.display = "block";
+      requestCard.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  </script>
+</body>
+</html>
