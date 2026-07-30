@@ -80,8 +80,8 @@
 
 <input type="email" placeholder="Email Address">
 
-<input type="password" placeholder="Password">
-
+<input id="password" type="password" placeholder="Password">
+<button type="button" onclick="togglePassword()">👁️</button>
 <button onclick="window.location.href='dashboard.html'">
 Login
 </button>
@@ -91,6 +91,16 @@ Login
 </div>
 
 </div>
+<script>
+function togglePassword() {
+  const password = document.getElementById("password");
 
+  if (password.type === "password") {
+    password.type = "text";
+  } else {
+    password.type = "password";
+  }
+}
+</script>
 </body>
 </html>
