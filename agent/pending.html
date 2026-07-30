@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request Pending | Realtor Guard</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#ffffff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.container{
+    width:90%;
+    max-width:420px;
+    text-align:center;
+}
+
+.logo{
+    width:90px;
+    margin-bottom:10px;
+}
+
+h1{
+    color:#b71c1c;
+    margin-bottom:10px;
+}
+
+.status{
+    background:#fff3cd;
+    color:#856404;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:20px;
+    font-weight:bold;
+}
+
+.card{
+    text-align:left;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:16px;
+    margin-bottom:20px;
+}
+
+.card p{
+    margin:10px 0;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    margin-top:12px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.refresh{
+    background:#b71c1c;
+    color:white;
+}
+
+.cancel{
+    background:#555;
+    color:white;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="../logo.png" class="logo">
+
+<h1>Request Pending</h1>
+
+<div class="status">
+⏳ Searching for a verified observer...
+</div>
+
+<div class="card">
+<p><strong>Status:</strong> Pending</p>
+<p><strong>Observer:</strong> Searching...</p>
+<p><strong>Location:</strong> Your submitted property</p>
+<p><strong>We'll notify you when an observer accepts your request.</strong></p>
+</div>
+
+<button class="refresh" onclick="location.reload()">
+Refresh Status
+</button>
+
+<button class="cancel" onclick="window.location.href='dashboard.html'">
+Cancel Request
+</button>
+
+</div>
+
+</body>
+</html>
