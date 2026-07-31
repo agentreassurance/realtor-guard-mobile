@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Observer Pending Approval | Realtor Guard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px 16px;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #222222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    .logo {
+      display: block;
+      width: 105px;
+      margin: 0 auto 15px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      color: #b71c1c;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      color: #555555;
+      line-height: 1.5;
+    }
+
+    .status-banner {
+      margin-bottom: 18px;
+      padding: 13px;
+      border: 1px solid #f0d48a;
+      border-radius: 9px;
+      background: #fff3cd;
+      color: #7a5600;
+      font-weight: bold;
+    }
+
+    .status-card {
+      padding: 20px;
+      border: 1px solid #dddddd;
+      border-radius: 12px;
+      background: #ffffff;
+      text-align: left;
+    }
+
+    .status-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin: 14px 0;
+      line-height: 1.4;
+    }
+
+    .check {
+      color: #187a2f;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .pending {
+      color: #a66a00;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .notice {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 9px;
+      background: #f4f4f4;
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    .home-button {
+      width: 100%;
+      min-height: 52px;
+      margin-top: 18px;
+      border: none;
+      border-radius: 9px;
+      background: #b71c1c;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .login-link {
+      display: block;
+      margin-top: 17px;
+      color: #b71c1c;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <img
+      src="../logo.png"
+      class="logo"
+      alt="Realtor Guard Logo"
+    >
+
+    <h1>Application Submitted</h1>
+
+    <p class="subtitle">
+      Thank you for applying to become a verified Realtor Guard Observer.
+    </p>
+
+    <div class="status-banner">
+      Your application is pending approval.
+    </div>
+
+    <section class="status-card">
+      <div class="status-item">
+        <span class="check">✓</span>
+        <span>Profile information received</span>
+      </div>
+
+      <div class="status-item">
+        <span class="check">✓</span>
+        <span>Profile photo received</span>
+      </div>
+
+      <div class="status-item">
+        <span class="check">✓</span>
+        <span>Verification selfie received</span>
+      </div>
+
+      <div class="status-item">
+        <span class="pending">⏳</span>
+        <span>Identity verification in progress</span>
+      </div>
+
+      <div class="status-item">
+        <span class="pending">⏳</span>
+        <span>Background review pending</span>
+      </div>
+    </section>
+
+    <div class="notice">
+      Approval usually takes approximately
+      <strong>3–5 business days</strong>.
+      You will receive an email when your account has been approved.
+    </div>
+
+    <button
+      type="button"
+      class="home-button"
+      onclick="window.location.href='../home.html'"
+    >
+      Return to Home
+    </button>
+
+    <a class="login-link" href="login.html">
+      Observer Login
+    </a>
+  </main>
+</body>
+</html>
