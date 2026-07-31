@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Observer | Realtor Guard</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f4f4f4;
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+.page {
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    margin: auto;
+    background: white;
+    padding: 24px 20px 40px;
+}
+
+.logo {
+    display: block;
+    width: 155px;
+    max-width: 55%;
+    margin: 5px auto 16px;
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+    color: #b00000;
+    font-size: 28px;
+}
+
+.subtitle {
+    text-align: center;
+    line-height: 1.5;
+    margin: 10px 0 24px;
+    color: #555;
+}
+
+.form-card {
+    border: 1px solid #d3d3d3;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin: 15px 0 7px;
+}
+
+input,
+select {
+    width: 100%;
+    min-height: 50px;
+    border: 1px solid #aaa;
+    border-radius: 9px;
+    padding: 12px;
+    font-size: 16px;
+    background: white;
+}
+
+.password-wrap {
+    position: relative;
+}
+
+.password-wrap input {
+    padding-right: 52px;
+}
+
+.eye-button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 44px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    font-size: 21px;
+    cursor: pointer;
+}
+
+.upload-box {
+    margin-top: 8px;
+    padding: 14px;
+    border: 1px dashed #999;
+    border-radius: 9px;
+    background: #fafafa;
+}
+
+.help-text {
+    margin: 7px 0 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.submit-button {
+    width: 100%;
+    min-height: 54px;
+    margin-top: 24px;
+    border: none;
+    border-radius: 10px;
+    background: #b00000;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background: #870000;
+}
+
+.login-link {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    color: #b00000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.notice {
+    margin-top: 20px;
+    padding: 13px;
+    border-radius: 9px;
+    background: #f3f3f3;
+    font-size: 14px;
+    line-height: 1.5;
+}
+</style>
+</head>
+
+<body>
+
+<main class="page">
+
+<img class="logo" src="../logo.png" alt="Realtor Guard logo">
+
+<h1>New Observer</h1>
+
+<p class="subtitle">
+Create your Observer account and submit your information for verification.
+</p>
+
+<form class="form-card" onsubmit="goToPending(event)">
+
+<label for="fullname">Full Name</label>
+<input id="fullname" type="text" required>
+
+<label for="address">Street Address</label>
+<input id="address" type="text" required>
+
+<label for="city">City</label>
+<input id="city" type="text" required>
+
+<label for="state">State</label>
+<select id="state" required>
+    <option value="">Select state</option>
+    <option>Virginia</option>
+</select>
+
+<label for="zip">ZIP Code</label>
+<input id="zip" type="text" inputmode="numeric" required>
+
+<label for="phone">Phone Number</label>
+<input id="phone" type="tel" required>
+
+<label for="email">Email Address</label>
+<input id="email" type="email" required>
+
+<label for="password">Create Password</label>
+
+<div class="password-wrap">
+    <input id="password" type="password" required>
+    <button
+        class="eye-button"
+        type="button"
+        onclick="togglePassword()"
+        aria-label="Show or hide password">
+        👁
+    </button>
+</div>
+
+<label for="profile-photo">Upload Profile Photo</label>
+
+<div class="upload-box">
+    <input
+        id="profile-photo"
+        type="file"
+        accept="image/*"
+        required>
+    <p class="help-text">
+        Upload a clear photo showing your face.
+    </p>
+</div>
+
+<label for="selfie-photo">Take Verification Selfie</label>
+
+<div class="upload-box">
+    <input
+        id="selfie-photo"
+        type="file"
+        accept="image/*"
+        capture="user"
+        required>
+    <p class="help-text">
+        Take a current selfie so it can be compared with your uploaded photo.
+    </p>
+</div>
+
+<div class="notice">
+Your account must be reviewed and approved before you can view and accept assignments.
+</div>
+
+<button class="submit-button" type="submit">
+Submit for Approval
+</button>
+
+</form>
+
+<a class="login-link" href="login.html">
+Already registered? Observer Login
+</a>
+
+</main>
+
+<script>
+function togglePassword() {
+    const password = document.getElementById("password");
+
+    if (password.type === "password") {
+        password.type = "text";
+    } else {
+        password.type = "password";
+    }
+}
+
+function goToPending(event) {
+    event.preventDefault();
+    window.location.href = "pending.html";
+}
+</script>
+
+</body>
+</html>
