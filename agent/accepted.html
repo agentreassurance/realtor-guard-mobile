@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Observer Accepted | Realtor Guard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px 16px;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #222222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    .logo {
+      display: block;
+      width: 95px;
+      margin: 0 auto 14px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      color: #b71c1c;
+      font-size: 28px;
+    }
+
+    .accepted-status {
+      margin-bottom: 18px;
+      padding: 13px;
+      border: 1px solid #9fd5aa;
+      border-radius: 9px;
+      background: #eaf8ed;
+      color: #17652a;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .observer-card,
+    .assignment-card {
+      margin-bottom: 18px;
+      padding: 18px;
+      border: 1px solid #dddddd;
+      border-radius: 11px;
+      background: #ffffff;
+      text-align: left;
+    }
+
+    .observer-card {
+      text-align: center;
+    }
+
+    .observer-photo {
+      width: 92px;
+      height: 92px;
+      margin: 0 auto 10px;
+      border: 3px solid #b71c1c;
+      border-radius: 50%;
+      background: #f2f2f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 46px;
+    }
+
+    .observer-name {
+      margin: 0 0 6px;
+      color: #222222;
+      font-size: 22px;
+    }
+
+    .rating {
+      margin: 0 0 8px;
+      color: #a66400;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .verified {
+      display: inline-block;
+      padding: 7px 11px;
+      border-radius: 20px;
+      background: #eaf8ed;
+      color: #17652a;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .assignment-card h2 {
+      margin: 0 0 14px;
+      color: #b71c1c;
+      font-size: 21px;
+    }
+
+    .assignment-card p {
+      margin: 10px 0;
+      line-height: 1.4;
+    }
+
+    .status-text {
+      color: #17652a;
+      font-weight: bold;
+    }
+
+    button {
+      width: 100%;
+      min-height: 50px;
+      margin-top: 11px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .refresh-button {
+      background: #b71c1c;
+      color: #ffffff;
+    }
+
+    .cancel-button {
+      background: #555555;
+      color: #ffffff;
+    }
+
+    .dashboard-link {
+      display: block;
+      margin-top: 18px;
+      color: #b71c1c;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <img
+      src="../logo.png"
+      class="logo"
+      alt="Realtor Guard Logo"
+    >
+
+    <h1>Observer Accepted</h1>
+
+    <div class="accepted-status">
+      ✓ A verified observer accepted your request.
+    </div>
+
+    <section class="observer-card">
+      <div class="observer-photo" aria-label="Observer profile photo">
+        👤
+      </div>
+
+      <h2 class="observer-name">Your Observer</h2>
+
+      <p class="rating">
+        ★★★★★ 4.9
+      </p>
+
+      <span class="verified">
+        ✓ Identity Verified
+      </span>
+    </section>
+
+    <section class="assignment-card">
+      <h2>Assignment Details</h2>
+
+      <p>
+        <strong>Status:</strong>
+        <span class="status-text">Accepted</span>
+      </p>
+
+      <p>
+        <strong>Property location:</strong>
+        Your submitted property address
+      </p>
+
+      <p>
+        <strong>Date:</strong>
+        Your requested date
+      </p>
+
+      <p>
+        <strong>Time:</strong>
+        Your requested time
+      </p>
+
+      <p>
+        <strong>Duration:</strong>
+        Your requested duration
+      </p>
+
+      <p>
+        The observer will update their status when they begin traveling
+        to the property.
+      </p>
+    </section>
+
+    <button
+      type="button"
+      class="refresh-button"
+      onclick="location.reload()"
+    >
+      Refresh Status
+    </button>
+
+    <button
+      type="button"
+      class="cancel-button"
+      onclick="window.location.href='dashboard.html'"
+    >
+      Cancel Assignment
+    </button>
+
+    <a class="dashboard-link" href="dashboard.html">
+      Return to Agent Dashboard
+    </a>
+  </main>
+</body>
+</html>
