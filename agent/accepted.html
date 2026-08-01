@@ -8,7 +8,7 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Observer Accepted | Realtor Guard</title>
+  <title>Agent Accepted Assignment | Realtor Guard</title>
 
   <style>
     * {
@@ -18,224 +18,553 @@
     body {
       margin: 0;
       min-height: 100vh;
-      padding: 24px 16px;
+      background: #f3f3f3;
+      color: #1d1d1d;
       font-family: Arial, sans-serif;
-      background: #ffffff;
-      color: #222222;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
 
-    .container {
+    .page {
       width: 100%;
-      max-width: 420px;
+      max-width: 480px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding-bottom: 82px;
+      background: #ffffff;
+    }
+
+    .header {
+      padding: 18px;
+      background: #b00000;
+      color: #ffffff;
       text-align: center;
     }
 
     .logo {
       display: block;
-      width: 95px;
-      margin: 0 auto 14px;
-    }
-
-    h1 {
-      margin: 0 0 12px;
-      color: #b71c1c;
-      font-size: 28px;
-    }
-
-    .accepted-status {
-      margin-bottom: 18px;
-      padding: 13px;
-      border: 1px solid #9fd5aa;
+      width: 115px;
+      margin: 0 auto 9px;
+      padding: 6px;
       border-radius: 9px;
-      background: #eaf8ed;
-      color: #17652a;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .observer-card,
-    .assignment-card {
-      margin-bottom: 18px;
-      padding: 18px;
-      border: 1px solid #dddddd;
-      border-radius: 11px;
       background: #ffffff;
-      text-align: left;
     }
 
-    .observer-card {
-      text-align: center;
+    .header h1 {
+      margin: 0;
+      font-size: 25px;
     }
 
-    .observer-photo {
-      width: 92px;
-      height: 92px;
-      margin: 0 auto 10px;
-      border: 3px solid #b71c1c;
-      border-radius: 50%;
-      background: #f2f2f2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 46px;
-    }
-
-    .observer-name {
-      margin: 0 0 6px;
-      color: #222222;
-      font-size: 22px;
-    }
-
-    .rating {
-      margin: 0 0 8px;
-      color: #a66400;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .verified {
-      display: inline-block;
-      padding: 7px 11px;
-      border-radius: 20px;
-      background: #eaf8ed;
-      color: #17652a;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .assignment-card h2 {
-      margin: 0 0 14px;
-      color: #b71c1c;
-      font-size: 21px;
-    }
-
-    .assignment-card p {
-      margin: 10px 0;
+    .header p {
+      margin: 7px 0 0;
       line-height: 1.4;
     }
 
-    .status-text {
-      color: #17652a;
+    .content {
+      padding: 17px;
+    }
+
+    .success-box {
+      margin-bottom: 17px;
+      padding: 14px;
+      border: 1px solid #9bd5a8;
+      border-radius: 10px;
+      background: #effaf1;
+      color: #087322;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .card {
+      margin-bottom: 17px;
+      overflow: hidden;
+      border: 1px solid #dddddd;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    .card-heading {
+      margin: 0;
+      padding: 12px 15px;
+      background: #132b51;
+      color: #ffffff;
+      font-size: 19px;
+    }
+
+    .card-body {
+      padding: 16px;
+    }
+
+    .observer-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .observer-photo {
+      width: 88px;
+      height: 88px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #b00000;
+      border-radius: 50%;
+      background: #eeeeee;
+      font-size: 42px;
+    }
+
+    .observer-info {
+      flex: 1;
+    }
+
+    .observer-info h3 {
+      margin: 0 0 6px;
+      color: #b00000;
+      font-size: 21px;
+    }
+
+    .rating {
+      margin: 0 0 7px;
+      color: #b26a00;
       font-weight: bold;
     }
 
-    button {
+    .badge {
+      display: inline-block;
+      margin: 3px 3px 3px 0;
+      padding: 5px 8px;
+      border-radius: 20px;
+      background: #e9f8ec;
+      color: #16702b;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .contact-box {
+      margin-top: 15px;
+      padding-top: 14px;
+      border-top: 1px solid #eeeeee;
+    }
+
+    .contact-box p {
+      margin: 0 0 10px;
+      line-height: 1.4;
+    }
+
+    .call-button {
       width: 100%;
-      min-height: 50px;
-      margin-top: 11px;
+      min-height: 48px;
       border: none;
       border-radius: 8px;
+      background: #132b51;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .property-address {
+      margin-bottom: 14px;
+      padding: 13px;
+      border-left: 5px solid #b00000;
+      border-radius: 7px;
+      background: #f5f5f5;
+      line-height: 1.5;
+    }
+
+    .detail {
+      margin: 9px 0;
+      line-height: 1.45;
+    }
+
+    .timeline {
+      position: relative;
+      margin-left: 8px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 18px;
+      bottom: 18px;
+      left: 14px;
+      width: 3px;
+      background: #dddddd;
+    }
+
+    .timeline-item {
+      position: relative;
+      display: flex;
+      gap: 13px;
+      margin-bottom: 17px;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-marker {
+      position: relative;
+      z-index: 1;
+      width: 31px;
+      height: 31px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #bbbbbb;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #777777;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .timeline-item.complete .timeline-marker {
+      border-color: #b00000;
+      background: #b00000;
+      color: #ffffff;
+    }
+
+    .timeline-copy {
+      flex: 1;
+      padding-top: 2px;
+    }
+
+    .timeline-copy h4 {
+      margin: 0 0 3px;
+      font-size: 16px;
+    }
+
+    .timeline-copy p {
+      margin: 0;
+      color: #666666;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .timeline-time {
+      color: #555555;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .info-box {
+      margin-bottom: 17px;
+      padding: 14px;
+      border: 1px solid #c8ddf7;
+      border-radius: 9px;
+      background: #eef6ff;
+      color: #183b69;
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .button {
+      width: 100%;
+      min-height: 52px;
+      margin-top: 10px;
+      border-radius: 9px;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
     }
 
     .refresh-button {
-      background: #b71c1c;
+      border: none;
+      background: #132b51;
       color: #ffffff;
     }
 
     .cancel-button {
-      background: #555555;
+      border: 1px solid #777777;
+      background: #ffffff;
+      color: #555555;
+    }
+
+    .emergency-button {
+      border: none;
+      background: #d40000;
       color: #ffffff;
     }
 
-    .dashboard-link {
-      display: block;
-      margin-top: 18px;
-      color: #b71c1c;
-      font-weight: bold;
+    .bottom-nav {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 10;
+      width: 100%;
+      max-width: 480px;
+      min-height: 72px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid #dddddd;
+      background: #ffffff;
+      box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .nav-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: #555555;
       text-decoration: none;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .nav-link.active {
+      color: #b00000;
+    }
+
+    .nav-icon {
+      font-size: 22px;
     }
   </style>
 </head>
 
 <body>
-  <main class="container">
-    <img
-      src="../logo.png"
-      class="logo"
-      alt="Realtor Guard Logo"
-    >
+  <main class="page">
+    <header class="header">
+      <img
+        class="logo"
+        src="../logo.png"
+        alt="Realtor Guard logo"
+      >
 
-    <h1>Observer Accepted</h1>
+      <h1>Accepted Assignment</h1>
 
-    <div class="accepted-status">
-      ✓ A verified observer accepted your request.
-    </div>
+      <p>
+        Your observer has accepted your request.
+      </p>
+    </header>
 
-    <section class="observer-card">
-      <div class="observer-photo" aria-label="Observer profile photo">
-        👤
+    <section class="content">
+      <div class="success-box">
+        ✓ Observer Assigned Successfully
       </div>
 
-      <h2 class="observer-name">Your Observer</h2>
+      <article class="card">
+        <h2 class="card-heading">
+          Observer Information
+        </h2>
 
-      <p class="rating">
-        ★★★★★ 4.9
-      </p>
+        <div class="card-body">
+          <div class="observer-row">
+            <div
+              class="observer-photo"
+              aria-label="Observer profile photo"
+            >
+              👤
+            </div>
 
-      <span class="verified">
-        ✓ Identity Verified
-      </span>
+            <div class="observer-info">
+              <h3>Marcus Johnson</h3>
+
+              <p class="rating">
+                ★ 4.9 Rating
+              </p>
+
+              <span class="badge">
+                ✓ Verified Observer
+              </span>
+
+              <span class="badge">
+                ✓ Background Checked
+              </span>
+            </div>
+          </div>
+
+          <div class="contact-box">
+            <p>
+              <strong>Protected Contact Number:</strong><br>
+              (571) 555-4827
+            </p>
+
+            <button
+              class="call-button"
+              type="button"
+              onclick="window.location.href='tel:+15715554827'"
+            >
+              Call Observer
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2 class="card-heading">
+          Property Details
+        </h2>
+
+        <div class="card-body">
+          <div class="property-address">
+            <strong>1234 Oak Ridge Drive</strong><br>
+            Chesapeake, Virginia 23320
+          </div>
+
+          <p class="detail">
+            <strong>Date:</strong>
+            August 3, 2026
+          </p>
+
+          <p class="detail">
+            <strong>Time:</strong>
+            2:00 PM
+          </p>
+
+          <p class="detail">
+            <strong>Time Zone:</strong>
+            Eastern Time
+          </p>
+
+          <p class="detail">
+            <strong>Duration:</strong>
+            1 Hour 30 Minutes
+          </p>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2 class="card-heading">
+          Assignment Status
+        </h2>
+
+        <div class="card-body">
+          <div class="timeline">
+            <div class="timeline-item complete">
+              <div class="timeline-marker">✓</div>
+
+              <div class="timeline-copy">
+                <h4>Assignment Accepted</h4>
+                <p>Observer accepted your request.</p>
+              </div>
+
+              <span class="timeline-time">1:42 PM</span>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-marker">2</div>
+
+              <div class="timeline-copy">
+                <h4>Observer Is On the Way</h4>
+                <p>Waiting for observer update.</p>
+              </div>
+
+              <span class="timeline-time">--:--</span>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-marker">3</div>
+
+              <div class="timeline-copy">
+                <h4>Observer Has Arrived</h4>
+                <p>Waiting for observer update.</p>
+              </div>
+
+              <span class="timeline-time">--:--</span>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-marker">4</div>
+
+              <div class="timeline-copy">
+                <h4>Assignment Active</h4>
+                <p>Waiting for the assignment to begin.</p>
+              </div>
+
+              <span class="timeline-time">--:--</span>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-marker">5</div>
+
+              <div class="timeline-copy">
+                <h4>Assignment Complete</h4>
+                <p>Waiting for observer completion.</p>
+              </div>
+
+              <span class="timeline-time">--:--</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="info-box">
+        The observer updates this timeline from their side of the app by
+        selecting “I’m On My Way,” “I’ve Arrived,” and the remaining
+        assignment status buttons.
+      </div>
+
+      <button
+        class="button refresh-button"
+        type="button"
+        onclick="window.location.reload()"
+      >
+        Refresh Status
+      </button>
+
+      <button
+        class="button cancel-button"
+        type="button"
+        onclick="cancelAssignment()"
+      >
+        Cancel Assignment
+      </button>
+
+      <button
+        class="button emergency-button"
+        type="button"
+        onclick="emergencyHelp()"
+      >
+        Emergency Assistance
+      </button>
     </section>
 
-    <section class="assignment-card">
-      <h2>Assignment Details</h2>
+    <nav class="bottom-nav" aria-label="Agent navigation">
+      <a class="nav-link" href="../home.html">
+        <span class="nav-icon">⌂</span>
+        Home
+      </a>
 
-      <p>
-        <strong>Status:</strong>
-        <span class="status-text">Accepted</span>
-      </p>
+      <a class="nav-link active" href="dashboard.html">
+        <span class="nav-icon">▦</span>
+        Dashboard
+      </a>
 
-      <p>
-        <strong>Property location:</strong>
-        Your submitted property address
-      </p>
+      <a class="nav-link" href="dashboard.html">
+        <span class="nav-icon">＋</span>
+        New Request
+      </a>
 
-      <p>
-        <strong>Date:</strong>
-        Your requested date
-      </p>
-
-      <p>
-        <strong>Time:</strong>
-        Your requested time
-      </p>
-
-      <p>
-        <strong>Duration:</strong>
-        Your requested duration
-      </p>
-
-      <p>
-        The observer will update their status when they begin traveling
-        to the property.
-      </p>
-    </section>
-
-    <button
-      type="button"
-      class="refresh-button"
-      onclick="location.reload()"
-    >
-      Refresh Status
-    </button>
-
-    <button
-      type="button"
-      class="cancel-button"
-      onclick="window.location.href='dashboard.html'"
-    >
-      Cancel Assignment
-    </button>
-
-    <a class="dashboard-link" href="dashboard.html">
-      Return to Agent Dashboard
-    </a>
+      <a class="nav-link" href="login.html">
+        <span class="nav-icon">◉</span>
+        Account
+      </a>
+    </nav>
   </main>
+
+  <script>
+    function cancelAssignment() {
+      const confirmed = window.confirm(
+        "Are you sure you want to cancel this assignment?"
+      );
+
+      if (confirmed) {
+        window.location.href = "dashboard.html";
+      }
+    }
+
+    function emergencyHelp() {
+      window.alert(
+        "For an immediate emergency, call 911. Realtor Guard emergency support will be connected later."
+      );
+    }
+  </script>
 </body>
 </html>
