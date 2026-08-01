@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Observer Login | Realtor Guard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px 16px;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      color: #222222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      padding: 26px 20px 32px;
+      border-radius: 14px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
+    }
+
+    .logo {
+      display: block;
+      width: 145px;
+      max-width: 55%;
+      margin: 0 auto 16px;
+    }
+
+    h1 {
+      margin: 0;
+      text-align: center;
+      color: #b00000;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      margin: 10px 0 24px;
+      text-align: center;
+      color: #555555;
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      min-height: 50px;
+      padding: 12px;
+      border: 1px solid #aaaaaa;
+      border-radius: 9px;
+      background: #ffffff;
+      font-size: 16px;
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .password-wrap input {
+      padding-right: 52px;
+    }
+
+    .eye-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 44px;
+      height: 40px;
+      border: none;
+      background: transparent;
+      font-size: 21px;
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      display: block;
+      margin-top: 10px;
+      text-align: right;
+      color: #b00000;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .login-button {
+      width: 100%;
+      min-height: 54px;
+      margin-top: 24px;
+      border: none;
+      border-radius: 10px;
+      background: #b00000;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .login-button:hover {
+      background: #870000;
+    }
+
+    .signup-link {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      color: #b00000;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .approval-note {
+      margin-top: 20px;
+      padding: 13px;
+      border-radius: 9px;
+      background: #f3f3f3;
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <img
+      class="logo"
+      src="../logo.png"
+      alt="Realtor Guard logo"
+    >
+
+    <h1>Observer Login</h1>
+
+    <p class="subtitle">
+      Sign in to view and accept available assignments.
+    </p>
+
+    <form onsubmit="loginObserver(event)">
+      <label for="email">Email Address</label>
+
+      <input
+        id="email"
+        type="email"
+        placeholder="Enter your email"
+        required
+      >
+
+      <label for="password">Password</label>
+
+      <div class="password-wrap">
+        <input
+          id="password"
+          type="password"
+          placeholder="Enter your password"
+          required
+        >
+
+        <button
+          class="eye-button"
+          type="button"
+          onclick="togglePassword()"
+          aria-label="Show or hide password"
+        >
+          👁
+        </button>
+      </div>
+
+      <a class="forgot-link" href="#">
+        Forgot Password?
+      </a>
+
+      <button class="login-button" type="submit">
+        Login
+      </button>
+    </form>
+
+    <div class="approval-note">
+      Only approved observers can access the Observer Dashboard.
+    </div>
+
+    <a class="signup-link" href="signup.html">
+      New Observer? Create an Account
+    </a>
+  </main>
+
+  <script>
+    function togglePassword() {
+      const password = document.getElementById("password");
+
+      if (password.type === "password") {
+        password.type = "text";
+      } else {
+        password.type = "password";
+      }
+    }
+
+    function loginObserver(event) {
+      event.preventDefault();
+      window.location.href = "dashboard.html";
+    }
+  </script>
+</body>
+</html>
