@@ -1,102 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Observer Dashboard</title>
+  <meta charset="UTF-8">
 
-<style>
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#ffffff;
-}
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-header{
-    background:#c00000;
-    color:white;
-    text-align:center;
-    padding:20px;
-}
+  <title>Observer Dashboard | Realtor Guard</title>
 
-.container{
-    max-width:500px;
-    margin:20px auto;
-    padding:20px;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.card{
-    border:1px solid #ccc;
-    border-radius:10px;
-    padding:20px;
-    margin-bottom:20px;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #f4f4f4;
+      color: #222222;
+      font-family: Arial, sans-serif;
+    }
 
-h2{
-    color:#c00000;
-    text-align:center;
-}
+    .page {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #ffffff;
+    }
 
-.info{
-    margin:10px 0;
-    font-size:18px;
-}
+    .header {
+      padding: 20px 18px;
+      background: #b00000;
+      color: #ffffff;
+      text-align: center;
+    }
 
-.pay{
-    color:green;
-    font-weight:bold;
-    font-size:22px;
-    text-align:center;
-    margin:20px 0;
-}
+    .logo {
+      display: block;
+      width: 105px;
+      margin: 0 auto 10px;
+      padding: 6px;
+      border-radius: 8px;
+      background: #ffffff;
+    }
 
-button{
-    width:100%;
-    padding:15px;
-    background:#c00000;
-    color:white;
-    border:none;
-    border-radius:8px;
-    font-size:18px;
-    cursor:pointer;
-}
+    .header h1 {
+      margin: 0;
+      font-size: 27px;
+    }
 
-button:hover{
-    background:#990000;
-}
-</style>
+    .header p {
+      margin: 8px 0 0;
+      line-height: 1.4;
+    }
 
+    .content {
+      padding: 18px;
+    }
+
+    .profile-card,
+    .assignment-card {
+      margin-bottom: 18px;
+      padding: 18px;
+      border: 1px solid #dddddd;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .profile-top {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .profile-photo {
+      width: 72px;
+      height: 72px;
+      border: 3px solid #b00000;
+      border-radius: 50%;
+      background: #eeeeee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 34px;
+    }
+
+    .profile-info {
+      flex: 1;
+    }
+
+    .profile-info h2 {
+      margin: 0 0 5px;
+      color: #b00000;
+      font-size: 21px;
+    }
+
+    .rating {
+      margin: 0 0 7px;
+      color: #b06b00;
+      font-weight: bold;
+    }
+
+    .verified {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      background: #e9f8ec;
+      color: #16702b;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .status-row {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid #eeeeee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .status-label {
+      font-weight: bold;
+    }
+
+    .status-button {
+      min-width: 112px;
+      min-height: 42px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      background: #168437;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .section-heading {
+      margin: 6px 0 14px;
+      color: #b00000;
+      font-size: 23px;
+      text-align: center;
+    }
+
+    .assignment-card h3 {
+      margin: 0 0 14px;
+      color: #b00000;
+      font-size: 21px;
+      text-align: center;
+    }
+
+    .detail {
+      margin: 10px 0;
+      line-height: 1.4;
+    }
+
+    .detail strong {
+      color: #111111;
+    }
+
+    .pay-box {
+      margin: 16px 0;
+      padding: 13px;
+      border: 1px solid #b8dfc0;
+      border-radius: 9px;
+      background: #effaf1;
+      color: #087322;
+      text-align: center;
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .privacy-note {
+      margin: -5px 0 16px;
+      color: #666666;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .accept-button,
+    .refresh-button,
+    .logout-button {
+      width: 100%;
+      min-height: 52px;
+      border: none;
+      border-radius: 9px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .accept-button {
+      background: #b00000;
+      color: #ffffff;
+    }
+
+    .refresh-button {
+      margin-top: 4px;
+      background: #333333;
+      color: #ffffff;
+    }
+
+    .logout-button {
+      margin-top: 11px;
+      border: 1px solid #b00000;
+      background: #ffffff;
+      color: #b00000;
+    }
+
+    .notice {
+      margin-top: 16px;
+      padding: 13px;
+      border-radius: 9px;
+      background: #f2f2f2;
+      color: #444444;
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
+  <main class="page">
+    <header class="header">
+      <img
+        class="logo"
+        src="../logo.png"
+        alt="Realtor Guard logo"
+      >
 
-<header>
-<h1>Observer Dashboard</h1>
-</header>
+      <h1>Observer Dashboard</h1>
 
-<div class="container">
+      <p>
+        View available assignments and provide safety support to agents.
+      </p>
+    </header>
 
-<div class="card">
+    <section class="content">
+      <div class="profile-card">
+        <div class="profile-top">
+          <div class="profile-photo" aria-label="Observer profile photo">
+            👤
+          </div>
 
-<h2>Available Assignment</h2>
+          <div class="profile-info">
+            <h2>Welcome, Observer</h2>
 
-<div class="info"><strong>City:</strong> Richmond, VA</div>
+            <p class="rating">
+              ★★★★★ New Observer
+            </p>
 
-<div class="info"><strong>Date:</strong> July 31, 2026</div>
+            <span class="verified">
+              ✓ Identity Verified
+            </span>
+          </div>
+        </div>
 
-<div class="info"><strong>Time:</strong> 2:00 PM</div>
+        <div class="status-row">
+          <span class="status-label">
+            Availability Status
+          </span>
 
-<div class="info"><strong>Duration:</strong> 2 Hours</div>
+          <button
+            id="statusButton"
+            class="status-button"
+            type="button"
+            onclick="toggleStatus()"
+          >
+            Available
+          </button>
+        </div>
+      </div>
 
-<div class="pay">$75 Observer Pay</div>
+      <h2 class="section-heading">
+        Available Assignments
+      </h2>
 
-<button onclick="location.href='accepted.html'">
-Accept Assignment
-</button>
+      <article class="assignment-card">
+        <h3>Agent Safety Assignment</h3>
 
-</div>
+        <p class="detail">
+          <strong>City:</strong>
+          Richmond, Virginia
+        </p>
 
-</div>
+        <p class="detail">
+          <strong>Date:</strong>
+          August 3, 2026
+        </p>
 
+        <p class="detail">
+          <strong>Time:</strong>
+          2:00 PM
+        </p>
+
+        <p class="detail">
+          <strong>Time Zone:</strong>
+          Eastern Time
+        </p>
+
+        <p class="detail">
+          <strong>Duration:</strong>
+          2 Hours
+        </p>
+
+        <div class="pay-box">
+          Observer Pay: $75
+        </div>
+
+        <p class="privacy-note">
+          Pay information is only visible to approved observers.
+        </p>
+
+        <button
+          class="accept-button"
+          type="button"
+          onclick="acceptAssignment()"
+        >
+          Accept Assignment
+        </button>
+      </article>
+
+      <button
+        class="refresh-button"
+        type="button"
+        onclick="window.location.reload()"
+      >
+        Refresh Assignments
+      </button>
+
+      <button
+        class="logout-button"
+        type="button"
+        onclick="window.location.href='login.html'"
+      >
+        Log Out
+      </button>
+
+      <div class="notice">
+        Property address and agent contact details become available after
+        the assignment has been accepted.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function toggleStatus() {
+      const button = document.getElementById("statusButton");
+
+      if (button.textContent.trim() === "Available") {
+        button.textContent = "Busy";
+        button.style.background = "#777777";
+      } else {
+        button.textContent = "Available";
+        button.style.background = "#168437";
+      }
+    }
+
+    function acceptAssignment() {
+      window.location.href = "accepted.html";
+    }
+  </script>
 </body>
 </html>
