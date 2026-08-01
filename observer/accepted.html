@@ -1,114 +1,357 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Observer Accepted</title>
+  <meta charset="UTF-8">
 
-<style>
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#ffffff;
-}
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-header{
-    background:#c00000;
-    color:white;
-    text-align:center;
-    padding:20px;
-}
+  <title>Accepted Assignment | Realtor Guard</title>
 
-.container{
-    max-width:500px;
-    margin:20px auto;
-    padding:20px;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.card{
-    border:1px solid #ccc;
-    border-radius:10px;
-    padding:20px;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #f4f4f4;
+      color: #222222;
+      font-family: Arial, sans-serif;
+    }
 
-h2{
-    color:#c00000;
-    text-align:center;
-}
+    .page {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #ffffff;
+    }
 
-.status{
-    text-align:center;
-    color:green;
-    font-size:24px;
-    font-weight:bold;
-    margin-bottom:20px;
-}
+    .header {
+      padding: 20px 18px;
+      background: #b00000;
+      color: #ffffff;
+      text-align: center;
+    }
 
-.info{
-    margin:12px 0;
-    font-size:18px;
-}
+    .logo {
+      display: block;
+      width: 105px;
+      margin: 0 auto 10px;
+      padding: 6px;
+      border-radius: 8px;
+      background: #ffffff;
+    }
 
-button{
-    width:100%;
-    padding:15px;
-    margin-top:15px;
-    border:none;
-    border-radius:8px;
-    font-size:18px;
-    cursor:pointer;
-}
+    .header h1 {
+      margin: 0;
+      font-size: 27px;
+    }
 
-.primary{
-    background:#c00000;
-    color:white;
-}
+    .header p {
+      margin: 8px 0 0;
+      line-height: 1.4;
+    }
 
-.secondary{
-    background:#666;
-    color:white;
-}
-</style>
+    .content {
+      padding: 18px;
+    }
 
+    .success-box {
+      margin-bottom: 18px;
+      padding: 15px;
+      border: 1px solid #add8b7;
+      border-radius: 10px;
+      background: #effaf1;
+      color: #087322;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .assignment-card {
+      padding: 18px;
+      border: 1px solid #dddddd;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    .assignment-card h2 {
+      margin: 0 0 16px;
+      color: #b00000;
+      text-align: center;
+      font-size: 23px;
+    }
+
+    .detail {
+      margin: 12px 0;
+      line-height: 1.45;
+    }
+
+    .detail strong {
+      color: #111111;
+    }
+
+    .address-box {
+      margin: 16px 0;
+      padding: 14px;
+      border-left: 5px solid #b00000;
+      border-radius: 7px;
+      background: #f7f7f7;
+      line-height: 1.5;
+    }
+
+    .pay-box {
+      margin: 16px 0;
+      padding: 14px;
+      border: 1px solid #b8dfc0;
+      border-radius: 9px;
+      background: #effaf1;
+      color: #087322;
+      text-align: center;
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .privacy-note {
+      margin: -6px 0 17px;
+      color: #666666;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .button {
+      width: 100%;
+      min-height: 52px;
+      margin-top: 11px;
+      border: none;
+      border-radius: 9px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .directions-button {
+      background: #b00000;
+      color: #ffffff;
+    }
+
+    .enroute-button {
+      background: #222222;
+      color: #ffffff;
+    }
+
+    .arrived-button {
+      background: #168437;
+      color: #ffffff;
+    }
+
+    .cancel-button {
+      border: 1px solid #777777;
+      background: #ffffff;
+      color: #555555;
+    }
+
+    .dashboard-button {
+      border: 1px solid #b00000;
+      background: #ffffff;
+      color: #b00000;
+    }
+
+    .status-box {
+      display: none;
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 9px;
+      background: #f1f1f1;
+      text-align: center;
+      line-height: 1.5;
+      font-weight: bold;
+    }
+
+    .notice {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 9px;
+      background: #fff5dc;
+      color: #5a4300;
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
+  <main class="page">
+    <header class="header">
+      <img
+        class="logo"
+        src="../logo.png"
+        alt="Realtor Guard logo"
+      >
 
-<header>
-<h1>Observer Assignment</h1>
-</header>
+      <h1>Observer Assignment</h1>
 
-<div class="container">
+      <p>
+        Review your accepted assignment and update your arrival status.
+      </p>
+    </header>
 
-<div class="card">
+    <section class="content">
+      <div class="success-box">
+        ✓ Assignment Accepted
+      </div>
 
-<div class="status">
-Assignment Accepted
-</div>
+      <article class="assignment-card">
+        <h2>Assignment Details</h2>
 
-<h2>Assignment Details</h2>
+        <p class="detail">
+          <strong>Agent:</strong>
+          Demo Agent
+        </p>
 
-<div class="info"><strong>Agent:</strong> Demo Agent</div>
+        <p class="detail">
+          <strong>Protected Phone:</strong>
+          (555) 010-2026
+        </p>
 
-<div class="info"><strong>City:</strong> Richmond, VA</div>
+        <div class="address-box">
+          <strong>Property Address</strong><br>
+          123 Main Street<br>
+          Richmond, Virginia 23220
+        </div>
 
-<div class="info"><strong>Date:</strong> July 31, 2026</div>
+        <p class="detail">
+          <strong>Date:</strong>
+          August 3, 2026
+        </p>
 
-<div class="info"><strong>Time:</strong> 2:00 PM</div>
+        <p class="detail">
+          <strong>Time:</strong>
+          2:00 PM
+        </p>
 
-<div class="info"><strong>Duration:</strong> 2 Hours</div>
+        <p class="detail">
+          <strong>Time Zone:</strong>
+          Eastern Time
+        </p>
 
-<button class="primary">
-Start Navigation
-</button>
+        <p class="detail">
+          <strong>Duration:</strong>
+          2 Hours
+        </p>
 
-<button class="secondary">
-Cancel Assignment
-</button>
+        <div class="pay-box">
+          Observer Pay: $75
+        </div>
 
-</div>
+        <p class="privacy-note">
+          Pay information is visible only to the observer.
+        </p>
 
-</div>
+        <button
+          class="button directions-button"
+          type="button"
+          onclick="startDirections()"
+        >
+          Open Directions
+        </button>
 
+        <button
+          class="button enroute-button"
+          type="button"
+          onclick="markEnRoute()"
+        >
+          I’m On My Way
+        </button>
+
+        <button
+          class="button arrived-button"
+          type="button"
+          onclick="markArrived()"
+        >
+          I’ve Arrived
+        </button>
+
+        <button
+          class="button cancel-button"
+          type="button"
+          onclick="cancelAssignment()"
+        >
+          Cancel Assignment
+        </button>
+
+        <button
+          class="button dashboard-button"
+          type="button"
+          onclick="window.location.href='dashboard.html'"
+        >
+          Return to Dashboard
+        </button>
+
+        <div id="statusBox" class="status-box"></div>
+
+        <div class="notice">
+          Use the status buttons to keep the agent informed. The property
+          address and protected contact details should not be shared outside
+          the Realtor Guard assignment.
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    function showStatus(message, background, color) {
+      const box = document.getElementById("statusBox");
+
+      box.style.display = "block";
+      box.style.background = background;
+      box.style.color = color;
+      box.textContent = message;
+    }
+
+    function startDirections() {
+      const destination = encodeURIComponent(
+        "123 Main Street, Richmond, Virginia 23220"
+      );
+
+      window.open(
+        "https://www.google.com/maps/dir/?api=1&destination=" + destination,
+        "_blank"
+      );
+    }
+
+    function markEnRoute() {
+      showStatus(
+        "Status updated: You are on your way to the property.",
+        "#eef3ff",
+        "#183b7a"
+      );
+    }
+
+    function markArrived() {
+      showStatus(
+        "Status updated: You have arrived at the property.",
+        "#effaf1",
+        "#087322"
+      );
+    }
+
+    function cancelAssignment() {
+      const confirmed = window.confirm(
+        "Are you sure you want to cancel this assignment?"
+      );
+
+      if (confirmed) {
+        window.location.href = "dashboard.html";
+      }
+    }
+  </script>
 </body>
 </html>
