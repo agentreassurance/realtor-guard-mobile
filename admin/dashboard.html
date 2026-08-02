@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Administrator Dashboard | Realtor Guard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --red: #b00000;
+      --dark-red: #820000;
+      --navy: #10233f;
+      --green: #168437;
+      --orange: #d97706;
+      --blue: #1769aa;
+      --light: #f4f6f9;
+      --border: #dde2e8;
+      --text: #222222;
+      --muted: #687180;
+    }
+
+    body {
+      margin: 0;
+      background: var(--light);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    button,
+    a {
+      font-family: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 20px 14px;
+      background: var(--navy);
+      color: #ffffff;
+      overflow-y: auto;
+    }
+
+    .brand {
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      text-align: center;
+    }
+
+    .brand img {
+      width: 105px;
+      height: 105px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #ffffff;
+    }
+
+    .brand h2 {
+      margin: 10px 0 3px;
+      font-size: 21px;
+    }
+
+    .brand p {
+      margin: 0;
+      color: #d9e1ed;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .nav {
+      margin-top: 20px;
+      display: grid;
+      gap: 7px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-height: 44px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: var(--red);
+    }
+
+    .nav-icon {
+      width: 24px;
+      text-align: center;
+      font-size: 19px;
+    }
+
+    .team-card {
+      margin-top: 24px;
+      padding: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .team-card strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .team-card span {
+      color: #d9e1ed;
+      font-size: 12px;
+    }
+
+    .logout-button {
+      width: 100%;
+      min-height: 43px;
+      margin-top: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      background: transparent;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .main {
+      min-width: 0;
+    }
+
+    .topbar {
+      min-height: 76px;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--border);
+      background: #ffffff;
+    }
+
+    .topbar h1 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 28px;
+    }
+
+    .topbar p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .date-box {
+      text-align: right;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .alert-button {
+      position: relative;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: #ffffff;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .alert-count {
+      position: absolute;
+      top: -4px;
+      right: -3px;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      background: var(--red);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .content {
+      padding: 22px;
+    }
+
+    .system-banner {
+      margin-bottom: 20px;
+      padding: 15px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-radius: 9px;
+      background: var(--green);
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .system-banner span {
+      font-weight: normal;
+      opacity: 0.92;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .summary-card,
+    .panel,
+    .finance-card {
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: #ffffff;
+      box-shadow: 0 3px 12px rgba(20, 31, 50, 0.05);
+    }
+
+    .summary-card {
+      padding: 17px;
+    }
+
+    .summary-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .summary-icon {
+      width: 43px;
+      height: 43px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: #ffffff;
+      font-size: 20px;
+    }
+
+    .red {
+      background: var(--red);
+    }
+
+    .blue {
+      background: var(--blue);
+    }
+
+    .green {
+      background: var(--green);
+    }
+
+    .orange {
+      background: var(--orange);
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .summary-number {
+      margin: 15px 0 5px;
+      color: var(--navy);
+      font-size: 31px;
+      font-weight: bold;
+    }
+
+    .summary-note {
+      color: var(--green);
+      font-size: 12px;
+    }
+
+    .section-title {
+      margin: 24px 0 12px;
+      color: var(--navy);
+      font-size: 18px;
+    }
+
+    .finance-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .finance-card {
+      padding: 17px;
+    }
+
+    .finance-card h3 {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .finance-value {
+      margin: 13px 0 4px;
+      color: var(--navy);
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .finance-note {
+      color: var(--green);
+      font-size: 12px;
+    }
+
+    .dashboard-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1.45fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      overflow: hidden;
+    }
+
+    .panel-header {
+      min-height: 52px;
+      padding: 14px 17px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 17px;
+    }
+
+    .view-link {
+      color: var(--red);
+      font-size: 12px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .assignment-list {
+      padding: 4px 16px 12px;
+    }
+
+    .assignment {
+      padding: 15px 0;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .assignment:last-child {
+      border-bottom: none;
+    }
+
+    .assignment-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .person {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #e9edf3;
+      color: var(--navy);
+      font-weight: bold;
+    }
+
+    .person strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .person small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .status-way {
+      background: #e7f1ff;
+      color: #1458a0;
+    }
+
+    .status-arrived {
+      background: #e9f8ed;
+      color: #087322;
+    }
+
+    .status-active {
+      background: #fff0f0;
+      color: #a00000;
+    }
+
+    .status-complete {
+      background: #eff8f0;
+      color: #168437;
+    }
+
+    .assignment-bottom {
+      margin-top: 11px;
+      padding-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      border-top: 1px dashed #e2e2e2;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .small-button {
+      min-height: 34px;
+      padding: 7px 12px;
+      border: 1px solid var(--red);
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--red);
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .action-list {
+      padding: 8px 16px 15px;
+    }
+
+    .action-item {
+      padding: 13px 3px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid #eeeeee;
+      font-size: 13px;
+    }
+
+    .action-item:last-child {
+      border-bottom: none;
+    }
+
+    .action-left {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .action-symbol {
+      width: 37px;
+      height: 37px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: #ffffff;
+      font-size: 17px;
+    }
+
+    .emergency-panel {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #c00000, #8d0000);
+      color: #ffffff;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(176, 0, 0, 0.2);
+    }
+
+    .emergency-panel h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+    }
+
+    .emergency-symbol {
+      margin: 4px 0;
+      font-size: 45px;
+    }
+
+    .emergency-panel p {
+      margin: 5px 0;
+    }
+
+    .emergency-button {
+      min-height: 42px;
+      margin-top: 14px;
+      padding: 8px 18px;
+      border: 1px solid #ffffff;
+      border-radius: 7px;
+      background: transparent;
+      color: #ffffff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .management-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .management-list {
+      padding: 8px 16px 15px;
+    }
+
+    .management-row {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid #eeeeee;
+      font-size: 13px;
+    }
+
+    .management-row:last-child {
+      border-bottom: none;
+    }
+
+    .management-row strong {
+      color: var(--navy);
+    }
+
+    .bottom-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .rating-box {
+      padding: 16px;
+    }
+
+    .stars {
+      margin: 8px 0;
+      color: #d80000;
+      font-size: 21px;
+      letter-spacing: 2px;
+    }
+
+    .health-row,
+    .report-row,
+    .team-row {
+      min-height: 40px;
+      padding: 0 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid #eeeeee;
+      font-size: 12px;
+    }
+
+    .health-row:last-child,
+    .report-row:last-child,
+    .team-row:last-child {
+      border-bottom: none;
+    }
+
+    .online {
+      color: var(--green);
+      font-weight: bold;
+    }
+
+    .footer {
+      padding: 24px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 1150px) {
+      .summary-grid,
+      .finance-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .management-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .bottom-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 850px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        height: auto;
+      }
+
+      .nav {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .management-grid,
+      .bottom-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .content,
+      .topbar {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+
+      .topbar h1 {
+        font-size: 22px;
+      }
+
+      .date-box {
+        display: none;
+      }
+
+      .summary-grid,
+      .finance-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .assignment-top {
+        grid-template-columns: 1fr;
+      }
+
+      .assignment-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <img
+          src="../logo.png"
+          alt="Realtor Guard logo"
+        >
+
+        <h2>Realtor Guard</h2>
+
+        <p>
+          Realtor Reinsurance Assistance
+        </p>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-link active" href="dashboard.html">
+          <span class="nav-icon">▦</span>
+          Dashboard
+        </a>
+
+        <a class="nav-link" href="#">
+          <span class="nav-icon">📋</span>
+          Assignments
+        </a>
+
+        <a class="nav-link" href="#">
+          <span class="nav-icon">🛡️</span>
+          Observers
+        </a>
+
+        <a class="nav-link" href="#">
+          <span class="nav-icon">👤</span>
+          Agents
+        </a>
+
+        <a class="nav-link" href="#">
+          <span class="nav-icon">💳</span>
+          Payments
+        </a>
+
+        <a class="nav-link" href="#">
+          <span class="nav-icon">⭐</span>
+          Reviews
+        </a>
+
+        <a class="nav-link" href="#">
+          <span class="nav-icon">📈</span>
+          Reports
+        </a>
+
+        <a class="nav-link" href="#">
+          <span class="nav-icon">🚨</span>
+          Emergency Center
+        </a>
+
+        <a class="nav-link" href="#">
+          <span class="nav-icon">👥</span>
+          Team Management
+        </a>
+
+        <a class="nav-link" href="#">
+          <span class="nav-icon">⚙️</span>
+          Settings
+        </a>
+      </nav>
+
+      <div class="team-card">
+        <strong>Welcome, Team Member</strong>
+        <span>Administrator Access</span>
+
+        <button
+          class="logout-button"
+          type="button"
+          onclick="logoutAdmin()"
+        >
+          Secure Logout
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1>Administrator Dashboard</h1>
+          <p>
+            Welcome, Team Member
+          </p>
+        </div>
+
+        <div class="topbar-right">
+          <div class="date-box">
+            <div id="currentDate"></div>
+            <div id="currentTime"></div>
+          </div>
+
+          <button
+            class="alert-button"
+            type="button"
+            onclick="showAlerts()"
+            aria-label="View alerts"
+          >
+            🔔
+            <span class="alert-count">5</span>
+          </button>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="system-banner">
+          <strong>✓ SYSTEM ONLINE</strong>
+          <span>All services operating normally</span>
+        </div>
+
+        <section class="summary-grid">
+          <article class="summary-card">
+            <div class="summary-top">
+              <span class="summary-label">
+                Today's Requests
+              </span>
+
+              <span class="summary-icon red">
+                📋
+              </span>
+            </div>
+
+            <div class="summary-number">28</div>
+            <div class="summary-note">+12% vs yesterday</div>
+          </article>
+
+          <article class="summary-card">
+            <div class="summary-top">
+              <span class="summary-label">
+                Assignments Active
+              </span>
+
+              <span class="summary-icon blue">
+                ⏱
+              </span>
+            </div>
+
+            <div class="summary-number">11</div>
+            <div class="summary-note">Live right now</div>
+          </article>
+
+          <article class="summary-card">
+            <div class="summary-top">
+              <span class="summary-label">
+                Completed Today
+              </span>
+
+              <span class="summary-icon green">
+                ✓
+              </span>
+            </div>
+
+            <div class="summary-number">17</div>
+            <div class="summary-note">+8% vs yesterday</div>
+          </article>
+
+          <article class="summary-card">
+            <div class="summary-top">
+              <span class="summary-label">
+                Pending Approvals
+              </span>
+
+              <span class="summary-icon orange">
+                👤
+              </span>
+            </div>
+
+            <div class="summary-number">4</div>
+            <div class="summary-note">Needs review</div>
+          </article>
+        </section>
+
+        <h2 class="section-title">
+          Business Performance
+        </h2>
+
+        <section class="finance-grid">
+          <article class="finance-card">
+            <h3>Today's Revenue</h3>
+            <div class="finance-value">$425.00</div>
+            <div class="finance-note">+18% vs yesterday</div>
+          </article>
+
+          <article class="finance-card">
+            <h3>Observer Payouts</h3>
+            <div class="finance-value">$280.00</div>
+            <div class="finance-note">17 payouts pending</div>
+          </article>
+
+          <article class="finance-card">
+            <h3>Platform Revenue</h3>
+            <div class="finance-value">$145.00</div>
+            <div class="finance-note">Before operating costs</div>
+          </article>
+
+          <article class="finance-card">
+            <h3>This Month</h3>
+            <div class="finance-value">$9,876.00</div>
+            <div class="finance-note">+16% vs last month</div>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Live Assignments</h2>
+
+              <a class="view-link" href="#">
+                View All
+              </a>
+            </div>
+
+            <div class="assignment-list">
+              <div class="assignment">
+                <div class="assignment-top">
+                  <div class="person">
+                    <div class="avatar">BW</div>
+
+                    <div>
+                      <strong>Barbara Williams</strong>
+                      <small>Agent</small>
+                    </div>
+                  </div>
+
+                  <div class="person">
+                    <div class="avatar">MJ</div>
+
+                    <div>
+                      <strong>Marcus Johnson</strong>
+                      <small>Observer</small>
+                    </div>
+                  </div>
+
+                  <span class="status status-way">
+                    🚗 ON MY WAY
+                  </span>
+                </div>
+
+                <div class="assignment-bottom">
+                  <span>
+                    📍 Richmond, Virginia
+                  </span>
+
+                  <button
+                    class="small-button"
+                    type="button"
+                    onclick="viewAssignment('Barbara Williams')"
+                  >
+                    View Assignment
+                  </button>
+                </div>
+              </div>
+
+              <div class="assignment">
+                <div class="assignment-top">
+                  <div class="person">
+                    <div class="avatar">DL</div>
+
+                    <div>
+                      <strong>David Lee</strong>
+                      <small>Agent</small>
+                    </div>
+                  </div>
+
+                  <div class="person">
+                    <div class="avatar">AB</div>
+
+                    <div>
+                      <strong>Ashley Brown</strong>
+                      <small>Observer</small>
+                    </div>
+                  </div>
+
+                  <span class="status status-arrived">
+                    📍 ARRIVED
+                  </span>
+                </div>
+
+                <div class="assignment-bottom">
+                  <span>
+                    📍 Virginia Beach, Virginia
+                  </span>
+
+                  <button
+                    class="small-button"
+                    type="button"
+                    onclick="viewAssignment('David Lee')"
+                  >
+                    View Assignment
+                  </button>
+                </div>
+              </div>
+
+              <div class="assignment">
+                <div class="assignment-top">
+                  <div class="person">
+                    <div class="avatar">JT</div>
+
+                    <div>
+                      <strong>Jennifer Taylor</strong>
+                      <small>Agent</small>
+                    </div>
+                  </div>
+
+                  <div class="person">
+                    <div class="avatar">JW</div>
+
+                    <div>
+                      <strong>James Wilson</strong>
+                      <small>Observer</small>
+                    </div>
+                  </div>
+
+                  <span class="status status-active">
+                    🛡 SHOWING ACTIVE
+                  </span>
+                </div>
+
+                <div class="assignment-bottom">
+                  <span>
+                    📍 Norfolk, Virginia
+                  </span>
+
+                  <button
+                    class="small-button"
+                    type="button"
+                    onclick="viewAssignment('Jennifer Taylor')"
+                  >
+                    View Assignment
+                  </button>
+                </div>
+              </div>
+
+              <div class="assignment">
+                <div class="assignment-top">
+                  <div class="person">
+                    <div class="avatar">MC</div>
+
+                    <div>
+                      <strong>Michael Carter</strong>
+                      <small>Agent</small>
+                    </div>
+                  </div>
+
+                  <div class="person">
+                    <div class="avatar">SG</div>
+
+                    <div>
+                      <strong>Samantha Green</strong>
+                      <small>Observer</small>
+                    </div>
+                  </div>
+
+                  <span class="status status-complete">
+                    ✓ COMPLETED
+                  </span>
+                </div>
+
+                <div class="assignment-bottom">
+                  <span>
+                    📍 Chesapeake, Virginia
+                  </span>
+
+                  <button
+                    class="small-button"
+                    type="button"
+                    onclick="viewAssignment('Michael Carter')"
+                  >
+                    View Assignment
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <div>
+            <article class="panel">
+              <div class="panel-header">
+                <h2>Today's Action Center</h2>
+              </div>
+
+              <div class="action-list">
+                <div class="action-item">
+                  <div class="action-left">
+                    <span class="action-symbol orange">👤</span>
+                    <span>4 observers waiting for approval</span>
+                  </div>
+
+                  <strong>›</strong>
+                </div>
+
+                <div class="action-item">
+                  <div class="action-left">
+                    <span class="action-symbol blue">📋</span>
+                    <span>2 assignments need attention</span>
+                  </div>
+
+                  <strong>›</strong>
+                </div>
+
+                <div class="action-item">
+                  <div class="action-left">
+                    <span class="action-symbol green">🛡</span>
+                    <span>No emergency alerts</span>
+                  </div>
+
+                  <strong>›</strong>
+                </div>
+
+                <div class="action-item">
+                  <div class="action-left">
+                    <span class="action-symbol red">$</span>
+                    <span>17 assignments ready for payout</span>
+                  </div>
+
+                  <strong>›</strong>
+                </div>
+              </div>
+            </article>
+
+            <section class="emergency-panel">
+              <h2>Emergency Center</h2>
+
+              <div class="emergency-symbol">
+                🛡️
+              </div>
+
+              <p>
+                <strong>No Active Emergencies</strong>
+              </p>
+
+              <p>
+                All clear at this time
+              </p>
+
+              <button
+                class="emergency-button"
+                type="button"
+                onclick="viewEmergencyHistory()"
+              >
+                View Emergency History
+              </button>
+            </section>
+          </div>
+        </section>
+
+        <section class="management-grid">
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Observer Management</h2>
+            </div>
+
+            <div class="management-list">
+              <div class="management-row">
+                <span>Pending Approvals</span>
+                <strong>4</strong>
+              </div>
+
+              <div class="management-row">
+                <span>Verified Observers</span>
+                <strong>186</strong>
+              </div>
+
+              <div class="management-row">
+                <span>Background Checks</span>
+                <strong>12</strong>
+              </div>
+
+              <div class="management-row">
+                <span>Observer Rating</span>
+                <strong>4.8</strong>
+              </div>
+
+              <div class="management-row">
+                <span>Suspended Accounts</span>
+                <strong>2</strong>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Agent Management</h2>
+            </div>
+
+            <div class="management-list">
+              <div class="management-row">
+                <span>Registered Agents</span>
+                <strong>243</strong>
+              </div>
+
+              <div class="management-row">
+                <span>New Agents This Week</span>
+                <strong>7</strong>
+              </div>
+
+              <div class="management-row">
+                <span>Agent Rating</span>
+                <strong>4.9</strong>
+              </div>
+
+              <div class="management-row">
+                <span>Active Today</span>
+                <strong>38</strong>
+              </div>
+
+              <div class="management-row">
+                <span>Suspended Accounts</span>
+                <strong>1</strong>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Payments Overview</h2>
+            </div>
+
+            <div class="management-list">
+              <div class="management-row">
+                <span>Pending Observer Payments</span>
+                <strong>$280.00</strong>
+              </div>
+
+              <div class="management-row">
+                <span>Today's Deposits</span>
+                <strong>$425.00</strong>
+              </div>
+
+              <div class="management-row">
+                <span>Refund Requests</span>
+                <strong>2</strong>
+              </div>
+
+              <div class="management-row">
+                <span>Stripe Balance</span>
+                <strong>$1,235.50</strong>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="bottom-grid">
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Customer Experience</h2>
+            </div>
+
+            <div class="rating-box">
+              <strong>Average Agent Rating</strong>
+              <div class="stars">★★★★★</div>
+              <strong>4.9</strong>
+
+              <hr>
+
+              <strong>Average Observer Rating</strong>
+              <div class="stars">★★★★★</div>
+              <strong>4.8</strong>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>System Health</h2>
+            </div>
+
+            <div class="health-row">
+              <span>GitHub</span>
+              <span class="online">Online</span>
+            </div>
+
+            <div class="health-row">
+              <span>Railway</span>
+              <span class="online">Planned</span>
+            </div>
+
+            <div class="health-row">
+              <span>Supabase</span>
+              <span class="online">Planned</span>
+            </div>
+
+            <div class="health-row">
+              <span>Payments</span>
+              <span class="online">Planned</span>
+            </div>
+
+            <div class="health-row">
+              <span>Email & SMS</span>
+              <span class="online">Planned</span>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Reports</h2>
+            </div>
+
+            <div class="report-row">
+              <span>Daily Report</span>
+              <strong>›</strong>
+            </div>
+
+            <div class="report-row">
+              <span>Weekly Report</span>
+              <strong>›</strong>
+            </div>
+
+            <div class="report-row">
+              <span>Monthly Report</span>
+              <strong>›</strong>
+            </div>
+
+            <div class="report-row">
+              <span>Export to CSV</span>
+              <strong>›</strong>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Team Management</h2>
+            </div>
+
+            <div class="team-row">
+              <span>Administration</span>
+              <strong>›</strong>
+            </div>
+
+            <div class="team-row">
+              <span>Operations</span>
+              <strong>›</strong>
+            </div>
+
+            <div class="team-row">
+              <span>Observer Approvals</span>
+              <strong>›</strong>
+            </div>
+
+            <div class="team-row">
+              <span>Customer Support</span>
+              <strong>›</strong>
+            </div>
+
+            <div class="team-row">
+              <span>Accounting</span>
+              <strong>›</strong>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <footer class="footer">
+        © 2026 Realtor Guard • Realtor Reinsurance Assistance • Version 1.0
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    function updateDateTime() {
+      const now = new Date();
+
+      document.getElementById("currentDate").textContent =
+        now.toLocaleDateString([], {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        });
+
+      document.getElementById("currentTime").textContent =
+        now.toLocaleTimeString([], {
+          hour: "numeric",
+          minute: "2-digit"
+        });
+    }
+
+    function showAlerts() {
+      window.alert(
+        "Demo alerts: 4 observer approvals and 1 assignment requiring attention."
+      );
+    }
+
+    function viewAssignment(agentName) {
+      window.alert(
+        "Assignment details for " + agentName +
+        " will open here after the backend is connected."
+      );
+    }
+
+    function viewEmergencyHistory() {
+      window.alert(
+        "Emergency history will be connected to the secure database later."
+      );
+    }
+
+    function logoutAdmin() {
+      const confirmed = window.confirm(
+        "Are you sure you want to securely log out?"
+      );
+
+      if (confirmed) {
+        window.location.href = "login.html";
+      }
+    }
+
+    updateDateTime();
+    window.setInterval(updateDateTime, 60000);
+  </script>
+</body>
+</html>
