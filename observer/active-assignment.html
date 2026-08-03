@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Active Assignment | Realtor Guard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --red: #b00000;
+      --dark-red: #820000;
+      --light-red: #fff1f1;
+      --green: #138a36;
+      --light-green: #edf9f0;
+      --navy: #102c54;
+      --text: #171717;
+      --muted: #687180;
+      --border: #dddddd;
+      --background: #f4f5f7;
+      --white: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--background);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    .phone-page {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding-bottom: 90px;
+      background: var(--background);
+      box-shadow: 0 0 22px rgba(0, 0, 0, 0.08);
+    }
+
+    .header {
+      padding: 18px 18px 22px;
+      background: linear-gradient(
+        150deg,
+        var(--dark-red),
+        var(--red)
+      );
+      color: var(--white);
+      text-align: center;
+    }
+
+    .header img {
+      width: 92px;
+      height: 92px;
+      padding: 7px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: var(--white);
+    }
+
+    .header h1 {
+      margin: 12px 0 4px;
+      font-size: 25px;
+    }
+
+    .header p {
+      margin: 0;
+      font-size: 13px;
+      opacity: 0.92;
+    }
+
+    .content {
+      padding: 16px;
+    }
+
+    .status-card {
+      margin-top: -8px;
+      padding: 18px;
+      border: 1px solid #b8dfc1;
+      border-radius: 14px;
+      background: var(--light-green);
+      text-align: center;
+      box-shadow: 0 5px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .status-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 12px;
+      border-radius: 30px;
+      background: var(--green);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .pulse {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--white);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.45;
+        transform: scale(1.45);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .timer-title {
+      margin: 17px 0 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .timer {
+      margin: 0;
+      color: var(--navy);
+      font-size: 40px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .started-time {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .safety-message {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 9px;
+      background: var(--white);
+      color: #405044;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .card {
+      margin-top: 15px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--white);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-header {
+      padding: 13px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid #eeeeee;
+      background: #fffafa;
+    }
+
+    .card-header h2 {
+      margin: 0;
+      color: var(--red);
+      font-size: 16px;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .person {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .avatar {
+      min-width: 58px;
+      width: 58px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #f0caca;
+      border-radius: 50%;
+      background: var(--light-red);
+      color: var(--red);
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .person-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .person-info h3 {
+      margin: 0 0 4px;
+      color: var(--navy);
+      font-size: 17px;
+    }
+
+    .person-info p {
+      margin: 2px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .rating {
+      color: #bd7900;
+      font-weight: bold;
+    }
+
+    .detail-list {
+      display: grid;
+      gap: 11px;
+    }
+
+    .detail-row {
+      padding-bottom: 10px;
+      display: grid;
+      grid-template-columns: 105px 1fr;
+      gap: 10px;
+      border-bottom: 1px solid #eeeeee;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .detail-row:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .detail-label {
+      color: var(--muted);
+      font-weight: bold;
+    }
+
+    .detail-value {
+      color: var(--text);
+      font-weight: bold;
+      word-break: break-word;
+    }
+
+    .instruction-box {
+      padding: 14px;
+      border-left: 4px solid var(--navy);
+      border-radius: 8px;
+      background: #f2f6fc;
+      color: #334766;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .emergency-card {
+      margin-top: 15px;
+      padding: 18px;
+      border-radius: 14px;
+      background: linear-gradient(
+        145deg,
+        #8d0000,
+        #c60000
+      );
+      color: var(--white);
+      text-align: center;
+      box-shadow: 0 7px 18px rgba(176, 0, 0, 0.2);
+    }
+
+    .emergency-card h2 {
+      margin: 0 0 7px;
+      font-size: 21px;
+    }
+
+    .emergency-card p {
+      margin: 0 0 15px;
+      font-size: 12px;
+      line-height: 1.5;
+      opacity: 0.94;
+    }
+
+    .emergency-button {
+      width: 100%;
+      min-height: 55px;
+      border: 2px solid var(--white);
+      border-radius: 10px;
+      background: var(--white);
+      color: var(--red);
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .emergency-note {
+      margin-top: 10px;
+      font-size: 11px;
+      opacity: 0.9;
+    }
+
+    .action-grid {
+      margin-top: 15px;
+      display: grid;
+      gap: 11px;
+    }
+
+    .action-button {
+      width: 100%;
+      min-height: 50px;
+      padding: 12px 15px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .support-button {
+      border: 1px solid var(--navy);
+      background: var(--white);
+      color: var(--navy);
+    }
+
+    .issue-button {
+      border: 1px solid var(--red);
+      background: var(--white);
+      color: var(--red);
+    }
+
+    .complete-button {
+      border: 1px solid var(--green);
+      background: var(--green);
+      color: var(--white);
+    }
+
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 13px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: bold;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .message.success {
+      display: block;
+      border: 1px solid #b6dfbf;
+      background: var(--light-green);
+      color: var(--green);
+    }
+
+    .message.warning {
+      display: block;
+      border: 1px solid #ebc0c0;
+      background: var(--light-red);
+      color: var(--red);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 20;
+      width: 100%;
+      max-width: 480px;
+      min-height: 72px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--border);
+      background: var(--white);
+      box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    .nav-link {
+      padding: 9px 3px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: #666666;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    .nav-link.active {
+      color: var(--red);
+    }
+
+    .nav-icon {
+      font-size: 20px;
+    }
+
+    @media (min-width: 700px) {
+      body {
+        padding: 20px 0;
+      }
+
+      .phone-page {
+        min-height: calc(100vh - 40px);
+        overflow: hidden;
+        border-radius: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="phone-page">
+    <header class="header">
+      <img
+        src="../logo.png"
+        alt="Realtor Guard logo"
+      >
+
+      <h1>Active Assignment</h1>
+
+      <p>
+        Remain alert and stay with the agent until the showing ends.
+      </p>
+    </header>
+
+    <section class="content">
+      <article class="status-card">
+        <div class="status-label">
+          <span class="pulse"></span>
+          ASSIGNMENT ACTIVE
+        </div>
+
+        <p class="timer-title">
+          Time elapsed
+        </p>
+
+        <p class="timer" id="timer">
+          00:00:00
+        </p>
+
+        <p class="started-time" id="startedTime">
+          Assignment started now
+        </p>
+
+        <div class="safety-message">
+          🛡️ Realtor Guard is monitoring this active assignment.
+          Keep your phone available and remain near the agent.
+        </div>
+      </article>
+
+      <article class="card">
+        <header class="card-header">
+          <h2>Agent Information</h2>
+          <span>👤</span>
+        </header>
+
+        <div class="card-body">
+          <div class="person">
+            <div class="avatar">
+              BW
+            </div>
+
+            <div class="person-info">
+              <h3>Barbara Williams</h3>
+              <p>Licensed Real Estate Agent</p>
+              <p>Richmond Premier Realty</p>
+              <p class="rating">★★★★★ 4.9</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <header class="card-header">
+          <h2>Showing Details</h2>
+          <span>🏠</span>
+        </header>
+
+        <div class="card-body">
+          <div class="detail-list">
+            <div class="detail-row">
+              <span class="detail-label">
+                Address
+              </span>
+
+              <span class="detail-value">
+                1250 Monument Avenue
+              </span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">
+                Location
+              </span>
+
+              <span class="detail-value">
+                Richmond, Virginia 23220
+              </span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">
+                Date
+              </span>
+
+              <span class="detail-value">
+                August 8, 2026
+              </span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">
+                Start Time
+              </span>
+
+              <span class="detail-value">
+                2:00 PM Eastern
+              </span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">
+                Duration
+              </span>
+
+              <span class="detail-value">
+                1 hour
+              </span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">
+                Scheduled End
+              </span>
+
+              <span class="detail-value">
+                3:00 PM Eastern
+              </span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <header class="card-header">
+          <h2>Observer Instructions</h2>
+          <span>📋</span>
+        </header>
+
+        <div class="card-body">
+          <div class="instruction-box">
+            Stay aware of everyone entering or leaving the property.
+            Remain close enough to assist the agent without interfering
+            with the showing. Do not leave until the agent confirms that
+            the assignment is complete.
+          </div>
+        </div>
+      </article>
+
+      <section class="emergency-card">
+        <h2>Emergency Assistance</h2>
+
+        <p>
+          Use this button only when immediate assistance is needed.
+          For a life-threatening emergency, call 911 first.
+        </p>
+
+        <button
+          class="emergency-button"
+          type="button"
+          onclick="emergencyHelp()"
+        >
+          🚨 Request Emergency Assistance
+        </button>
+
+        <div class="emergency-note">
+          Emergency actions will be recorded after the secure backend
+          is connected.
+        </div>
+      </section>
+
+      <div class="action-grid">
+        <button
+          class="action-button support-button"
+          type="button"
+          onclick="contactSupport()"
+        >
+          ☎ Contact Realtor Guard Support
+        </button>
+
+        <button
+          class="action-button issue-button"
+          type="button"
+          onclick="reportIssue()"
+        >
+          ⚠ Report an Assignment Issue
+        </button>
+
+        <button
+          class="action-button complete-button"
+          type="button"
+          onclick="completeAssignment()"
+        >
+          ✓ Complete Assignment
+        </button>
+      </div>
+
+      <div id="pageMessage" class="message"></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <a class="nav-link" href="dashboard.html">
+      <span class="nav-icon">⌂</span>
+      Dashboard
+    </a>
+
+    <a class="nav-link active" href="active-assignment.html">
+      <span class="nav-icon">🛡️</span>
+      Active
+    </a>
+
+    <a class="nav-link" href="accepted.html">
+      <span class="nav-icon">📋</span>
+      Assignment
+    </a>
+
+    <a class="nav-link" href="login.html">
+      <span class="nav-icon">●</span>
+      Account
+    </a>
+  </nav>
+
+  <script>
+    let elapsedSeconds = 0;
+
+    const assignmentStarted = new Date();
+
+    function formatTime(totalSeconds) {
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor(
+        (totalSeconds % 3600) / 60
+      );
+      const seconds = totalSeconds % 60;
+
+      return [
+        String(hours).padStart(2, "0"),
+        String(minutes).padStart(2, "0"),
+        String(seconds).padStart(2, "0")
+      ].join(":");
+    }
+
+    function updateTimer() {
+      elapsedSeconds += 1;
+
+      document.getElementById("timer").textContent =
+        formatTime(elapsedSeconds);
+    }
+
+    function showStartedTime() {
+      const formattedTime =
+        assignmentStarted.toLocaleTimeString([], {
+          hour: "numeric",
+          minute: "2-digit"
+        });
+
+      document.getElementById("startedTime").textContent =
+        "Assignment started at " + formattedTime;
+    }
+
+    function showMessage(text, type) {
+      const message =
+        document.getElementById("pageMessage");
+
+      message.textContent = text;
+      message.className = "message " + type;
+
+      message.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    }
+
+    function emergencyHelp() {
+      const confirmed = window.confirm(
+        "For an immediate life-threatening emergency, call 911. Do you want to continue with the Realtor Guard emergency alert demo?"
+      );
+
+      if (confirmed) {
+        showMessage(
+          "Emergency assistance demo activated. The secure backend will alert Realtor Guard operations later.",
+          "warning"
+        );
+      }
+    }
+
+    function contactSupport() {
+      window.alert(
+        "Realtor Guard support calling and secure messaging will be connected later."
+      );
+    }
+
+    function reportIssue() {
+      const issue = window.prompt(
+        "Briefly describe the assignment issue:"
+      );
+
+      if (issue && issue.trim()) {
+        showMessage(
+          "Your demo issue report has been recorded on this screen. The secure backend will save it later.",
+          "warning"
+        );
+      }
+    }
+
+    function completeAssignment() {
+      const confirmed = window.confirm(
+        "Has the agent confirmed that the showing is finished and it is safe to complete this assignment?"
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
+      showMessage(
+        "Assignment completed successfully. Returning to the Observer Dashboard...",
+        "success"
+      );
+
+      window.setTimeout(function () {
+        window.location.href = "dashboard.html";
+      }, 1800);
+    }
+
+    showStartedTime();
+    window.setInterval(updateTimer, 1000);
+  </script>
+</body>
+</html>
