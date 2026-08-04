@@ -321,14 +321,23 @@
       );
     }
 
-    function markEnRoute() {
-      showStatus(
+   function markEnRoute() {
+    const button = document.querySelector(".enroute-button");
+
+    button.disabled = true;
+    button.style.background = "#7a7a7a";
+    button.textContent = "✓ Agent Notified — On My Way";
+
+    showStatus(
         "Status updated: You are on your way to the property.",
         "#eef3ff",
         "#183b7a"
-      );
-      window.location.href = "on-my-way.html";
-    }
+    );
+
+    setTimeout(function () {
+        window.location.href = "on-my-way.html";
+    }, 1000);
+}
 
     function markArrived() {
       showStatus(
