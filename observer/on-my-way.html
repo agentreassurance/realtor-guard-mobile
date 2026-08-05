@@ -398,11 +398,8 @@
         "1234 Oak Ridge Drive, Chesapeake, Virginia 23320"
       );
 
-      window.open(
-        "https://www.google.com/maps/dir/?api=1&destination=" + destination,
-        "_blank"
-      );
-    }
+     window.location.href =
+       "https://www.google.com/maps/dir/?api=1&destination=" + destination;
 
     function markOnMyWay() {
       const wayButton = document.getElementById("wayButton");
