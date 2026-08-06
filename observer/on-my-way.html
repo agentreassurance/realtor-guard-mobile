@@ -258,7 +258,17 @@ Your departure timer is counting down. When it reaches 15 minutes before your ap
       <div class="status-banner">
         ✓ Assignment Accepted
       </div>
+<div class="countdown-box">
+    <h2>Departure Countdown</h2>
 
+    <div id="departureTimer" class="countdown-time">
+        00:15:00
+    </div>
+
+    <p>
+        Leave when the timer reaches <strong>00:00:00</strong>.
+    </p>
+</div>
       <article class="card">
         <h2 class="card-heading">
           Property Details
@@ -463,6 +473,32 @@ Your departure timer is counting down. When it reaches 15 minutes before your ap
         "For an immediate emergency, call 911. Realtor Guard emergency support will be connected later."
       );
     }
+ // ===== Departure Countdown =====
+let departureSeconds = 15 * 60;
+
+const departureTimer = document.getElementById("departureTimer");
+
+const departureInterval = setInterval(function () {
+
+    const minutes = Math.floor(departureSeconds / 60);
+    const seconds = departureSeconds % 60;
+
+    departureTimer.textContent =
+        String(minutes).padStart(2, "0") +
+        ":" +
+        String(seconds).padStart(2, "0");
+
+    if (departureSeconds <= 0) {
+        clearInterval(departureInterval);
+
+        departureTimer.textContent = "00:00";
+
+        window.location.href = "arrived.html";
+    }
+
+    departureSeconds--;
+
+}, 1000);
   </script>
 </body>
 </html>
