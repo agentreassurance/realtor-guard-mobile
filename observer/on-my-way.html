@@ -320,13 +320,16 @@ Your departure timer is counting down. When it reaches 15 minutes before your ap
         </div>
       </article>
 
-      <button
-        class="button directions-button"
-        type="button"
-        onclick="openDirections()"
-      >
-        Open Navigation
-      </button>
+     <button
+    id="navigationButton"
+    class="button directions-button"
+    type="button"
+    onclick="openDirections()"
+    disabled
+    style="background:#c62828; cursor:not-allowed; opacity:.75;"
+>
+    🔒 Wait for Departure
+</button>
 
      
        <button id="arrivedButton"
@@ -488,13 +491,19 @@ const departureInterval = setInterval(function () {
         ":" +
         String(seconds).padStart(2, "0");
 
-    if (departureSeconds <= 0) {
-        clearInterval(departureInterval);
+  if (departureSeconds <= 0) {
+    clearInterval(departureInterval);
 
-        departureTimer.textContent = "00:00";
+    departureTimer.textContent = "00:00";
 
-        window.location.href = "arrived.html";
-    }
+    const navButton = document.getElementById("navigationButton");
+
+    navButton.disabled = false;
+    navButton.innerHTML = "🧭 Open Navigation";
+    navButton.style.background = "#168437";
+    navButton.style.cursor = "pointer";
+    navButton.style.opacity = "1";
+}
 
     departureSeconds--;
 
