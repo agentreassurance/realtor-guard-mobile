@@ -481,13 +481,22 @@ Your departure timer is counting down. When it reaches 15 minutes before your ap
 const departureTimer = document.getElementById("departureTimer");
 const navButton = document.getElementById("navigationButton");
 
-// Temporary demo appointment.
+// Temporary appointment time for testing.
 // Later this will come automatically from the agent's assignment.
-const appointmentTime = new Date("2026-08-07T14:00:00-04:00");
+const appointmentTime = new Date("2026-08-07T15:00:00-04:00");
 
-// Navigation opens exactly 15 minutes before the appointment.
+// Temporary estimated driving time.
+// Later this will come automatically from live navigation/traffic.
+const estimatedTravelMinutes = 30;
+
+// Realtor Guard safety buffer.
+const safetyBufferMinutes = 15;
+
+// Smart departure time:
+// Appointment time - driving time - safety buffer.
 const navigationOpenTime =
-  appointmentTime.getTime() - (15 * 60 * 1000);
+  appointmentTime.getTime() -
+  ((estimatedTravelMinutes + safetyBufferMinutes) * 60 * 1000);
 
 function updateDepartureCountdown() {
   const now = Date.now();
