@@ -476,38 +476,52 @@ Your departure timer is counting down. When it reaches 15 minutes before your ap
         "For an immediate emergency, call 911. Realtor Guard emergency support will be connected later."
       );
     }
- // ===== Departure Countdown =====
-let departureSeconds = 15 * 60;
+// ===== Real-Time Departure Countdown =====
 
 const departureTimer = document.getElementById("departureTimer");
+const navButton = document.getElementById("navigationButton");
 
-const departureInterval = setInterval(function () {
+// Temporary demo appointment.
+// Later this will come automatically from the agent's assignment.
+const appointmentTime = new Date("2026-08-07T14:00:00-04:00");
 
-    const minutes = Math.floor(departureSeconds / 60);
-    const seconds = departureSeconds % 60;
+// Navigation opens exactly 15 minutes before the appointment.
+const navigationOpenTime =
+  appointmentTime.getTime() - (15 * 60 * 1000);
 
-    departureTimer.textContent =
-        String(minutes).padStart(2, "0") +
-        ":" +
-        String(seconds).padStart(2, "0");
+function updateDepartureCountdown() {
+  const now = Date.now();
+  const timeRemaining = navigationOpenTime - now;
 
-  if (departureSeconds <= 0) {
-    clearInterval(departureInterval);
-
-    departureTimer.textContent = "00:00";
-
-    const navButton = document.getElementById("navigationButton");
+  if (timeRemaining <= 0) {
+    departureTimer.textContent = "00:00:00";
 
     navButton.disabled = false;
     navButton.innerHTML = "🧭 Open Navigation";
     navButton.style.background = "#168437";
     navButton.style.cursor = "pointer";
     navButton.style.opacity = "1";
+
+    return;
+  }
+
+  const totalSeconds = Math.floor(timeRemaining / 1000);
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  departureTimer.textContent =
+    String(hours).padStart(2, "0") +
+    ":" +
+    String(minutes).padStart(2, "0") +
+    ":" +
+    String(seconds).padStart(2, "0");
 }
 
-    departureSeconds--;
+updateDepartureCountdown();
+setInterval(updateDepartureCountdown, 1000);
 
-}, 1000);
-  </script>
+</script>
 </body>
 </html>
