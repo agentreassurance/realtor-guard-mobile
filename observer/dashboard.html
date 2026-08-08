@@ -364,8 +364,15 @@
     }
 
     function acceptAssignment() {
-      window.location.href = "on-my-way.html";
-    }
+    // Mark this assignment as accepted
+    localStorage.setItem("realtorGuardAssignmentAccepted", "true");
+
+    // Save the exact time the observer accepted
+    localStorage.setItem("realtorGuardAcceptedAt", new Date().toISOString());
+
+    // Continue to the observer assignment flow
+    window.location.href = "on-my-way.html";
+}
   </script>
 </body>
 </html>
