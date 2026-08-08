@@ -91,7 +91,7 @@ button{
 <div class="card">
 <p><strong>Status:</strong> Pending</p>
 <p><strong>Observer:</strong> Searching...</p>
-<p><strong>Location:</strong> Your submitted property</p>
+<p><strong>Location:</strong> <span id="requestLocation"></span></p>
 <p><strong>We'll notify you when an observer accepts your request.</strong></p>
 </div>
 
@@ -104,6 +104,18 @@ Cancel Request
 </button>
 
 </div>
+<script>
+const request = JSON.parse(
+    localStorage.getItem("realtorGuardAgentRequest")
+);
 
+if (request) {
+    document.getElementById("requestLocation").textContent =
+        request.address + ", " +
+        request.city + ", " +
+        request.state + " " +
+        request.zip;
+}
+</script>
 </body>
 </html>
