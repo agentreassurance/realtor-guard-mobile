@@ -248,19 +248,28 @@
       const date = document.getElementById("date").value;
       const time = document.getElementById("time").value;
       const duration = document.getElementById("duration").value;
+      const zip = document.getElementById("zip").value;
+const timezone = document.getElementById("timezone").value;
 
-      document.getElementById("summaryName").textContent = agentName;
-      document.getElementById("summaryLocation").textContent =
-        address + ", " + city + ", " + state;
-      document.getElementById("summaryDate").textContent = date;
-      document.getElementById("summaryTime").textContent = time;
-      document.getElementById("summaryDuration").textContent = duration;
+      const agentRequest = {
+  agentName: agentName,
+  address: address,
+  city: city,
+  zip: zip,
+  state: state,
+  date: date,
+  time: time,
+  duration: duration,
+  timezone: timezone,
+  status: "Pending"
+};
+localStorage.setItem(
+  "realtorGuardAgentRequest",
+  JSON.stringify(agentRequest)
+);
 
-      requestCard.style.display = "block";
-      requestCard.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+window.location.href = "pending.html";
+     
     });
   </script>
 </body>
