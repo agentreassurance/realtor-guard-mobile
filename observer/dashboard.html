@@ -282,51 +282,70 @@
         Available Assignments
       </h2>
 
-      <article class="assignment-card">
-        <h3>Agent Safety Assignment</h3>
+    <article class="assignment-card" id="assignmentCard">
+  <h3>Agent Safety Assignment</h3>
 
-        <p class="detail">
-          <strong>City:</strong>
-          Richmond, Virginia
-        </p>
+  <p class="detail">
+    <strong>Agent:</strong>
+    <span id="requestAgentName">Waiting for request</span>
+  </p>
 
-        <p class="detail">
-          <strong>Date:</strong>
-          August 3, 2026
-        </p>
+  <p class="detail">
+    <strong>Property Address:</strong>
+    <span id="requestAddress">—</span>
+  </p>
 
-        <p class="detail">
-          <strong>Time:</strong>
-          2:00 PM
-        </p>
+  <p class="detail">
+    <strong>City:</strong>
+    <span id="requestCity">—</span>
+  </p>
 
-        <p class="detail">
-          <strong>Time Zone:</strong>
-          Eastern Time
-        </p>
+  <p class="detail">
+    <strong>State:</strong>
+    <span id="requestState">—</span>
+  </p>
 
-        <p class="detail">
-          <strong>Duration:</strong>
-          2 Hours
-        </p>
+  <p class="detail">
+    <strong>ZIP:</strong>
+    <span id="requestZip">—</span>
+  </p>
 
-        <div class="pay-box">
-          Observer Pay: $75
-        </div>
+  <p class="detail">
+    <strong>Date:</strong>
+    <span id="requestDate">—</span>
+  </p>
 
-        <p class="privacy-note">
-          Pay information is only visible to approved observers.
-        </p>
+  <p class="detail">
+    <strong>Time:</strong>
+    <span id="requestTime">—</span>
+  </p>
 
-        <button
-          class="accept-button"
-          type="button"
-          onclick="acceptAssignment()"
-        >
-          Accept Assignment
-        </button>
-      </article>
+  <p class="detail">
+    <strong>Time Zone:</strong>
+    <span id="requestTimezone">—</span>
+  </p>
 
+  <p class="detail">
+    <strong>Duration:</strong>
+    <span id="requestDuration">—</span>
+  </p>
+
+  <div class="pay-box">
+    Observer Pay: $75
+  </div>
+
+  <p class="privacy-note">
+    Pay information is only visible to approved observers.
+  </p>
+
+  <button
+    class="accept-button"
+    type="button"
+    onclick="acceptAssignment()"
+  >
+    Accept Assignment
+  </button>
+</article>
       <button
         class="refresh-button"
         type="button"
@@ -351,6 +370,44 @@
   </main>
 
   <script>
+   function loadAgentRequest() {
+  const savedRequest = localStorage.getItem("realtorGuardAgentRequest");
+
+  if (!savedRequest) {
+    return;
+  }
+
+  const request = JSON.parse(savedRequest);
+
+  document.getElementById("requestAgentName").textContent =
+    request.agentName || "—";
+
+  document.getElementById("requestAddress").textContent =
+    request.address || "—";
+
+  document.getElementById("requestCity").textContent =
+    request.city || "—";
+
+  document.getElementById("requestState").textContent =
+    request.state || "—";
+
+  document.getElementById("requestZip").textContent =
+    request.zip || "—";
+
+  document.getElementById("requestDate").textContent =
+    request.date || "—";
+
+  document.getElementById("requestTime").textContent =
+    request.time || "—";
+
+  document.getElementById("requestTimezone").textContent =
+    request.timezone || "—";
+
+  document.getElementById("requestDuration").textContent =
+    request.duration || "—";
+}
+
+loadAgentRequest(); 
     function toggleStatus() {
       const button = document.getElementById("statusButton");
 
