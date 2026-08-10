@@ -537,7 +537,29 @@ if (agentRequest && Object.keys(agentRequest).length > 0) {
     JSON.stringify(agentRequest)
   );
 }
-    
+// Fill the On My Way page with the accepted agent request
+document.getElementById("requestAddress").textContent =
+  agentRequest.address || "Property Address";
+
+document.getElementById("requestLocation").textContent =
+  [agentRequest.city, agentRequest.state, agentRequest.zip]
+    .filter(Boolean)
+    .join(", ");
+
+document.getElementById("requestAgentName").textContent =
+  agentRequest.agentName || agentRequest.fullName || "—";
+
+document.getElementById("requestDate").textContent =
+  agentRequest.date || "—";
+
+document.getElementById("requestTime").textContent =
+  agentRequest.time || "—";
+
+document.getElementById("requestTimezone").textContent =
+  agentRequest.timezone || "—";
+
+document.getElementById("requestDuration").textContent =
+  agentRequest.duration || "—";    
 
 </script>
 </body>
