@@ -381,6 +381,7 @@ Your departure timer is counting down. When it reaches 15 minutes before your ap
       </a>
 
       <a class="nav-link" href="accepted.html">
+        
         <span class="nav-icon">✓</span>
         Active
       </a>
@@ -393,6 +394,9 @@ Your departure timer is counting down. When it reaches 15 minutes before your ap
   </main>
 
   <script>
+    const agentRequest = JSON.parse(
+  localStorage.getItem("realtorGuardAgentRequest") || "{}"
+);
     function showStatus(message, background, color) {
       const box = document.getElementById("statusBox");
 
@@ -526,6 +530,14 @@ function updateDepartureCountdown() {
 
 updateDepartureCountdown();
 setInterval(updateDepartureCountdown, 1000);
+// Keep the accepted agent request available for the observer flow
+if (agentRequest && Object.keys(agentRequest).length > 0) {
+  localStorage.setItem(
+    "realtorGuardCurrentAssignment",
+    JSON.stringify(agentRequest)
+  );
+}
+    
 
 </script>
 </body>
