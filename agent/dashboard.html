@@ -215,7 +215,7 @@
         <option>Pacific Time</option>
       </select>
 
-     <button type="submit" onclick="window.location.href='pending.html'">Request Observer</button>
+     <button type="submit">Request Observer</button>
       <button type="button" class="refresh-button" onclick="location.reload()">
         Refresh
       </button>
@@ -267,6 +267,16 @@ localStorage.setItem(
   "realtorGuardAgentRequest",
   JSON.stringify(agentRequest)
 );
+const { error } = await supabase
+  .from("assignments")
+  .insert([agentRequest]);
+
+if (error) {
+  console.error("Supabase error:", error);
+  alert("There was a problem submitting the assignment.");
+  return;
+}
+      
 
 window.location.href = "pending.html";
      
