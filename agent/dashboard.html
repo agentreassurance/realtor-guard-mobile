@@ -244,7 +244,7 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     const requestForm = document.getElementById("requestForm");
     const requestCard = document.getElementById("requestCard");
 
-    requestForm.addEventListener("submit", function (event) {
+    requestForm.addEventListener("submit", async function (event) {
       event.preventDefault();
 
       const agentName = document.getElementById("agentName").value;
