@@ -251,17 +251,15 @@
       const zip = document.getElementById("zip").value;
 const timezone = document.getElementById("timezone").value;
 
-      const agentRequest = {
-  agentName: agentName,
-  address: address,
+   const agentRequest = {
+  agent_name: agentName,
+  property_address: address,
   city: city,
-  zip: zip,
   state: state,
+  zip: zip,
   date: date,
   time: time,
-  duration: duration,
-  timezone: timezone,
-  status: "Pending"
+  duration: duration
 };
 localStorage.setItem(
   "realtorGuardAgentRequest",
