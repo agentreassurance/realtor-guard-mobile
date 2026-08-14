@@ -234,57 +234,64 @@
     <a class="home-link" href="../home.html">Return to Home</a>
   </main>
 
- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <script>
+<script>
+  const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
 
-const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
-const SUPABASE_KEY = sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);    
-    const requestForm = document.getElementById("requestForm");
-    const requestCard = document.getElementById("requestCard");
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-    requestForm.addEventListener("submit", async function (event) {
-      event.preventDefault();
+  const requestForm = document.getElementById("requestForm");
 
-      const agentName = document.getElementById("agentName").value;
-      const address = document.getElementById("address").value;
-      const city = document.getElementById("city").value;
-      const state = document.getElementById("state").value;
-      const date = document.getElementById("date").value;
-      const time = document.getElementById("time").value;
-      const duration = document.getElementById("duration").value;
-      const zip = document.getElementById("zip").value;
-const timezone = document.getElementById("timezone").value;
+  requestForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-   const agentRequest = {
-  agent_name: agentName,
-  property_address: address,
-  city: city,
-  state: state,
-  zip: zip,
-  date: date,
-  time: time,
-  duration: duration
-};
-localStorage.setItem(
-  "realtorGuardAgentRequest",
-  JSON.stringify(agentRequest)
-);
-const { error } = await supabase
-  .from("assignments")
-  .insert([agentRequest]);
+    const agentName = document.getElementById("agentName").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const city = document.getElementById("city").value.trim();
+    const state = document.getElementById("state").value;
+    const zip = document.getElementById("zip").value.trim();
+    const date = document.getElementById("date").value;
+    const time = document.getElementById("time").value;
+    const duration = document.getElementById("duration").value;
 
-if (error) {
-  console.error("Supabase error:", error);
-  alert("There was a problem submitting the assignment.");
-  return;
-}
-      
+    const agentRequest = {
+      agent_name: agentName,
+      property_address: address,
+      city: city,
+      state: state,
+      zip: zip,
+      date: date,
+      time: time,
+      duration: duration
+    };
 
-window.location.href = "pending.html";
-     
-    });
-  </script>
+    // Keep a local copy for the agent pending page.
+    localStorage.setItem(
+      "realtorGuardAgentRequest",
+      JSON.stringify(agentRequest)
+    );
+
+    // Send the real assignment to Supabase.
+    const { error } = await supabaseClient
+      .from("assignments")
+      .insert([agentRequest]);
+
+    if (error) {
+      console.error("Supabase assignment error:", error);
+      alert(
+        "The observer request could not be submitted. Please try again."
+      );
+      return;
+    }
+
+    // Only move to Pending after Supabase confirms the request was saved.
+    window.location.href = "pending.html";
+  });
+</script>
 </body>
 </html>
