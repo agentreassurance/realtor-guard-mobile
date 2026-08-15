@@ -224,6 +224,7 @@
       text-align: center;
     }
   </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
@@ -368,68 +369,159 @@
       </div>
     </section>
   </main>
+<script>
+  const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdI1Bw_KIAWNxgR";
 
-  <script>
-   function loadAgentRequest() {
-  const savedRequest = localStorage.getItem("realtorGuardAgentRequest");
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-  if (!savedRequest) {
-    return;
+  let currentAssignment = null;
+
+  function formatTime12Hour(timeValue) {
+    if (!timeValue) return "—";
+
+    const parts = timeValue.split(":");
+    let hour = parseInt(parts[0], 10);
+    const minute = parts[1] || "00";
+
+    const ampm = hour >= 12 ? "PM" : "AM";
+
+    hour = hour % 12;
+    hour = hour || 12;
+
+    return `${hour}:${minute} ${ampm}`;
   }
 
-  const request = JSON.parse(savedRequest);
+  function saveAssignmentForObserverFlow(assignment) {
+    const savedRequest = {
+      id: assignment.id,
+      agentName: assignment.agent_name || "",
+      address: assignment.property_address || "",
+      city: assignment.city || "",
+      state: assignment.state || "",
+      zip: assignment.zip || "",
+      date: assignment.date || "",
+      time: assignment.time || "",
+      displayTime: formatTime12Hour(assignment.time),
+      duration: assignment.duration || "",
+      status: assignment.status || "pending"
+    };
 
-  document.getElementById("requestAgentName").textContent =
-    request.agentName || "—";
+    localStorage.setItem(
+      "realtorGuardAgentRequest",
+      JSON.stringify(savedRequest)
+    );
+  }
 
-  document.getElementById("requestAddress").textContent =
-    request.address || "—";
+  async function loadAssignments() {
+    const { data, error } = await supabaseClient
+      .from("assignments")
+      .select("*")
+      .eq("status", "pending")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
 
-  document.getElementById("requestCity").textContent =
-    request.city || "—";
-
-  document.getElementById("requestState").textContent =
-    request.state || "—";
-
-  document.getElementById("requestZip").textContent =
-    request.zip || "—";
-
-  document.getElementById("requestDate").textContent =
-    request.date || "—";
-
-  document.getElementById("requestTime").textContent =
-    request.time || "—";
-
-  document.getElementById("requestTimezone").textContent =
-    request.timezone || "—";
-
-  document.getElementById("requestDuration").textContent =
-    request.duration || "—";
-}
-
-loadAgentRequest(); 
-    function toggleStatus() {
-      const button = document.getElementById("statusButton");
-
-      if (button.textContent.trim() === "Available") {
-        button.textContent = "Busy";
-        button.style.background = "#777777";
-      } else {
-        button.textContent = "Available";
-        button.style.background = "#168437";
-      }
+    if (error) {
+      console.error("Supabase load error:", error);
+      return;
     }
 
-    function acceptAssignment() {
-    // Mark this assignment as accepted
-    localStorage.setItem("realtorGuardAssignmentAccepted", "true");
+    if (!data) {
+      currentAssignment = null;
+      return;
+    }
 
-    // Save the exact time the observer accepted
-    localStorage.setItem("realtorGuardAcceptedAt", new Date().toISOString());
+    currentAssignment = data;
 
-    // Continue to the observer assignment flow
+    document.getElementById("requestAgentName").textContent =
+      data.agent_name || "—";
+
+    document.getElementById("requestAddress").textContent =
+      data.property_address || "—";
+
+    document.getElementById("requestCity").textContent =
+      data.city || "—";
+
+    document.getElementById("requestState").textContent =
+      data.state || "—";
+
+    document.getElementById("requestZip").textContent =
+      data.zip || "—";
+
+    document.getElementById("requestDate").textContent =
+      data.date || "—";
+
+    document.getElementById("requestTime").textContent =
+      formatTime12Hour(data.time);
+
+    const timezoneElement =
+      document.getElementById("requestTimezone");
+
+    if (timezoneElement) {
+      timezoneElement.textContent = data.timezone || "—";
+    }
+
+    document.getElementById("requestDuration").textContent =
+      data.duration || "—";
+
+    saveAssignmentForObserverFlow(data);
+  }
+
+  function toggleStatus() {
+    const button = document.getElementById("statusButton");
+
+    if (button.textContent.trim() === "Available") {
+      button.textContent = "Busy";
+      button.style.background = "#777777";
+    } else {
+      button.textContent = "Available";
+      button.style.background = "#168437";
+    }
+  }
+
+  async function acceptAssignment() {
+    if (!currentAssignment) {
+      alert("No assignment is currently available.");
+      return;
+    }
+
+    const { data, error } = await supabaseClient
+      .from("assignments")
+      .update({ status: "accepted" })
+      .eq("id", currentAssignment.id)
+      .eq("status", "pending")
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Supabase accept error:", error);
+      alert("The assignment could not be accepted. Please try again.");
+      return;
+    }
+
+    currentAssignment = data;
+
+    saveAssignmentForObserverFlow(data);
+
+    localStorage.setItem(
+      "realtorGuardAssignmentAccepted",
+      "true"
+    );
+
+    localStorage.setItem(
+      "realtorGuardAcceptedAt",
+      new Date().toISOString()
+    );
+
     window.location.href = "on-my-way.html";
-}
-  </script>
+  }
+
+  loadAssignments();
+</script>
+  
 </body>
 </html>
