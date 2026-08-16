@@ -407,10 +407,11 @@ Your departure timer is counting down. When it reaches 15 minutes before your ap
     }
 
     function openDirections() {
-      const destination = encodeURIComponent(
-        "1234 Oak Ridge Drive, Chesapeake, Virginia 23320"
-      );
-
+     const destination = encodeURIComponent(
+  [agentRequest.address, agentRequest.city, agentRequest.state, agentRequest.zip]
+    .filter(Boolean)
+    .join(", ")
+);
      window.location.href =
        "https://www.google.com/maps/dir/?api=1&destination=" + destination;
 }
@@ -554,6 +555,7 @@ document.getElementById("requestDate").textContent =
 
 document.getElementById("requestTime").textContent =
   agentRequest.time || "—";
+    
 
 document.getElementById("requestTimezone").textContent =
   agentRequest.timezone || "—";
