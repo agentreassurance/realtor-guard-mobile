@@ -283,70 +283,7 @@
         Available Assignments
       </h2>
 
-    <article class="assignment-card" id="assignmentCard">
-  <h3>Agent Safety Assignment</h3>
-
-  <p class="detail">
-    <strong>Agent:</strong>
-    <span id="requestAgentName">Waiting for request</span>
-  </p>
-
-  <p class="detail">
-    <strong>Property Address:</strong>
-    <span id="requestAddress">—</span>
-  </p>
-
-  <p class="detail">
-    <strong>City:</strong>
-    <span id="requestCity">—</span>
-  </p>
-
-  <p class="detail">
-    <strong>State:</strong>
-    <span id="requestState">—</span>
-  </p>
-
-  <p class="detail">
-    <strong>ZIP:</strong>
-    <span id="requestZip">—</span>
-  </p>
-
-  <p class="detail">
-    <strong>Date:</strong>
-    <span id="requestDate">—</span>
-  </p>
-
-  <p class="detail">
-    <strong>Time:</strong>
-    <span id="requestTime">—</span>
-  </p>
-
-  <p class="detail">
-    <strong>Time Zone:</strong>
-    <span id="requestTimezone">—</span>
-  </p>
-
-  <p class="detail">
-    <strong>Duration:</strong>
-    <span id="requestDuration">—</span>
-  </p>
-
-  <div class="pay-box">
-    Observer Pay: $75
-  </div>
-
-  <p class="privacy-note">
-    Pay information is only visible to approved observers.
-  </p>
-
-  <button
-    class="accept-button"
-    type="button"
-    onclick="acceptAssignment()"
-  >
-    Accept Assignment
-  </button>
-</article>
+    <div id="assignmentsContainer"></div>
       <button
         class="refresh-button"
         type="button"
@@ -416,110 +353,145 @@
     );
   }
 
-  async function loadAssignments() {
-    const { data, error } = await supabaseClient
-      .from("assignments")
-      .select("*")
-      .eq("status", "pending")
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
+async function loadAssignments() {
+  const { data, error } = await supabaseClient
+    .from("assignments")
+    .select("*")
+    .eq("status", "pending")
+    .order("created_at", { ascending: false });
 
-    if (error) {
-      console.error("Supabase load error:", error);
-      return;
-    }
+  const container = document.getElementById("assignmentsContainer");
 
-    if (!data) {
-      currentAssignment = null;
-      return;
-    }
-
-    currentAssignment = data;
-
-    document.getElementById("requestAgentName").textContent =
-      data.agent_name || "—";
-
-    document.getElementById("requestAddress").textContent =
-      data.property_address || "—";
-
-    document.getElementById("requestCity").textContent =
-      data.city || "—";
-
-    document.getElementById("requestState").textContent =
-      data.state || "—";
-
-    document.getElementById("requestZip").textContent =
-      data.zip || "—";
-
-    document.getElementById("requestDate").textContent =
-      data.date || "—";
-
-    document.getElementById("requestTime").textContent =
-      formatTime12Hour(data.time);
-
-    const timezoneElement =
-      document.getElementById("requestTimezone");
-
-    if (timezoneElement) {
-      timezoneElement.textContent = data.timezone || "—";
-    }
-
-    document.getElementById("requestDuration").textContent =
-      data.duration || "—";
-
-    saveAssignmentForObserverFlow(data);
+  if (error) {
+    console.error("Supabase load error:", error);
+    container.innerHTML = "<p>Unable to load assignments.</p>";
+    return;
   }
 
-  function toggleStatus() {
-    const button = document.getElementById("statusButton");
-
-    if (button.textContent.trim() === "Available") {
-      button.textContent = "Busy";
-      button.style.background = "#777777";
-    } else {
-      button.textContent = "Available";
-      button.style.background = "#168437";
-    }
+  if (!data || data.length === 0) {
+    container.innerHTML = "<p>No assignments are currently available.</p>";
+    return;
   }
 
-  async function acceptAssignment() {
-    if (!currentAssignment) {
-      alert("No assignment is currently available.");
-      return;
-    }
+  container.innerHTML = "";
 
-    const { data, error } = await supabaseClient
-      .from("assignments")
-      .update({ status: "accepted" })
-      .eq("id", currentAssignment.id)
-      .eq("status", "pending")
-      .select()
-      .single();
+  data.forEach((assignment) => {
+    const card = document.createElement("article");
+    card.className = "assignment-card";
 
-    if (error) {
-      console.error("Supabase accept error:", error);
-      alert("The assignment could not be accepted. Please try again.");
-      return;
-    }
+    card.innerHTML = `
+      <h3>Agent Safety Assignment</h3>
 
-    currentAssignment = data;
+      <p class="detail">
+        <strong>Agent:</strong>
+        <span>${assignment.agent_name || "—"}</span>
+      </p>
 
-    saveAssignmentForObserverFlow(data);
+      <p class="detail">
+        <strong>Property Address:</strong>
+        <span>${assignment.property_address || "—"}</span>
+      </p>
 
-    localStorage.setItem(
-      "realtorGuardAssignmentAccepted",
-      "true"
-    );
+      <p class="detail">
+        <strong>City:</strong>
+        <span>${assignment.city || "—"}</span>
+      </p>
 
-    localStorage.setItem(
-      "realtorGuardAcceptedAt",
-      new Date().toISOString()
-    );
+      <p class="detail">
+        <strong>State:</strong>
+        <span>${assignment.state || "—"}</span>
+      </p>
 
-    window.location.href = "on-my-way.html";
+      <p class="detail">
+        <strong>ZIP:</strong>
+        <span>${assignment.zip || "—"}</span>
+      </p>
+
+      <p class="detail">
+        <strong>Date:</strong>
+        <span>${assignment.date || "—"}</span>
+      </p>
+
+      <p class="detail">
+        <strong>Time:</strong>
+        <span>${formatTime12Hour(assignment.time)}</span>
+      </p>
+
+      <p class="detail">
+        <strong>Time Zone:</strong>
+        <span>${assignment.timezone || "—"}</span>
+      </p>
+
+      <p class="detail">
+        <strong>Duration:</strong>
+        <span>${assignment.duration || "—"}</span>
+      </p>
+
+      <div class="pay-box">
+        Observer Pay: $75
+      </div>
+
+      <p class="privacy-note">
+        Pay information is only visible to approved observers.
+      </p>
+
+      <button
+        class="accept-button"
+        type="button"
+        onclick="acceptAssignment(${assignment.id})"
+      >
+        Accept Assignment
+      </button>
+    `;
+
+    container.appendChild(card);
+  });
+}  
+
+  
+async function acceptAssignment(assignmentId) {
+  const { data, error } = await supabaseClient
+    .from("assignments")
+    .update({ status: "accepted" })
+    .eq("id", assignmentId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error accepting assignment:", error);
+    alert("Unable to accept this assignment. Please try again.");
+    return;
   }
 
+  currentAssignment = data;
+
+  saveAssignmentForObserverFlow(data);
+
+  localStorage.setItem(
+    "realtorGuardAssignmentAccepted",
+    "true"
+  );
+
+  localStorage.setItem(
+    "realtorGuardAcceptedAt",
+    new Date().toISOString()
+  );
+
+  window.location.href = "on-my-way.html";
+}
+function toggleStatus() {
+  const button = document.getElementById("statusButton");
+
+  if (button.textContent.trim() === "Available") {
+    button.textContent = "Busy";
+    button.style.background = "#777777";
+  } else {
+    button.textContent = "Available";
+    button.style.background = "#168437";
+  }
+}    
+
+ 
   loadAssignments();
 </script>
   
