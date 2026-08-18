@@ -258,6 +258,7 @@
     const date = document.getElementById("date").value;
     const time = document.getElementById("time").value;
     const duration = document.getElementById("duration").value;
+    const timezone = document.getElementById("timezone").value;
 
     const agentRequest = {
       agent_name: agentName,
@@ -267,7 +268,8 @@
       zip: zip,
       date: date,
       time: time,
-      duration: duration
+      duration: duration,
+      timezone: timezone
     };
 
     // Keep a local copy for the agent pending page.
