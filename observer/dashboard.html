@@ -351,6 +351,10 @@
       "realtorGuardAgentRequest",
       JSON.stringify(savedRequest)
     );
+    localStorage.setItem(
+  "realtorGuardCurrentAssignment",
+  JSON.stringify(savedRequest)
+);
   }
 
 async function loadAssignments() {
