@@ -307,7 +307,7 @@ Your departure timer is counting down. When it reaches 15 minutes before your ap
     </p>
 
     <div class="pay-box">
-      Observer Pay: $75
+      Observer Pay:$30/HR Guaranteed
     </div>
 
     <p class="privacy-note">
@@ -394,8 +394,10 @@ Your departure timer is counting down. When it reaches 15 minutes before your ap
   </main>
 
   <script>
-    const agentRequest = JSON.parse(
-  localStorage.getItem("realtorGuardAgentRequest") || "{}"
+   const agentRequest = JSON.parse(
+  localStorage.getItem("realtorGuardCurrentAssignment") ||
+  localStorage.getItem("realtorGuardAgentRequest") ||
+  "{}"
 );
     function showStatus(message, background, color) {
       const box = document.getElementById("statusBox");
@@ -540,7 +542,7 @@ if (agentRequest && Object.keys(agentRequest).length > 0) {
 }
 // Fill the On My Way page with the accepted agent request
 document.getElementById("requestAddress").textContent =
-  agentRequest.address || "Property Address";
+  agentRequest.property_address || agentRequest.address || "Property Address";
 
 document.getElementById("requestLocation").textContent =
   [agentRequest.city, agentRequest.state, agentRequest.zip]
@@ -548,20 +550,20 @@ document.getElementById("requestLocation").textContent =
     .join(", ");
 
 document.getElementById("requestAgentName").textContent =
-  agentRequest.agentName || agentRequest.fullName || "—";
+  agentRequest.agent_name || agentRequest.agentName || agentRequest.fullName || "—";
 
 document.getElementById("requestDate").textContent =
-  agentRequest.date || "—";
+ agentRequest.appointment_date || agentRequest.date || "—";
 
 document.getElementById("requestTime").textContent =
-  agentRequest.time || "—";
+ agentRequest.appointment_time || agentRequest.time || "—";
     
 
 document.getElementById("requestTimezone").textContent =
-  agentRequest.timezone || "—";
+  agentRequest.time_zone || agentRequest.timezone || "—";
 
 document.getElementById("requestDuration").textContent =
-  agentRequest.duration || "—";    
+ agentRequest.appointment_duration || agentRequest.duration || "—";    
 
 </script>
 </body>
