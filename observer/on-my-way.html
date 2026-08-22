@@ -556,8 +556,7 @@ document.getElementById("requestDate").textContent =
  agentRequest.appointment_date || agentRequest.date || "—";
 
 document.getElementById("requestTime").textContent =
- agentRequest.appointment_time || agentRequest.time || "—";
-    
+  formatTime12Hour(agentRequest.appointment_time || agentRequest.time);
 
 document.getElementById("requestTimezone").textContent =
   agentRequest.time_zone || agentRequest.timezone || "—";
