@@ -399,6 +399,27 @@ Your departure timer is counting down. When it reaches 15 minutes before your ap
   localStorage.getItem("realtorGuardAgentRequest") ||
   "{}"
 );
+  function formatTime12Hour(timeValue) {
+  if (!timeValue) return "—";
+
+  const value = String(timeValue).trim();
+
+  if (/\b(AM|PM)\b/i.test(value)) {
+    return value;
+  }
+
+  const parts = value.split(":");
+  let hour = parseInt(parts[0], 10);
+  const minute = (parts[1] || "00").slice(0, 2);
+
+  if (Number.isNaN(hour)) return value;
+
+  const ampm = hour >= 12 ? "PM" : "AM";
+  hour = hour % 12 || 12;
+
+  return `${hour}:${minute} ${ampm}`;
+}  
+    
     function showStatus(message, background, color) {
       const box = document.getElementById("statusBox");
 
