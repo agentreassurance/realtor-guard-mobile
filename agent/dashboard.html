@@ -278,20 +278,7 @@
       JSON.stringify(agentRequest)
     );
 
-    // Send the real assignment to Supabase.
-    const { error } = await supabaseClient
-      .from("assignments")
-      .insert([agentRequest]);
-
-    if (error) {
-      console.error("Supabase assignment error:", error);
-      alert(
-        "The observer request could not be submitted. Please try again."
-      );
-      return;
-    }
-
-    // Only move to Pending after Supabase confirms the request was saved.
+   
     window.location.href = "pending.html";
   });
 </script>
