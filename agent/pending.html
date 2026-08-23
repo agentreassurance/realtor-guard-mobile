@@ -105,7 +105,22 @@ button{
 </button>
 </div>
 <script>
-const request = JSON.parse(
+function formatTime(time) {
+    if (!time) return "—";
+
+    const parts = time.split(":");
+    let hours = parseInt(parts[0], 10);
+    const minutes = parts[1];
+
+    const period = hours >= 12 ? "PM" : "AM";
+
+    hours = hours % 12;
+    hours = hours || 12;
+
+    return hours + ":" + minutes + " " + period;
+}
+    
+    const request = JSON.parse(
     localStorage.getItem("realtorGuardAgentRequest")
 );
 
