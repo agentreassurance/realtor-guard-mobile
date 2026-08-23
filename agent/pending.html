@@ -82,27 +82,27 @@ button{
 
 <img src="../logo.png" class="logo">
 
-<h1>Request Pending</h1>
-
-<div class="status">
-⏳ Searching for a verified observer...
-</div>
+<h1>Confirm Request</h1>
 
 <div class="card">
-<p><strong>Status:</strong> Pending</p>
-<p><strong>Observer:</strong> Searching...</p>
-<p><strong>Location:</strong> <span id="requestLocation"></span></p>
-<p><strong>We'll notify you when an observer accepts your request.</strong></p>
+  <p><strong>Agent:</strong> <span id="requestAgent"></span></p>
+  <p><strong>Property:</strong> <span id="requestAddress"></span></p>
+  <p><strong>City:</strong> <span id="requestCity"></span></p>
+  <p><strong>State:</strong> <span id="requestState"></span></p>
+  <p><strong>Zip:</strong> <span id="requestZip"></span></p>
+  <p><strong>Date:</strong> <span id="requestDate"></span></p>
+  <p><strong>Time:</strong> <span id="requestTime"></span></p>
+  <p><strong>Duration:</strong> <span id="requestDuration"></span></p>
+  <p><strong>Time Zone:</strong> <span id="requestTimezone"></span></p>
 </div>
 
-<button class="refresh" onclick="location.reload()">
-Refresh Status
+<button class="refresh" id="approveRequest">
+  Approve & Submit
 </button>
 
 <button class="cancel" onclick="window.location.href='dashboard.html'">
-Cancel Request
+  Edit Request
 </button>
-
 </div>
 <script>
 const request = JSON.parse(
@@ -110,12 +110,37 @@ const request = JSON.parse(
 );
 
 if (request) {
-    document.getElementById("requestLocation").textContent =
-        request.address + ", " +
-        request.city + ", " +
-        request.state + " " +
-        request.zip;
+    document.getElementById("requestAgent").textContent =
+        request.agent_name || request.agentName || request.fullName || "—";
+
+    document.getElementById("requestAddress").textContent =
+        request.property_address || request.address || "—";
+
+    document.getElementById("requestCity").textContent =
+        request.city || "—";
+
+    document.getElementById("requestState").textContent =
+        request.state || "—";
+
+    document.getElementById("requestZip").textContent =
+        request.zip || "—";
+
+    document.getElementById("requestDate").textContent =
+        request.date || "—";
+
+    document.getElementById("requestTime").textContent =
+        request.time || "—";
+
+    document.getElementById("requestDuration").textContent =
+        request.duration || "—";
+
+    document.getElementById("requestTimezone").textContent =
+        request.timezone || request.time_zone || "—";
 }
+document.getElementById("approveRequest").addEventListener("click", function () {
+    localStorage.setItem("realtorGuardAgentRequest", JSON.stringify(request));
+    window.location.href = "pending.html";
+});    
 </script>
 </body>
 </html>
