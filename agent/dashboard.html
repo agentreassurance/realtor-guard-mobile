@@ -247,6 +247,39 @@
 
   const requestForm = document.getElementById("requestForm");
 
+  const savedRequest = JSON.parse(
+  localStorage.getItem("realtorGuardAgentRequest")
+);
+
+if (savedRequest) {
+  document.getElementById("agentName").value =
+    savedRequest.agent_name || "";
+
+  document.getElementById("address").value =
+    savedRequest.property_address || "";
+
+  document.getElementById("city").value =
+    savedRequest.city || "";
+
+  document.getElementById("state").value =
+    savedRequest.state || "";
+
+  document.getElementById("zip").value =
+    savedRequest.zip || "";
+
+  document.getElementById("date").value =
+    savedRequest.date || "";
+
+  document.getElementById("time").value =
+    savedRequest.time || "";
+
+  document.getElementById("duration").value =
+    savedRequest.duration || "";
+
+  document.getElementById("timezone").value =
+    savedRequest.timezone || "";
+}
+
   requestForm.addEventListener("submit", async function (event) {
     event.preventDefault();
 
