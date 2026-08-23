@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Request Pending | Realtor Guard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 460px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 110px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      color: #c51f25;
+      margin: 0 0 15px;
+    }
+
+    .status {
+      background: #fff3f3;
+      border: 1px solid #efb7b7;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 20px;
+      color: #9f171c;
+      font-weight: bold;
+      font-size: 17px;
+    }
+
+    .card {
+      text-align: left;
+      border: 1px solid #dddddd;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 20px;
+      background: #ffffff;
+    }
+
+    .card p {
+      margin: 10px 0;
+      line-height: 1.4;
+    }
+
+    .message {
+      margin-top: 18px;
+      font-weight: bold;
+      line-height: 1.5;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 10px;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    .refresh {
+      background: #c51f25;
+      color: white;
+    }
+
+    .cancel {
+      background: #555555;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <img src="../logo.png" class="logo" alt="Realtor Guard">
+
+    <h1>Request Pending</h1>
+
+    <div class="status">
+      ⏳ Searching for a verified observer...
+    </div>
+
+    <div class="card">
+      <p><strong>Status:</strong> Pending</p>
+      <p><strong>Agent:</strong> <span id="requestAgent"></span></p>
+      <p><strong>Property:</strong> <span id="requestAddress"></span></p>
+      <p><strong>City:</strong> <span id="requestCity"></span></p>
+      <p><strong>State:</strong> <span id="requestState"></span></p>
+      <p><strong>Zip:</strong> <span id="requestZip"></span></p>
+      <p><strong>Date:</strong> <span id="requestDate"></span></p>
+      <p><strong>Time:</strong> <span id="requestTime"></span></p>
+      <p><strong>Duration:</strong> <span id="requestDuration"></span></p>
+      <p><strong>Time Zone:</strong> <span id="requestTimezone"></span></p>
+
+      <p class="message">
+        We'll notify you when an observer accepts your request.
+      </p>
+    </div>
+
+    <button class="refresh" onclick="location.reload()">
+      Refresh Status
+    </button>
+
+    <button class="cancel" onclick="window.location.href='dashboard.html'">
+      Cancel Request
+    </button>
+
+  </div>
+
+  <script>
+    const request = JSON.parse(
+      localStorage.getItem("realtorGuardAgentRequest")
+    );
+
+    function formatTime(time) {
+      if (!time) return "—";
+
+      const parts = time.split(":");
+      let hours = parseInt(parts[0], 10);
+      const minutes = parts[1];
+
+      const period = hours >= 12 ? "PM" : "AM";
+
+      hours = hours % 12;
+      hours = hours || 12;
+
+      return hours + ":" + minutes + " " + period;
+    }
+
+    if (request) {
+      document.getElementById("requestAgent").textContent =
+        request.agent_name || request.agentName || "—";
+
+      document.getElementById("requestAddress").textContent =
+        request.property_address || request.address || "—";
+
+      document.getElementById("requestCity").textContent =
+        request.city || "—";
+
+      document.getElementById("requestState").textContent =
+        request.state || "—";
+
+      document.getElementById("requestZip").textContent =
+        request.zip || "—";
+
+      document.getElementById("requestDate").textContent =
+        request.date || "—";
+
+      document.getElementById("requestTime").textContent =
+        formatTime(request.time);
+
+      document.getElementById("requestDuration").textContent =
+        request.duration || "—";
+
+      document.getElementById("requestTimezone").textContent =
+        request.timezone || request.time_zone || "—";
+    }
+  </script>
+
+</body>
+</html>
