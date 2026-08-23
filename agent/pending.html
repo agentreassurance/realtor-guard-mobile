@@ -139,8 +139,9 @@ if (request) {
 }
 document.getElementById("approveRequest").addEventListener("click", function () {
     localStorage.setItem("realtorGuardAgentRequest", JSON.stringify(request));
-    window.location.href = "pending.html";
-});    
+    localStorage.setItem("realtorGuardRequestStatus", "pending");
+    window.location.replace("pending.html");
+}); 
 </script>
 </body>
 </html>
