@@ -246,7 +246,9 @@
   );
 
   const requestForm = document.getElementById("requestForm");
+const editMode = localStorage.getItem("realtorGuardEditMode") === "true";
 
+if (editMode) {
   const savedRequest = JSON.parse(
   localStorage.getItem("realtorGuardAgentRequest")
 );
@@ -279,7 +281,8 @@ if (savedRequest) {
   document.getElementById("timezone").value =
     savedRequest.timezone || "";
 }
-
+localStorage.removeItem("realtorGuardEditMode");
+}
   requestForm.addEventListener("submit", async function (event) {
     event.preventDefault();
 
