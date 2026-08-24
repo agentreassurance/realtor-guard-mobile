@@ -104,7 +104,16 @@ button{
   Edit Request
 </button>
 </div>
-<script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+const SUPABASE_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdI1Bw_KIAWNxgR";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+        
 function formatTime(time) {
     if (!time) return "—";
 
@@ -152,9 +161,42 @@ if (request) {
     document.getElementById("requestTimezone").textContent =
         request.timezone || request.time_zone || "—";
 }
-document.getElementById("approveRequest").addEventListener("click", function () {
-    localStorage.setItem("realtorGuardAgentRequest", JSON.stringify(request));
-    localStorage.setItem("realtorGuardRequestStatus", "pending");
+document.getElementById("approveRequest").addEventListener("click", async function () {
+
+    const assignment = {
+        agent_name: request.agent_name,
+        property_address: request.property_address,
+        city: request.city,
+        state: request.state,
+        zip: request.zip,
+        date: request.date,
+        time: request.time,
+        duration: request.duration,
+        timezone: request.timezone,
+        status: "pending"
+    };
+
+    const { data, error } = await supabaseClient
+        .from("assignments")
+        .insert([assignment])
+        .select();
+
+    if (error) {
+        console.error("Assignment submit error:", error);
+        alert("Unable to submit request. Please try again.");
+        return;
+    }
+
+    localStorage.setItem(
+        "realtorGuardAgentRequest",
+        JSON.stringify(request)
+    );
+
+    localStorage.setItem(
+        "realtorGuardRequestStatus",
+        "pending"
+    );
+
     window.location.replace("searching.html");
 }); 
 </script>
