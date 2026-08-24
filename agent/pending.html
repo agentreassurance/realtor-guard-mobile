@@ -183,7 +183,7 @@ document.getElementById("approveRequest").addEventListener("click", async functi
 
     if (error) {
         console.error("Assignment submit error:", error);
-        alert("Unable to submit request. Please try again.");
+       alert("Submit error: " + error.message);
         return;
     }
 
