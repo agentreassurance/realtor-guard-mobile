@@ -484,14 +484,12 @@
         <div class="card-body">
           <div class="person">
             <div class="avatar">
-              BW
+             <span id="agentInitials">RG</span>
             </div>
 
             <div class="person-info">
-              <h3>Barbara Williams</h3>
-              <p>Licensed Real Estate Agent</p>
-              <p>Richmond Premier Realty</p>
-              <p class="rating">★★★★★ 4.9</p>
+            <h3 id="agentName">Agent</h3>
+             
             </div>
           </div>
         </div>
@@ -712,23 +710,32 @@ if (activeAssignment && Object.keys(activeAssignment).length > 0) {
   if (agentNameElement) {
     agentNameElement.textContent = agentName;
   }
+const agentInitialsElement = document.getElementById("agentInitials");
+
+if (agentInitialsElement && agentName) {
+  const initials = agentName
+    .trim()
+    .split(/\s+/)
+    .map(name => name.charAt(0))
+    .join("")
+    .substring(0, 2)
+    .toUpperCase();
+
+  agentInitialsElement.textContent = initials;
+}
+  
 
   const detailValues =
     document.querySelectorAll(".detail-value");
 
-  if (detailValues.length >= 5) {
-    detailValues[0].textContent =
-      propertyAddress +
-      (cityStateZip ? ", " + cityStateZip : "");
-
-    detailValues[1].textContent = appointmentDate;
-
-    detailValues[2].textContent =
-      appointmentTime +
-      (timeZone ? " " + timeZone : "");
-
-    detailValues[3].textContent = duration;
-  }
+ if (detailValues.length >= 5) {
+  detailValues[0].textContent = propertyAddress;
+  detailValues[1].textContent = cityStateZip;
+  detailValues[2].textContent = appointmentDate;
+  detailValues[3].textContent =
+    appointmentTime + (timeZone ? " " + timeZone : "");
+  detailValues[4].textContent = duration;
+}
 } 
 
     function formatTime(totalSeconds) {
