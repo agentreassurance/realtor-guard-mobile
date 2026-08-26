@@ -662,6 +662,74 @@
     let elapsedSeconds = 0;
 
     const assignmentStarted = new Date();
+   const activeAssignment = JSON.parse(
+  localStorage.getItem("realtorGuardCurrentAssignment") ||
+  localStorage.getItem("realtorGuardAgentRequest") ||
+  "{}"
+);
+
+if (activeAssignment && Object.keys(activeAssignment).length > 0) {
+  const agentName =
+    activeAssignment.agent_name ||
+    activeAssignment.agentName ||
+    activeAssignment.fullName ||
+    "Agent";
+
+  const propertyAddress =
+    activeAssignment.property_address ||
+    activeAssignment.address ||
+    "";
+
+  const cityStateZip = [
+    activeAssignment.city,
+    activeAssignment.state,
+    activeAssignment.zip
+  ].filter(Boolean).join(", ");
+
+  const appointmentDate =
+    activeAssignment.appointment_date ||
+    activeAssignment.date ||
+    "";
+
+  const appointmentTime =
+    activeAssignment.appointment_time ||
+    activeAssignment.time ||
+    "";
+
+  const timeZone =
+    activeAssignment.time_zone ||
+    activeAssignment.timezone ||
+    "";
+
+  const duration =
+    activeAssignment.appointment_duration ||
+    activeAssignment.duration ||
+    "";
+
+  const agentNameElement =
+    document.querySelector(".person-info h3");
+
+  if (agentNameElement) {
+    agentNameElement.textContent = agentName;
+  }
+
+  const detailValues =
+    document.querySelectorAll(".detail-value");
+
+  if (detailValues.length >= 5) {
+    detailValues[0].textContent =
+      propertyAddress +
+      (cityStateZip ? ", " + cityStateZip : "");
+
+    detailValues[1].textContent = appointmentDate;
+
+    detailValues[2].textContent =
+      appointmentTime +
+      (timeZone ? " " + timeZone : "");
+
+    detailValues[3].textContent = duration;
+  }
+} 
 
     function formatTime(totalSeconds) {
       const hours = Math.floor(totalSeconds / 3600);
