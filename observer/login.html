@@ -214,10 +214,29 @@
       }
     }
 
-    function loginObserver(event) {
-      event.preventDefault();
-      window.location.href = "dashboard.html";
-    }
+    const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+const SUPABASE_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
+
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function loginObserver(event) {
+  event.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    alert("Incorrect email or password.");
+    return;
+  }
+
+  window.location.href = "dashboard.html";
+}
   </script>
 </body>
 </html>
