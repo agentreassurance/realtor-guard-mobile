@@ -236,17 +236,7 @@ async function loginObserver(event) {
     return;
   }
 
-const { data: observer, error: observerError } = await supabaseClient
-  .from("observers")
-  .select("approval_status")
-  .eq("email", data.user.email)
-  .single();
-
-if (observerError || !observer || observer.approval_status !== "approved") {
-  await supabaseClient.auth.signOut();
-  alert("Your observer account is pending approval.");
-  return;
-}  
+  
   
   
   
