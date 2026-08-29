@@ -155,7 +155,7 @@ select {
 Create your Observer account and submit your information for verification.
 </p>
 
-<form class="form-card" onsubmit="signUpObserver(event)">
+<form class="form-card" onsubmit="goToPending(event)">
 
 <label for="fullname">Full Name</label>
 <input id="fullname" type="text" required>
@@ -177,7 +177,8 @@ Create your Observer account and submit your information for verification.
 
 <label for="phone">Phone Number</label>
 <input id="phone" type="tel" required>
-
+<label for="licenseId">Virginia Security License ID</label>
+<input id="licenseId" type="text" placeholder="Enter license ID" required>
 <label for="email">Email Address</label>
 <input id="email" type="email" required>
 
