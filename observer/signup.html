@@ -249,59 +249,8 @@ function togglePassword() {
     }
 }
 
-const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
-const SUPABASE_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdI1Bw_KIAWNxgR";
-
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-async function signUpObserver(event) {
+function goToPending(event) {
     event.preventDefault();
-
-    const fullName = document.getElementById("fullname").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const city = document.getElementById("city").value.trim();
-    const state = document.getElementById("state").value;
-    const zip = document.getElementById("zip").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-
-    const { data: authData, error: authError } =
-        await supabaseClient.auth.signUp({
-            email: email,
-            password: password
-        });
-
-    if (authError) {
-        alert(authError.message);
-        return;
-    }
-
-    if (!authData.user) {
-        alert("Unable to create observer account.");
-        return;
-    }
-
-    const { error: profileError } = await supabaseClient
-        .from("observers")
-        .insert({
-            full_name: fullName,
-            email: email,
-            phone: phone,
-            address: address,
-            city: city,
-            state: state,
-            zip: zip,
-            license_status: "licensed",
-            approval_status: "pending",
-            auth_user_id: authData.user.id
-        });
-
-    if (profileError) {
-        alert("Account created, but observer profile could not be saved: " + profileError.message);
-        return;
-    }
-
     window.location.href = "pending.html";
 }
 </script>
