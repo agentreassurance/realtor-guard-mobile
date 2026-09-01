@@ -78,11 +78,11 @@
 
 <h1>Agent Login</h1>
 
-<input type="email" placeholder="Email Address">
+<input id="email" type="email" placeholder="Email Address">
 
 <input id="password" type="password" placeholder="Password">
 <button type="button" onclick="togglePassword()">👁️</button>
-<button onclick="window.location.href='dashboard.html'">
+<button type="button" onclick="loginAgent()">
 Login
 </button>
 
@@ -91,7 +91,40 @@ Login
 </div>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  
 <script>
+const SUPABASE_URL = "ttps://ujnvhlleqfqjgnkcjlrc.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+async function loginAgent() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    alert("Please enter your email and password.");
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    alert("Incorrect email or password.");
+    return;
+  }
+
+  if (data.user) {
+    window.location.href = "dashboard.html";
+  }
+}
+
 function togglePassword() {
   const password = document.getElementById("password");
 
