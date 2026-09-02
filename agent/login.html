@@ -86,6 +86,8 @@
 Login
 </button>
 
+<div class="link"><a href="#" onclick="forgotPassword(); return false;">Forgot Password?</a></div>  
+
 <div class="link">
 <a href="signup.html">Create New Agent Account</a>
 </div>
@@ -134,6 +136,24 @@ function togglePassword() {
     password.type = "password";
   }
 }
+async function forgotPassword() {
+  const email = document.getElementById("email").value.trim();
+
+  if (!email) {
+    alert("Please enter your email address first.");
+    return;
+  }
+
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email);
+
+  if (error) {
+    alert("Unable to send password reset email. Please try again.");
+    return;
+  }
+
+  alert("Password reset email sent. Please check your email.");
+}
+  
 </script>
 </body>
 </html>
