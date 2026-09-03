@@ -145,7 +145,7 @@ async function forgotPassword() {
   }
 
   const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-  redirectTo: "https://agentreassurance.github.io/realtor-guard-mobile/agent/login.html"
+  redirectTo: "https://agentreassurance.github.io/realtor-guard-mobile/agent/reset-password.html"
 });
 
   if (error) {
