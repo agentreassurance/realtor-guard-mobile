@@ -102,7 +102,21 @@ const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_ANON_KEY
 );
+const params = new URLSearchParams(window.location.search);
 
+if (params.get("reset") === "success") {
+  const passwordField = document.getElementById("password");
+
+  passwordField.value = "";
+
+  setTimeout(() => {
+    passwordField.value = "";
+  }, 300);
+
+  alert("Password updated successfully. Please enter your new password.");
+
+  window.history.replaceState({}, document.title, "login.html");
+}
 async function loginAgent() {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
