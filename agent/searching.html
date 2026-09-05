@@ -128,9 +128,13 @@
       Cancel Request
     </button>
 
-  </div>
+  <<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script/>
+   </div>                                                                             
 
   <script>
+  const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+   const SUPABASE_ANON_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
+   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
     const request = JSON.parse(
       localStorage.getItem("realtorGuardAgentRequest")
     );
@@ -178,6 +182,21 @@
       document.getElementById("requestTimezone").textContent =
         request.timezone || request.time_zone || "—";
     }
+  const requestId = request?.id || localStorage.getItem("realtorGuardRequestId"); 
+   if (requestId) { 
+     const channel = supabaseClient.channel("agent-request-" + requestId);
+   channel.on(
+  "postgres_changes",
+   { event: "UPDATE", schema: "public", table: "assignments", filter: "id=eq." + requestId },
+    (payload) => { 
+     if (payload.new && payload.new.status === "accepted") { 
+const audio = new Audio("../notification.mp3");
+   audio.play().catch(error => console.log("Notification sound blocked:", error)); 
+       window.location.href = "accepted.html";
+      } 
+      );
+     .subscribe();
+     }
   </script>
 
 </body>
