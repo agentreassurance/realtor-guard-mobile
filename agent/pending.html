@@ -189,8 +189,9 @@ document.getElementById("approveRequest").addEventListener("click", async functi
 
     localStorage.setItem(
         "realtorGuardAgentRequest",
-        JSON.stringify(request)
+      JSON.stringify(data[0])
     );
+    localStorage.setItem("realtorGuardRequestId", data[0].id);
 
     localStorage.setItem(
         "realtorGuardRequestStatus",
