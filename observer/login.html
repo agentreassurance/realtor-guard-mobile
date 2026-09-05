@@ -220,6 +220,22 @@ const SUPABASE_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const params = new URLSearchParams(window.location.search);
+
+if (params.get("reset") === "success") {
+  const passwordField = document.getElementById("password");
+
+  passwordField.value = "";
+
+  setTimeout(() => {
+    passwordField.value = "";
+  }, 300);
+
+  alert("Password updated successfully. Please enter your new password.");
+
+  window.history.replaceState({}, document.title, "login.html");
+}    
+
 async function loginObserver(event) {
   event.preventDefault();
 
