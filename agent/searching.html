@@ -9,6 +9,8 @@
   <style>
     * {
       box-sizing: border-box;
+
+      
     }
 
     body {
@@ -179,6 +181,31 @@
       document.getElementById("requestTimezone").textContent =
         request.timezone || request.time_zone || "—";
     }
+
+   const AGENT_SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+const AGENT_SUPABASE_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
+const agentSupabaseClient = window.supabase.createClient(
+  AGENT_SUPABASE_URL,
+  AGENT_SUPABASE_KEY
+); 
+
+agentSupabaseClient
+  .channel("agent-assignment-accepted")
+  .on(
+    "postgres_changes",
+    {
+      event: "UPDATE",
+      schema: "public",
+      table: "assignments",
+      filter: `id=eq.${request.id}`
+    },
+    (payload) => {
+      if (payload.new.status === "accepted") {
+        window.location.href = "accepted.html";
+      }
+    }
+  )
+  .subscribe();    
  
   </script>
 
