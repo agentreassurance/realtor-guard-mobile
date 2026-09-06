@@ -249,9 +249,30 @@ function togglePassword() {
         password.type = "password";
     }
 }
+    
 
-function goToPending(event) {
+    
+async function goToPending(event) {
     event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    const supabaseClient = window.supabase.createClient(
+        "https://ujnvhlleqfqjgnkcjlrc.supabase.co",
+        "sb_publishable_9q5KNgJ4lLvWqqn0IdI1Bw_KIAWNxgR"
+    );
+
+    const { data, error } = await supabaseClient.auth.signUp({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
     window.location.href = "pending.html";
 }
 </script>
