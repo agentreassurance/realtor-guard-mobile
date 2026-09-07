@@ -248,7 +248,7 @@ async function loginObserver(event) {
   });
 
   if (error) {
-    alert("Incorrect email or password.");
+    alert(error.message);
     return;
   }
 
