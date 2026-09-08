@@ -257,6 +257,13 @@ async function goToPending(event) {
 
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
+    const fullName = document.getElementById("fullname").value.trim();
+const address = document.getElementById("address").value.trim();
+const city = document.getElementById("city").value.trim();
+const state = document.getElementById("state").value;
+const zip = document.getElementById("zip").value.trim();
+const phone = document.getElementById("phone").value.trim();
+const licenseId = document.getElementById("licenseId").value.trim();
 
     const supabaseClient = window.supabase.createClient(
         "https://ujnvhlleqfqjgnkcjlrc.supabase.co",
@@ -273,6 +280,27 @@ async function goToPending(event) {
         return;
     }
 
+  const { error: profileError } = await supabaseClient
+  .from("observers")
+  .insert({
+    auth_user_id: data.user.id,
+    full_name: fullName,
+    email: email,
+    phone: phone,
+    address: address,
+    city: city,
+    state: state,
+    zip: zip,
+    license_id: licenseId,
+    license_status: "pending",
+    approval_status: "pending"
+  });
+
+if (profileError) {
+  alert(profileError.message);
+  return;
+}
+    
     window.location.href = "pending.html";
 }
 </script>
