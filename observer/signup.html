@@ -270,10 +270,13 @@ const licenseId = document.getElementById("licenseId").value.trim();
         "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR"
     );
 
-    const { data, error } = await supabaseClient.auth.signUp({
-        email: email,
-        password: password
-    });
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: password,
+    options: {
+        emailRedirectTo: "https://agentreassurance.github.io/realtor-guard-mobile/observer/pending.html"
+    }
+});
 
     if (error) {
         alert(error.message);
