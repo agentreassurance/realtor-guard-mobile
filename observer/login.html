@@ -253,12 +253,28 @@ async function loginObserver(event) {
   }
 
   
-  
-  
-  
-  
-  window.location.href = "dashboard.html";
+  const { data: observer, error: observerError } = await supabaseClient
+  .from("observers")
+  .select("approval_status")
+  .eq("auth_user_id", data.user.id)
+  .single();
 
+if (observerError) {
+  alert(observerError.message);
+  return;
+}
+
+if (observer.approval_status !== "approved") {
+  window.location.href = "pending.html";
+  return;
+}
+
+window.location.href = "dashboard.html";
+  
+  
+  
+
+  
 
 }
 async function forgotPassword() {
