@@ -265,6 +265,9 @@ const zip = document.getElementById("zip").value.trim();
 const phone = document.getElementById("phone").value.trim();
 const licenseId = document.getElementById("licenseId").value.trim();
 
+
+const profilePhoto = document.getElementById("profile-photo").files[0];
+const selfiePhoto = document.getElementById("selfie-photo").files[0];
     const supabaseClient = window.supabase.createClient(
         "https://ujnvhlleqfqjgnkcjlrc.supabase.co",
         "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR"
@@ -283,7 +286,28 @@ const licenseId = document.getElementById("licenseId").value.trim();
         return;
     }
 
-  const { error: profileError } = await supabaseClient
+const profilePath = `${data.user.id}/profile-${Date.now()}-${profilePhoto.name}`;
+const selfiePath = `${data.user.id}/selfie-${Date.now()}-${selfiePhoto.name}`;
+
+const { error: profileUploadError } = await supabaseClient.storage
+    .from("observer-photos")
+    .upload(profilePath, profilePhoto);
+
+if (profileUploadError) {
+    alert(profileUploadError.message);
+    return;
+}
+
+const { error: selfieUploadError } = await supabaseClient.storage
+    .from("observer-photos")
+    .upload(selfiePath, selfiePhoto);
+
+if (selfieUploadError) {
+    alert(selfieUploadError.message);
+    return;
+}
+    
+    const { error: profileError } = await supabaseClient
   .from("observers")
   .insert({
     auth_user_id: data.user.id,
@@ -296,7 +320,10 @@ const licenseId = document.getElementById("licenseId").value.trim();
     zip: zip,
     license_id: licenseId,
     license_status: "pending",
-    approval_status: "pending"
+profile_url: profilePath,
+selfie_url: selfiePath,
+      
+      approval_status: "pending"
   });
 
 if (profileError) {
