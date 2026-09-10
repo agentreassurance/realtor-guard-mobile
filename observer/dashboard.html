@@ -251,7 +251,7 @@
           </div>
 
           <div class="profile-info">
-            <h2>Welcome, Observer</h2>
+<h2 id="observerName">Welcome, Observer</h2>
 
             <p class="rating">
               ★★★★★ New Observer
@@ -315,6 +315,29 @@
     SUPABASE_KEY
   );
 
+async function loadObserverProfile() {
+  const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+
+  if (userError || !user) {
+    return;
+  }
+
+  const { data: observer, error: observerError } = await supabaseClient
+    .from("observers")
+    .select("full_name")
+    .eq("auth_user_id", user.id)
+    .single();
+
+  if (observerError || !observer) {
+    return;
+  }
+
+  document.getElementById("observerName").textContent =
+    `Welcome, ${observer.full_name}`;
+}
+
+loadObserverProfile();
+  
   let currentAssignment = null;
 
   function formatTime12Hour(timeValue) {
