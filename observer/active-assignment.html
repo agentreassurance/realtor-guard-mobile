@@ -464,6 +464,9 @@
         <p class="timer" id="timer">
           00:00:00
         </p>
+        <p class="started-time">
+  Current Pay: <strong id="currentPay">$25.00</strong>
+</p>
 
         <p class="started-time" id="startedTime">
           Assignment started now
@@ -757,6 +760,12 @@ if (agentInitialsElement && agentName) {
 
       document.getElementById("timer").textContent =
         formatTime(elapsedSeconds);
+     const completedMinutes = Math.floor(elapsedSeconds / 60);
+const extraMinutes = Math.max(0, completedMinutes - 60);
+const currentPay = 25 + (extraMinutes * 0.50);
+
+document.getElementById("currentPay").textContent =
+  "$" + currentPay.toFixed(2); 
     }
 
     function showStartedTime() {
