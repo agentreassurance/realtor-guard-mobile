@@ -125,7 +125,7 @@ Your assignment has been completed successfully.
 
 <div class="earnings">
 <h2>Total Earnings</h2>
-<div class="amount">$35.00</div>
+<div class="amount" id="finalPay">$25.00</div>
 </div>
 
 <button class="cashout">
@@ -150,6 +150,15 @@ onclick="location.href='dashboard.html'">
 </button>
 
 </div>
+
+<script>
+  const savedFinalPay = sessionStorage.getItem("realtorGuardFinalPay");
+
+  if (savedFinalPay) {
+    document.getElementById("finalPay").textContent =
+      "$" + Number(savedFinalPay).toFixed(2);
+  }
+</script>    
 
 </body>
 </html>
