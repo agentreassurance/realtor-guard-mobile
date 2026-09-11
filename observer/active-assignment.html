@@ -832,7 +832,12 @@ document.getElementById("currentPay").textContent =
       if (!confirmed) {
         return;
       }
+const finalPayText = document
+  .getElementById("currentPay")
+  .textContent
+  .replace("$", "");
 
+sessionStorage.setItem("realtorGuardFinalPay", finalPayText);
       showMessage(
         "Assignment completed successfully. Returning to the Observer Dashboard...",
         "success"
