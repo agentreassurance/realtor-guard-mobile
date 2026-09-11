@@ -659,7 +659,16 @@
     </a>
   </nav>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  
   <script>
+  const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+const SUPABASE_KEY = "sb_publishable_9q5KNgJ4lLvWqgn0IdILBw_KIAWNxgR";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+); 
+    
     let elapsedSeconds = 0;
 
     const assignmentStarted = new Date();
