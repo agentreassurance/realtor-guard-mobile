@@ -847,6 +847,26 @@ const finalPayText = document
   .replace("$", "");
 
 sessionStorage.setItem("realtorGuardFinalPay", finalPayText);
+const assignmentId =
+  activeAssignment.id ||
+  activeAssignment.assignment_id;
+
+if (assignmentId) {
+  supabaseClient
+    .from("assignments")
+    .update({
+      status: "completed"
+    })
+    .eq("id", assignmentId)
+    .then(({ error }) => {
+      if (error) {
+        console.error("Supabase completion error:", error);
+      } else {
+        console.log("Assignment marked completed in Supabase.");
+      }
+    });
+}
+      
       showMessage(
         "Assignment completed successfully. Returning to the Observer Dashboard...",
         "success"
