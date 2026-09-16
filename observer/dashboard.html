@@ -406,70 +406,67 @@ async function loadAssignments() {
     const card = document.createElement("article");
     card.className = "assignment-card";
 
-    card.innerHTML = `
-      <h3>Agent Safety Assignment</h3>
+card.innerHTML = `
+  <h3>Agent Safety Assignment</h3>
 
-      <p class="detail">
-        <strong>Agent:</strong>
-        <span>${assignment.agent_name || "—"}</span>
-      </p>
+  <p class="detail">
+    <strong>Agent:</strong>
+    <span>${assignment.agent_name || "—"}</span>
+  </p>
 
-      <p class="detail">
-        <strong>Property Address:</strong>
-        <span>${assignment.property_address || "—"}</span>
-      </p>
+  <p class="detail">
+    <strong>Property Address:</strong>
+    <span>${assignment.property_address || "—"}</span>
+  </p>
 
-      <p class="detail">
-        <strong>City:</strong>
-        <span>${assignment.city || "—"}</span>
-      </p>
+  <p class="detail">
+    <strong>City:</strong>
+    <span>${assignment.city || "—"}</span>
+  </p>
 
-      <p class="detail">
-        <strong>State:</strong>
-        <span>${assignment.state || "—"}</span>
-      </p>
+  <p class="detail">
+    <strong>State:</strong>
+    <span>${assignment.state || "—"}</span>
+  </p>
 
-      <p class="detail">
-        <strong>ZIP:</strong>
-        <span>${assignment.zip || "—"}</span>
-      </p>
+  <p class="detail">
+    <strong>ZIP:</strong>
+    <span>${assignment.zip || "—"}</span>
+  </p>
 
-      <p class="detail">
-        <strong>Date:</strong>
-        <span>${assignment.date || "—"}</span>
-      </p>
+  <p class="detail">
+    <strong>Date:</strong>
+    <span>${assignment.date || "—"}</span>
+  </p>
 
-      <p class="detail">
-        <strong>Time:</strong>
-        <span>${formatTime12Hour(assignment.time)}</span>
-      </p>
+  <p class="detail">
+    <strong>Time:</strong>
+    <span>${formatTime12Hour(assignment.time)}</span>
+  </p>
 
-      <p class="detail">
-        <strong>Time Zone:</strong>
-        <span>${assignment.timezone || "—"}</span>
-      </p>
+  <p class="detail">
+    <strong>Duration:</strong>
+    <span>${assignment.duration || "—"}</span>
+  </p>
 
-      <p class="detail">
-        <strong>Duration:</strong>
-        <span>${assignment.duration || "—"}</span>
-      </p>
+  <p class="detail">
+    <strong>Time Zone:</strong>
+    <span>${assignment.timezone || "—"}</span>
+  </p>
 
-      <div class="pay-box">
-    Observer Pay: $25/Hour Guaranteed + Additional Time Paid by the Minute
-      </div>
+  <div class="pay-box">
+    $25.00 per hour guaranteed
+    <small>Additional time paid proportionally (paid to the minute).</small>
+  </div>
 
-      <p class="privacy-note">
-        Pay information is only visible to approved observers.
-      </p>
-
-      <button
-        class="accept-button"
-        type="button"
-        onclick="acceptAssignment(${assignment.id})"
-      >
-        Accept Assignment
-      </button>
-    `;
+  <button
+    class="accept-button"
+    type="button"
+    onclick="acceptAssignment(${assignment.id})"
+  >
+    Accept Assignment
+  </button>
+`;   
 
     container.appendChild(card);
   });
