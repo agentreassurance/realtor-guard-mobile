@@ -506,10 +506,10 @@ Your departure timer is counting down. When it reaches 15 minutes before your ap
 const departureTimer = document.getElementById("departureTimer");
 const navButton = document.getElementById("navigationButton");
 
-// Temporary appointment time for testing.
-// Later this will come automatically from the agent's assignment.
-const appointmentTime = new Date("2026-08-07T22:00:00-04:00");
-
+// Appointment date/time from the accepted agent assignment.
+const appointmentTime = new Date(
+  `${agentRequest.date}T${agentRequest.time}`
+);
 // Temporary estimated driving time.
 // Later this will come automatically from live navigation/traffic.
 const estimatedTravelMinutes = 30;
