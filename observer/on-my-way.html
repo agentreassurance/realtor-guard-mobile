@@ -513,9 +513,27 @@ const departureTimer = document.getElementById("departureTimer");
 const navButton = document.getElementById("navigationButton");
 
 // Appointment date/time from the accepted agent assignment.
-const appointmentTime = new Date(
-  `${agentRequest.date}T${agentRequest.time}`
-);
+const rawTime = String(agentRequest.time || "").trim();
+
+let appointmentTime;
+
+if (/\b(AM|PM)\b/i.test(rawTime)) {
+  const match = rawTime.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  let hour = parseInt(match[1], 10);
+  const minute = match[2];
+  const ampm = match[3].toUpperCase();
+
+  if (ampm === "PM" && hour !== 12) hour += 12;
+  if (ampm === "AM" && hour === 12) hour = 0;
+
+  appointmentTime = new Date(
+    `${agentRequest.date}T${String(hour).padStart(2, "0")}:${minute}:00`
+  );
+} else {
+  appointmentTime = new Date(
+    `${agentRequest.date}T${rawTime}`
+  );
+}
 // Temporary estimated driving time.
 // Later this will come automatically from live navigation/traffic.
 const estimatedTravelMinutes = 30;
