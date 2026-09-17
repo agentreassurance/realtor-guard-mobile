@@ -8,7 +8,7 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Agent Introduction | Realtor Guard</title>
+  <title>Welcome New Agent | Realtor Guard</title>
 
   <style>
     * {
@@ -18,190 +18,224 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Arial, sans-serif;
       background: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #252525;
     }
 
-    .intro-card {
+    .page {
       width: 100%;
-      max-width: 430px;
+      max-width: 480px;
+      min-height: 100vh;
+      margin: 0 auto;
       background: #ffffff;
-      border-radius: 16px;
-      padding: 28px 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header {
+      height: 125px;
+      background: linear-gradient(
+        135deg,
+        #e53b3b,
+        #c92828
+      );
+      border-radius: 0 0 50% 50% / 0 0 28px 28px;
       text-align: center;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
+      padding-top: 22px;
+      color: white;
+    }
+
+    .brand {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .brand-lock {
+      display: inline-block;
+      border: 2px solid white;
+      border-radius: 3px;
+      padding: 0 3px;
+      margin: 0 4px;
+      font-size: 12px;
+    }
+
+    .content {
+      padding: 18px 28px 30px;
+      text-align: center;
+    }
+
+    .welcome {
+      margin: 0 0 10px;
+      color: #a72727;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 3px;
     }
 
     .logo {
-      width: 155px;
-      max-width: 50%;
-      margin-bottom: 20px;
+      width: 115px;
+      max-width: 38%;
+      height: auto;
+      display: block;
+      margin: 4px auto 10px;
     }
 
-    h1 {
-      margin: 0 0 14px;
-      color: #b40000;
-      font-size: 30px;
+    .headline {
+      margin: 8px 0 13px;
+      font-size: 25px;
+      font-weight: 700;
+      color: #202020;
     }
 
-    .subtitle {
-      margin: 0 0 22px;
-      color: #444;
-      font-size: 17px;
-      line-height: 1.5;
+    .intro {
+      margin: 0 auto 16px;
+      max-width: 390px;
+      font-size: 15px;
+      line-height: 1.45;
     }
 
-    .concept-box {
+    .message {
+      margin: 0 auto 16px;
+      max-width: 390px;
+      text-align: left;
+      font-size: 14px;
+      line-height: 1.48;
+    }
+
+    .care-box {
+      margin: 18px 0;
+      padding: 16px 15px;
       background: #fff5f5;
-      border-left: 5px solid #b40000;
+      border: 1px solid #efcaca;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .care-title {
+      margin: 0 0 7px;
+      color: #b52323;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .care-text {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .free-offer {
+      margin: 17px 0;
+      padding: 14px 12px;
       border-radius: 10px;
-      padding: 18px;
-      margin-bottom: 20px;
-      text-align: left;
-      color: #333;
+      background: #fce8e8;
+      color: #9f1e1e;
       font-size: 16px;
-      line-height: 1.55;
+      font-weight: 700;
+      line-height: 1.4;
     }
 
-    .concept-box strong {
-      color: #b40000;
-    }
-
-    .disclaimer {
-      background: #f3f3f3;
-      border-radius: 10px;
-      padding: 16px;
-      margin-bottom: 24px;
-      text-align: left;
-      font-size: 13px;
-      line-height: 1.5;
-      color: #555;
-    }
-
-    .disclaimer strong {
-      color: #222;
-    }
-
-    .signup-button {
+    .get-started {
       display: block;
       width: 100%;
-      padding: 17px;
-      background: #c60000;
-      color: #ffffff;
+      padding: 16px;
+      margin-top: 16px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(
+        135deg,
+        #e23b3b,
+        #c52626
+      );
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 1px;
       text-decoration: none;
-      border-radius: 9px;
-      font-size: 19px;
-      font-weight: bold;
-      margin-bottom: 16px;
+      box-shadow: 0 4px 10px rgba(180, 30, 30, 0.25);
     }
 
-    .signup-button:hover {
-      background: #9f0000;
+    .footer {
+      margin-top: 15px;
+      font-size: 12px;
+      color: #555555;
     }
 
-    .login-link {
-      color: #b40000;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: bold;
-    }
-
-    .login-link:hover {
-      text-decoration: underline;
+    .footer strong {
+      color: #a82222;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="intro-card">
+  <main class="page">
 
-    <img
-      src="../logo.png"
-      alt="Realtor Guard"
-      class="logo"
-    >
+    <header class="header">
+      <div class="brand">
+        REALTOR <span class="brand-lock">RG</span> GUARD
+      </div>
+    </header>
 
-    <h1>Welcome to Realtor Guard</h1>
+    <section class="content">
 
-    <p class="subtitle">
-      Added support for real estate professionals during property showings and appointments.
-    </p>
+      <h1 class="welcome">WELCOME, NEW AGENT</h1>
 
-    <p style="color:#b30000; font-weight:800; text-align:center; letter-spacing:1px;">
-  NEVER ALONE AT A SHOWING OR OPEN HOUSE
-</p>
-<div style="background:#fff3f3; border:2px solid #b30000; border-radius:12px; padding:14px; margin:14px 0; text-align:center;">
-  <strong style="color:#b30000; font-size:18px;">FREE ONE-TIME COURTESY SERVICE</strong>
-  <br><br>
-  New agents can experience Realtor Guard with their first service FREE, up to 2 hours.
-</div>
-    
-    <div class="concept-box">
-      <strong>How Realtor Guard Works</strong>
-      <br><br>
-      Realtor Guard helps real estate professionals request a verified observer for property showings and other appointments where an added safety presence is desired.
-      <br><br>
-      Submit your showing details and, when available, Realtor Guard will connect you with an approved observer serving your area.
-    </div>
+      <img
+        src="../logo.png"
+        alt="Realtor Guard"
+        class="logo"
+      >
 
-   <div style="background:#fff8f8; border:2px solid #b30000; border-radius:12px; padding:16px; margin:16px 0; text-align:center;">
+      <h2 class="headline">Your Showings, Secured.</h2>
 
-  <div style="color:#b30000; font-size:22px; font-weight:800; margin-bottom:8px;">
-    Agent Service Cost
-  </div>
+      <p class="intro">
+        Welcome to Realtor Guard, your professional partner
+        for a safer showing experience. We believe you deserve
+        to feel confident and secure at every appointment.
+      </p>
 
-  <div style="font-size:28px; font-weight:800; color:#111; margin-bottom:6px;">
-     $30 First Hour — Per Property </div>
+      <p class="message">
+        Realtor Guard Assist provides a subtle, verified observer
+        presence for your showings and open houses. It is a
+        seamless layer of protection that helps you stay focused
+        on what you do best — serving your clients and closing
+        sales.
+      </p>
 
-  <div style="font-size:15px; margin-bottom:12px;">
-    Flat service rate for the first 60 minutes
-  </div>
+      <div class="care-box">
+        <p class="care-title">Your safety matters to us.</p>
 
-  <div style="background:white; border-radius:10px; padding:12px; text-align:left; line-height:1.6;">
-    <strong>Your first-hour service includes:</strong><br>
-    ✓ Observer search and matching<br>
-    ✓ Assignment processing<br>
-    ✓ Approved observer service<br>
-    ✓ First 60 minutes of the assignment
-  </div>
+        <p class="care-text">
+          You should never have to choose between doing your job
+          and feeling secure. Let us help take some of that worry
+          off your shoulders so you can focus on your clients.
+        </p>
+      </div>
 
-  <div style="font-weight:700; margin-top:12px;">
-    Additional time: $0.50 per minute
-  </div>
+      <div class="free-offer">
+        Experience Realtor Guard on us — your first service is
+        complimentary for up to 2 hours.
+      </div>
 
-  <div style="font-size:13px; margin-top:10px; line-height:1.4;">
-    Once an observer accepts the assignment or begins travel to the location,
-    the service charge is non-refundable.
-  </div>
+      <p class="message">
+        Professional, discreet, and designed around your peace of
+        mind. Let us help you protect what matters most.
+      </p>
 
-</div>
-    
-    <div class="disclaimer">
-      <strong>Important Notice:</strong>
-      Realtor Guard provides an additional layer of support and presence. It does not replace law enforcement, emergency services, or your own professional safety practices.
-      Observer availability is not guaranteed. In an emergency, always call 911 or the appropriate authorities.
-    </div>
+      <a href="signup.html" class="get-started">
+        GET STARTED
+      </a>
 
-    <a
-      href="signup.html"
-      class="signup-button"
-    >
-      Create Agent Account
-    </a>
+      <p class="footer">
+        <strong>Never alone at a showing or open house.</strong>
+      </p>
 
-    <a
-      href="login.html"
-      class="login-link"
-    >
-      Already have an account? Login
-    </a>
+    </section>
 
-  </div>
+  </main>
 
 </body>
 </html>
