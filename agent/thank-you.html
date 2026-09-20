@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Request Confirmed | Realtor Guard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #f3f3f3;
+      font-family: Arial, sans-serif;
+      color: #1d1d1d;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 28px 18px;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    .logo {
+      display: block;
+      width: 115px;
+      margin: 0 auto 18px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      color: #b00000;
+      font-size: 27px;
+    }
+
+    .message {
+      margin: 0 auto 25px;
+      max-width: 380px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .confirmed-box {
+      margin-bottom: 22px;
+      padding: 15px;
+      border: 1px solid #9bd5a8;
+      border-radius: 10px;
+      background: #effaf1;
+      color: #087322;
+      font-weight: bold;
+    }
+
+    .timer-box {
+      margin-bottom: 22px;
+      padding: 20px;
+      border: 2px solid #b00000;
+      border-radius: 12px;
+      background: #fff7f7;
+    }
+
+    .timer-title {
+      margin-bottom: 8px;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    #countdown {
+      margin: 8px 0;
+      color: #b00000;
+      font-size: 38px;
+      font-weight: bold;
+    }
+
+    .timer-note {
+      margin: 8px 0 0;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .cancel-button {
+      width: 100%;
+      min-height: 52px;
+      margin-top: 8px;
+      border: 2px solid #b00000;
+      border-radius: 9px;
+      background: #ffffff;
+      color: #b00000;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .cancel-button:disabled {
+      border-color: #aaaaaa;
+      color: #888888;
+      background: #eeeeee;
+      cursor: not-allowed;
+    }
+
+    .dashboard-button {
+      width: 100%;
+      min-height: 52px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 9px;
+      background: #000000;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <img
+      src="rglogo.png"
+      alt="Realtor Guard"
+      class="logo"
+    >
+
+    <h1>Thank You</h1>
+
+    <p class="message">
+      Your observer has been confirmed.
+    </p>
+
+    <div class="confirmed-box">
+      ✓ Your Realtor Guard request is confirmed.
+    </div>
+
+    <div class="timer-box">
+      <div class="timer-title">
+        Cancellation Time Remaining
+      </div>
+
+      <div id="countdown">05:00</div>
+
+      <p class="timer-note" id="timerNote">
+        You may cancel during this countdown before your observer begins travel.
+      </p>
+    </div>
+
+    <button
+      id="cancelButton"
+      class="cancel-button"
+      type="button"
+      onclick="cancelRequest()"
+    >
+      CANCEL REQUEST
+    </button>
+
+    <button
+      class="dashboard-button"
+      type="button"
+      onclick="window.location.href='dashboard.html'"
+    >
+      RETURN TO DASHBOARD
+    </button>
+
+  </main>
+
+  <script>
+    const CANCEL_WINDOW_SECONDS = 5 * 60;
+
+    let cancelDeadline =
+      localStorage.getItem("realtorGuardCancelDeadline");
+
+    if (!cancelDeadline) {
+      cancelDeadline =
+        Date.now() + (CANCEL_WINDOW_SECONDS * 1000);
+
+      localStorage.setItem(
+        "realtorGuardCancelDeadline",
+        cancelDeadline
+      );
+    }
+
+    const countdown =
+      document.getElementById("countdown");
+
+    const cancelButton =
+      document.getElementById("cancelButton");
+
+    const timerNote =
+      document.getElementById("timerNote");
+
+    function updateCountdown() {
+      const remaining =
+        Math.max(
+          0,
+          Math.ceil(
+            (Number(cancelDeadline) - Date.now()) / 1000
+          )
+        );
+
+      const minutes =
+        Math.floor(remaining / 60);
+
+      const seconds =
+        remaining % 60;
+
+      countdown.textContent =
+        String(minutes).padStart(2, "0") +
+        ":" +
+        String(seconds).padStart(2, "0");
+
+      if (remaining <= 0) {
+        cancelButton.disabled = true;
+
+        timerNote.textContent =
+          "The cancellation window has ended.";
+
+        clearInterval(timerInterval);
+      }
+    }
+
+    function cancelRequest() {
+      const confirmed = window.confirm(
+        "Are you sure you want to cancel this request?"
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
+      localStorage.removeItem(
+        "realtorGuardCancelDeadline"
+      );
+
+      localStorage.setItem(
+        "realtorGuardRequestStatus",
+        "cancelled"
+      );
+
+      window.location.href = "dashboard.html";
+    }
+
+    updateCountdown();
+
+    const timerInterval =
+      setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>
