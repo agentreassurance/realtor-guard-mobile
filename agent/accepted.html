@@ -49,9 +49,11 @@
     }
 
     .header h1 {
-      margin: 0;
-      font-size: 25px;
-    }
+    margin: 0;
+    color: #b00000;
+    font-size: 25px;
+    font-weight: bold;
+}
 
     .header p {
       margin: 7px 0 0;
@@ -85,7 +87,7 @@
     .card-heading {
       margin: 0;
       padding: 12px 15px;
-      background: #132b51;
+      background: #b00000;
       color: #ffffff;
       font-size: 19px;
     }
@@ -277,6 +279,12 @@
       color: #ffffff;
     }
 
+    .confirm-button {
+  border: none;
+  background: #b00000;
+  color: #ffffff;
+}
+
     .cancel-button {
       border: 1px solid #777777;
       background: #ffffff;
@@ -337,18 +345,15 @@
   alt="Realtor Guard logo"
 >
 
-<h1>Accepted Assignment</h1>
+<h1>Observer Accepted</h1>
 
 <p>
   Your observer has accepted your request.
 </p>
 </header>
-    <section class="content">
-      <div class="success-box">
-        ✓ Observer Assigned Successfully
-      </div>
+   <section class="content">
 
-      <article class="card">
+  <article class="card">
         <h2 class="card-heading">
           Observer Information
         </h2>
@@ -400,62 +405,34 @@
           Property Details
         </h2>
 
-        <div class="card-body">
-          <div class="property-address">
-            <strong>1234 Oak Ridge Drive</strong><br>
-            Chesapeake, Virginia 23320
-          </div>
-
-          <p class="detail">
-            <strong>Date:</strong>
-            August 3, 2026
-          </p>
-
-          <p class="detail">
-            <strong>Time:</strong>
-            2:00 PM
-          </p>
-
-          <p class="detail">
-            <strong>Time Zone:</strong>
-            Eastern Time
-          </p>
-
-          <p class="detail">
-            <strong>Duration:</strong>
-            1 Hour 30 Minutes
-          </p>
-        </div>
-      </article>
-<article class="card" id="observerProfileCard">
-  <h2 class="card-heading">Your Certified Observer</h2>
-
-  <div class="card-body" style="text-align:center;">
-    <img
-      id="observerPhoto"
-      src="../logo.png"
-      alt="Observer Profile Photo"
-      style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:12px;"
-    >
-
-    <h3 id="observerName" style="margin:4px 0;">
-      Certified Observer
-    </h3>
-
-    <p style="margin:6px 0;">
-      <strong>✓ Verified Certified Observer</strong>
-    </p>
-
-    <p style="margin:6px 0;">
-      <strong>Rating:</strong>
-      <span id="observerRating">New Observer</span>
-    </p>
-
-    <p style="margin-top:12px;">
-      This is the observer assigned to meet you at the property.
-    </p>
+       <div class="card-body">
+  <div class="property-address">
+    <strong id="propertyAddress">Property Address</strong><br>
+    <span id="propertyLocation">City, State ZIP</span>
   </div>
-</article>
+
+  <p class="detail">
+    <strong>Date:</strong>
+    <span id="propertyDate">—</span>
+  </p>
+
+  <p class="detail">
+    <strong>Time:</strong>
+    <span id="propertyTime">—</span>
+  </p>
+
+  <p class="detail">
+    <strong>Time Zone:</strong>
+    <span id="propertyTimezone">—</span>
+  </p>
+
+  <p class="detail">
+    <strong>Duration:</strong>
+    <span id="propertyDuration">—</span>
+  </p>
+</div>
+      </article>
+
       <article class="card">
         <h2 class="card-heading">
           Assignment Status
@@ -536,7 +513,13 @@
         Refresh Status
       </button>
 
-      <button
+     <button
+  class="button confirm-button"
+  type="button"
+  id="confirmAcceptanceButton"
+>
+  ✓ CONFIRM ACCEPTANCE
+</button>    <button
         class="button cancel-button"
         type="button"
         onclick="cancelAssignment()"
