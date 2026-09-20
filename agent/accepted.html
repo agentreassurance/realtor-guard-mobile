@@ -34,8 +34,8 @@
 
     .header {
       padding: 18px;
-      background: #b00000;
-      color: #ffffff;
+     background: #ffffff;
+    color: #b00000;
       text-align: center;
     }
 
@@ -330,20 +330,19 @@
 
 <body>
   <main class="page">
-    <header class="header">
-      <img
-        class="logo"
-        src="../logo.png"
-        alt="Realtor Guard logo"
-      >
+   <header class="header">
+<img
+  class="logo"
+  src="rglogo.png"
+  alt="Realtor Guard logo"
+>
 
-      <h1>Accepted Assignment</h1>
+<h1>Accepted Assignment</h1>
 
-      <p>
-        Your observer has accepted your request.
-      </p>
-    </header>
-
+<p>
+  Your observer has accepted your request.
+</p>
+</header>
     <section class="content">
       <div class="success-box">
         ✓ Observer Assigned Successfully
@@ -364,12 +363,11 @@
             </div>
 
             <div class="observer-info">
-              <h3>Marcus Johnson</h3>
+            <h3 id="observerName">Observer</h3>
 
-              <p class="rating">
-                ★ 4.9 Rating
-              </p>
-
+             <p class="rating">
+  ★ <span id="observerRating">Rating</span>
+</p>
               <span class="badge">
                 ✓ Verified Observer
               </span>
@@ -383,13 +381,13 @@
           <div class="contact-box">
             <p>
               <strong>Protected Contact Number:</strong><br>
-              (571) 555-4827
+            <span id="observerPhone">Contact number</span>
             </p>
 
             <button
               class="call-button"
               type="button"
-              onclick="window.location.href='tel:+15715554827'"
+            id="callObserverButton"
             >
               Call Observer
             </button>
@@ -609,7 +607,22 @@ if (savedRequest.observer_rating) {
   if (observerRating) {
     observerRating.textContent = savedRequest.observer_rating;
   }
-}    
+} 
+
+  if (savedRequest.observer_phone) {
+  const observerPhone = document.getElementById("observerPhone");
+  const callObserverButton = document.getElementById("callObserverButton");
+
+  if (observerPhone) {
+    observerPhone.textContent = savedRequest.observer_phone;
+  }
+
+  if (callObserverButton) {
+    callObserverButton.onclick = function () {
+      window.location.href = "tel:" + savedRequest.observer_phone;
+    };
+  }
+}  
   </script>
 </body>
 </html>
