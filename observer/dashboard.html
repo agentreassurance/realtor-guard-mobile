@@ -324,7 +324,7 @@ async function loadObserverProfile() {
 
   const { data: observer, error: observerError } = await supabaseClient
     .from("observers")
-    .select("full_name")
+.select("id, full_name")
     .eq("auth_user_id", user.id)
     .single();
 
@@ -475,9 +475,29 @@ card.innerHTML = `
 
   
 async function acceptAssignment(assignmentId) {
+  const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+
+if (userError || !user) {
+  alert("Unable to identify your observer account.");
+  return;
+}
+
+const { data: observer, error: observerError } = await supabaseClient
+  .from("observers")
+  .select("id")
+  .eq("auth_user_id", user.id)
+  .single();
+
+if (observerError || !observer) {
+  alert("Unable to find your observer profile.");
+  return;
+}
   const { data, error } = await supabaseClient
     .from("assignments")
-    .update({ status: "accepted" })
+    .update({
+  status: "accepted",
+  observer_id: observer.id
+})
     .eq("id", assignmentId)
     .select()
     .single();
