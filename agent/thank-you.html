@@ -171,20 +171,27 @@
   </main>
 
   <script>
-    const CANCEL_WINDOW_SECONDS = 5 * 60;
+   const agentRequest = JSON.parse(
+  localStorage.getItem("realtorGuardAgentRequest")
+);
 
     let cancelDeadline =
       localStorage.getItem("realtorGuardCancelDeadline");
 
-    if (!cancelDeadline) {
-      cancelDeadline =
-        Date.now() + (CANCEL_WINDOW_SECONDS * 1000);
+   
+if (agentRequest && agentRequest.date && agentRequest.time) {
+  const appointmentTime = new Date(
+    `${agentRequest.date}T${agentRequest.time}`
+  );
 
-      localStorage.setItem(
-        "realtorGuardCancelDeadline",
-        cancelDeadline
-      );
-    }
+  cancelDeadline =
+    appointmentTime.getTime() - (30 * 60 * 1000);
+
+  localStorage.setItem(
+    "realtorGuardCancelDeadline",
+    cancelDeadline
+  );
+}      
 
     const countdown =
       document.getElementById("countdown");
@@ -215,14 +222,16 @@
         ":" +
         String(seconds).padStart(2, "0");
 
-      if (remaining <= 0) {
-        cancelButton.disabled = true;
+     if (remaining <= 0) {
+  cancelButton.disabled = true;
 
-        timerNote.textContent =
-          "The cancellation window has ended.";
+  timerNote.innerHTML =
+    "<strong>Payment Processing</strong><br>" +
+    "Your cancellation period has ended and your card is now being processed for the scheduled service.<br><br>" +
+    "If additional time is used beyond your scheduled service, the additional minutes will be calculated and charged after the assignment is completed.";
 
-        clearInterval(timerInterval);
-      }
+  clearInterval(timerInterval);
+}
     }
 
     function cancelRequest() {
