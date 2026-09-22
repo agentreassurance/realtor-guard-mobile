@@ -279,6 +279,13 @@
         </div>
       </div>
 
+      <button
+  type="button"
+  class="refresh-button"
+  onclick="enableNotifications()"
+>
+  🔔 Enable Assignment Notifications
+</button>
       <h2 class="section-heading">
         Available Assignments
       </h2>
@@ -537,6 +544,23 @@ function toggleStatus() {
 }    
 
  
+async function enableNotifications() {
+    if (!("Notification" in window)) {
+        alert("Notifications are not supported on this device.");
+        return;
+    }
+
+    const permission = await Notification.requestPermission();
+
+    if (permission === "granted") {
+        new Notification("Realtor Guard", {
+            body: "Notifications are enabled. You will receive assignment reminders."
+        });
+    } else {
+        alert("Notification permission was not granted.");
+    }
+}
+  
   loadAssignments();
 </script>
   
