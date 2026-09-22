@@ -19,7 +19,7 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background: #f3f3f3;
+     background: #ffffff;
       color: #222222;
       font-family: Arial, sans-serif;
     }
@@ -254,11 +254,11 @@
         alt="Realtor Guard logo"
       >
 
-     <h1>Departure Countdown</h1>
+   <h1>Assignment Accepted</h1>  
 
-      <p>
-Your departure timer is counting down. When it reaches 15 minutes before your appointment, you'll receive a notification and the It's Time to Leave button will unlock.
-      </p>
+   <p>
+  You're confirmed for this assignment. Realtor Guard will send reminder notifications as your scheduled appointment approaches. Please plan your travel time accordingly and arrive on schedule.
+</p>  
     </header>
 
     <section class="content">
@@ -349,14 +349,13 @@ Observer Pay: $25 First Hour Guaranteed; Additional Time Paid Proportionally to 
         Cancel Assignment
       </button>
 
-      <button
-        class="button emergency-button"
-        type="button"
-        onclick="emergencyHelp()"
-      >
-        Emergency Assistance
-      </button>
-
+     <button
+  class="button emergency-button"
+  type="button"
+  onclick="contactSupport()"
+>
+  Contact Support
+</button>
       <div id="statusBox" class="status-box"></div>
 
       <div class="notice">
@@ -498,11 +497,11 @@ Observer Pay: $25 First Hour Guaranteed; Additional Time Paid Proportionally to 
       }
     }
 
-    function emergencyHelp() {
-      window.alert(
-        "For an immediate emergency, call 911. Realtor Guard emergency support will be connected later."
-      );
-    }
+  function contactSupport() {
+  window.alert(
+    "Need help with this assignment? Contact Realtor Guard Support. For an immediate emergency, call 911."
+  );
+}
 
 // Keep the accepted agent request available for the observer flow
 if (agentRequest && Object.keys(agentRequest).length > 0) {
