@@ -265,17 +265,7 @@ Your departure timer is counting down. When it reaches 15 minutes before your ap
       <div class="status-banner">
         ✓ Assignment Accepted
       </div>
-<div class="countdown-box">
-    <h2>Departure Countdown</h2>
 
-    <div id="departureTimer" class="countdown-time">
-        00:15:00
-    </div>
-
-    <p>
-        Leave when the timer reaches <strong>00:00:00</strong>.
-    </p>
-</div>
      <article class="card">
   <h2 class="card-heading">
     Property Details
@@ -328,10 +318,10 @@ Observer Pay: $25 First Hour Guaranteed; Additional Time Paid Proportionally to 
     class="button directions-button"
     type="button"
     onclick="openDirections()"
-    disabled
-    style="background:#c62828; cursor:not-allowed; opacity:.75;"
+   
+  style="background:#168437; cursor:pointer; opacity:1;"
 >
-    🔒 Wait for Departure
+   🧭 Open Navigation
 </button>
 
      
@@ -436,14 +426,20 @@ Observer Pay: $25 First Hour Guaranteed; Additional Time Paid Proportionally to 
       box.textContent = message;
     }
 
-    function openDirections() {
-     const destination = encodeURIComponent(
-  [agentRequest.address, agentRequest.city, agentRequest.state, agentRequest.zip]
-    .filter(Boolean)
-    .join(", ")
-);
-     window.location.href =
-       "https://www.google.com/maps/dir/?api=1&destination=" + destination;
+   function openDirections() {
+    const destination = encodeURIComponent(
+        [
+            agentRequest.property_address || agentRequest.address,
+            agentRequest.city,
+            agentRequest.state,
+            agentRequest.zip
+        ]
+        .filter(Boolean)
+        .join(", ")
+    );
+
+    window.location.href =
+        "https://www.google.com/maps/dir/?api=1&destination=" + destination;
 }
     function markOnMyWay() {
       const wayButton = document.getElementById("wayButton");
@@ -507,78 +503,7 @@ Observer Pay: $25 First Hour Guaranteed; Additional Time Paid Proportionally to 
         "For an immediate emergency, call 911. Realtor Guard emergency support will be connected later."
       );
     }
-// ===== Real-Time Departure Countdown =====
 
-const departureTimer = document.getElementById("departureTimer");
-const navButton = document.getElementById("navigationButton");
-
-// Appointment date/time from the accepted agent assignment.
-const rawTime = String(agentRequest.time || "").trim();
-
-let appointmentTime;
-
-if (/\b(AM|PM)\b/i.test(rawTime)) {
-  const match = rawTime.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-  let hour = parseInt(match[1], 10);
-  const minute = match[2];
-  const ampm = match[3].toUpperCase();
-
-  if (ampm === "PM" && hour !== 12) hour += 12;
-  if (ampm === "AM" && hour === 12) hour = 0;
-
-  appointmentTime = new Date(
-    `${agentRequest.date}T${String(hour).padStart(2, "0")}:${minute}:00`
-  );
-} else {
-  appointmentTime = new Date(
-    `${agentRequest.date}T${rawTime}`
-  );
-}
-// Temporary estimated driving time.
-// Later this will come automatically from live navigation/traffic.
-const estimatedTravelMinutes = 30;
-
-// Realtor Guard safety buffer.
-const safetyBufferMinutes = 15;
-
-// Smart departure time:
-// Appointment time - driving time - safety buffer.
-const navigationOpenTime =
-  appointmentTime.getTime() -
-  ((estimatedTravelMinutes + safetyBufferMinutes) * 60 * 1000);
-
-function updateDepartureCountdown() {
-  const now = Date.now();
-  const timeRemaining = navigationOpenTime - now;
-
-  if (timeRemaining <= 0) {
-    departureTimer.textContent = "00:00:00";
-
-    navButton.disabled = false;
-    navButton.innerHTML = "🧭 Open Navigation";
-    navButton.style.background = "#168437";
-    navButton.style.cursor = "pointer";
-    navButton.style.opacity = "1";
-
-    return;
-  }
-
-  const totalSeconds = Math.floor(timeRemaining / 1000);
-
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-
-  departureTimer.textContent =
-    String(hours).padStart(2, "0") +
-    ":" +
-    String(minutes).padStart(2, "0") +
-    ":" +
-    String(seconds).padStart(2, "0");
-}
-
-updateDepartureCountdown();
-setInterval(updateDepartureCountdown, 1000);
 // Keep the accepted agent request available for the observer flow
 if (agentRequest && Object.keys(agentRequest).length > 0) {
   localStorage.setItem(
