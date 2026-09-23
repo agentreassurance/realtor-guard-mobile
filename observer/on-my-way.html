@@ -288,16 +288,126 @@
         font-size: 15px;
       }
     }
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 260px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 3px 0 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: left 0.3s ease;
+  padding: 25px 20px;
+}
+
+.side-menu.open {
+  left: 0;
+}
+
+.side-menu h2 {
+  color: #d40000;
+  margin: 0 0 25px;
+  font-size: 22px;
+}
+
+.side-menu a,
+.side-menu button {
+  display: block;
+  width: 100%;
+  padding: 14px 5px;
+  border: 0;
+  border-bottom: 1px solid #eeeeee;
+  background: transparent;
+  color: #18182b;
+  text-align: left;
+  text-decoration: none;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 999;
+}
+
+.menu-overlay.show {
+  display: block;
+}
+  
+.account-panel {
+  left: auto;
+  right: -280px;
+  transition: right 0.3s ease;
+}
+
+.account-panel.open {
+  left: auto;
+  right: 0;
+}
+
+#observerAccountInfo {
+  padding: 0 5px 20px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #eeeeee;
+  line-height: 1.6;
+}
+
+#accountName {
+  display: block;
+  color: #18182b;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+#accountEmail,
+#accountLicense {
+  font-size: 14px;
+  color: #555555;
+  overflow-wrap: anywhere;
+} 
+  
   </style>
 </head>
 
 <body>
 
+<div id="menuOverlay" class="menu-overlay" onclick="toggleMenu()"></div>
+
+<div id="accountOverlay" class="menu-overlay" onclick="toggleAccount()"></div>
+
+<nav id="accountPanel" class="side-menu account-panel">
+  <h2>My Account</h2>
+
+  <div id="observerAccountInfo">
+    <strong id="accountName">Observer</strong>
+    <div id="accountEmail"></div>
+    <div id="accountLicense"></div>
+  </div>
+
+  <a href="reset-password.html">Change Password</a>
+  <button type="button" onclick="contactSupport()">Contact Support</button>
+  <button type="button" onclick="observerLogout()">Logout</button>
+</nav>  
+
+<nav id="sideMenu" class="side-menu">
+  <h2>Observer Menu</h2>
+
+  <a href="dashboard.html">Dashboard</a>
+  <a href="dashboard.html">My Assignments</a>
+  <a href="complete-assignment.html">Assignment History</a>
+  <button type="button" onclick="contactSupport()">Contact Support</button>
+  <button type="button" onclick="observerLogout()">Logout</button>
+</nav>
+
   <main class="page">
 
     <div class="top-bar">
 
-      <button class="menu" type="button">☰</button>
+     <button class="menu" type="button" onclick="toggleMenu()">☰</button>
 
       <div class="logo-wrap">
         <img
@@ -307,7 +417,7 @@
         >
       </div>
 
-     <button class="account" type="button">👤</button>
+   <button class="account" type="button" onclick="toggleAccount()">👤</button>
 
     </div>
 
@@ -571,11 +681,57 @@
       window.location.href = "active-assignment.html";
     }
 
-   function contactSupport() {
+ function toggleMenu() {
+  document.getElementById("sideMenu").classList.toggle("open");
+  document.getElementById("menuOverlay").classList.toggle("show");
+} 
+    
+
+    
+   function toggleAccount() {
+  document.getElementById("accountPanel").classList.toggle("open");
+  document.getElementById("accountOverlay").classList.toggle("show");
+}
+    async function observerLogout() {
+  await supabaseClient.auth.signOut();
+
+  localStorage.removeItem("observerStatus");
+  localStorage.removeItem("realtorGuardCurrentAssignment");
+
+  window.location.href = "login.html";
+}  
+    
+    function contactSupport() {
   window.location.href = "tel:9482303471";
 }
 
+async function loadObserverAccount() {
+  const { data: { user } } = await supabaseClient.auth.getUser();
+
+  if (!user) return;
+
+  const { data: observer, error } = await supabaseClient
+    .from("observers")
+    .select("full_name, email, license_id")
+    .eq("auth_user_id", user.id)
+    .single();
+
+  if (error || !observer) return;
+
+  document.getElementById("accountName").textContent =
+    observer.full_name || "Observer";
+
+  document.getElementById("accountEmail").textContent =
+    observer.email || user.email || "";
+
+  document.getElementById("accountLicense").textContent =
+    observer.license_id
+      ? "License: " + observer.license_id
+      : "License information unavailable";
+}  
+    
     loadAssignment();
+    loadObserverAccount();
   </script>
 
 </body>
