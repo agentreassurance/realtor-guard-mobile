@@ -293,20 +293,48 @@
 
   
   <main class="page">
-    <header class="header">
+  <header class="header">
+  <div class="top-bar">
+    <button class="menu" type="button" onclick="openObserverMenu()">☰</button>
+
+    <div class="logo-wrap">
       <img
         class="logo"
         src="../logo.png"
         alt="Realtor Guard logo"
       >
+    </div>
 
-      <h1>Observer Dashboard</h1>
+    <button class="account" type="button" onclick="openAccountMenu()">👤</button>
+  </div>
 
-      <p>
-        View available assignments and provide safety support to agents.
-      </p>
-    </header>
+  <h1>Observer Dashboard</h1>
 
+  <p>
+    View available assignments and provide safety support to agents.
+  </p>
+</header>
+<div id="observerMenuOverlay" class="menu-overlay" onclick="closeObserverMenu()">
+  <div class="side-menu" onclick="event.stopPropagation()">
+    <button type="button" onclick="closeObserverMenu()">✕ Close</button>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="active-assignment.html">My Assignments</a>
+    <a href="complete-assignment.html">Assignment History</a>
+    <a href="tel:9482303471">Contact Support</a>
+    <button type="button" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<div id="accountMenuOverlay" class="menu-overlay" onclick="closeAccountMenu()">
+  <div class="side-menu" onclick="event.stopPropagation()">
+    <button type="button" onclick="closeAccountMenu()">✕ Close</button>
+    <a href="dashboard.html">My Profile</a>
+    <a href="reset-password.html">Change Password</a>
+    <a href="tel:9482303471">Contact Support</a>
+    <button type="button" onclick="logout()">Logout</button>
+  </div>
+</div>  
+    
     <section class="content">
       <div class="profile-card">
         <div class="profile-top">
@@ -623,6 +651,22 @@ async function enableNotifications() {
     } else {
         alert("Notification permission was not granted.");
     }
+}
+  
+function openObserverMenu() {
+  document.getElementById("observerMenuOverlay").classList.add("show");
+}
+
+function closeObserverMenu() {
+  document.getElementById("observerMenuOverlay").classList.remove("show");
+}
+
+function openAccountMenu() {
+  document.getElementById("accountMenuOverlay").classList.add("show");
+}
+
+function closeAccountMenu() {
+  document.getElementById("accountMenuOverlay").classList.remove("show");
 }
   
   loadAssignments();
