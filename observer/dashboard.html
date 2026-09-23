@@ -223,11 +223,75 @@
       line-height: 1.5;
       text-align: center;
     }
+/* Observer navigation and account menus */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100%;
+  background: #ffffff;
+  z-index: 1000;
+  padding: 24px 20px;
+  transition: left 0.3s ease;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.side-menu.open {
+  left: 0;
+}
+
+.account-panel {
+  left: auto;
+  right: -280px;
+}
+
+.account-panel.open {
+  left: auto;
+  right: 0;
+}
+
+.side-menu h2 {
+  color: #c90000;
+  margin: 0 0 28px;
+  font-size: 24px;
+}
+
+.side-menu a,
+.side-menu button {
+  display: block;
+  width: 100%;
+  padding: 14px 5px;
+  border: 0;
+  border-bottom: 1px solid #eeeeee;
+  background: transparent;
+  color: #18182b;
+  text-align: left;
+  text-decoration: none;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 999;
+}
+
+.menu-overlay.show {
+  display: block;
+}  
+  
   </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
+
+
+  
   <main class="page">
     <header class="header">
       <img
