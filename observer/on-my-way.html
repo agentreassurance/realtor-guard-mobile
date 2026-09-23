@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-  
 <head>
   <meta charset="UTF-8">
-
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>On My Way | Realtor Guard</title>
+  <title>Assignment Accepted | Realtor Guard</title>
 
   <style>
     * {
@@ -18,10 +16,9 @@
 
     body {
       margin: 0;
-      min-height: 100vh;
-     background: #ffffff;
-      color: #222222;
-      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #10182b;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     .page {
@@ -29,511 +26,559 @@
       max-width: 480px;
       min-height: 100vh;
       margin: 0 auto;
-      padding-bottom: 82px;
+      padding: 18px 16px 105px;
       background: #ffffff;
     }
 
-    .header {
-      padding: 18px;
-     background: transparent;
-      color: #c00000;
-      text-align: center;
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 5px;
     }
 
-    .logo {
-      display: block;
-      width: 115px;
-      margin: 0 auto 10px;
-      padding: 6px;
-      border-radius: 9px;
-      background: #ffffff;
-    }
-.countdown-time {
-  font-size: 38px;
-  font-weight: 800;
-  color: #c00000;
-  line-height: 1;
-  margin: 4px 0 8px;
-}
-    .header h1 {
-      margin: 0;
-      font-size: 27px;
-    }
-
-    .header p {
-      margin: 8px 0 0;
-      line-height: 1.4;
-    }
-
-    .content {
-      padding: 17px;
-    }
-
-    .status-banner {
-      margin-bottom: 17px;
-      padding: 15px;
-      border: 1px solid #9bd5a8;
-      border-radius: 10px;
-      background: #effaf1;
-      color: #087322;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .card {
-      margin-bottom: 17px;
-      overflow: hidden;
-      border: 1px solid #ffffff;
-      border-radius: 12px;
-      background: #ffffff;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
-    }
-
-    .card-heading {
-      margin: 0;
-      padding: 12px 15px;
-     background: #c00000;
-      color: #ffffff;
-      font-size: 19px;
-    }
-
-    .card-body {
-      padding: 16px;
-    }
-
-    .address-box {
-      margin-bottom: 15px;
-      padding: 14px;
-      border-left: 5px solid #b00000;
-      border-radius: 7px;
-      background: #f5f5f5;
-      line-height: 1.55;
-    }
-
-    .detail {
-      margin: 10px 0;
-      line-height: 1.45;
-    }
-
-    .pay-box {
-      margin-top: 16px;
-      padding: 14px;
-      border: 1px solid #b8dfc0;
-      border-radius: 9px;
-      background: #effaf1;
-      color: #087322;
-      text-align: center;
-      font-size: 21px;
-      font-weight: bold;
-    }
-
-    .privacy-note {
-      margin: 8px 0 0;
-      color: #666666;
-      font-size: 13px;
-      text-align: center;
-    }
-
-    .button {
-      width: 100%;
-      min-height: 54px;
-      margin-top: 11px;
-      border-radius: 9px;
-      font-size: 17px;
+    .menu,
+    .account {
+      width: 44px;
+      height: 44px;
+      border: 0;
+      background: transparent;
+      color: #d40000;
+      font-size: 32px;
       font-weight: bold;
       cursor: pointer;
     }
 
-    .directions-button {
-      border: none;
-      background: #132b51;
-      color: #ffffff;
+    .account {
+      border: 2px solid #d40000;
+      border-radius: 50%;
+      font-size: 23px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .way-button {
-      border: none;
-      background: #b00000;
-      color: #ffffff;
-    }
-
-    .arrived-button {
-     display: block;
-      border: none;
-     background: #1565C0;
-      color: #ffffff;
-    }
-
-    .call-button {
-      border: 1px solid #132b51;
-      background: #ffffff;
-      color: #132b51;
-    }
-
-    .cancel-button {
-      border: 1px solid #777777;
-      background: #ffffff;
-      color: #555555;
-    }
-
-    .emergency-button {
-      border: none;
-      background: #d40000;
-      color: #ffffff;
-    }
-
-    .status-box {
-      display: none;
-      margin-top: 16px;
-      padding: 15px;
-      border: 1px solid #bfd3ef;
-      border-radius: 9px;
-      background: #eef6ff;
-      color: #183b69;
+    .logo-wrap {
       text-align: center;
-      line-height: 1.5;
-      font-weight: bold;
+      flex: 1;
     }
 
-    .notice {
-      margin-top: 17px;
-      padding: 14px;
-      border-radius: 9px;
-      background: #fff5dc;
-      color: #5a4300;
+    .logo {
+      width: 185px;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 10px 0 5px;
+      text-align: center;
+      color: #d40000;
+      font-size: 32px;
+      line-height: 1.05;
+    }
+
+    .intro {
+      margin: 0 auto 14px;
+      text-align: center;
+      font-size: 17px;
+      line-height: 1.35;
+      max-width: 420px;
+    }
+
+    .confirmed {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #e3f5e8;
+      color: #137735;
+      border-radius: 12px;
+      padding: 13px;
+      margin-bottom: 12px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .check {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: #13833a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 23px;
+      flex: 0 0 35px;
+    }
+
+    .details-card {
+      border: 1px solid #dddddd;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      background: #ffffff;
+    }
+
+    .card-title {
+      background: #dc0000;
+      color: white;
+      padding: 13px 16px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .details-body {
+      padding: 14px 16px;
+    }
+
+    .detail-row {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      line-height: 1.25;
+    }
+
+    .detail-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .detail-label {
+      font-weight: 700;
+    }
+
+    .pay-box,
+    .reminder-box {
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+
+    .pay-box {
+      background: #ffe8e8;
+    }
+
+    .reminder-box {
+      background: #e7f3ff;
+    }
+
+    .pay-title {
+      color: #d40000;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .reminder-title {
+      color: #0965d9;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .box-text {
+      font-size: 15px;
+      line-height: 1.3;
+    }
+
+    .action-button {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 14px 12px;
+      margin-bottom: 10px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .navigation-button {
+      background: #07842f;
+    }
+
+    .start-button {
+      background: #dc0000;
+    }
+
+    .button-title {
+      display: block;
+      font-size: 21px;
+      margin-bottom: 2px;
+    }
+
+    .button-subtitle {
+      display: block;
       font-size: 14px;
-      line-height: 1.5;
-      text-align: center;
+      font-weight: 400;
+    }
+
+    .support-button {
+      width: 100%;
+      border: 2px solid #dc0000;
+      border-radius: 12px;
+      background: white;
+      color: #d40000;
+      padding: 13px 15px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .support-title {
+      display: block;
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .support-text {
+      display: block;
+      color: #10182b;
+      font-size: 14px;
+      line-height: 1.25;
     }
 
     .bottom-nav {
       position: fixed;
-      right: 0;
+      left: 50%;
       bottom: 0;
-      left: 0;
-      z-index: 10;
+      transform: translateX(-50%);
       width: 100%;
       max-width: 480px;
-      min-height: 72px;
-      margin: 0 auto;
+      background: white;
+      border-top: 1px solid #dddddd;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid #dddddd;
-      background: #ffffff;
-      box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.06);
+      padding: 9px 4px 12px;
     }
 
-    .nav-link {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      color: #555555;
-      text-decoration: none;
+    .nav-item {
+      text-align: center;
+      color: #777777;
       font-size: 12px;
-      font-weight: bold;
+      font-weight: 700;
+      text-decoration: none;
     }
 
-    .nav-link.active {
-      color: #b00000;
+    .nav-item.active {
+      color: #d40000;
     }
 
     .nav-icon {
-      font-size: 22px;
+      display: block;
+      font-size: 23px;
+      margin-bottom: 3px;
+    }
+
+    @media (max-width: 360px) {
+      h1 {
+        font-size: 28px;
+      }
+
+      .intro {
+        font-size: 15px;
+      }
+
+      .detail-row {
+        grid-template-columns: 82px 1fr;
+        font-size: 15px;
+      }
     }
   </style>
 </head>
 
 <body>
+
   <main class="page">
-    <header class="header">
-      <img
-        class="logo"
-        src="../logo.png"
-        alt="Realtor Guard logo"
-      >
 
-   <h1>Assignment Accepted</h1>  
+    <div class="top-bar">
 
-   <p>
-  You're confirmed for this assignment. Realtor Guard will send reminder notifications as your scheduled appointment approaches. Please plan your travel time accordingly and arrive on schedule.
-</p>  
-    </header>
+      <button class="menu" type="button">☰</button>
 
-    <section class="content">
-      <div class="status-banner">
-        ✓ Assignment Accepted
+      <div class="logo-wrap">
+        <img
+          src="rglogo.png"
+          alt="Realtor Guard"
+          class="logo"
+        >
       </div>
 
-     <article class="card">
-  <h2 class="card-heading">
-    Property Details
-  </h2>
+      <button class="account" type="button">●</button>
 
-  <div class="card-body">
-
-    <div class="address-box">
-      <strong id="requestAddress">Property Address</strong><br>
-      <span id="requestLocation">—</span>
     </div>
 
-    <p class="detail">
-      <strong>Agent:</strong>
-      <span id="requestAgentName">—</span>
+    <h1>Assignment Accepted</h1>
+
+    <p class="intro">
+      You're confirmed for this assignment.<br>
+      Realtor Guard will send reminder notifications as your
+      scheduled appointment approaches. Please plan your travel
+      time accordingly and arrive on schedule.
     </p>
 
-    <p class="detail">
-      <strong>Date:</strong>
-      <span id="requestDate">—</span>
-    </p>
-
-    <p class="detail">
-      <strong>Time:</strong>
-      <span id="requestTime">—</span>
-    </p>
-
-    <p class="detail">
-      <strong>Time Zone:</strong>
-      <span id="requestTimezone">—</span>
-    </p>
-
-    <p class="detail">
-      <strong>Duration:</strong>
-      <span id="requestDuration">—</span>
-    </p>
-
-    <div class="pay-box">
-Observer Pay: $25 First Hour Guaranteed; Additional Time Paid Proportionally to the Minute
+    <div class="confirmed">
+      <span class="check">✓</span>
+      <span>Assignment Confirmed</span>
     </div>
 
-    <p class="privacy-note">
-      Pay information is visible only to the observer.
-    </p>
+    <section class="details-card">
 
-  </div>
-</article>
-     <button
-    id="navigationButton"
-    class="button directions-button"
-    type="button"
-    onclick="openDirections()"
-   
-  style="background:#168437; cursor:pointer; opacity:1;"
->
-   🧭 Open Navigation
-</button>
+      <div class="card-title">
+        🏠 &nbsp; Property Details
+      </div>
 
-     
-<button
-  class="button"
-  type="button"
-  onclick="window.location.href='active-assignment.html'"
->
-  Start Assignment
-</button>     
+      <div class="details-body">
 
-      <button
-        class="button call-button"
-        type="button"
-        onclick="window.location.href='tel:+15550102026'"
-      >
-        Call Agent
-      </button>
+        <div class="detail-row">
+          <div class="detail-label">Address:</div>
+          <div id="requestAddress">Property Address</div>
+        </div>
 
-      <button
-        class="button cancel-button"
-        type="button"
-        onclick="cancelAssignment()"
-      >
-        Cancel Assignment
-      </button>
+        <div class="detail-row">
+          <div class="detail-label">Agent:</div>
+          <div id="requestAgentName">—</div>
+        </div>
 
-     <button
-  class="button emergency-button"
-  type="button"
-  onclick="contactSupport()"
->
-  Contact Support
-</button>
-      <div id="statusBox" class="status-box"></div>
+        <div class="detail-row">
+          <div class="detail-label">Date:</div>
+          <div id="requestDate">—</div>
+        </div>
 
-      <div class="notice">
-        Open Navigation helps you reach the property, but Realtor Guard does
-        not continuously track your location. Use the status buttons to keep
-        the agent informed.
+        <div class="detail-row">
+          <div class="detail-label">Time:</div>
+          <div id="requestTime">—</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Duration:</div>
+          <div id="requestDuration">—</div>
+        </div>
+
       </div>
     </section>
 
-    <nav class="bottom-nav" aria-label="Observer navigation">
-      <a class="nav-link" href="../home.html">
-        <span class="nav-icon">⌂</span>
-        Home
-      </a>
+    <section class="pay-box">
+      <div class="pay-title">
+        💰 Observer Pay: $25 First Hour Guaranteed
+      </div>
 
-      <a class="nav-link active" href="dashboard.html">
-        <span class="nav-icon">▦</span>
-        Assignments
-      </a>
+      <div class="box-text">
+        Additional time paid proportionally by the minute.
+      </div>
+    </section>
 
-      <a class="nav-link" href="accepted.html">
-        
-        <span class="nav-icon">✓</span>
-        Active
-      </a>
+    <section class="reminder-box">
+      <div class="reminder-title">
+        🔔 Assignment Reminders
+      </div>
 
-      <a class="nav-link" href="login.html">
-        <span class="nav-icon">◉</span>
-        Account
-      </a>
-    </nav>
+      <div class="box-text">
+        You'll receive reminders as your scheduled time approaches.
+      </div>
+    </section>
+
+    <button
+      class="action-button navigation-button"
+      type="button"
+      onclick="openNavigation()"
+    >
+      <span class="button-title">➤ Open Navigation</span>
+      <span class="button-subtitle">
+        Get directions to the property
+      </span>
+    </button>
+
+    <button
+      class="action-button start-button"
+      type="button"
+      onclick="startAssignment()"
+    >
+      <span class="button-title">▶ Start Assignment</span>
+      <span class="button-subtitle">
+        Tap when you arrive at the property
+      </span>
+    </button>
+
+    <button
+      class="support-button"
+      type="button"
+      onclick="contactSupport()"
+    >
+      <span class="support-title">🎧 Contact Support ›</span>
+      <span class="support-text">
+        Need assistance with this assignment?<br>
+        Contact Realtor Guard Support.
+      </span>
+    </button>
+
   </main>
 
+  <nav class="bottom-nav">
+
+    <a class="nav-item" href="../index.html">
+      <span class="nav-icon">⌂</span>
+      Home
+    </a>
+
+    <a class="nav-item active" href="dashboard.html">
+      <span class="nav-icon">▣</span>
+      Assignments
+    </a>
+
+    <a class="nav-item" href="complete-assignment.html">
+      <span class="nav-icon">✓</span>
+      Activity
+    </a>
+
+    <a class="nav-item" href="dashboard.html">
+      <span class="nav-icon">●</span>
+      Account
+    </a>
+
+  </nav>
+
   <script>
-   const agentRequest = JSON.parse(
-  localStorage.getItem("realtorGuardCurrentAssignment") ||
-  localStorage.getItem("realtorGuardAgentRequest") ||
-  "{}"
-);
-  function formatTime12Hour(timeValue) {
-  if (!timeValue) return "—";
+    let assignment = {};
 
-  const value = String(timeValue).trim();
-
-  if (/\b(AM|PM)\b/i.test(value)) {
-    return value;
-  }
-
-  const parts = value.split(":");
-  let hour = parseInt(parts[0], 10);
-  const minute = (parts[1] || "00").slice(0, 2);
-
-  if (Number.isNaN(hour)) return value;
-
-  const ampm = hour >= 12 ? "PM" : "AM";
-  hour = hour % 12 || 12;
-
-  return `${hour}:${minute} ${ampm}`;
-}  
-    
-    function showStatus(message, background, color) {
-      const box = document.getElementById("statusBox");
-
-      box.style.display = "block";
-      box.style.background = background;
-      box.style.color = color;
-      box.textContent = message;
+    try {
+      assignment = JSON.parse(
+        localStorage.getItem("realtorGuardCurrentAssignment") ||
+        localStorage.getItem("realtorGuardAgentRequest") ||
+        "{}"
+      );
+    } catch (error) {
+      console.error("Unable to read assignment:", error);
+      assignment = {};
     }
 
-   function openDirections() {
-    const destination = encodeURIComponent(
-        [
-            agentRequest.property_address || agentRequest.address,
-            agentRequest.city,
-            agentRequest.state,
-            agentRequest.zip
-        ]
-        .filter(Boolean)
-        .join(", ")
-    );
-
-    window.location.href =
-        "https://www.google.com/maps/dir/?api=1&destination=" + destination;
-}
-    function markOnMyWay() {
-      const wayButton = document.getElementById("wayButton");
-      const arrivedButton = document.getElementById("arrivedButton");
-
-      wayButton.textContent = "It's Time to Leave";
-      wayButton.disabled = true;
-      wayButton.style.background = "#777777";
-
-      arrivedButton.style.display = "block";
-
-      localStorage.setItem("observerStatus", "on-my-way");
-      localStorage.setItem(
-        "observerStatusTime",
-        new Date().toLocaleTimeString([], {
-          hour: "numeric",
-          minute: "2-digit"
-        })
-      );
-
-      showStatus(
-        "The agent has been notified that you are on your way.",
-        "#eef6ff",
-        "#183b69"
-      );
-    }
-
-    function markArrived() {
-      localStorage.setItem("observerStatus", "arrived");
-      localStorage.setItem(
-        "observerStatusTime",
-        new Date().toLocaleTimeString([], {
-          hour: "numeric",
-          minute: "2-digit"
-        })
-      );
-
-      showStatus(
-        "The agent has been notified that you have arrived.",
-        "#effaf1",
-        "#087322"
-      );
-
-      window.setTimeout(function () {
-        window.location.href = "arrived.html";
-      }, 1200);
-    }
-
-    function cancelAssignment() {
-      const confirmed = window.confirm(
-        "Are you sure you want to cancel this assignment?"
-      );
-
-      if (confirmed) {
-        window.location.href = "dashboard.html";
+    function formatDate(dateValue) {
+      if (!dateValue) {
+        return "—";
       }
+
+      const parts = String(dateValue).split("-");
+
+      if (parts.length === 3) {
+        const year = Number(parts[0]);
+        const month = Number(parts[1]) - 1;
+        const day = Number(parts[2]);
+
+        const date = new Date(year, month, day);
+
+        return date.toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric"
+        });
+      }
+
+      return dateValue;
     }
 
-  function contactSupport() {
-  window.alert(
-    "Need help with this assignment? Contact Realtor Guard Support. For an immediate emergency, call 911."
-  );
-}
+    function formatTime(timeValue) {
+      if (!timeValue) {
+        return "—";
+      }
 
-// Keep the accepted agent request available for the observer flow
-if (agentRequest && Object.keys(agentRequest).length > 0) {
-  localStorage.setItem(
-    "realtorGuardCurrentAssignment",
-    JSON.stringify(agentRequest)
-  );
-}
-// Fill the On My Way page with the accepted agent request
-document.getElementById("requestAddress").textContent =
-  agentRequest.property_address || agentRequest.address || "Property Address";
+      const value = String(timeValue).trim();
 
-document.getElementById("requestLocation").textContent =
-  [agentRequest.city, agentRequest.state, agentRequest.zip]
-    .filter(Boolean)
-    .join(", ");
+      if (/AM|PM/i.test(value)) {
+        return value;
+      }
 
-document.getElementById("requestAgentName").textContent =
-  agentRequest.agent_name || agentRequest.agentName || agentRequest.fullName || "—";
+      const match = value.match(/^(\d{1,2}):(\d{2})/);
 
-document.getElementById("requestDate").textContent =
- agentRequest.appointment_date || agentRequest.date || "—";
+      if (!match) {
+        return value;
+      }
 
-document.getElementById("requestTime").textContent =
-  formatTime12Hour(agentRequest.appointment_time || agentRequest.time);
+      let hours = Number(match[1]);
+      const minutes = match[2];
+      const suffix = hours >= 12 ? "PM" : "AM";
 
-document.getElementById("requestTimezone").textContent =
-  agentRequest.time_zone || agentRequest.timezone || "—";
+      hours = hours % 12 || 12;
 
-document.getElementById("requestDuration").textContent =
- agentRequest.appointment_duration || agentRequest.duration || "—";    
+      return `${hours}:${minutes} ${suffix}`;
+    }
 
-</script>
+    function loadAssignment() {
+      const addressParts = [
+        assignment.property_address || assignment.address,
+        assignment.city,
+        assignment.state,
+        assignment.zip
+      ].filter(Boolean);
+
+      document.getElementById("requestAddress").textContent =
+        addressParts.length
+          ? addressParts.join(", ")
+          : "Property Address";
+
+      document.getElementById("requestAgentName").textContent =
+        assignment.agent_name ||
+        assignment.agentName ||
+        assignment.fullName ||
+        "—";
+
+      document.getElementById("requestDate").textContent =
+        formatDate(assignment.date);
+
+      const formattedTime = formatTime(assignment.time);
+
+      document.getElementById("requestTime").textContent =
+        assignment.timezone
+          ? `${formattedTime} (${assignment.timezone})`
+          : formattedTime;
+
+      document.getElementById("requestDuration").textContent =
+        assignment.duration || "—";
+    }
+
+    function openNavigation() {
+      const destination = [
+        assignment.property_address || assignment.address,
+        assignment.city,
+        assignment.state,
+        assignment.zip
+      ]
+        .filter(Boolean)
+        .join(", ");
+
+      if (!destination) {
+        alert("Property address is not available.");
+        return;
+      }
+
+      const encodedDestination = encodeURIComponent(destination);
+
+      window.location.href =
+        "https://www.google.com/maps/dir/?api=1&destination=" +
+        encodedDestination;
+    }
+
+    function startAssignment() {
+      localStorage.setItem(
+        "realtorGuardCurrentAssignment",
+        JSON.stringify(assignment)
+      );
+
+      localStorage.setItem("observerStatus", "active");
+
+      window.location.href = "active-assignment.html";
+    }
+
+    function contactSupport() {
+      alert(
+        "Need help with this assignment? Contact Realtor Guard Support. For an immediate emergency, call 911."
+      );
+    }
+
+    loadAssignment();
+  </script>
+
 </body>
 </html>
