@@ -301,6 +301,238 @@ border: none;
   font-weight: bold;
 }   
   
+/* ===== APPROVED OBSERVER DASHBOARD DESIGN ===== */
+
+body {
+  background: #ffffff;
+  color: #111111;
+}
+
+.page {
+  max-width: 480px;
+  background: #ffffff;
+}
+
+/* TOP HEADER */
+.top-bar {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 150px;
+  padding: 16px 18px 0;
+}
+
+.top-bar .menu,
+.top-bar .account {
+  color: #8B0000;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.top-bar .menu {
+  font-size: 0;
+  width: 38px;
+  height: 34px;
+  position: relative;
+}
+
+.top-bar .menu::before {
+  content: "☰";
+  font-size: 38px;
+  line-height: 34px;
+  font-weight: 900;
+  color: #8B0000;
+}
+
+.top-bar .account {
+  font-size: 0;
+  width: 38px;
+  height: 38px;
+  position: relative;
+}
+
+.top-bar .account::before {
+  content: "👤";
+  font-size: 32px;
+  line-height: 38px;
+  filter: grayscale(1);
+}
+
+.logo-wrap {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 190px;
+  display: flex;
+  justify-content: center;
+}
+
+.logo {
+  width: 190px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* DASHBOARD HEADING */
+.header h1,
+h1 {
+  color: #8B0000;
+  font-size: 30px;
+  line-height: 1.1;
+  text-align: center;
+  margin: 14px 0 8px;
+  font-weight: 800;
+}
+
+.header > p {
+  color: #111111;
+  font-size: 17px;
+  line-height: 1.4;
+  text-align: center;
+  margin: 0 20px 24px;
+}
+
+/* PROFILE CARD */
+.profile-card {
+  background: #ffffff;
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.10);
+  padding: 20px;
+  margin: 0 14px 18px;
+}
+
+.profile-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-photo {
+  width: 76px;
+  height: 76px;
+  min-width: 76px;
+  border: 3px solid #b00000;
+  border-radius: 50%;
+  background: #eeeeee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-photo span,
+.profile-photo {
+  color: #1478c9;
+}
+
+.profile-name {
+  color: #c71919;
+  font-weight: 800;
+  font-size: 22px;
+}
+
+.stars {
+  color: #eeb000;
+}
+
+.verified {
+  color: #138a42;
+  background: #e2f6e8;
+  border-radius: 20px;
+}
+
+.availability-row {
+  border-top: 1px solid #e5e5e5;
+  margin-top: 18px;
+  padding-top: 18px;
+}
+
+.available-btn,
+.status-available {
+  background: #11933e;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+}
+
+/* NOTIFICATION BUTTON */
+.notification-btn,
+#notificationButton {
+  background: #d71920;
+  color: #ffffff;
+  border: none;
+  border-radius: 9px;
+  font-weight: 700;
+}
+
+/* AVAILABLE ASSIGNMENTS */
+.assignments-title,
+h2 {
+  color: #9d0808;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* ASSIGNMENT CARD */
+.assignment-card {
+  background: #ffffff;
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.10);
+  margin: 14px;
+  padding: 20px;
+  color: #111111;
+}
+
+.assignment-card h3 {
+  color: #c71919;
+  font-size: 22px;
+  margin-top: 0;
+  font-weight: 800;
+}
+
+.assignment-card strong {
+  color: #111111;
+}
+
+.accept-btn,
+.assignment-card button {
+  background: #d71920;
+  color: #ffffff;
+  border: none;
+  border-radius: 9px;
+  font-weight: 700;
+}
+
+/* KEEP PAY TEXT BLACK */
+.assignment-card .pay,
+.assignment-card .pay-text {
+  color: #111111;
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .page {
+    width: 100%;
+  }
+
+  .top-bar {
+    min-height: 145px;
+  }
+
+  .logo-wrap {
+    width: 175px;
+  }
+
+  .logo {
+    width: 175px;
+  }
+} 
   </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
