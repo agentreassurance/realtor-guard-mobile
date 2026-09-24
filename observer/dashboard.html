@@ -2,12 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Observer Dashboard | Realtor Guard</title>
 
   <style>
@@ -15,12 +10,30 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --red: #c00000;
+      --dark-red: #8b0000;
+      --green: #16863a;
+      --gold: #d69200;
+      --text: #181818;
+      --light: #f7f7f7;
+      --pink: #fff0f0;
+    }
+
     body {
       margin: 0;
-      min-height: 100vh;
-      background: #f4f4f4;
-      color: #222222;
-      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    button,
+    select {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
     }
 
     .page {
@@ -29,897 +42,826 @@
       min-height: 100vh;
       margin: 0 auto;
       background: #ffffff;
+      overflow: hidden;
     }
 
-    .header {
-     padding: 28px 18px 12px;
-     background: #ffffff;
-     color: #b00000;
-      text-align: center;
+    /* =========================
+       WHITE TOP HEADER
+    ========================== */
+
+    .top-bar {
+      position: relative;
+      min-height: 150px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 25px 20px 10px;
+      background: #ffffff;
     }
 
     .logo {
-      display: block;
-     width: 150px;
-      margin: 0 auto 10px;
-      padding: 6px;
-      border-radius: 8px;
-      background: #ffffff;
+      position: absolute;
+      left: 50%;
+      top: 12px;
+      transform: translateX(-50%);
+      width: 118px;
+      max-height: 125px;
+      object-fit: contain;
     }
 
-    .header h1 {
+    .menu-button,
+    .account-button {
+      position: relative;
+      z-index: 5;
+      width: 48px;
+      height: 48px;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: var(--dark-red);
+    }
+
+    /* Hamburger */
+
+    .menu-button span,
+    .menu-button::before,
+    .menu-button::after {
+      content: "";
+      position: absolute;
+      left: 7px;
+      width: 34px;
+      height: 5px;
+      border-radius: 5px;
+      background: var(--dark-red);
+    }
+
+    .menu-button::before {
+      top: 10px;
+    }
+
+    .menu-button span {
+      top: 21px;
+    }
+
+    .menu-button::after {
+      top: 32px;
+    }
+
+    /* Account person icon */
+
+    .account-head {
+      position: absolute;
+      top: 4px;
+      left: 16px;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: var(--dark-red);
+    }
+
+    .account-body {
+      position: absolute;
+      left: 8px;
+      bottom: 5px;
+      width: 33px;
+      height: 20px;
+      border-radius: 18px 18px 5px 5px;
+      background: var(--dark-red);
+    }
+
+    /* =========================
+       TITLE
+    ========================== */
+
+    .intro {
+      padding: 8px 25px 24px;
+      text-align: center;
+    }
+
+    .intro h1 {
+      margin: 0 0 8px;
+      color: var(--dark-red);
+      font-size: 30px;
+      line-height: 1.1;
+    }
+
+    .intro p {
       margin: 0;
-      font-size: 27px;
+      color: #222;
+      font-size: 16px;
+      line-height: 1.45;
     }
 
-    .header p {
-      margin: 8px 0 0;
-      line-height: 1.4;
-    }
+    /* =========================
+       CONTENT
+    ========================== */
 
     .content {
-      padding: 18px;
+      padding: 0 16px 35px;
     }
 
-    .profile-card,
-    .assignment-card {
-      margin-bottom: 18px;
-      padding: 18px;
-      border: 1px solid #dddddd;
-      border-radius: 12px;
+    .card {
       background: #ffffff;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.10);
+    }
+
+    /* Welcome card */
+
+    .profile-card {
+      padding: 20px;
+      margin-bottom: 18px;
     }
 
     .profile-top {
       display: flex;
-      gap: 14px;
       align-items: center;
+      gap: 14px;
     }
 
-    .profile-photo {
+    .avatar {
       width: 72px;
       height: 72px;
-      border: 3px solid #b00000;
+      flex: 0 0 72px;
+      border: 3px solid var(--red);
       border-radius: 50%;
-      background: #eeeeee;
       display: flex;
-      justify-content: center;
       align-items: center;
-      font-size: 34px;
+      justify-content: center;
+      background: #eef7ff;
+      color: #1976d2;
+      font-size: 39px;
     }
 
-    .profile-info {
-      flex: 1;
+    .welcome {
+      min-width: 0;
     }
 
-    .profile-info h2 {
+    .welcome h2 {
       margin: 0 0 5px;
-      color: #b00000;
-      font-size: 21px;
+      color: var(--red);
+      font-size: 20px;
     }
 
     .rating {
-      margin: 0 0 7px;
-      color: #b06b00;
-      font-weight: bold;
+      color: var(--gold);
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.35;
     }
 
     .verified {
       display: inline-block;
-      padding: 5px 9px;
+      margin-top: 7px;
+      padding: 6px 10px;
       border-radius: 20px;
-      background: #e9f8ec;
-      color: #16702b;
+      background: #e3f7e8;
+      color: var(--green);
       font-size: 13px;
-      font-weight: bold;
+      font-weight: 700;
     }
 
-    .status-row {
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px solid #eeeeee;
+    .availability-row {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid #e7e7e7;
     }
 
-    .status-label {
-      font-weight: bold;
+    .availability-row strong {
+      font-size: 16px;
     }
 
-    .status-button {
-      min-width: 112px;
-      min-height: 42px;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 8px;
-      background: #168437;
+    .availability-select {
+      min-width: 125px;
+      border: 0;
+      border-radius: 9px;
+      padding: 12px 10px;
+      background: var(--green);
       color: #ffffff;
       font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
+      font-weight: 700;
     }
 
-    .section-heading {
-      margin: 6px 0 14px;
-      color: #b00000;
-      font-size: 23px;
+    /* Notification */
+
+    .notification-button {
+      width: 100%;
+      border: 0;
+      border-radius: 11px;
+      padding: 16px 12px;
+      margin-bottom: 8px;
+      background: var(--red);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .notification-button.enabled {
+      background: var(--green);
+    }
+
+    .section-title {
+      margin: 8px 0 14px;
+      color: var(--dark-red);
       text-align: center;
+      font-size: 25px;
+    }
+
+    /* Assignment */
+
+    .assignment-card {
+      margin-bottom: 20px;
+      padding: 20px;
     }
 
     .assignment-card h3 {
-      margin: 0 0 14px;
-      color: #b00000;
+      margin: 0 0 16px;
+      color: var(--red);
       font-size: 21px;
       text-align: center;
     }
 
-    .detail {
-      margin: 10px 0;
+    .detail-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 8px 0;
+      font-size: 15px;
       line-height: 1.4;
     }
 
-    .detail strong {
-      color: #111111;
-    }
-
-    .pay-box {
-      margin: 16px 0;
-      padding: 13px;
-      border: 1px solid #b8dfc0;
-      border-radius: 9px;
-      background: #effaf1;
-      color: #087322;
+    .detail-icon {
+      width: 22px;
+      flex: 0 0 22px;
+      color: var(--red);
       text-align: center;
-      font-size: 21px;
-      font-weight: bold;
+      font-size: 18px;
     }
 
-    .privacy-note {
-      margin: -5px 0 16px;
-      color: #666666;
-      font-size: 13px;
+    .detail-row strong {
+      font-weight: 700;
+    }
+
+    /* Pay card */
+
+    .pay-card {
+      position: relative;
+      margin-top: 18px;
+      padding: 16px 36px 16px 16px;
+      border-radius: 13px;
+      background: var(--pink);
       text-align: center;
     }
 
-    .accept-button,
-    .refresh-button,
-    .logout-button {
-      width: 100%;
-      min-height: 52px;
-      border: none;
-      border-radius: 9px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
+    .pay-card .rate {
+      margin-bottom: 5px;
+      color: var(--red);
+      font-size: 23px;
+      font-weight: 800;
+    }
+
+    .pay-card p {
+      margin: 3px 0;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .info {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 23px;
+      height: 23px;
+      border: 2px solid #111;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 800;
     }
 
     .accept-button {
-      background: #b00000;
+      width: 100%;
+      margin-top: 15px;
+      padding: 15px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--red);
       color: #ffffff;
+      font-size: 17px;
+      font-weight: 700;
     }
 
-    .refresh-button {
-      margin-top: 4px;
-      background: #333333;
-      color: #ffffff;
-    }
-
-    .logout-button {
-      margin-top: 11px;
-      border: 1px solid #b00000;
-      background: #ffffff;
-      color: #b00000;
-    }
-
-    .notice {
-      margin-top: 16px;
-      padding: 13px;
-      border-radius: 9px;
-      background: #f2f2f2;
-      color: #444444;
-      font-size: 14px;
-      line-height: 1.5;
+    .empty-message {
+      padding: 25px 15px;
       text-align: center;
+      color: #555;
     }
-/* Observer navigation and account menus */
-.side-menu {
-  position: fixed;
-  top: 0;
-  left: -280px;
-  width: 280px;
-  height: 100%;
-  background: #ffffff;
-  z-index: 1000;
-  padding: 24px 20px;
-  transition: left 0.3s ease;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
-}
 
-.side-menu.open {
-  left: 0;
-}
+    /* =========================
+       SIDE PANELS
+    ========================== */
 
-.account-panel {
-  left: auto;
-  right: -280px;
-}
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: none;
+      background: rgba(0,0,0,.38);
+    }
 
-.account-panel.open {
-  left: auto;
-  right: 0;
-}
+    .overlay.show {
+      display: block;
+    }
 
-.side-menu h2 {
-  color: #c90000;
-  margin: 0 0 28px;
-  font-size: 24px;
-}
+    .side-panel {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      z-index: 1000;
+      width: min(82vw, 300px);
+      padding: 25px 20px;
+      background: #ffffff;
+      box-shadow: 0 0 20px rgba(0,0,0,.20);
+      transition: transform .25s ease;
+    }
 
-.side-menu a,
-.side-menu button {
-  display: block;
-  width: 100%;
-  padding: 14px 5px;
-  border: 0;
-  border-bottom: 1px solid #eeeeee;
-  background: transparent;
-  color: #18182b;
-  text-align: left;
-  text-decoration: none;
-  font-size: 17px;
-  cursor: pointer;
-}
+    .menu-panel {
+      left: 0;
+      transform: translateX(-105%);
+    }
 
-.menu-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  z-index: 999;
-}
+    .account-panel {
+      right: 0;
+      transform: translateX(105%);
+    }
 
-.menu-overlay.show {
-  display: block;
-} 
+    .menu-panel.open,
+    .account-panel.open {
+      transform: translateX(0);
+    }
 
- .top-bar .menu,
-.top-bar .account {
-color: #8B0000;
-  border: none;
-  background: transparent;
-}
+    .panel-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      background: transparent;
+      color: var(--dark-red);
+      font-size: 30px;
+      line-height: 1;
+    }
 
-.top-bar .menu {
-  font-size: 32px;
-  font-weight: bold;
-}
+    .side-panel h2 {
+      margin: 15px 0 28px;
+      color: var(--dark-red);
+      font-size: 23px;
+    }
 
-.top-bar .account {
-  font-size: 23px;
-  font-weight: bold;
-}   
-  
-/* ===== APPROVED OBSERVER DASHBOARD DESIGN ===== */
+    .side-panel a,
+    .side-panel .panel-action {
+      display: block;
+      width: 100%;
+      padding: 14px 4px;
+      border: 0;
+      border-bottom: 1px solid #e6e6e6;
+      background: transparent;
+      color: #222;
+      text-align: left;
+      text-decoration: none;
+      font-size: 16px;
+    }
 
-body {
-  background: #ffffff;
-  color: #111111;
-}
+    .side-panel a:hover,
+    .side-panel .panel-action:hover {
+      color: var(--dark-red);
+    }
 
-.page {
-  max-width: 480px;
-  background: #ffffff;
-}
+    .account-name {
+      margin-bottom: 6px;
+      color: var(--dark-red);
+      font-size: 18px;
+      font-weight: 700;
+    }
 
-/* TOP HEADER */
-.top-bar {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 175px;
-  padding: 16px 18px 0;
-}
+    .account-role {
+      margin-bottom: 22px;
+      color: #666;
+      font-size: 14px;
+    }
 
-.top-bar .menu,
-.top-bar .account {
- color: #8B0000;
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
-}
+    @media (max-width: 360px) {
+      .logo {
+        width: 105px;
+      }
 
-.top-bar .menu {
-  font-size: 0;
-  width: 38px;
-  height: 34px;
-  position: relative;
-}
+      .intro h1 {
+        font-size: 27px;
+      }
 
-.top-bar .menu::before {
-  content: "☰";
-  font-size: 38px;
-  line-height: 34px;
-  font-weight: 900;
-color: #e00000;
-}
+      .profile-top {
+        align-items: flex-start;
+      }
 
-.top-bar .account {
-  font-size: 0;
-  width: 38px;
-  height: 38px;
-  position: relative;
-}
+      .avatar {
+        width: 62px;
+        height: 62px;
+        flex-basis: 62px;
+      }
 
-.top-bar .account::before {
-  content: "👤";
-  font-size: 32px;
-  line-height: 38px;
-  filter: none;
-}
-
-.logo-wrap {
-  position: absolute;
-  top: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150px;
-  display: flex;
-  justify-content: center;
-}
-
-.logo {
-  width: 150px;
-  max-width: 100%;
-  height: auto;
-}
-
-/* DASHBOARD HEADING */
-.header h1,
-h1 {
-  color: #8B0000;
-  font-size: 30px;
-  line-height: 1.1;
-  text-align: center;
-  margin: 14px 0 8px;
-  font-weight: 800;
-}
-
-.header > p {
-  color: #111111;
-  font-size: 17px;
-  line-height: 1.4;
-  text-align: center;
-  margin: 0 20px 24px;
-}
-
-/* PROFILE CARD */
-.profile-card {
-  background: #ffffff;
-  border: none;
-  border-radius: 14px;
-  box-shadow: 0 4px 18px rgba(0,0,0,.10);
-  padding: 20px;
-  margin: 0 14px 18px;
-}
-
-.profile-top {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.profile-photo {
-  width: 76px;
-  height: 76px;
-  min-width: 76px;
-  border: 3px solid #b00000;
-  border-radius: 50%;
-  background: #eeeeee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.profile-photo span,
-.profile-photo {
-  color: #1478c9;
-}
-
-.profile-name {
-  color: #c71919;
-  font-weight: 800;
-  font-size: 22px;
-}
-
-.stars {
-  color: #eeb000;
-}
-
-.verified {
-  color: #138a42;
-  background: #e2f6e8;
-  border-radius: 20px;
-}
-
-.availability-row {
-  border-top: 1px solid #e5e5e5;
-  margin-top: 18px;
-  padding-top: 18px;
-}
-
-.available-btn,
-.status-available {
-  background: #11933e;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-}
-
-/* NOTIFICATION BUTTON */
-.notification-btn,
-#notificationButton {
-  background: #d71920;
-  color: #ffffff;
-  border: none;
-  border-radius: 9px;
-  font-weight: 700;
-}
-
-/* AVAILABLE ASSIGNMENTS */
-.assignments-title,
-h2 {
-  color: #9d0808;
-  font-weight: 800;
-  text-align: center;
-}
-
-/* ASSIGNMENT CARD */
-.assignment-card {
-  background: #ffffff;
-  border: none;
-  border-radius: 14px;
-  box-shadow: 0 4px 18px rgba(0,0,0,.10);
-  margin: 14px;
-  padding: 20px;
-  color: #111111;
-}
-
-.assignment-card h3 {
-  color: #c71919;
-  font-size: 22px;
-  margin-top: 0;
-  font-weight: 800;
-}
-
-.assignment-card strong {
-  color: #111111;
-}
-
-.accept-btn,
-.assignment-card button {
-  background: #d71920;
-  color: #ffffff;
-  border: none;
-  border-radius: 9px;
-  font-weight: 700;
-}
-
-/* KEEP PAY TEXT BLACK */
-.assignment-card .pay,
-.assignment-card .pay-text {
-  color: #111111;
-}
-
-/* MOBILE */
-@media (max-width: 480px) {
-  .page {
-    width: 100%;
-  }
-
-  .top-bar {
-    min-height: 175px;
-  }
-
-  .logo-wrap {
-    width: 150px;
-  }
-
-  .logo {
-    width: 150px;
-  }
-} 
+      .welcome h2 {
+        font-size: 18px;
+      }
+    }
   </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
+  <div class="page">
 
-  
-  <main class="page">
-  <header class="header">
-  <div class="top-bar">
-    <button class="menu" type="button" onclick="openObserverMenu()">☰</button>
-
-    <div class="logo-wrap">
-      <img
-        class="logo"
-        src="../logo.png"
-        alt="Realtor Guard logo"
-      >
-    </div>
-
-    <button class="account" type="button" onclick="openAccountMenu()">👤</button>
-  </div>
-
-  <h1>Observer Dashboard</h1>
-
-  <p>
-    View available assignments and provide safety support to agents.
-  </p>
-</header>
-<div id="observerMenuOverlay" class="menu-overlay" onclick="closeObserverMenu()">
- <div class="side-menu open" onclick="event.stopPropagation()">
-    <button type="button" onclick="closeObserverMenu()">✕ Close</button>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="active-assignment.html">My Assignments</a>
-    <a href="complete-assignment.html">Assignment History</a>
-    <a href="tel:9482303471">Contact Support</a>
-    <button type="button" onclick="logout()">Logout</button>
-  </div>
-</div>
-
-<div id="accountMenuOverlay" class="menu-overlay" onclick="closeAccountMenu()">
-  <div class="side-menu" onclick="event.stopPropagation()">
-    <button type="button" onclick="closeAccountMenu()">✕ Close</button>
-    <a href="dashboard.html">My Profile</a>
-    <a href="reset-password.html">Change Password</a>
-    <a href="tel:9482303471">Contact Support</a>
-    <button type="button" onclick="logout()">Logout</button>
-  </div>
-</div>  
-    
-    <section class="content">
-      <div class="profile-card">
-        <div class="profile-top">
-          <div class="profile-photo" aria-label="Observer profile photo">
-            👤
-          </div>
-
-          <div class="profile-info">
-<h2 id="observerName">Welcome, Observer</h2>
-
-            <p class="rating">
-              ★★★★★ New Observer
-            </p>
-
-            <span class="verified">
-              ✓ Identity Verified
-            </span>
-          </div>
-        </div>
-
-        <div class="status-row">
-          <span class="status-label">
-            Availability Status
-          </span>
-
-          <button
-            id="statusButton"
-            class="status-button"
-            type="button"
-            onclick="toggleStatus()"
-          >
-            Available
-          </button>
-        </div>
-      </div>
+    <!-- WHITE HEADER -->
+    <header class="top-bar">
 
       <button
-  type="button"
- class="refresh-button" style="background:#c81920;"
-  onclick="enableNotifications()"
->
-  🔔 Enable Assignment Notifications
-</button>
-      <h2 class="section-heading">
+        class="menu-button"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        <span></span>
+      </button>
+
+      <!-- Change this src only if your existing logo filename is different -->
+      <img
+        class="logo"
+        src="../rg-logo.png"
+        alt="Realtor Guard"
+        onerror="this.style.visibility='hidden';"
+      >
+
+      <button
+        class="account-button"
+        id="accountButton"
+        type="button"
+        aria-label="Open account"
+      >
+        <span class="account-head"></span>
+        <span class="account-body"></span>
+      </button>
+
+    </header>
+
+    <section class="intro">
+      <h1>Observer Dashboard</h1>
+      <p>
+        View available assignments and provide safety
+        support to agents.
+      </p>
+    </section>
+
+    <main class="content">
+
+      <!-- PROFILE -->
+      <section class="card profile-card">
+
+        <div class="profile-top">
+
+          <div class="avatar">👤</div>
+
+          <div class="welcome">
+            <h2 id="observerWelcome">Welcome, Observer</h2>
+
+            <div class="rating">
+              ★★★★★ <span>New Observer</span>
+            </div>
+
+            <div class="verified">
+              ✓ Identity Verified
+            </div>
+          </div>
+
+        </div>
+
+        <div class="availability-row">
+
+          <strong>Availability Status</strong>
+
+          <select
+            class="availability-select"
+            id="availabilityStatus"
+            aria-label="Availability Status"
+          >
+            <option value="available">Available</option>
+            <option value="unavailable">Unavailable</option>
+          </select>
+
+        </div>
+
+      </section>
+
+      <!-- NOTIFICATIONS -->
+      <button
+        class="notification-button"
+        id="notificationButton"
+        type="button"
+      >
+        🔔 Enable Assignment Notifications
+      </button>
+
+      <h2 class="section-title">
         Available Assignments
       </h2>
 
-    <div id="assignmentsContainer"></div>
-      <button
-        class="refresh-button"
-        type="button"
-        onclick="window.location.reload()"
-      >
-        Refresh Assignments
-      </button>
+      <!--
+        This container is where our Supabase assignments
+        will be loaded after the new design is confirmed.
+      -->
+      <div id="assignmentsContainer">
 
-      <button
-        class="logout-button"
-        type="button"
-        onclick="window.location.href='login.html'"
-      >
-        Log Out
-      </button>
+        <section class="card assignment-card">
 
-      <div class="notice">
-        Property address and agent contact details become available after
-        the assignment has been accepted.
+          <h3>🏠 Agent Safety Assignment</h3>
+
+          <div class="detail-row">
+            <span class="detail-icon">👤</span>
+            <div>
+              <strong>Agent:</strong>
+              <span>Rich Richie</span>
+            </div>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-icon">📍</span>
+            <div>
+              <strong>Property Address:</strong>
+              <span>234 XthF</span>
+            </div>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-icon">🏢</span>
+            <div>
+              <strong>City:</strong>
+              <span>Virginia Beach, VA 23456</span>
+            </div>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-icon">📅</span>
+            <div>
+              <strong>Date:</strong>
+              <span>Tue, Sep 24, 2026</span>
+            </div>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-icon">🕒</span>
+            <div>
+              <strong>Time:</strong>
+              <span>4:30 PM (EDT)</span>
+            </div>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-icon">⏱</span>
+            <div>
+              <strong>Duration:</strong>
+              <span>2 Hours</span>
+            </div>
+          </div>
+
+          <div class="pay-card">
+            <span class="info">i</span>
+
+            <div class="rate">$25/Hour</div>
+
+            <p>First Hour Guaranteed</p>
+            <p>Additional Time Paid</p>
+            <p>Proportionally to the Minute.</p>
+          </div>
+
+          <button
+            class="accept-button"
+            type="button"
+            onclick="demoAccept()"
+          >
+            Accept Assignment ›
+          </button>
+
+        </section>
+
       </div>
-    </section>
-  </main>
-<script>
-  const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
 
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+    </main>
 
-async function loadObserverProfile() {
-  const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
-
-  if (userError || !user) {
-    return;
-  }
-
-  const { data: observer, error: observerError } = await supabaseClient
-    .from("observers")
-.select("id, full_name")
-    .eq("auth_user_id", user.id)
-    .single();
-
-  if (observerError || !observer) {
-    return;
-  }
-
-  document.getElementById("observerName").textContent =
-    `Welcome, ${observer.full_name}`;
-}
-
-loadObserverProfile();
-  
-  let currentAssignment = null;
-
-  function formatTime12Hour(timeValue) {
-    if (!timeValue) return "—";
-
-    const parts = timeValue.split(":");
-    let hour = parseInt(parts[0], 10);
-    const minute = parts[1] || "00";
-
-    const ampm = hour >= 12 ? "PM" : "AM";
-
-    hour = hour % 12;
-    hour = hour || 12;
-
-    return `${hour}:${minute} ${ampm}`;
-  }
-
-  function saveAssignmentForObserverFlow(assignment) {
-    const savedRequest = {
-      id: assignment.id,
-      agentName: assignment.agent_name || "",
-      address: assignment.property_address || "",
-      city: assignment.city || "",
-      state: assignment.state || "",
-      zip: assignment.zip || "",
-      date: assignment.date || "",
-      time: assignment.time || "",
-      displayTime: formatTime12Hour(assignment.time),
-      duration: assignment.duration || "",
-     timezone: assignment.timezone || "", 
-      status: assignment.status || "pending"
-    };
-
-    localStorage.setItem(
-      "realtorGuardAgentRequest",
-      JSON.stringify(savedRequest)
-    );
-    localStorage.setItem(
-  "realtorGuardCurrentAssignment",
-  JSON.stringify(savedRequest)
-);
-  }
-
-async function loadAssignments() {
-  const { data, error } = await supabaseClient
-    .from("assignments")
-    .select("*")
-    .eq("status", "pending")
-    .order("created_at", { ascending: false });
-
-  const container = document.getElementById("assignmentsContainer");
-
-  if (error) {
-    console.error("Supabase load error:", error);
-    container.innerHTML = "<p>Unable to load assignments.</p>";
-    return;
-  }
-
-  if (!data || data.length === 0) {
-    container.innerHTML = "<p>No assignments are currently available.</p>";
-    return;
-  }
-
-  container.innerHTML = "";
-
-  data.forEach((assignment) => {
-    const card = document.createElement("article");
-    card.className = "assignment-card";
-
-card.innerHTML = `
-  <h3>Agent Safety Assignment</h3>
-
-  <p class="detail">
-    <strong>Agent:</strong>
-    <span>${assignment.agent_name || "—"}</span>
-  </p>
-
-  <p class="detail">
-    <strong>Property Address:</strong>
-    <span>${assignment.property_address || "—"}</span>
-  </p>
-
-  <p class="detail">
-    <strong>City:</strong>
-    <span>${assignment.city || "—"}</span>
-  </p>
-
-  <p class="detail">
-    <strong>State:</strong>
-    <span>${assignment.state || "—"}</span>
-  </p>
-
-  <p class="detail">
-    <strong>ZIP:</strong>
-    <span>${assignment.zip || "—"}</span>
-  </p>
-
-  <p class="detail">
-    <strong>Date:</strong>
-    <span>${assignment.date || "—"}</span>
-  </p>
-
-  <p class="detail">
-    <strong>Time:</strong>
-    <span>${formatTime12Hour(assignment.time)}</span>
-  </p>
-
-  <p class="detail">
-    <strong>Duration:</strong>
-    <span>${assignment.duration || "—"}</span>
-  </p>
-
-  <p class="detail">
-    <strong>Time Zone:</strong>
-    <span>${assignment.timezone || "—"}</span>
-  </p>
-
-  <div class="pay-box">
-  $25.00 first hour guaranteed
-    <small>Additional time paid proportionally (paid to the minute).</small>
   </div>
 
-  <button
-    class="accept-button"
-    type="button"
-    onclick="acceptAssignment(${assignment.id})"
+  <!-- DARK OVERLAY -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- HAMBURGER MENU -->
+  <aside
+    class="side-panel menu-panel"
+    id="menuPanel"
+    aria-hidden="true"
   >
-    Accept Assignment
-  </button>
-`;   
 
-    container.appendChild(card);
-  });
-}  
+    <button
+      class="panel-close"
+      type="button"
+      aria-label="Close menu"
+      onclick="closePanels()"
+    >
+      ×
+    </button>
 
-  
-async function acceptAssignment(assignmentId) {
-  const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+    <h2>Observer Menu</h2>
 
-if (userError || !user) {
-  alert("Unable to identify your observer account.");
-  return;
-}
+    <a href="dashboard.html">Dashboard</a>
+    <a href="#">Available Assignments</a>
+    <a href="#">My Assignments</a>
+    <a href="complete-assignment.html">Completed Assignments</a>
 
-const { data: observer, error: observerError } = await supabaseClient
-  .from("observers")
-  .select("id")
-  .eq("auth_user_id", user.id)
-  .single();
+  </aside>
 
-if (observerError || !observer) {
-  alert("Unable to find your observer profile.");
-  return;
-}
-  const { data, error } = await supabaseClient
-    .from("assignments")
-    .update({
-  status: "accepted",
-  observer_id: observer.id
-})
-    .eq("id", assignmentId)
-    .select()
-    .single();
+  <!-- ACCOUNT PANEL -->
+  <aside
+    class="side-panel account-panel"
+    id="accountPanel"
+    aria-hidden="true"
+  >
 
-  if (error) {
-    console.error("Error accepting assignment:", error);
-    alert("Unable to accept this assignment. Please try again.");
-    return;
-  }
+    <button
+      class="panel-close"
+      type="button"
+      aria-label="Close account"
+      onclick="closePanels()"
+    >
+      ×
+    </button>
 
-  currentAssignment = data;
+    <h2>My Account</h2>
 
-  saveAssignmentForObserverFlow(data);
+    <div class="account-name">
+      Observer
+    </div>
 
-  localStorage.setItem(
-    "realtorGuardAssignmentAccepted",
-    "true"
-  );
+    <div class="account-role">
+      Licensed Observer
+    </div>
 
-  localStorage.setItem(
-    "realtorGuardAcceptedAt",
-    new Date().toISOString()
-  );
+    <a href="#">Profile</a>
+    <a href="#">Account Settings</a>
+    <a href="#">Help &amp; Support</a>
 
-  window.location.href = "on-my-way.html";
-}
-function toggleStatus() {
-  const button = document.getElementById("statusButton");
+    <button
+      class="panel-action"
+      type="button"
+      onclick="logoutObserver()"
+    >
+      Sign Out
+    </button>
 
-  if (button.textContent.trim() === "Available") {
-    button.textContent = "Busy";
-    button.style.background = "#777777";
-  } else {
-    button.textContent = "Available";
-    button.style.background = "#168437";
-  }
-}    
+  </aside>
 
- 
-async function enableNotifications() {
-    if (!("Notification" in window)) {
-        alert("Notifications are not supported on this device.");
-        return;
+
+  <script>
+    const menuButton =
+      document.getElementById("menuButton");
+
+    const accountButton =
+      document.getElementById("accountButton");
+
+    const menuPanel =
+      document.getElementById("menuPanel");
+
+    const accountPanel =
+      document.getElementById("accountPanel");
+
+    const overlay =
+      document.getElementById("overlay");
+
+    const notificationButton =
+      document.getElementById("notificationButton");
+
+
+    function closePanels() {
+
+      menuPanel.classList.remove("open");
+      accountPanel.classList.remove("open");
+      overlay.classList.remove("show");
+
+      menuPanel.setAttribute("aria-hidden", "true");
+      accountPanel.setAttribute("aria-hidden", "true");
     }
 
-    const permission = await Notification.requestPermission();
 
-    if (permission === "granted") {
-        new Notification("Realtor Guard", {
-            body: "Notifications are enabled. You will receive assignment reminders."
-        });
-    } else {
-        alert("Notification permission was not granted.");
+    menuButton.addEventListener("click", function () {
+
+      closePanels();
+
+      menuPanel.classList.add("open");
+      overlay.classList.add("show");
+
+      menuPanel.setAttribute("aria-hidden", "false");
+    });
+
+
+    accountButton.addEventListener("click", function () {
+
+      closePanels();
+
+      accountPanel.classList.add("open");
+      overlay.classList.add("show");
+
+      accountPanel.setAttribute("aria-hidden", "false");
+    });
+
+
+    overlay.addEventListener("click", closePanels);
+
+
+    document.addEventListener("keydown", function (event) {
+
+      if (event.key === "Escape") {
+        closePanels();
+      }
+
+    });
+
+
+    notificationButton.addEventListener(
+      "click",
+      async function () {
+
+        if (!("Notification" in window)) {
+
+          alert(
+            "Notifications are not supported by this browser."
+          );
+
+          return;
+        }
+
+        try {
+
+          const permission =
+            await Notification.requestPermission();
+
+          if (permission === "granted") {
+
+            notificationButton.textContent =
+              "✓ Assignment Notifications Enabled";
+
+            notificationButton.classList.add("enabled");
+
+          } else {
+
+            alert(
+              "Notification permission was not enabled."
+            );
+
+          }
+
+        } catch (error) {
+
+          console.error(error);
+
+        }
+
+      }
+    );
+
+
+    function demoAccept() {
+
+      alert(
+        "Design test only. We will reconnect this button to the live assignment after the dashboard design is confirmed."
+      );
+
     }
-}
-  
-function openObserverMenu() {
-  document.getElementById("observerMenuOverlay").classList.add("show");
-}
 
-function closeObserverMenu() {
-  document.getElementById("observerMenuOverlay").classList.remove("show");
-}
 
-function openAccountMenu() {
-  document.getElementById("accountMenuOverlay").classList.add("show");
-}
+    function logoutObserver() {
 
-function closeAccountMenu() {
-  document.getElementById("accountMenuOverlay").classList.remove("show");
-}
-  
-  loadAssignments();
-</script>
-  
+      /*
+        We will reconnect this to Supabase Auth
+        after the design test.
+      */
+
+      window.location.href = "login.html";
+
+    }
+  </script>
+
 </body>
 </html>
