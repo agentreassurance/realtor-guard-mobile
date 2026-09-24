@@ -842,13 +842,42 @@
     );
 
 
-    function demoAccept() {
+  async function demoAccept(assignmentId) {
+  try {
+    // Current test observer
+    const observerId = 11;
 
-      alert(
-        "Design test only. We will reconnect this button to the live assignment after the dashboard design is confirmed."
-      );
+    const { data, error } = await supabase
+      .from("assignments")
+      .update({
+        status: "accepted",
+        observer_id: observerId
+      })
+      .eq("id", assignmentId)
+      .eq("status", "pending")
+      .select();
 
+    if (error) {
+      console.error("Accept assignment error:", error);
+      alert("Could not accept this assignment. Please try again.");
+      return;
     }
+
+    if (!data || data.length === 0) {
+      alert("This assignment is no longer available.");
+      return;
+    }
+
+    localStorage.setItem("assignmentId", String(assignmentId));
+
+    window.location.href =
+      "on-my-way.html?id=" + encodeURIComponent(assignmentId);
+
+  } catch (error) {
+    console.error("Accept assignment error:", error);
+    alert("Could not accept this assignment. Please try again.");
+  }
+}
 
 
     function logoutObserver() {
