@@ -10,30 +10,11 @@
       box-sizing: border-box;
     }
 
-    :root {
-      --red: #c00000;
-      --dark-red: #8b0000;
-      --green: #16863a;
-      --gold: #d69200;
-      --text: #181818;
-      --light: #f7f7f7;
-      --pink: #fff0f0;
-    }
-
     body {
       margin: 0;
       background: #f7f7f7;
-      color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
-    }
-
-    button,
-    select {
-      font-family: inherit;
-    }
-
-    button {
-      cursor: pointer;
+      color: #181818;
     }
 
     .page {
@@ -42,193 +23,133 @@
       min-height: 100vh;
       margin: 0 auto;
       background: #ffffff;
-      overflow: hidden;
+      padding-bottom: 35px;
     }
 
-    /* =========================
-       WHITE TOP HEADER
-    ========================== */
+    /* HEADER */
 
     .top-bar {
-      position: relative;
       min-height: 150px;
+      position: relative;
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      padding: 25px 20px 10px;
-      background: #ffffff;
+      padding: 28px 28px 10px;
+    }
+
+    .menu-btn,
+    .account-btn {
+      border: 0;
+      background: transparent;
+      color: #8b0000;
+      padding: 5px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .menu-icon {
+      font-size: 38px;
+      line-height: 1;
+      font-weight: bold;
+    }
+
+    .account-icon {
+      font-size: 38px;
+      line-height: 1;
     }
 
     .logo {
-      position: absolute;
-      left: 50%;
-      top: 12px;
-      transform: translateX(-50%);
-      width: 118px;
-      max-height: 125px;
-      object-fit: contain;
+      width: 105px;
+      height: auto;
+      display: block;
     }
 
-    .menu-button,
-    .account-button {
-      position: relative;
-      z-index: 5;
-      width: 48px;
-      height: 48px;
-      border: 0;
-      padding: 0;
-      background: transparent;
-      color: var(--dark-red);
-    }
+    /* TITLE */
 
-    /* Hamburger */
-
-    .menu-button span,
-    .menu-button::before,
-    .menu-button::after {
-      content: "";
-      position: absolute;
-      left: 7px;
-      width: 34px;
-      height: 5px;
-      border-radius: 5px;
-      background: var(--dark-red);
-    }
-
-    .menu-button::before {
-      top: 10px;
-    }
-
-    .menu-button span {
-      top: 21px;
-    }
-
-    .menu-button::after {
-      top: 32px;
-    }
-
-    /* Account person icon */
-
-    .account-head {
-      position: absolute;
-      top: 4px;
-      left: 16px;
-      width: 17px;
-      height: 17px;
-      border-radius: 50%;
-      background: var(--dark-red);
-    }
-
-    .account-body {
-      position: absolute;
-      left: 8px;
-      bottom: 5px;
-      width: 33px;
-      height: 20px;
-      border-radius: 18px 18px 5px 5px;
-      background: var(--dark-red);
-    }
-
-    /* =========================
-       TITLE
-    ========================== */
-
-    .intro {
-      padding: 8px 25px 24px;
+    .title-area {
       text-align: center;
+      padding: 5px 22px 20px;
     }
 
-    .intro h1 {
+    .title-area h1 {
+      color: #8b0000;
+      font-size: 31px;
       margin: 0 0 8px;
-      color: var(--dark-red);
-      font-size: 30px;
-      line-height: 1.1;
     }
 
-    .intro p {
+    .title-area p {
       margin: 0;
-      color: #222;
-      font-size: 16px;
-      line-height: 1.45;
+      font-size: 17px;
+      line-height: 1.4;
     }
-
-    /* =========================
-       CONTENT
-    ========================== */
 
     .content {
-      padding: 0 16px 35px;
+      padding: 0 17px;
     }
 
-    .card {
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 4px 18px rgba(0,0,0,.10);
-    }
-
-    /* Welcome card */
+    /* PROFILE CARD */
 
     .profile-card {
-      padding: 20px;
+      background: #ffffff;
+      border-radius: 17px;
+      padding: 22px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.09);
       margin-bottom: 18px;
     }
 
     .profile-top {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 15px;
     }
 
     .avatar {
-      width: 72px;
-      height: 72px;
-      flex: 0 0 72px;
-      border: 3px solid var(--red);
+      width: 78px;
+      height: 78px;
       border-radius: 50%;
+      border: 3px solid #c40000;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #eef7ff;
-      color: #1976d2;
-      font-size: 39px;
+      background: #eef6ff;
+      font-size: 48px;
+      flex-shrink: 0;
     }
 
-    .welcome {
-      min-width: 0;
-    }
-
-    .welcome h2 {
-      margin: 0 0 5px;
-      color: var(--red);
-      font-size: 20px;
+    .profile-info h2 {
+      margin: 0 0 4px;
+      color: #c40000;
+      font-size: 22px;
     }
 
     .rating {
-      color: var(--gold);
-      font-size: 18px;
-      font-weight: 700;
-      line-height: 1.35;
+      color: #d69200;
+      font-size: 19px;
+      font-weight: bold;
+      margin-bottom: 8px;
     }
 
     .verified {
       display: inline-block;
-      margin-top: 7px;
-      padding: 6px 10px;
-      border-radius: 20px;
-      background: #e3f7e8;
-      color: var(--green);
-      font-size: 13px;
-      font-weight: 700;
+      background: #dff5e4;
+      color: #087c27;
+      padding: 7px 11px;
+      border-radius: 18px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .divider {
+      height: 1px;
+      background: #e4e4e4;
+      margin: 20px 0 17px;
     }
 
     .availability-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-top: 18px;
-      padding-top: 16px;
-      border-top: 1px solid #e7e7e7;
+      gap: 15px;
     }
 
     .availability-row strong {
@@ -236,249 +157,171 @@
     }
 
     .availability-select {
-      min-width: 125px;
-      border: 0;
-      border-radius: 9px;
-      padding: 12px 10px;
-      background: var(--green);
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    /* Notification */
-
-    .notification-button {
-      width: 100%;
-      border: 0;
+      border: none;
       border-radius: 11px;
-      padding: 16px 12px;
-      margin-bottom: 8px;
-      background: var(--red);
-      color: #ffffff;
+      padding: 13px 15px;
+      background: #16863a;
+      color: white;
       font-size: 16px;
-      font-weight: 700;
+      font-weight: bold;
     }
 
-    .notification-button.enabled {
-      background: var(--green);
-    }
-
-    .section-title {
-      margin: 8px 0 14px;
-      color: var(--dark-red);
-      text-align: center;
-      font-size: 25px;
-    }
-
-    /* Assignment */
-
-    .assignment-card {
-      margin-bottom: 20px;
-      padding: 20px;
-    }
-
-    .assignment-card h3 {
-      margin: 0 0 16px;
-      color: var(--red);
-      font-size: 21px;
-      text-align: center;
-    }
-
-    .detail-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 9px;
-      margin: 8px 0;
-      font-size: 15px;
-      line-height: 1.4;
-    }
-
-    .detail-icon {
-      width: 22px;
-      flex: 0 0 22px;
-      color: var(--red);
-      text-align: center;
-      font-size: 18px;
-    }
-
-    .detail-row strong {
-      font-weight: 700;
-    }
-
-    /* Pay card */
+    /* PAY CARD */
 
     .pay-card {
-      position: relative;
-      margin-top: 18px;
-      padding: 16px 36px 16px 16px;
-      border-radius: 13px;
-      background: var(--pink);
-      text-align: center;
+      border: 2px solid #c40000;
+      border-radius: 15px;
+      background: #fff7f7;
+      padding: 17px;
+      margin-bottom: 18px;
     }
 
-    .pay-card .rate {
-      margin-bottom: 5px;
-      color: var(--red);
-      font-size: 23px;
-      font-weight: 800;
+    .pay-card h2 {
+      color: #b40000;
+      margin: 0 0 8px;
+      font-size: 21px;
+    }
+
+    .pay-main {
+      font-size: 19px;
+      font-weight: bold;
+      margin-bottom: 6px;
     }
 
     .pay-card p {
-      margin: 3px 0;
-      font-size: 14px;
-      font-weight: 700;
+      margin: 4px 0;
       line-height: 1.35;
     }
 
-    .info {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 23px;
-      height: 23px;
-      border: 2px solid #111;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      font-weight: 800;
-    }
+    /* NOTIFICATION */
 
-    .accept-button {
+    .notification-btn {
       width: 100%;
-      margin-top: 15px;
-      padding: 15px;
-      border: 0;
-      border-radius: 10px;
-      background: var(--red);
-      color: #ffffff;
-      font-size: 17px;
-      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      background: #d00000;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 17px 10px;
+      cursor: pointer;
+      margin-bottom: 20px;
     }
 
-    .empty-message {
-      padding: 25px 15px;
+    /* ASSIGNMENTS */
+
+    .assignments-title {
       text-align: center;
-      color: #555;
+      color: #8b0000;
+      font-size: 26px;
+      margin: 0 0 17px;
     }
 
-    /* =========================
-       SIDE PANELS
-    ========================== */
-
-    .overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      display: none;
-      background: rgba(0,0,0,.38);
+    #assignmentList {
+      padding-bottom: 20px;
     }
 
-    .overlay.show {
-      display: block;
+    .loading,
+    .empty,
+    .error {
+      text-align: center;
+      font-size: 16px;
+      padding: 12px 5px;
+      line-height: 1.4;
     }
 
-    .side-panel {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      z-index: 1000;
-      width: min(82vw, 300px);
-      padding: 25px 20px;
+    .assignment-card {
       background: #ffffff;
-      box-shadow: 0 0 20px rgba(0,0,0,.20);
-      transition: transform .25s ease;
+      border: 1px solid #dddddd;
+      border-left: 5px solid #c40000;
+      border-radius: 14px;
+      padding: 17px;
+      margin-bottom: 15px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.07);
     }
+
+    .assignment-card h3 {
+      margin: 0 0 13px;
+      color: #b40000;
+      font-size: 20px;
+    }
+
+    .detail {
+      margin: 7px 0;
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .detail strong {
+      color: #111111;
+    }
+
+    .assignment-pay {
+      margin-top: 14px;
+      padding: 11px;
+      background: #fff3f3;
+      border-radius: 9px;
+      font-weight: bold;
+      color: #8b0000;
+    }
+
+    .accept-btn {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      background: #16863a;
+      color: #ffffff;
+      padding: 14px;
+      margin-top: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .accept-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    /* MENU */
 
     .menu-panel {
-      left: 0;
-      transform: translateX(-105%);
-    }
-
-    .account-panel {
-      right: 0;
-      transform: translateX(105%);
-    }
-
-    .menu-panel.open,
-    .account-panel.open {
-      transform: translateX(0);
-    }
-
-    .panel-close {
+      display: none;
       position: absolute;
-      top: 15px;
-      right: 15px;
-      width: 38px;
-      height: 38px;
-      border: 0;
-      background: transparent;
-      color: var(--dark-red);
-      font-size: 30px;
-      line-height: 1;
+      top: 80px;
+      left: 18px;
+      width: 210px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.18);
+      z-index: 100;
+      overflow: hidden;
     }
 
-    .side-panel h2 {
-      margin: 15px 0 28px;
-      color: var(--dark-red);
-      font-size: 23px;
-    }
-
-    .side-panel a,
-    .side-panel .panel-action {
+    .menu-panel a {
       display: block;
-      width: 100%;
-      padding: 14px 4px;
-      border: 0;
-      border-bottom: 1px solid #e6e6e6;
-      background: transparent;
-      color: #222;
-      text-align: left;
+      padding: 15px 17px;
+      color: #8b0000;
       text-decoration: none;
-      font-size: 16px;
+      font-weight: bold;
+      border-bottom: 1px solid #eeeeee;
     }
 
-    .side-panel a:hover,
-    .side-panel .panel-action:hover {
-      color: var(--dark-red);
+    .menu-panel a:last-child {
+      border-bottom: none;
     }
 
-    .account-name {
-      margin-bottom: 6px;
-      color: var(--dark-red);
-      font-size: 18px;
-      font-weight: 700;
+    .menu-panel.show {
+      display: block;
     }
 
-    .account-role {
-      margin-bottom: 22px;
-      color: #666;
-      font-size: 14px;
-    }
-
-    @media (max-width: 360px) {
-      .logo {
-        width: 105px;
+    @media (max-width: 480px) {
+      .page {
+        max-width: 100%;
       }
 
-      .intro h1 {
-        font-size: 27px;
-      }
-
-      .profile-top {
-        align-items: flex-start;
-      }
-
-      .avatar {
-        width: 62px;
-        height: 62px;
-        flex-basis: 62px;
-      }
-
-      .welcome h2 {
-        font-size: 18px;
+      .title-area h1 {
+        font-size: 28px;
       }
     }
   </style>
@@ -486,498 +329,687 @@
 
 <body>
 
-  <div class="page">
+<div class="page">
 
-    <!-- WHITE HEADER -->
-    <header class="top-bar">
+  <header class="top-bar">
 
-      <button
-        class="menu-button"
-        id="menuButton"
-        type="button"
-        aria-label="Open menu"
-      >
-        <span></span>
-      </button>
+    <button class="menu-btn" type="button" onclick="toggleMenu()" aria-label="Menu">
+      <span class="menu-icon">☰</span>
+    </button>
 
-      <!-- Change this src only if your existing logo filename is different -->
-      <img
-        class="logo"
-        src="../logo.png"
-        alt="Realtor Guard"
-        onerror="this.style.visibility='hidden';"
-      >
+    <img
+      class="logo"
+      src="../images/realtor-guard-logo.png"
+      alt="Realtor Guard"
+      onerror="this.style.visibility='hidden';"
+    >
 
-      <button
-        class="account-button"
-        id="accountButton"
-        type="button"
-        aria-label="Open account"
-      >
-        <span class="account-head"></span>
-        <span class="account-body"></span>
-      </button>
+    <button class="account-btn" type="button" aria-label="Account">
+      <span class="account-icon">♟</span>
+    </button>
 
-    </header>
+    <div id="menuPanel" class="menu-panel">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="pending.html">Assignments</a>
+      <a href="complete-assignment.html">Completed Assignments</a>
+      <a href="login.html" id="logoutLink">Log Out</a>
+    </div>
 
-    <section class="intro">
-      <h1>Observer Dashboard</h1>
+  </header>
+
+  <section class="title-area">
+    <h1>Observer Dashboard</h1>
+    <p>View available assignments and provide safety support to agents.</p>
+  </section>
+
+  <main class="content">
+
+    <section class="profile-card">
+
+      <div class="profile-top">
+
+        <div class="avatar">👤</div>
+
+        <div class="profile-info">
+          <h2 id="observerName">Welcome, Observer</h2>
+
+          <div class="rating">
+            ★★★★★ New Observer
+          </div>
+
+          <span class="verified">
+            ✓ Identity Verified
+          </span>
+        </div>
+
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="availability-row">
+
+        <strong>Availability Status</strong>
+
+        <select id="availability" class="availability-select">
+          <option value="available">Available</option>
+          <option value="unavailable">Unavailable</option>
+        </select>
+
+      </div>
+
+    </section>
+
+    <section class="pay-card">
+      <h2>Observer Pay</h2>
+
+      <div class="pay-main">
+        $25 First Hour Guaranteed
+      </div>
+
       <p>
-        View available assignments and provide safety
-        support to agents.
+        Additional time is paid proportionally by the minute.
+      </p>
+
+      <p>
+        <strong>Rate after first hour:</strong>
+        $25/hour prorated by the minute.
       </p>
     </section>
 
-    <main class="content">
-
-      <!-- PROFILE -->
-      <section class="card profile-card">
-
-        <div class="profile-top">
-
-          <div class="avatar">👤</div>
-
-          <div class="welcome">
-            <h2 id="observerWelcome">Welcome, Observer</h2>
-
-            <div class="rating">
-              ★★★★★ <span>New Observer</span>
-            </div>
-
-            <div class="verified">
-              ✓ Identity Verified
-            </div>
-          </div>
-
-        </div>
-
-        <div class="availability-row">
-
-          <strong>Availability Status</strong>
-
-          <select
-            class="availability-select"
-            id="availabilityStatus"
-            aria-label="Availability Status"
-          >
-            <option value="available">Available</option>
-            <option value="unavailable">Unavailable</option>
-          </select>
-
-        </div>
-
-      </section>
-
-      <!-- NOTIFICATIONS -->
-      <button
-        class="notification-button"
-        id="notificationButton"
-        type="button"
-      >
-        🔔 Enable Assignment Notifications
-      </button>
-
-      <h2 class="section-title">
-        Available Assignments
-      </h2>
-
-      <!--
-        This container is where our Supabase assignments
-        will be loaded after the new design is confirmed.
-      -->
-      <div id="assignmentsContainer">
-
-     
-      </div>
-
-    </main>
-
-  </div>
-
-  <!-- DARK OVERLAY -->
-  <div class="overlay" id="overlay"></div>
-
-  <!-- HAMBURGER MENU -->
-  <aside
-    class="side-panel menu-panel"
-    id="menuPanel"
-    aria-hidden="true"
-  >
-
     <button
-      class="panel-close"
+      id="notificationBtn"
+      class="notification-btn"
       type="button"
-      aria-label="Close menu"
-      onclick="closePanels()"
+      onclick="enableNotifications()"
     >
-      ×
+      🔔 Enable Assignment Notifications
     </button>
 
-    <h2>Observer Menu</h2>
+    <h2 class="assignments-title">
+      Available Assignments
+    </h2>
 
-    <a href="dashboard.html">Dashboard</a>
-    <a href="#">Available Assignments</a>
-    <a href="#">My Assignments</a>
-    <a href="complete-assignment.html">Completed Assignments</a>
-
-  </aside>
-
-  <!-- ACCOUNT PANEL -->
-  <aside
-    class="side-panel account-panel"
-    id="accountPanel"
-    aria-hidden="true"
-  >
-
-    <button
-      class="panel-close"
-      type="button"
-      aria-label="Close account"
-      onclick="closePanels()"
-    >
-      ×
-    </button>
-
-    <h2>My Account</h2>
-
-    <div class="account-name">
-      Observer
+    <div id="assignmentList">
+      <div class="loading">Loading available assignments...</div>
     </div>
 
-    <div class="account-role">
-      Licensed Observer
-    </div>
+  </main>
 
-    <a href="#">Profile</a>
-    <a href="#">Account Settings</a>
-    <a href="#">Help &amp; Support</a>
-
-    <button
-      class="panel-action"
-      type="button"
-      onclick="logoutObserver()"
-    >
-      Sign Out
-    </button>
-
-  </aside>
-
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-const SUPABASE_URL = "https://ujnvhlleqfgjgnkcjlrc.supabase.co";
-const SUPABASE_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    
-    
-    const menuButton =
-      document.getElementById("menuButton");
 
-    const accountButton =
-      document.getElementById("accountButton");
+<script>
+  /*
+   ======================================================
+   REALTOR GUARD SUPABASE
+   ======================================================
+   KEEP YOUR EXISTING PROJECT URL AND ANON KEY HERE.
+   */
 
-    const menuPanel =
+ const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+
+const SUPABASE_ANON_KEY = "=sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+  const assignmentList =
+    document.getElementById("assignmentList");
+
+  const availability =
+    document.getElementById("availability");
+
+
+  function toggleMenu() {
+    document
+      .getElementById("menuPanel")
+      .classList
+      .toggle("show");
+  }
+
+
+  document.addEventListener("click", function(event) {
+
+    const menu =
       document.getElementById("menuPanel");
 
-    const accountPanel =
-      document.getElementById("accountPanel");
+    const menuButton =
+      document.querySelector(".menu-btn");
 
-    const overlay =
-      document.getElementById("overlay");
+    if (
+      !menu.contains(event.target) &&
+      !menuButton.contains(event.target)
+    ) {
+      menu.classList.remove("show");
+    }
 
-    const notificationButton =
-      document.getElementById("notificationButton");
+  });
 
 
-    function closePanels() {
+  function formatDate(value) {
 
-      menuPanel.classList.remove("open");
-      accountPanel.classList.remove("open");
-      overlay.classList.remove("show");
+    if (!value) return "Not provided";
 
-      menuPanel.setAttribute("aria-hidden", "true");
-      accountPanel.setAttribute("aria-hidden", "true");
+    const parts = value.split("-");
+
+    if (parts.length !== 3) return value;
+
+    return (
+      parts[1] +
+      "/" +
+      parts[2] +
+      "/" +
+      parts[0]
+    );
+  }
+
+
+  function formatTime(value) {
+
+    if (!value) return "Not provided";
+
+    const pieces = value.split(":");
+
+    let hour = Number(pieces[0]);
+    const minute = pieces[1] || "00";
+
+    const suffix =
+      hour >= 12 ? "PM" : "AM";
+
+    hour = hour % 12;
+
+    if (hour === 0) {
+      hour = 12;
+    }
+
+    return (
+      hour +
+      ":" +
+      minute +
+      " " +
+      suffix
+    );
+  }
+
+
+  function escapeHTML(value) {
+
+    if (value === null || value === undefined) {
+      return "";
+    }
+
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+
+  async function loadObserver() {
+
+    try {
+
+      const {
+        data: { user }
+      } = await supabaseClient.auth.getUser();
+
+      if (!user) {
+        return;
+      }
+
+      const { data, error } =
+        await supabaseClient
+          .from("observers")
+          .select("*")
+          .eq("id", user.id)
+          .maybeSingle();
+
+      if (error) {
+        console.log("Observer profile:", error.message);
+        return;
+      }
+
+      if (data) {
+
+        const name =
+          data.full_name ||
+          data.name ||
+          "Observer";
+
+        document.getElementById(
+          "observerName"
+        ).textContent =
+          "Welcome, " + name;
+
+      }
+
+    } catch (error) {
+
+      console.log(
+        "Observer profile error:",
+        error
+      );
+
+    }
+  }
+
+
+  async function loadAssignments() {
+
+    assignmentList.innerHTML =
+      '<div class="loading">Loading available assignments...</div>';
+
+    try {
+
+      const { data, error } =
+        await supabaseClient
+          .from("assignments")
+          .select("*")
+          .eq("status", "pending")
+          .is("observer_id", null)
+          .order("date", {
+            ascending: true
+          })
+          .order("time", {
+            ascending: true
+          });
+
+      if (error) {
+
+        console.error(error);
+
+        assignmentList.innerHTML =
+          '<div class="error">Could not load assignments. Please refresh and try again.</div>';
+
+        return;
+      }
+
+
+      if (!data || data.length === 0) {
+
+        assignmentList.innerHTML =
+          '<div class="empty">No available assignments right now.</div>';
+
+        return;
+      }
+
+
+      assignmentList.innerHTML = "";
+
+
+      data.forEach(function(assignment) {
+
+        const card =
+          document.createElement("div");
+
+        card.className =
+          "assignment-card";
+
+
+        const agentName =
+          escapeHTML(
+            assignment.agent_name ||
+            "Agent"
+          );
+
+
+        const propertyAddress =
+          escapeHTML(
+            assignment.property_address ||
+            ""
+          );
+
+
+        const city =
+          escapeHTML(
+            assignment.city ||
+            ""
+          );
+
+
+        const state =
+          escapeHTML(
+            assignment.state ||
+            ""
+          );
+
+
+        const zip =
+          escapeHTML(
+            assignment.zip ||
+            ""
+          );
+
+
+        const timezone =
+          escapeHTML(
+            assignment.timezone ||
+            "Eastern Time"
+          );
+
+
+        const duration =
+          escapeHTML(
+            assignment.duration ||
+            "1 hour"
+          );
+
+
+        card.innerHTML = `
+
+          <h3>Available Assignment</h3>
+
+          <div class="detail">
+            <strong>Agent:</strong>
+            ${agentName}
+          </div>
+
+          <div class="detail">
+            <strong>Property:</strong>
+            ${propertyAddress}
+          </div>
+
+          <div class="detail">
+            <strong>City:</strong>
+            ${city}
+          </div>
+
+          <div class="detail">
+            <strong>State:</strong>
+            ${state}
+          </div>
+
+          <div class="detail">
+            <strong>Zip:</strong>
+            ${zip}
+          </div>
+
+          <div class="detail">
+            <strong>Date:</strong>
+            ${formatDate(assignment.date)}
+          </div>
+
+          <div class="detail">
+            <strong>Time:</strong>
+            ${formatTime(assignment.time)}
+          </div>
+
+          <div class="detail">
+            <strong>Duration:</strong>
+            ${duration}
+          </div>
+
+          <div class="detail">
+            <strong>Time Zone:</strong>
+            ${timezone}
+          </div>
+
+          <div class="assignment-pay">
+            Observer Pay:
+            $25 first hour guaranteed.
+            Additional time paid proportionally by the minute.
+          </div>
+
+          <button
+            class="accept-btn"
+            type="button"
+            onclick="acceptAssignment(${Number(assignment.id)}, this)"
+          >
+            Accept Assignment
+          </button>
+        `;
+
+        assignmentList.appendChild(card);
+
+      });
+
+    } catch (error) {
+
+      console.error(error);
+
+      assignmentList.innerHTML =
+        '<div class="error">Could not load assignments. Please refresh and try again.</div>';
+
+    }
+  }
+
+
+  async function acceptAssignment(
+    assignmentId,
+    button
+  ) {
+
+    button.disabled = true;
+    button.textContent =
+      "Accepting...";
+
+    try {
+
+      const {
+        data: { user },
+        error: userError
+      } = await supabaseClient.auth.getUser();
+
+
+      if (userError || !user) {
+
+        alert(
+          "Please log in again before accepting an assignment."
+        );
+
+        button.disabled = false;
+        button.textContent =
+          "Accept Assignment";
+
+        return;
+      }
+
+
+      const { data, error } =
+        await supabaseClient
+          .from("assignments")
+          .update({
+            status: "accepted",
+            observer_id: user.id
+          })
+          .eq("id", assignmentId)
+          .eq("status", "pending")
+          .is("observer_id", null)
+          .select()
+          .maybeSingle();
+
+
+      if (error) {
+
+        console.error(error);
+
+        alert(
+          "The assignment could not be accepted. Please try again."
+        );
+
+        button.disabled = false;
+        button.textContent =
+          "Accept Assignment";
+
+        return;
+      }
+
+
+      if (!data) {
+
+        alert(
+          "This assignment is no longer available."
+        );
+
+        loadAssignments();
+
+        return;
+      }
+
+
+      localStorage.setItem(
+        "rg_assignment_id",
+        String(assignmentId)
+      );
+
+
+      window.location.href =
+        "on-my-way.html?id=" +
+        encodeURIComponent(
+          assignmentId
+        );
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Something went wrong while accepting the assignment."
+      );
+
+      button.disabled = false;
+      button.textContent =
+        "Accept Assignment";
+
+    }
+  }
+
+
+  async function enableNotifications() {
+
+    const button =
+      document.getElementById(
+        "notificationBtn"
+      );
+
+
+    if (
+      !("Notification" in window)
+    ) {
+
+      alert(
+        "Notifications are not supported on this browser."
+      );
+
+      return;
     }
 
 
-    menuButton.addEventListener("click", function () {
+    try {
 
-      closePanels();
-
-      menuPanel.classList.add("open");
-      overlay.classList.add("show");
-
-      menuPanel.setAttribute("aria-hidden", "false");
-    });
+      const permission =
+        await Notification.requestPermission();
 
 
-    accountButton.addEventListener("click", function () {
+      if (permission === "granted") {
 
-      closePanels();
+        button.textContent =
+          "🔔 Assignment Notifications Enabled";
 
-      accountPanel.classList.add("open");
-      overlay.classList.add("show");
+        button.style.background =
+          "#16863a";
 
-      accountPanel.setAttribute("aria-hidden", "false");
-    });
+        localStorage.setItem(
+          "rg_notifications",
+          "enabled"
+        );
 
+      } else {
 
-    overlay.addEventListener("click", closePanels);
+        alert(
+          "Notification permission was not enabled."
+        );
 
-
-    document.addEventListener("keydown", function (event) {
-
-      if (event.key === "Escape") {
-        closePanels();
       }
 
-    });
+    } catch (error) {
+
+      console.error(error);
+
+    }
+  }
 
 
-    notificationButton.addEventListener(
+  availability.addEventListener(
+    "change",
+    function() {
+
+      localStorage.setItem(
+        "rg_observer_availability",
+        availability.value
+      );
+
+    }
+  );
+
+
+  const savedAvailability =
+    localStorage.getItem(
+      "rg_observer_availability"
+    );
+
+
+  if (savedAvailability) {
+
+    availability.value =
+      savedAvailability;
+
+  }
+
+
+  if (
+    localStorage.getItem(
+      "rg_notifications"
+    ) === "enabled"
+  ) {
+
+    const notificationButton =
+      document.getElementById(
+        "notificationBtn"
+      );
+
+    notificationButton.textContent =
+      "🔔 Assignment Notifications Enabled";
+
+    notificationButton.style.background =
+      "#16863a";
+
+  }
+
+
+  document
+    .getElementById("logoutLink")
+    .addEventListener(
       "click",
-      async function () {
+      async function(event) {
 
-        if (!("Notification" in window)) {
+        event.preventDefault();
 
-          alert(
-            "Notifications are not supported by this browser."
-          );
+        await supabaseClient.auth.signOut();
 
-          return;
-        }
-
-        try {
-
-          const permission =
-            await Notification.requestPermission();
-
-          if (permission === "granted") {
-
-            notificationButton.textContent =
-              "✓ Assignment Notifications Enabled";
-
-            notificationButton.classList.add("enabled");
-
-          } else {
-
-            alert(
-              "Notification permission was not enabled."
-            );
-
-          }
-
-        } catch (error) {
-
-          console.error(error);
-
-        }
+        window.location.href =
+          "login.html";
 
       }
     );
 
 
- async function loadAssignments() {
-  const container = document.getElementById("assignmentsContainer");
-
-  if (!container) return;
-
-  container.innerHTML = "<p>Loading available assignments...</p>";
-
-  try {
-    const { data, error } = await supabaseClient
-      .from("assignments")
-      .select("*")
-      .eq("status", "pending")
-      .order("date", { ascending: true });
-
-    if (error) throw error;
-
-    if (!data || data.length === 0) {
-      container.innerHTML =
-        "<p>No available assignments at this time.</p>";
-      return;
-    }
-
-    container.innerHTML = "";
-
-    data.forEach((assignment) => {
-      const card = document.createElement("section");
-      card.className = "card assignment-card";
-
-      let displayDate = assignment.date || "Not provided";
-
-      if (assignment.date) {
-        const dateParts = assignment.date.split("-");
-        if (dateParts.length === 3) {
-          displayDate =
-            dateParts[1] + "/" +
-            dateParts[2] + "/" +
-            dateParts[0];
-        }
-      }
-
-      let displayTime = assignment.time || "Not provided";
-
-      if (assignment.time) {
-        const timeParts = assignment.time.split(":");
-        let hour = Number(timeParts[0]);
-        const minute = timeParts[1] || "00";
-        const ampm = hour >= 12 ? "PM" : "AM";
-
-        hour = hour % 12;
-        hour = hour || 12;
-
-        displayTime = hour + ":" + minute + " " + ampm;
-      }
-
-      const agentName =
-        assignment.agent_name ||
-        assignment.agent_full_name ||
-        assignment.agent ||
-        "Agent";
-
-      const propertyAddress =
-        assignment.property_address ||
-        assignment.address ||
-        "Address not provided";
-
-      const city = assignment.city || "";
-      const state = assignment.state || "";
-      const zip = assignment.zip || assignment.zip_code || "";
-
-      const location =
-        [city, state, zip].filter(Boolean).join(", ");
-
-      const duration =
-        assignment.duration || "Not provided";
-
-      const timeZone =
-        assignment.time_zone ||
-        assignment.timezone ||
-        "";
-
-      card.innerHTML = `
-        <h3>Available Assignment</h3>
-
-        <div class="assignment-details">
-          <p><strong>Agent:</strong> ${agentName}</p>
-          <p><strong>Property:</strong> ${propertyAddress}</p>
-          <p><strong>Location:</strong> ${location || "Not provided"}</p>
-          <p><strong>Date:</strong> ${displayDate}</p>
-          <p><strong>Time:</strong> ${displayTime}${timeZone ? " " + timeZone : ""}</p>
-          <p><strong>Duration:</strong> ${duration}</p>
-        </div>
-
-        <div class="pay-card">
-          <span class="info">i</span>
-          <div class="rate">$25/Hour</div>
-          <p>First Hour Guaranteed</p>
-          <p>Additional Time Paid</p>
-          <p>Proportionally to the Minute.</p>
-        </div>
-
-        <button
-          class="accept-button"
-          type="button"
-          onclick="demoAccept(${assignment.id})"
-        >
-          Accept Assignment ›
-        </button>
-      `;
-
-      container.appendChild(card);
-    });
-
-  } catch (error) {
-    console.error("Load assignments error:", error);
-
-    container.innerHTML =
-      "<p>Could not load assignments. Please refresh and try again.</p>";
-  }
-}
-async function demoAccept(assignmentId) {
-  try {
-    const { data, error } = await supabaseClient
-      .from("assignments")
-      .update({
-        status: "accepted"
-      })
-      .eq("id", assignmentId)
-      .eq("status", "pending")
-      .select();
-
-    if (error) {
-      console.error("Accept assignment error:", error);
-      alert("Could not accept this assignment. Please try again.");
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      alert("This assignment is no longer available.");
-      return;
-    }
-
-    localStorage.setItem("assignmentId", String(assignmentId));
-
-    window.location.href =
-      "on-my-way.html?id=" + encodeURIComponent(assignmentId);
-
-  } catch (error) {
-    console.error("Accept assignment error:", error);
-    alert("Could not accept this assignment. Please try again.");
-  }
-}
-loadAssignments();
-    
-    async function demoAccept(assignmentId) {
-  try {
-    // Current test observer
-    const observerId = 11;
-
-    const { data, error } =     await supabaseClient .from("assignments")
-      .update({
-        status: "accepted",
-        observer_id: observerId
-      })
-      .eq("id", assignmentId)
-      .eq("status", "pending")
-      .select();
-
-    if (error) {
-      console.error("Accept assignment error:", error);
-      alert("Could not accept this assignment. Please try again.");
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      alert("This assignment is no longer available.");
-      return;
-    }
-
-    localStorage.setItem("assignmentId", String(assignmentId));
-
-    window.location.href =
-      "on-my-way.html?id=" + encodeURIComponent(assignmentId);
-
-  } catch (error) {
-    console.error("Accept assignment error:", error);
-    alert("Could not accept this assignment. Please try again.");
-  }
-}
+  loadObserver();
+  loadAssignments();
 
 
-    function logoutObserver() {
+  setInterval(
+    loadAssignments,
+    30000
+  );
 
-      /*
-        We will reconnect this to Supabase Auth
-        after the design test.
-      */
-
-      window.location.href = "login.html";
-
-    }
-  </script>
+</script>
 
 </body>
 </html>
