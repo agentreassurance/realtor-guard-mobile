@@ -896,7 +896,38 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       "<p>Could not load assignments. Please refresh and try again.</p>";
   }
 }
+async function demoAccept(assignmentId) {
+  try {
+    const { data, error } = await supabaseClient
+      .from("assignments")
+      .update({
+        status: "accepted"
+      })
+      .eq("id", assignmentId)
+      .eq("status", "pending")
+      .select();
 
+    if (error) {
+      console.error("Accept assignment error:", error);
+      alert("Could not accept this assignment. Please try again.");
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      alert("This assignment is no longer available.");
+      return;
+    }
+
+    localStorage.setItem("assignmentId", String(assignmentId));
+
+    window.location.href =
+      "on-my-way.html?id=" + encodeURIComponent(assignmentId);
+
+  } catch (error) {
+    console.error("Accept assignment error:", error);
+    alert("Could not accept this assignment. Please try again.");
+  }
+}
 loadAssignments();
     
     async function demoAccept(assignmentId) {
