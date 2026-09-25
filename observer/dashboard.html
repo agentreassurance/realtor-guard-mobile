@@ -587,78 +587,7 @@
       -->
       <div id="assignmentsContainer">
 
-        <section class="card assignment-card">
-
-          <h3>🏠 Agent Safety Assignment</h3>
-
-          <div class="detail-row">
-            <span class="detail-icon">👤</span>
-            <div>
-              <strong>Agent:</strong>
-              <span>Rich Richie</span>
-            </div>
-          </div>
-
-          <div class="detail-row">
-            <span class="detail-icon">📍</span>
-            <div>
-              <strong>Property Address:</strong>
-              <span>234 XthF</span>
-            </div>
-          </div>
-
-          <div class="detail-row">
-            <span class="detail-icon">🏢</span>
-            <div>
-              <strong>City:</strong>
-              <span>Virginia Beach, VA 23456</span>
-            </div>
-          </div>
-
-          <div class="detail-row">
-            <span class="detail-icon">📅</span>
-            <div>
-              <strong>Date:</strong>
-              <span>Tue, Sep 24, 2026</span>
-            </div>
-          </div>
-
-          <div class="detail-row">
-            <span class="detail-icon">🕒</span>
-            <div>
-              <strong>Time:</strong>
-              <span>4:30 PM (EDT)</span>
-            </div>
-          </div>
-
-          <div class="detail-row">
-            <span class="detail-icon">⏱</span>
-            <div>
-              <strong>Duration:</strong>
-              <span>2 Hours</span>
-            </div>
-          </div>
-
-          <div class="pay-card">
-            <span class="info">i</span>
-
-            <div class="rate">$25/Hour</div>
-
-            <p>First Hour Guaranteed</p>
-            <p>Additional Time Paid</p>
-            <p>Proportionally to the Minute.</p>
-          </div>
-
-          <button
-            class="accept-button"
-            type="button"
-            onclick="demoAccept()"
-          >
-            Accept Assignment ›
-          </button>
-
-        </section>
-
+     
       </div>
 
     </main>
@@ -842,7 +771,129 @@
     );
 
 
-  async function demoAccept(assignmentId) {
+ async function loadAssignments() {
+  const container = document.getElementById("assignmentsContainer");
+
+  if (!container) return;
+
+  container.innerHTML = "<p>Loading available assignments...</p>";
+
+  try {
+    const { data, error } = await supabase
+      .from("assignments")
+      .select("*")
+      .eq("status", "pending")
+      .order("date", { ascending: true });
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      container.innerHTML =
+        "<p>No available assignments at this time.</p>";
+      return;
+    }
+
+    container.innerHTML = "";
+
+    data.forEach((assignment) => {
+      const card = document.createElement("section");
+      card.className = "card assignment-card";
+
+      let displayDate = assignment.date || "Not provided";
+
+      if (assignment.date) {
+        const dateParts = assignment.date.split("-");
+        if (dateParts.length === 3) {
+          displayDate =
+            dateParts[1] + "/" +
+            dateParts[2] + "/" +
+            dateParts[0];
+        }
+      }
+
+      let displayTime = assignment.time || "Not provided";
+
+      if (assignment.time) {
+        const timeParts = assignment.time.split(":");
+        let hour = Number(timeParts[0]);
+        const minute = timeParts[1] || "00";
+        const ampm = hour >= 12 ? "PM" : "AM";
+
+        hour = hour % 12;
+        hour = hour || 12;
+
+        displayTime = hour + ":" + minute + " " + ampm;
+      }
+
+      const agentName =
+        assignment.agent_name ||
+        assignment.agent_full_name ||
+        assignment.agent ||
+        "Agent";
+
+      const propertyAddress =
+        assignment.property_address ||
+        assignment.address ||
+        "Address not provided";
+
+      const city = assignment.city || "";
+      const state = assignment.state || "";
+      const zip = assignment.zip || assignment.zip_code || "";
+
+      const location =
+        [city, state, zip].filter(Boolean).join(", ");
+
+      const duration =
+        assignment.duration || "Not provided";
+
+      const timeZone =
+        assignment.time_zone ||
+        assignment.timezone ||
+        "";
+
+      card.innerHTML = `
+        <h3>Available Assignment</h3>
+
+        <div class="assignment-details">
+          <p><strong>Agent:</strong> ${agentName}</p>
+          <p><strong>Property:</strong> ${propertyAddress}</p>
+          <p><strong>Location:</strong> ${location || "Not provided"}</p>
+          <p><strong>Date:</strong> ${displayDate}</p>
+          <p><strong>Time:</strong> ${displayTime}${timeZone ? " " + timeZone : ""}</p>
+          <p><strong>Duration:</strong> ${duration}</p>
+        </div>
+
+        <div class="pay-card">
+          <span class="info">i</span>
+          <div class="rate">$25/Hour</div>
+          <p>First Hour Guaranteed</p>
+          <p>Additional Time Paid</p>
+          <p>Proportionally to the Minute.</p>
+        </div>
+
+        <button
+          class="accept-button"
+          type="button"
+          onclick="demoAccept(${assignment.id})"
+        >
+          Accept Assignment ›
+        </button>
+      `;
+
+      container.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error("Load assignments error:", error);
+
+    container.innerHTML =
+      "<p>Could not load assignments. Please refresh and try again.</p>";
+  }
+}
+
+loadAssignments();
+    
+    async function demoAccept(assignmentId) {
   try {
     // Current test observer
     const observerId = 11;
