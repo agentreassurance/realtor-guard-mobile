@@ -736,16 +736,18 @@ async function loadAssignments() {
     const card = document.createElement("div");
     card.className = "assignment-card";
 
-    card.innerHTML = `
-      <h3>${assignment.city || "Assignment"}, ${assignment.state || "VA"}</h3>
-      <p><strong>Date:</strong> ${assignment.date || ""}</p>
-      <p><strong>Time:</strong> ${assignment.time || ""}</p>
-      <p><strong>Duration:</strong> ${assignment.duration || ""}</p>
-      <p><strong>Time Zone:</strong> ${assignment.timezone || "Eastern Time"}</p>
-      <button type="button" onclick="acceptAssignment('${assignment.id}')">
-        Accept Assignment
-      </button>
-    `;
+ card.innerHTML = `
+  <h3>${assignment.city || "Assignment"}, ${assignment.state || "VA"}</h3>
+  <p><strong>Agent Name:</strong> ${assignment.agent_name || ""}</p>
+  <p><strong>Property Address:</strong> ${assignment.property_address || assignment.address || ""}</p>
+  <p><strong>Date:</strong> ${assignment.date || ""}</p>
+  <p><strong>Time:</strong> ${assignment.time || ""}</p>
+  <p><strong>Duration:</strong> ${assignment.duration || ""}</p>
+  <p><strong>Time Zone:</strong> ${assignment.timezone || "Eastern Time"}</p>
+  <button type="button" onclick="acceptAssignment('${assignment.id}')">
+    Accept Assignment
+  </button>
+`;  
 
     assignmentsContainer.appendChild(card);
   });
