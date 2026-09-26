@@ -715,6 +715,7 @@ async function loadAssignments() {
     .from("assignments")
     .select("*")
     .eq("status", "pending")
+    .gte("date", new Date().toLocaleDateString("en-CA"))   
     .order("date", { ascending: true })
     .order("time", { ascending: true });
 
