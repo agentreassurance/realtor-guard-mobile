@@ -605,6 +605,15 @@ body {
 
 <script>
 
+  /* SUPABASE CONNECTION */
+  const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );  
+
 /* PANELS */
 
 function openAccount() {
@@ -699,7 +708,95 @@ function showAssignmentMessage(message) {
     '<div class="empty-message">' + message + '</div>';
 }
 
-showAssignmentMessage("No available assignments at this time.");
+async function loadAssignments() {
+  showAssignmentMessage("Loading available assignments...");
+
+  const { data, error } = await supabaseClient
+    .from("assignments")
+    .select("*")
+    .eq("status", "pending")
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
+
+  if (error) {
+    console.error("Error loading assignments:", error);
+    showAssignmentMessage("Unable to load assignments.");
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    showAssignmentMessage("No available assignments at this time.");
+    return;
+  }
+
+  const assignmentsContainer = document.getElementById("assignments");
+  assignmentsContainer.innerHTML = "";
+
+  data.forEach((assignment) => {
+    const card = document.createElement("div");
+    card.className = "assignment-card";
+
+    card.innerHTML = `
+      <h3>${assignment.city || "Assignment"}, ${assignment.state || "VA"}</h3>
+      <p><strong>Date:</strong> ${assignment.date || ""}</p>
+      <p><strong>Time:</strong> ${assignment.time || ""}</p>
+      <p><strong>Duration:</strong> ${assignment.duration || ""}</p>
+      <p><strong>Time Zone:</strong> ${assignment.timezone || "Eastern Time"}</p>
+      <button type="button" onclick="acceptAssignment('${assignment.id}')">
+        Accept Assignment
+      </button>
+    `;
+
+    assignmentsContainer.appendChild(card);
+  });
+}
+
+loadAssignments();
+
+async function acceptAssignment(assignmentId) {
+  try {
+    const {
+      data: { user },
+      error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+      alert("Please log in again before accepting an assignment.");
+      return;
+    }
+
+    const { data, error } = await supabaseClient
+      .from("assignments")
+      .update({
+        status: "accepted",
+        observer_id: user.id
+      })
+      .eq("id", assignmentId)
+      .eq("status", "pending")
+      .select();
+
+    if (error) {
+      console.error("Accept assignment error:", error);
+      alert("Unable to accept this assignment. Please try again.");
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      alert("This assignment is no longer available.");
+      loadAssignments();
+      return;
+    }
+
+    localStorage.setItem("assignmentId", assignmentId);
+
+    window.location.href =
+      "on-my-way.html?id=" + encodeURIComponent(assignmentId);
+
+  } catch (error) {
+    console.error("Accept assignment error:", error);
+    alert("Unable to accept this assignment. Please try again.");
+  }
+}  
 
 
 /* OBSERVER DISPLAY */
