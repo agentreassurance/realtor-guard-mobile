@@ -729,11 +729,20 @@ async function loadAssignments() {
     showAssignmentMessage("No available assignments at this time.");
     return;
   }
+const now = new Date();
 
+data = data.filter((assignment) => {
+  const assignmentDateTime = new Date(
+    `${assignment.date}T${assignment.time}`
+  );
+
+  return assignmentDateTime >= now;
+});
   const assignmentsContainer = document.getElementById("assignments");
   assignmentsContainer.innerHTML = "";
 
   data.forEach((assignment) => {
+    
     const card = document.createElement("div");
     card.className = "assignment-card";
 
