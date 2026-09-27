@@ -711,58 +711,101 @@ function showAssignmentMessage(message) {
 async function loadAssignments() {
   showAssignmentMessage("Loading available assignments...");
 
-  const { data, error } = await supabaseClient
-    .from("assignments")
-    .select("*")
-    .eq("status", "pending")
-    .gte("date", new Date().toLocaleDateString("en-CA"))   
-    .order("date", { ascending: true })
-    .order("time", { ascending: true });
+  try {
+    const { data: assignments, error } = await supabaseClient
+      .from("assignments")
+      .select("*")
+      .eq("status", "pending")
+      .order("date", { ascending: true })
+      .order("time", { ascending: true });
 
-  if (error) {
+    if (error) {
+      console.error("Error loading assignments:", error);
+      showAssignmentMessage("Unable to load assignments.");
+      return;
+    }
+
+    const now = new Date();
+
+    const availableAssignments = (assignments || []).filter((assignment) => {
+      if (!assignment.date || !assignment.time) {
+        return false;
+      }
+
+      const assignmentDateTime = new Date(
+        `${assignment.date}T${assignment.time}`
+      );
+
+      return (
+        !Number.isNaN(assignmentDateTime.getTime()) &&
+        assignmentDateTime >= now
+      );
+    });
+
+    if (availableAssignments.length === 0) {
+      showAssignmentMessage("No available assignments at this time.");
+      return;
+    }
+
+    const assignmentsContainer =
+      document.getElementById("assignments");
+
+    assignmentsContainer.innerHTML = "";
+
+    availableAssignments.forEach((assignment) => {
+      const card = document.createElement("div");
+      card.className = "assignment-card";
+
+      let displayTime = assignment.time || "";
+
+      if (assignment.time) {
+        const [hours, minutes] = assignment.time.split(":");
+        const hour = Number(hours);
+
+        if (!Number.isNaN(hour)) {
+          const ampm = hour >= 12 ? "PM" : "AM";
+          const hour12 = hour % 12 || 12;
+          displayTime = `${hour12}:${minutes} ${ampm}`;
+        }
+      }
+
+      card.innerHTML = `
+        <h3>${assignment.city || "Assignment"}, ${assignment.state || "VA"}</h3>
+
+        <p><strong>Agent Name:</strong>
+        ${assignment.agent_name || "Not provided"}</p>
+
+        <p><strong>Property Address:</strong>
+        ${assignment.property_address || assignment.address || "Not provided"}</p>
+
+        <p><strong>Date:</strong>
+        ${assignment.date || ""}</p>
+
+        <p><strong>Time:</strong>
+        ${displayTime}</p>
+
+        <p><strong>Duration:</strong>
+        ${assignment.duration || ""}</p>
+
+        <p><strong>Time Zone:</strong>
+        ${assignment.timezone || "Eastern Time"}</p>
+
+        <button
+          type="button"
+          onclick="acceptAssignment('${assignment.id}')"
+        >
+          Accept Assignment
+        </button>
+      `;
+
+      assignmentsContainer.appendChild(card);
+    });
+
+  } catch (error) {
     console.error("Error loading assignments:", error);
     showAssignmentMessage("Unable to load assignments.");
-    return;
   }
-
-  if (!data || data.length === 0) {
-    showAssignmentMessage("No available assignments at this time.");
-    return;
-  }
-const now = new Date();
-
-data = data.filter((assignment) => {
-  const assignmentDateTime = new Date(
-    `${assignment.date}T${assignment.time}`
-  );
-
-  return assignmentDateTime >= now;
-});
-  const assignmentsContainer = document.getElementById("assignments");
-  assignmentsContainer.innerHTML = "";
-
-  data.forEach((assignment) => {
-    
-    const card = document.createElement("div");
-    card.className = "assignment-card";
-
- card.innerHTML = `
-  <h3>${assignment.city || "Assignment"}, ${assignment.state || "VA"}</h3>
-  <p><strong>Agent Name:</strong> ${assignment.agent_name || ""}</p>
-  <p><strong>Property Address:</strong> ${assignment.property_address || assignment.address || ""}</p>
-  <p><strong>Date:</strong> ${assignment.date || ""}</p>
-  <p><strong>Time:</strong> ${assignment.time || ""}</p>
-  <p><strong>Duration:</strong> ${assignment.duration || ""}</p>
-  <p><strong>Time Zone:</strong> ${assignment.timezone || "Eastern Time"}</p>
-  <button type="button" onclick="acceptAssignment('${assignment.id}')">
-    Accept Assignment
-  </button>
-`;  
-
-    assignmentsContainer.appendChild(card);
-  });
 }
-
 loadAssignments();
 
 async function acceptAssignment(assignmentId) {
