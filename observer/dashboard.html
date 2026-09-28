@@ -845,9 +845,8 @@ async function acceptAssignment(assignmentId) {
 
     localStorage.setItem("assignmentId", assignmentId);
 
-    window.location.href =
-      "on-my-way.html?id=" + encodeURIComponent(assignmentId);
-
+   window.location.href =
+  "accepted.html?id=" + encodeURIComponent(assignmentId); 
   } catch (error) {
     console.error("Accept assignment error:", error);
     alert("Unable to accept this assignment. Please try again.");
