@@ -2,12 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accepted Assignment | Realtor Guard</title>
 
   <style>
@@ -17,334 +12,635 @@
 
     body {
       margin: 0;
-      min-height: 100vh;
-      background: #f4f4f4;
-      color: #222222;
-      font-family: Arial, sans-serif;
+      background: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #171717;
     }
 
     .page {
       width: 100%;
-      max-width: 480px;
-      min-height: 100vh;
+      max-width: 430px;
       margin: 0 auto;
+      min-height: 100vh;
       background: #ffffff;
+      padding-bottom: 90px;
     }
 
-    .header {
-      padding: 20px 18px;
-      background: #b00000;
-      color: #ffffff;
-      text-align: center;
+    /* HEADER */
+    .topbar {
+      height: 92px;
+      display: grid;
+      grid-template-columns: 60px 1fr 60px;
+      align-items: center;
+      padding: 10px 16px;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .menu-btn,
+    .account-btn {
+      border: 0;
+      background: transparent;
+      padding: 6px;
+      cursor: pointer;
+    }
+
+    .menu-icon {
+      font-size: 29px;
+      color: #8f0000;
+      line-height: 1;
+    }
+
+    .account-circle {
+      width: 39px;
+      height: 39px;
+      margin-left: auto;
+      border-radius: 50%;
+      background: #8f0000;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 700;
     }
 
     .logo {
       display: block;
-      width: 105px;
-      margin: 0 auto 10px;
-      padding: 6px;
-      border-radius: 8px;
-      background: #ffffff;
+      max-width: 145px;
+      max-height: 72px;
+      margin: 0 auto;
+      object-fit: contain;
     }
 
-    .header h1 {
+    /* MAIN */
+    main {
+      padding: 24px 18px 20px;
+    }
+
+    h1 {
       margin: 0;
+      text-align: center;
+      color: #8f0000;
       font-size: 27px;
+      font-weight: 800;
     }
 
-    .header p {
-      margin: 8px 0 0;
-      line-height: 1.4;
+    .subtitle {
+      text-align: center;
+      margin: 9px 0 20px;
+      font-size: 14px;
+      color: #4b4b4b;
     }
 
-    .content {
-      padding: 18px;
-    }
-
-    .success-box {
+    .accepted-banner {
+      background: #eaf8ef;
+      border: 1px solid #c8ead3;
+      color: #14823b;
+      border-radius: 9px;
+      padding: 14px 12px;
+      font-size: 15px;
+      font-weight: 700;
       margin-bottom: 18px;
-      padding: 15px;
-      border: 1px solid #add8b7;
-      border-radius: 10px;
-      background: #effaf1;
-      color: #087322;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
     }
 
-    .assignment-card {
-      padding: 18px;
-      border: 1px solid #dddddd;
-      border-radius: 12px;
+    .accepted-banner span {
+      margin-right: 8px;
+    }
+
+    .card {
+      border: 1px solid #e5e5e5;
+      border-radius: 9px;
       background: #ffffff;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+      padding: 17px;
+      margin-bottom: 17px;
+      box-shadow: 0 2px 7px rgba(0,0,0,.06);
     }
 
-    .assignment-card h2 {
-      margin: 0 0 16px;
-      color: #b00000;
-      text-align: center;
-      font-size: 23px;
+    .card-title {
+      margin: 0 0 14px;
+      color: #8f0000;
+      font-size: 18px;
+      font-weight: 800;
     }
 
-    .detail {
-      margin: 12px 0;
-      line-height: 1.45;
+    .detail-row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 10px;
+      padding: 5px 0;
+      font-size: 14px;
+      line-height: 1.35;
     }
 
-    .detail strong {
-      color: #111111;
+    .detail-label {
+      font-weight: 700;
     }
 
-    .address-box {
-      margin: 16px 0;
-      padding: 14px;
-      border-left: 5px solid #b00000;
-      border-radius: 7px;
-      background: #f7f7f7;
-      line-height: 1.5;
+    .detail-value {
+      color: #202020;
+      overflow-wrap: anywhere;
     }
 
-    .pay-box {
-      margin: 16px 0;
-      padding: 14px;
-      border: 1px solid #b8dfc0;
+    /* PAY */
+    .pay-card {
+      background: #eaf8ef;
+      border: 1px solid #c8ead3;
       border-radius: 9px;
-      background: #effaf1;
-      color: #087322;
-      text-align: center;
-      font-size: 21px;
-      font-weight: bold;
+      padding: 17px;
+      margin-bottom: 20px;
     }
 
-    .privacy-note {
-      margin: -6px 0 17px;
-      color: #666666;
+    .pay-title {
+      margin: 0 0 10px;
+      color: #17783a;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .pay-main {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+
+    .pay-sub {
       font-size: 13px;
-      text-align: center;
+      color: #4c4c4c;
     }
 
-    .button {
+    /* BUTTONS */
+    .action-btn {
       width: 100%;
-      min-height: 52px;
-      margin-top: 11px;
-      border: none;
-      border-radius: 9px;
+      min-height: 50px;
+      border-radius: 8px;
+      border: 0;
+      margin-bottom: 11px;
       font-size: 16px;
-      font-weight: bold;
+      font-weight: 800;
       cursor: pointer;
     }
 
-    .directions-button {
-      background: #b00000;
+    .navigation-btn {
+      background: #17843d;
       color: #ffffff;
     }
 
-    .enroute-button {
-      background: #222222;
+    .start-btn {
+      background: #8f0000;
       color: #ffffff;
     }
 
-    .arrived-button {
-      background: #168437;
+    .support-btn {
+      background: #7a0000;
       color: #ffffff;
     }
 
-    .cancel-button {
-      border: 1px solid #777777;
+    .cancel-btn {
       background: #ffffff;
-      color: #555555;
+      color: #c00000;
+      border: 2px solid #c00000;
     }
 
-    .dashboard-button {
-      border: 1px solid #b00000;
+    /* BOTTOM NAV */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      height: 72px;
       background: #ffffff;
-      color: #b00000;
+      border-top: 1px solid #e5e5e5;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      z-index: 20;
     }
 
-    .status-box {
-      display: none;
-      margin-top: 18px;
-      padding: 15px;
-      border-radius: 9px;
-      background: #f1f1f1;
-      text-align: center;
-      line-height: 1.5;
-      font-weight: bold;
+    .nav-item {
+      border: 0;
+      background: transparent;
+      color: #666666;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
     }
 
-    .notice {
-      margin-top: 18px;
-      padding: 14px;
-      border-radius: 9px;
-      background: #fff5dc;
-      color: #5a4300;
-      font-size: 14px;
-      line-height: 1.5;
-      text-align: center;
+    .nav-icon {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .nav-item.active {
+      color: #8f0000;
+    }
+
+    /* MENU */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -285px;
+      width: 285px;
+      height: 100%;
+      background: #ffffff;
+      z-index: 50;
+      box-shadow: 4px 0 15px rgba(0,0,0,.18);
+      transition: left .25s ease;
+      padding: 25px 20px;
+    }
+
+    .side-menu.open {
+      left: 0;
+    }
+
+    .menu-close {
+      border: 0;
+      background: transparent;
+      color: #8f0000;
+      font-size: 28px;
+      cursor: pointer;
+      float: right;
+    }
+
+    .menu-heading {
+      clear: both;
+      padding-top: 20px;
+      color: #8f0000;
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .menu-link {
+      display: block;
+      padding: 13px 0;
+      color: #222222;
+      text-decoration: none;
+      border-bottom: 1px solid #eeeeee;
+      font-weight: 700;
+    }
+
+    @media (max-width: 360px) {
+      .detail-row {
+        grid-template-columns: 95px 1fr;
+        font-size: 13px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <main class="page">
-    <header class="header">
+
+  <div class="side-menu" id="sideMenu">
+    <button class="menu-close" onclick="toggleMenu()">×</button>
+    <div class="menu-heading">Observer Menu</div>
+
+    <a class="menu-link" href="dashboard.html">Dashboard</a>
+    <a class="menu-link" href="accepted.html">Accepted Assignment</a>
+    <a class="menu-link" href="completed.html">Completed Assignments</a>
+    <a class="menu-link" href="account.html">Account</a>
+  </div>
+
+  <div class="page">
+
+    <header class="topbar">
+      <button class="menu-btn" onclick="toggleMenu()" aria-label="Open menu">
+        <span class="menu-icon">☰</span>
+      </button>
+
+      <!-- Uses the same Realtor Guard logo file as the observer pages -->
       <img
         class="logo"
-        src="../logo.png"
-        alt="Realtor Guard logo"
+        src="../assets/rglogo.png"
+        alt="Realtor Guard"
+        onerror="this.style.display='none';"
       >
 
-      <h1>Observer Assignment</h1>
-
-      <p>
-        Review your accepted assignment and update your arrival status.
-      </p>
+      <button
+        class="account-btn"
+        onclick="window.location.href='account.html'"
+        aria-label="Observer account"
+      >
+        <span class="account-circle">♟</span>
+      </button>
     </header>
 
-    <section class="content">
-      <div class="success-box">
-        ✓ Assignment Accepted
+    <main>
+
+      <h1>Accepted Assignment</h1>
+      <div class="subtitle">Your assignment is confirmed.</div>
+
+      <div class="accepted-banner">
+        <span>✓</span> Assignment Accepted
       </div>
 
-      <article class="assignment-card">
-        <h2>Assignment Details</h2>
+      <section class="card">
+        <h2 class="card-title">Property Details</h2>
 
-        <p class="detail">
-          <strong>Agent:</strong>
-          Demo Agent
-        </p>
-
-        <p class="detail">
-          <strong>Protected Phone:</strong>
-          (555) 010-2026
-        </p>
-
-        <div class="address-box">
-          <strong>Property Address</strong><br>
-          123 Main Street<br>
-          Richmond, Virginia 23220
+        <div class="detail-row">
+          <div class="detail-label">Agent Name:</div>
+          <div class="detail-value" id="agentName">—</div>
         </div>
 
-        <p class="detail">
-          <strong>Date:</strong>
-          August 3, 2026
-        </p>
-
-        <p class="detail">
-          <strong>Time:</strong>
-          2:00 PM
-        </p>
-
-        <p class="detail">
-          <strong>Time Zone:</strong>
-          Eastern Time
-        </p>
-
-        <p class="detail">
-          <strong>Duration:</strong>
-          2 Hours
-        </p>
-
-        <div class="pay-box">
-         Observer Pay: $25/HR Guaranteed
+        <div class="detail-row">
+          <div class="detail-label">Property:</div>
+          <div class="detail-value" id="propertyAddress">—</div>
         </div>
 
-        <p class="privacy-note">
-          Pay information is visible only to the observer.
-        </p>
-
-        
-
-        <button
-          class="button enroute-button"
-          type="button"
-          onclick="markEnRoute()"
-        >
-          I’m On My Way
-        </button>
-
-        <button
-          class="button arrived-button"
-          type="button"
-          onclick="markArrived()"
-        >
-          I’ve Arrived
-        </button>
-
-        <button
-          class="button cancel-button"
-          type="button"
-          onclick="cancelAssignment()"
-        >
-          Cancel Assignment
-        </button>
-
-        <button
-          class="button dashboard-button"
-          type="button"
-          onclick="window.location.href='dashboard.html'"
-        >
-          Return to Dashboard
-        </button>
-
-        <div id="statusBox" class="status-box"></div>
-
-        <div class="notice">
-          Use the status buttons to keep the agent informed. The property
-          address and protected contact details should not be shared outside
-          the Realtor Guard assignment.
+        <div class="detail-row">
+          <div class="detail-label">City:</div>
+          <div class="detail-value" id="propertyCity">—</div>
         </div>
-      </article>
-    </section>
-  </main>
+
+        <div class="detail-row">
+          <div class="detail-label">State:</div>
+          <div class="detail-value" id="propertyState">—</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">ZIP Code:</div>
+          <div class="detail-value" id="propertyZip">—</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Date:</div>
+          <div class="detail-value" id="assignmentDate">—</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Time:</div>
+          <div class="detail-value" id="assignmentTime">—</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Duration:</div>
+          <div class="detail-value" id="assignmentDuration">—</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Time Zone:</div>
+          <div class="detail-value" id="assignmentTimeZone">—</div>
+        </div>
+      </section>
+
+      <section class="pay-card">
+        <h2 class="pay-title">Observer Pay</h2>
+        <div class="pay-main">$25 First Hour Guaranteed</div>
+        <div class="pay-sub">Additional time paid proportionally by the minute.</div>
+      </section>
+
+      <button class="action-btn navigation-btn" onclick="startNavigation()">
+        🧭 Start Navigation
+      </button>
+
+      <button class="action-btn start-btn" onclick="startAssignment()">
+        ▶ Start Assignment
+      </button>
+
+      <button class="action-btn support-btn" onclick="contactSupport()">
+        ☎ Contact Support
+      </button>
+
+      <button class="action-btn cancel-btn" onclick="cancelAssignment()">
+        ✕ Cancel Assignment
+      </button>
+
+    </main>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-item" onclick="window.location.href='dashboard.html'">
+      <span class="nav-icon">⌂</span>
+      Home
+    </button>
+
+    <button class="nav-item active" onclick="window.location.href='dashboard.html'">
+      <span class="nav-icon">▣</span>
+      Assignments
+    </button>
+
+    <button class="nav-item" onclick="window.location.href='completed.html'">
+      <span class="nav-icon">◷</span>
+      Activity
+    </button>
+
+    <button class="nav-item" onclick="window.location.href='account.html'">
+      <span class="nav-icon">●</span>
+      Account
+    </button>
+  </nav>
 
   <script>
-    function showStatus(message, background, color) {
-      const box = document.getElementById("statusBox");
+    let assignment = {};
 
-      box.style.display = "block";
-      box.style.background = background;
-      box.style.color = color;
-      box.textContent = message;
+    /*
+      The working Observer flow has been using this key for the assignment
+      selected on the dashboard. We also keep the older request key as a
+      fallback so existing test assignments do not immediately disappear.
+    */
+    try {
+      assignment = JSON.parse(
+        localStorage.getItem("realtorGuardCurrentAssignment") ||
+        localStorage.getItem("realtorGuardAgentRequest") ||
+        "{}"
+      );
+    } catch (error) {
+      console.error("Unable to read accepted assignment:", error);
+      assignment = {};
     }
 
-    function startDirections() {
-      const destination = encodeURIComponent(
-        "123 Main Street, Richmond, Virginia 23220"
+    function firstValue(...values) {
+      for (const value of values) {
+        if (value !== undefined && value !== null && String(value).trim() !== "") {
+          return value;
+        }
+      }
+      return "";
+    }
+
+    function formatDate(value) {
+      if (!value) return "—";
+
+      const raw = String(value);
+
+      if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+        const parts = raw.split("-");
+        const date = new Date(
+          Number(parts[0]),
+          Number(parts[1]) - 1,
+          Number(parts[2])
+        );
+
+        return date.toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric"
+        });
+      }
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return raw;
+      }
+
+      return date.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric"
+      });
+    }
+
+    function formatTime(value) {
+      if (!value) return "—";
+
+      const raw = String(value).trim();
+
+      if (/am|pm/i.test(raw)) {
+        return raw.toUpperCase();
+      }
+
+      const match = raw.match(/^(\d{1,2}):(\d{2})/);
+
+      if (!match) {
+        return raw;
+      }
+
+      let hour = Number(match[1]);
+      const minute = match[2];
+
+      if (Number.isNaN(hour)) {
+        return raw;
+      }
+
+      const suffix = hour >= 12 ? "PM" : "AM";
+      hour = hour % 12 || 12;
+
+      return `${hour}:${minute} ${suffix}`;
+    }
+
+    function formatDuration(value) {
+      if (value === undefined || value === null || value === "") {
+        return "—";
+      }
+
+      const raw = String(value).trim();
+
+      if (/hour|hr|min/i.test(raw)) {
+        return raw;
+      }
+
+      const number = Number(raw);
+
+      if (!Number.isNaN(number)) {
+        return `${number} ${number === 1 ? "Hour" : "Hours"}`;
+      }
+
+      return raw;
+    }
+
+    function loadAcceptedAssignment() {
+      const agentName = firstValue(
+        assignment.agent_name,
+        assignment.agentName,
+        assignment.agent_full_name,
+        assignment.full_name
       );
 
-      window.open(
-        "https://www.google.com/maps/dir/?api=1&destination=" + destination,
-        "_blank"
+      const address = firstValue(
+        assignment.property_address,
+        assignment.propertyAddress,
+        assignment.address
+      );
+
+      const city = firstValue(
+        assignment.city,
+        assignment.property_city,
+        assignment.propertyCity
+      );
+
+      const state = firstValue(
+        assignment.state,
+        assignment.property_state,
+        assignment.propertyState
+      );
+
+      const zip = firstValue(
+        assignment.zip,
+        assignment.zip_code,
+        assignment.property_zip,
+        assignment.propertyZip
+      );
+
+      const date = firstValue(
+        assignment.date,
+        assignment.assignment_date,
+        assignment.showing_date
+      );
+
+      const time = firstValue(
+        assignment.time,
+        assignment.assignment_time,
+        assignment.showing_time
+      );
+
+      const duration = firstValue(
+        assignment.duration,
+        assignment.assignment_duration
+      );
+
+      const timeZone = firstValue(
+        assignment.time_zone,
+        assignment.timeZone,
+        assignment.timezone
+      );
+
+      document.getElementById("agentName").textContent = agentName || "—";
+      document.getElementById("propertyAddress").textContent = address || "—";
+      document.getElementById("propertyCity").textContent = city || "—";
+      document.getElementById("propertyState").textContent = state || "—";
+      document.getElementById("propertyZip").textContent = zip || "—";
+      document.getElementById("assignmentDate").textContent = formatDate(date);
+      document.getElementById("assignmentTime").textContent = formatTime(time);
+      document.getElementById("assignmentDuration").textContent =
+        formatDuration(duration);
+      document.getElementById("assignmentTimeZone").textContent =
+        timeZone || "—";
+    }
+
+    function saveCurrentAssignment() {
+      localStorage.setItem(
+        "realtorGuardCurrentAssignment",
+        JSON.stringify(assignment)
       );
     }
 
-   function markEnRoute() {
-    const button = document.querySelector(".enroute-button");
+    function startNavigation() {
+      saveCurrentAssignment();
 
-    button.disabled = true;
-    button.style.background = "#7a7a7a";
-    button.textContent = "✓ Agent Notified — On My Way";
+      /*
+        We keep the assignment inside Realtor Guard and continue to the
+        existing On My Way page. That page handles the navigation stage.
+      */
+      window.location.href = "on-my-way.html";
+    }
 
-    showStatus(
-        "Status updated: You are on your way to the property.",
-        "#eef3ff",
-        "#183b7a"
-    );
+    function startAssignment() {
+      saveCurrentAssignment();
+      window.location.href = "active-assignment.html";
+    }
 
-    setTimeout(function () {
-        window.location.href = "on-my-way.html";
-    }, 1000);
-}
-
-    function markArrived() {
-      showStatus(
-        "Status updated: You have arrived at the property.",
-        "#effaf1",
-        "#087322"
-      );
+    function contactSupport() {
+      /*
+        No support number is hard-coded here until the final Realtor Guard
+        support number is confirmed.
+      */
+      alert("Realtor Guard Support");
     }
 
     function cancelAssignment() {
@@ -352,10 +648,26 @@
         "Are you sure you want to cancel this assignment?"
       );
 
-      if (confirmed) {
-        window.location.href = "dashboard.html";
+      if (!confirmed) {
+        return;
       }
+
+      /*
+        This removes the local current-assignment handoff.
+        The Supabase cancellation/status update can be connected separately
+        once we confirm the exact live assignments table/status values.
+      */
+      localStorage.removeItem("realtorGuardCurrentAssignment");
+
+      window.location.href = "dashboard.html";
     }
+
+    function toggleMenu() {
+      document.getElementById("sideMenu").classList.toggle("open");
+    }
+
+    loadAcceptedAssignment();
   </script>
+
 </body>
 </html>
