@@ -14,204 +14,332 @@
       margin: 0;
       background: #ffffff;
       font-family: Arial, Helvetica, sans-serif;
-      color: #171717;
+      color: #0b1b3d;
     }
 
-    .page {
+    .app {
       width: 100%;
-      max-width: 430px;
-      margin: 0 auto;
+      max-width: 480px;
       min-height: 100vh;
+      margin: 0 auto;
       background: #ffffff;
-      padding-bottom: 90px;
+      padding-bottom: 78px;
     }
 
-    /* HEADER */
+    /* TOP HEADER */
     .topbar {
-      height: 92px;
-      display: grid;
-      grid-template-columns: 60px 1fr 60px;
-      align-items: center;
-      padding: 10px 16px;
-      border-bottom: 1px solid #eeeeee;
+      position: relative;
+      height: 170px;
+      padding-top: 12px;
     }
 
-    .menu-btn,
-    .account-btn {
+    .menu-button,
+    .account-button {
+      position: absolute;
+      top: 24px;
       border: 0;
       background: transparent;
-      padding: 6px;
+      color: #d40000;
       cursor: pointer;
     }
 
-    .menu-icon {
-      font-size: 29px;
-      color: #8f0000;
+    .menu-button {
+      left: 20px;
+      font-size: 34px;
+      font-weight: 700;
       line-height: 1;
     }
 
-    .account-circle {
-      width: 39px;
-      height: 39px;
-      margin-left: auto;
+    .account-button {
+      right: 20px;
+      width: 45px;
+      height: 45px;
+      border: 2px solid #d40000;
       border-radius: 50%;
-      background: #8f0000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+    }
+
+    .logo-wrap {
+      width: 190px;
+      height: 145px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* PAGE TITLE */
+    .intro {
+      padding: 0 22px 12px;
+      text-align: center;
+    }
+
+    .intro h1 {
+      margin: 0 0 8px;
+      color: #d40000;
+      font-size: 30px;
+      line-height: 1.05;
+      font-weight: 800;
+    }
+
+    .intro p {
+      margin: 0 auto;
+      max-width: 410px;
+      font-size: 16px;
+      line-height: 1.35;
+      color: #0b1b3d;
+    }
+
+    /* CONTENT */
+    .content {
+      padding: 0 18px;
+    }
+
+    .confirmed {
+      margin: 0 0 10px;
+      min-height: 54px;
+      border: 1px solid #9bdab5;
+      border-radius: 9px;
+      background: #eaf8ef;
+      color: #087b36;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .check {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: #0a8a42;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
-      font-weight: 700;
+      font-size: 24px;
+      font-weight: 900;
     }
 
-    .logo {
-      display: block;
-      max-width: 145px;
-      max-height: 72px;
-      margin: 0 auto;
-      object-fit: contain;
+    /* PROPERTY CARD */
+    .details-card {
+      border: 1px solid #d7d7d7;
+      border-radius: 9px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,.08);
     }
 
-    /* MAIN */
-    main {
-      padding: 24px 18px 20px;
-    }
-
-    h1 {
-      margin: 0;
-      text-align: center;
-      color: #8f0000;
-      font-size: 27px;
+    .details-heading {
+      min-height: 50px;
+      background: #df0000;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 0 17px;
+      font-size: 21px;
       font-weight: 800;
     }
 
-    .subtitle {
-      text-align: center;
-      margin: 9px 0 20px;
-      font-size: 14px;
-      color: #4b4b4b;
+    .home-symbol {
+      font-size: 25px;
     }
 
-    .accepted-banner {
-      background: #eaf8ef;
-      border: 1px solid #c8ead3;
-      color: #14823b;
-      border-radius: 9px;
-      padding: 14px 12px;
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 18px;
-    }
-
-    .accepted-banner span {
-      margin-right: 8px;
-    }
-
-    .card {
-      border: 1px solid #e5e5e5;
-      border-radius: 9px;
-      background: #ffffff;
-      padding: 17px;
-      margin-bottom: 17px;
-      box-shadow: 0 2px 7px rgba(0,0,0,.06);
-    }
-
-    .card-title {
-      margin: 0 0 14px;
-      color: #8f0000;
-      font-size: 18px;
-      font-weight: 800;
+    .details-body {
+      padding: 7px 15px 8px;
     }
 
     .detail-row {
       display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: 10px;
-      padding: 5px 0;
-      font-size: 14px;
-      line-height: 1.35;
+      grid-template-columns: 28px 135px 1fr;
+      gap: 8px;
+      align-items: center;
+      min-height: 37px;
+      border-bottom: 1px solid #e2e5e9;
     }
 
-    .detail-label {
+    .detail-row:last-child {
+      border-bottom: 0;
+    }
+
+    .detail-icon {
+      color: #d40000;
+      text-align: center;
+      font-size: 19px;
       font-weight: 700;
     }
 
+    .detail-label {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0b1b3d;
+    }
+
     .detail-value {
-      color: #202020;
+      font-size: 15px;
+      color: #0b1b3d;
       overflow-wrap: anywhere;
     }
 
     /* PAY */
     .pay-card {
-      background: #eaf8ef;
-      border: 1px solid #c8ead3;
+      margin-top: 10px;
+      padding: 13px 15px;
+      border: 1px solid #9bdab5;
       border-radius: 9px;
-      padding: 17px;
-      margin-bottom: 20px;
+      background: #eaf8ef;
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
 
-    .pay-title {
-      margin: 0 0 10px;
-      color: #17783a;
-      font-size: 18px;
+    .money {
+      width: 65px;
+      min-width: 65px;
+      height: 65px;
+      border-right: 1px solid #8bcfaa;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      color: #07803a;
+      font-size: 43px;
+      font-weight: 800;
+    }
+
+    .pay-copy {
+      flex: 1;
+    }
+
+    .pay-small {
+      color: #087b36;
+      font-size: 14px;
       font-weight: 800;
     }
 
     .pay-main {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 5px;
+      margin-top: 2px;
+      color: #087b36;
+      font-size: 20px;
+      line-height: 1.05;
+      font-weight: 900;
     }
 
     .pay-sub {
-      font-size: 13px;
-      color: #4c4c4c;
+      margin-top: 3px;
+      font-size: 14px;
+      color: #0b1b3d;
     }
 
-    /* BUTTONS */
-    .action-btn {
+    .pay-private {
+      margin-top: 3px;
+      color: #888;
+      font-size: 12px;
+    }
+
+    /* ACTION BUTTONS */
+    .action {
       width: 100%;
-      min-height: 50px;
-      border-radius: 8px;
+      min-height: 66px;
+      margin-top: 8px;
       border: 0;
-      margin-bottom: 11px;
-      font-size: 16px;
-      font-weight: 800;
+      border-radius: 9px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      text-decoration: none;
+      padding: 8px 14px;
     }
 
-    .navigation-btn {
-      background: #17843d;
-      color: #ffffff;
+    .action-icon {
+      width: 42px;
+      text-align: center;
+      color: white;
+      font-size: 33px;
     }
 
-    .start-btn {
-      background: #8f0000;
-      color: #ffffff;
+    .action-copy {
+      color: white;
+      text-align: left;
     }
 
-    .support-btn {
-      background: #7a0000;
-      color: #ffffff;
+    .action-title {
+      font-size: 21px;
+      font-weight: 800;
+      line-height: 1.1;
     }
 
-    .cancel-btn {
-      background: #ffffff;
-      color: #c00000;
-      border: 2px solid #c00000;
+    .action-sub {
+      margin-top: 2px;
+      font-size: 14px;
+    }
+
+    .navigation {
+      background: #087d36;
+    }
+
+    .start {
+      background: #e00000;
+    }
+
+    .support {
+      background: #9f0000;
+      justify-content: flex-start;
+    }
+
+    .support .action-copy {
+      flex: 1;
+    }
+
+    .arrow {
+      color: white;
+      font-size: 34px;
+      font-weight: 700;
+    }
+
+    .cancel {
+      background: white;
+      border: 2px solid #e00000;
+      color: #e00000;
+      justify-content: center;
+    }
+
+    .cancel .action-icon,
+    .cancel .action-copy,
+    .cancel .arrow {
+      color: #e00000;
+    }
+
+    .cancel .action-copy {
+      flex: 1;
+      text-align: center;
     }
 
     /* BOTTOM NAV */
     .bottom-nav {
       position: fixed;
-      bottom: 0;
       left: 50%;
+      bottom: 0;
       transform: translateX(-50%);
       width: 100%;
-      max-width: 430px;
+      max-width: 480px;
       height: 72px;
-      background: #ffffff;
-      border-top: 1px solid #e5e5e5;
+      background: rgba(255,255,255,.98);
+      border-top: 1px solid #ddd;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       z-index: 20;
@@ -220,75 +348,83 @@
     .nav-item {
       border: 0;
       background: transparent;
-      color: #666666;
+      text-decoration: none;
+      color: #777;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
       font-size: 11px;
       font-weight: 700;
-      cursor: pointer;
     }
 
     .nav-icon {
-      display: block;
-      font-size: 20px;
-      margin-bottom: 4px;
+      font-size: 23px;
+      line-height: 1;
     }
 
     .nav-item.active {
-      color: #8f0000;
+      color: #df0000;
     }
 
     /* MENU */
-    .side-menu {
+    .menu-panel {
       position: fixed;
       top: 0;
-      left: -285px;
-      width: 285px;
-      height: 100%;
-      background: #ffffff;
+      left: -280px;
+      width: 270px;
+      height: 100vh;
+      background: white;
       z-index: 50;
-      box-shadow: 4px 0 15px rgba(0,0,0,.18);
-      transition: left .25s ease;
+      box-shadow: 4px 0 18px rgba(0,0,0,.15);
       padding: 25px 20px;
+      transition: left .25s ease;
     }
 
-    .side-menu.open {
+    .menu-panel.open {
       left: 0;
     }
 
     .menu-close {
       border: 0;
       background: transparent;
-      color: #8f0000;
+      color: #d40000;
       font-size: 28px;
-      cursor: pointer;
       float: right;
+      cursor: pointer;
     }
 
-    .menu-heading {
-      clear: both;
-      padding-top: 20px;
-      color: #8f0000;
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 20px;
+    .menu-panel h2 {
+      color: #d40000;
+      margin: 45px 0 20px;
     }
 
-    .menu-link {
+    .menu-panel a {
       display: block;
       padding: 13px 0;
-      color: #222222;
+      border-bottom: 1px solid #eee;
+      color: #0b1b3d;
       text-decoration: none;
-      border-bottom: 1px solid #eeeeee;
       font-weight: 700;
     }
 
-    @media (max-width: 360px) {
+    @media (max-width: 390px) {
       .detail-row {
-        grid-template-columns: 95px 1fr;
-        font-size: 13px;
+        grid-template-columns: 25px 118px 1fr;
       }
 
-      h1 {
-        font-size: 24px;
+      .detail-label,
+      .detail-value {
+        font-size: 14px;
+      }
+
+      .intro h1 {
+        font-size: 27px;
+      }
+
+      .pay-main {
+        font-size: 18px;
       }
     }
   </style>
@@ -296,171 +432,254 @@
 
 <body>
 
-  <div class="side-menu" id="sideMenu">
-    <button class="menu-close" onclick="toggleMenu()">×</button>
-    <div class="menu-heading">Observer Menu</div>
-
-    <a class="menu-link" href="dashboard.html">Dashboard</a>
-    <a class="menu-link" href="accepted.html">Accepted Assignment</a>
-    <a class="menu-link" href="completed.html">Completed Assignments</a>
-    <a class="menu-link" href="account.html">Account</a>
+  <div class="menu-panel" id="menuPanel">
+    <button class="menu-close" onclick="toggleMenu()">✕</button>
+    <h2>Realtor Guard</h2>
+    <a href="dashboard.html">Assignments</a>
+    <a href="dashboard.html">Home</a>
+    <a href="#" onclick="openAccount()">Account</a>
   </div>
 
-  <div class="page">
+  <main class="app">
 
     <header class="topbar">
-      <button class="menu-btn" onclick="toggleMenu()" aria-label="Open menu">
-        <span class="menu-icon">☰</span>
-      </button>
+      <button class="menu-button" onclick="toggleMenu()" aria-label="Menu">☰</button>
 
-      <!-- Uses the same Realtor Guard logo file as the observer pages -->
-      <img
-        class="logo"
-        src="../assets/rglogo.png"
-        alt="Realtor Guard"
-        onerror="this.style.display='none';"
-      >
+      <div class="logo-wrap">
+        <img
+          id="realtorGuardLogo"
+          src="rglogo.png"
+          alt="Realtor Guard"
+        >
+      </div>
 
-      <button
-        class="account-btn"
-        onclick="window.location.href='account.html'"
-        aria-label="Observer account"
-      >
-        <span class="account-circle">♟</span>
+      <button class="account-button" onclick="openAccount()" aria-label="Account">
+        ●
       </button>
     </header>
 
-    <main>
-
+    <section class="intro">
       <h1>Accepted Assignment</h1>
-      <div class="subtitle">Your assignment is confirmed.</div>
+      <p>
+        You’re confirmed for this assignment. Realtor Guard will send
+        reminder notifications as your scheduled appointment approaches.
+        Please plan your travel time accordingly and arrive on schedule.
+      </p>
+    </section>
 
-      <div class="accepted-banner">
-        <span>✓</span> Assignment Accepted
+    <section class="content">
+
+      <div class="confirmed">
+        <span class="check">✓</span>
+        <span>Assignment Confirmed</span>
       </div>
 
-      <section class="card">
-        <h2 class="card-title">Property Details</h2>
-
-        <div class="detail-row">
-          <div class="detail-label">Agent Name:</div>
-          <div class="detail-value" id="agentName">—</div>
+      <section class="details-card">
+        <div class="details-heading">
+          <span class="home-symbol">⌂</span>
+          <span>Property Details</span>
         </div>
 
-        <div class="detail-row">
-          <div class="detail-label">Property:</div>
-          <div class="detail-value" id="propertyAddress">—</div>
-        </div>
+        <div class="details-body">
 
-        <div class="detail-row">
-          <div class="detail-label">City:</div>
-          <div class="detail-value" id="propertyCity">—</div>
-        </div>
+          <div class="detail-row">
+            <span class="detail-icon">●</span>
+            <span class="detail-label">Agent Name:</span>
+            <span class="detail-value" id="agentName">—</span>
+          </div>
 
-        <div class="detail-row">
-          <div class="detail-label">State:</div>
-          <div class="detail-value" id="propertyState">—</div>
-        </div>
+          <div class="detail-row">
+            <span class="detail-icon">⌂</span>
+            <span class="detail-label">Property Address:</span>
+            <span class="detail-value" id="propertyAddress">—</span>
+          </div>
 
-        <div class="detail-row">
-          <div class="detail-label">ZIP Code:</div>
-          <div class="detail-value" id="propertyZip">—</div>
-        </div>
+          <div class="detail-row">
+            <span class="detail-icon">●</span>
+            <span class="detail-label">City:</span>
+            <span class="detail-value" id="city">—</span>
+          </div>
 
-        <div class="detail-row">
-          <div class="detail-label">Date:</div>
-          <div class="detail-value" id="assignmentDate">—</div>
-        </div>
+          <div class="detail-row">
+            <span class="detail-icon">▣</span>
+            <span class="detail-label">State:</span>
+            <span class="detail-value" id="state">—</span>
+          </div>
 
-        <div class="detail-row">
-          <div class="detail-label">Time:</div>
-          <div class="detail-value" id="assignmentTime">—</div>
-        </div>
+          <div class="detail-row">
+            <span class="detail-icon">▦</span>
+            <span class="detail-label">Zip Code:</span>
+            <span class="detail-value" id="zipCode">—</span>
+          </div>
 
-        <div class="detail-row">
-          <div class="detail-label">Duration:</div>
-          <div class="detail-value" id="assignmentDuration">—</div>
-        </div>
+          <div class="detail-row">
+            <span class="detail-icon">▣</span>
+            <span class="detail-label">Date:</span>
+            <span class="detail-value" id="date">—</span>
+          </div>
 
-        <div class="detail-row">
-          <div class="detail-label">Time Zone:</div>
-          <div class="detail-value" id="assignmentTimeZone">—</div>
+          <div class="detail-row">
+            <span class="detail-icon">◷</span>
+            <span class="detail-label">Time:</span>
+            <span class="detail-value" id="time">—</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-icon">⌛</span>
+            <span class="detail-label">Duration:</span>
+            <span class="detail-value" id="duration">—</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-icon">◎</span>
+            <span class="detail-label">Time Zone:</span>
+            <span class="detail-value" id="timeZone">—</span>
+          </div>
+
         </div>
       </section>
 
       <section class="pay-card">
-        <h2 class="pay-title">Observer Pay</h2>
-        <div class="pay-main">$25 First Hour Guaranteed</div>
-        <div class="pay-sub">Additional time paid proportionally by the minute.</div>
+        <div class="money">$</div>
+
+        <div class="pay-copy">
+          <div class="pay-small">Observer Pay</div>
+          <div class="pay-main">$25 First Hour Guaranteed</div>
+          <div class="pay-sub">
+            Additional time paid proportionally by the minute.
+          </div>
+          <div class="pay-private">
+            Pay information is visible only to the observer.
+          </div>
+        </div>
       </section>
 
-      <button class="action-btn navigation-btn" onclick="startNavigation()">
-        🧭 Start Navigation
+      <button class="action navigation" onclick="startNavigation()">
+        <span class="action-icon">➤</span>
+        <span class="action-copy">
+          <span class="action-title">Start Navigation</span>
+          <span class="action-sub">Get directions to the property</span>
+        </span>
       </button>
 
-      <button class="action-btn start-btn" onclick="startAssignment()">
-        ▶ Start Assignment
+      <button class="action start" onclick="startAssignment()">
+        <span class="action-icon">▶</span>
+        <span class="action-copy">
+          <span class="action-title">Start Assignment</span>
+          <span class="action-sub">Tap when you arrive at the property</span>
+        </span>
       </button>
 
-      <button class="action-btn support-btn" onclick="contactSupport()">
-        ☎ Contact Support
+      <button class="action support" onclick="contactSupport()">
+        <span class="action-icon">☎</span>
+        <span class="action-copy">
+          <span class="action-title">Contact Support</span>
+          <span class="action-sub">Need assistance with this assignment?</span>
+        </span>
+        <span class="arrow">›</span>
       </button>
 
-      <button class="action-btn cancel-btn" onclick="cancelAssignment()">
-        ✕ Cancel Assignment
+      <button class="action cancel" onclick="cancelAssignment()">
+        <span class="action-icon">✖</span>
+        <span class="action-copy">
+          <span class="action-title">Cancel Assignment</span>
+        </span>
+        <span class="arrow">›</span>
       </button>
 
-    </main>
-  </div>
+    </section>
+  </main>
 
   <nav class="bottom-nav">
-    <button class="nav-item" onclick="window.location.href='dashboard.html'">
+    <a class="nav-item" href="dashboard.html">
       <span class="nav-icon">⌂</span>
-      Home
-    </button>
+      <span>Home</span>
+    </a>
 
-    <button class="nav-item active" onclick="window.location.href='dashboard.html'">
+    <a class="nav-item active" href="dashboard.html">
       <span class="nav-icon">▣</span>
-      Assignments
-    </button>
+      <span>Assignments</span>
+    </a>
 
-    <button class="nav-item" onclick="window.location.href='completed.html'">
-      <span class="nav-icon">◷</span>
-      Activity
-    </button>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">✓</span>
+      <span>Activity</span>
+    </a>
 
-    <button class="nav-item" onclick="window.location.href='account.html'">
+    <a class="nav-item" href="#" onclick="openAccount()">
       <span class="nav-icon">●</span>
-      Account
-    </button>
+      <span>Account</span>
+    </a>
   </nav>
 
   <script>
-    let assignment = {};
-
     /*
-      The working Observer flow has been using this key for the assignment
-      selected on the dashboard. We also keep the older request key as a
-      fallback so existing test assignments do not immediately disappear.
-    */
-    try {
-      assignment = JSON.parse(
-        localStorage.getItem("realtorGuardCurrentAssignment") ||
-        localStorage.getItem("realtorGuardAgentRequest") ||
-        "{}"
-      );
-    } catch (error) {
-      console.error("Unable to read accepted assignment:", error);
-      assignment = {};
-    }
+      ACCEPTED ASSIGNMENT PAGE
+      ---------------------------------------------------
+      This page first looks for the accepted assignment
+      saved by the Observer Dashboard in localStorage.
 
-    function firstValue(...values) {
-      for (const value of values) {
-        if (value !== undefined && value !== null && String(value).trim() !== "") {
-          return value;
+      We support several common storage keys so the new
+      page can receive data without using demo information.
+    */
+
+    let assignment = null;
+
+    function getStoredAssignment() {
+      const possibleKeys = [
+        "acceptedAssignment",
+        "selectedAssignment",
+        "currentAssignment",
+        "observerAcceptedAssignment",
+        "activeAssignment"
+      ];
+
+      for (const key of possibleKeys) {
+        try {
+          const saved = localStorage.getItem(key);
+
+          if (saved) {
+            const parsed = JSON.parse(saved);
+
+            if (parsed && typeof parsed === "object") {
+              return parsed;
+            }
+          }
+        } catch (error) {
+          console.warn("Could not read assignment from:", key);
         }
       }
+
+      return null;
+    }
+
+    function firstValue(object, names) {
+      if (!object) return "";
+
+      for (const name of names) {
+        if (
+          object[name] !== undefined &&
+          object[name] !== null &&
+          String(object[name]).trim() !== ""
+        ) {
+          return object[name];
+        }
+      }
+
       return "";
+    }
+
+    function setText(id, value) {
+      const element = document.getElementById(id);
+
+      if (element) {
+        element.textContent =
+          value !== undefined &&
+          value !== null &&
+          String(value).trim() !== ""
+            ? value
+            : "—";
+      }
     }
 
     function formatDate(value) {
@@ -468,32 +687,37 @@
 
       const raw = String(value);
 
-      if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
-        const parts = raw.split("-");
-        const date = new Date(
-          Number(parts[0]),
-          Number(parts[1]) - 1,
-          Number(parts[2])
-        );
+      const simpleDate = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
 
-        return date.toLocaleDateString("en-US", {
-          month: "long",
-          day: "numeric",
-          year: "numeric"
-        });
+      if (simpleDate) {
+        const year = Number(simpleDate[1]);
+        const month = Number(simpleDate[2]);
+        const day = Number(simpleDate[3]);
+
+        return new Date(year, month - 1, day).toLocaleDateString(
+          "en-US",
+          {
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+          }
+        );
       }
 
-      const date = new Date(value);
+      const parsed = new Date(value);
 
-      if (Number.isNaN(date.getTime())) {
+      if (Number.isNaN(parsed.getTime())) {
         return raw;
       }
 
-      return date.toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric"
-      });
+      return parsed.toLocaleDateString(
+        "en-US",
+        {
+          month: "long",
+          day: "numeric",
+          year: "numeric"
+        }
+      );
     }
 
     function formatTime(value) {
@@ -501,8 +725,8 @@
 
       const raw = String(value).trim();
 
-      if (/am|pm/i.test(raw)) {
-        return raw.toUpperCase();
+      if (/AM|PM/i.test(raw)) {
+        return raw;
       }
 
       const match = raw.match(/^(\d{1,2}):(\d{2})/);
@@ -514,24 +738,23 @@
       let hour = Number(match[1]);
       const minute = match[2];
 
-      if (Number.isNaN(hour)) {
-        return raw;
-      }
-
       const suffix = hour >= 12 ? "PM" : "AM";
-      hour = hour % 12 || 12;
+
+      hour = hour % 12;
+
+      if (hour === 0) {
+        hour = 12;
+      }
 
       return `${hour}:${minute} ${suffix}`;
     }
 
     function formatDuration(value) {
-      if (value === undefined || value === null || value === "") {
-        return "—";
-      }
+      if (!value) return "—";
 
       const raw = String(value).trim();
 
-      if (/hour|hr|min/i.test(raw)) {
+      if (/hour|minute/i.test(raw)) {
         return raw;
       }
 
@@ -544,103 +767,186 @@
       return raw;
     }
 
-    function loadAcceptedAssignment() {
+    function loadAssignment() {
+      assignment = getStoredAssignment();
+
+      if (!assignment) {
+        console.warn("No accepted assignment was found.");
+        return;
+      }
+
       const agentName = firstValue(
-        assignment.agent_name,
-        assignment.agentName,
-        assignment.agent_full_name,
-        assignment.full_name
+        assignment,
+        [
+          "agent_name",
+          "agentName",
+          "agent_full_name",
+          "full_name",
+          "name"
+        ]
       );
 
-      const address = firstValue(
-        assignment.property_address,
-        assignment.propertyAddress,
-        assignment.address
+      const propertyAddress = firstValue(
+        assignment,
+        [
+          "property_address",
+          "propertyAddress",
+          "address",
+          "street_address"
+        ]
       );
 
       const city = firstValue(
-        assignment.city,
-        assignment.property_city,
-        assignment.propertyCity
+        assignment,
+        ["city", "property_city"]
       );
 
       const state = firstValue(
-        assignment.state,
-        assignment.property_state,
-        assignment.propertyState
+        assignment,
+        ["state", "property_state"]
       );
 
       const zip = firstValue(
-        assignment.zip,
-        assignment.zip_code,
-        assignment.property_zip,
-        assignment.propertyZip
+        assignment,
+        [
+          "zip",
+          "zipcode",
+          "zip_code",
+          "property_zip"
+        ]
       );
 
       const date = firstValue(
-        assignment.date,
-        assignment.assignment_date,
-        assignment.showing_date
+        assignment,
+        [
+          "date",
+          "assignment_date",
+          "showing_date",
+          "appointment_date"
+        ]
       );
 
       const time = firstValue(
-        assignment.time,
-        assignment.assignment_time,
-        assignment.showing_time
+        assignment,
+        [
+          "time",
+          "assignment_time",
+          "showing_time",
+          "appointment_time"
+        ]
       );
 
       const duration = firstValue(
-        assignment.duration,
-        assignment.assignment_duration
+        assignment,
+        [
+          "duration",
+          "assignment_duration",
+          "showing_duration"
+        ]
       );
 
       const timeZone = firstValue(
-        assignment.time_zone,
-        assignment.timeZone,
-        assignment.timezone
+        assignment,
+        [
+          "time_zone",
+          "timezone",
+          "timeZone"
+        ]
       );
 
-      document.getElementById("agentName").textContent = agentName || "—";
-      document.getElementById("propertyAddress").textContent = address || "—";
-      document.getElementById("propertyCity").textContent = city || "—";
-      document.getElementById("propertyState").textContent = state || "—";
-      document.getElementById("propertyZip").textContent = zip || "—";
-      document.getElementById("assignmentDate").textContent = formatDate(date);
-      document.getElementById("assignmentTime").textContent = formatTime(time);
-      document.getElementById("assignmentDuration").textContent =
-        formatDuration(duration);
-      document.getElementById("assignmentTimeZone").textContent =
-        timeZone || "—";
+      setText("agentName", agentName);
+      setText("propertyAddress", propertyAddress);
+      setText("city", city);
+      setText("state", state);
+      setText("zipCode", zip);
+      setText("date", formatDate(date));
+      setText("time", formatTime(time));
+      setText("duration", formatDuration(duration));
+      setText("timeZone", timeZone);
     }
 
-    function saveCurrentAssignment() {
-      localStorage.setItem(
-        "realtorGuardCurrentAssignment",
-        JSON.stringify(assignment)
-      );
+    function toggleMenu() {
+      document
+        .getElementById("menuPanel")
+        .classList.toggle("open");
+    }
+
+    function openAccount() {
+      alert("Observer account page coming soon.");
     }
 
     function startNavigation() {
-      saveCurrentAssignment();
+      if (!assignment) {
+        alert("Assignment details are not available yet.");
+        return;
+      }
 
-      /*
-        We keep the assignment inside Realtor Guard and continue to the
-        existing On My Way page. That page handles the navigation stage.
-      */
-      window.location.href = "on-my-way.html";
+      const address = firstValue(
+        assignment,
+        [
+          "property_address",
+          "propertyAddress",
+          "address",
+          "street_address"
+        ]
+      );
+
+      const city = firstValue(
+        assignment,
+        ["city", "property_city"]
+      );
+
+      const state = firstValue(
+        assignment,
+        ["state", "property_state"]
+      );
+
+      const zip = firstValue(
+        assignment,
+        [
+          "zip",
+          "zipcode",
+          "zip_code",
+          "property_zip"
+        ]
+      );
+
+      const destination = [
+        address,
+        city,
+        state,
+        zip
+      ]
+        .filter(Boolean)
+        .join(", ");
+
+      if (!destination) {
+        alert("Property address is not available.");
+        return;
+      }
+
+      window.location.href =
+        "https://www.google.com/maps/dir/?api=1&destination=" +
+        encodeURIComponent(destination);
     }
 
     function startAssignment() {
-      saveCurrentAssignment();
+      if (assignment) {
+        try {
+          localStorage.setItem(
+            "activeAssignment",
+            JSON.stringify(assignment)
+          );
+        } catch (error) {
+          console.warn("Could not save active assignment.");
+        }
+      }
+
       window.location.href = "active-assignment.html";
     }
 
     function contactSupport() {
-      /*
-        No support number is hard-coded here until the final Realtor Guard
-        support number is confirmed.
-      */
-      alert("Realtor Guard Support");
+      window.location.href = "mailto:support@realtorguard.com";
     }
 
     function cancelAssignment() {
@@ -652,21 +958,22 @@
         return;
       }
 
-      /*
-        This removes the local current-assignment handoff.
-        The Supabase cancellation/status update can be connected separately
-        once we confirm the exact live assignments table/status values.
-      */
-      localStorage.removeItem("realtorGuardCurrentAssignment");
+      const keys = [
+        "acceptedAssignment",
+        "selectedAssignment",
+        "currentAssignment",
+        "observerAcceptedAssignment",
+        "activeAssignment"
+      ];
+
+      keys.forEach(function(key) {
+        localStorage.removeItem(key);
+      });
 
       window.location.href = "dashboard.html";
     }
 
-    function toggleMenu() {
-      document.getElementById("sideMenu").classList.toggle("open");
-    }
-
-    loadAcceptedAssignment();
+    loadAssignment();
   </script>
 
 </body>
