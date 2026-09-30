@@ -854,6 +854,7 @@ if (observerError || !observer) {
     }
 
     localStorage.setItem("assignmentId", assignmentId);
+    localStorage.setItem("acceptedAssignment", JSON.stringify(data[0]));
 
    window.location.href =
   "accepted.html?id=" + encodeURIComponent(assignmentId); 
