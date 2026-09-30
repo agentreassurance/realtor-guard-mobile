@@ -677,33 +677,34 @@
     let assignment = null;
 
     function getStoredAssignment() {
-      const possibleKeys = [
-        "acceptedAssignment",
-        "selectedAssignment",
-        "currentAssignment",
-        "observerAcceptedAssignment",
-        "activeAssignment"
-      ];
+  const possibleKeys = [
+    "acceptedAssignment",
+    "selectedAssignment",
+    "currentAssignment",
+    "observerAcceptedAssignment",
+    "activeAssignment",
+    "accepted_assignment",
+    "selected_assignment"
+  ];
 
-      for (const key of possibleKeys) {
-        try {
-          const saved = localStorage.getItem(key);
+  for (const key of possibleKeys) {
+    try {
+      const saved = localStorage.getItem(key);
 
-          if (saved) {
-            const parsed = JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
 
-            if (parsed && typeof parsed === "object") {
-              return parsed;
-            }
-          }
-        } catch (error) {
-          console.warn("Could not read assignment from:", key);
+        if (parsed && typeof parsed === "object") {
+          return parsed.assignment || parsed.data || parsed;
         }
       }
-
-      return null;
+    } catch (error) {
+      console.warn("Could not read assignment from:", key);
     }
+  }
 
+  return null;
+}
     function firstValue(object, names) {
       if (!object) return "";
 
