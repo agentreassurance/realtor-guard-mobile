@@ -7,8 +7,7 @@
 
   <style>
     * {
-      box-sizing: border-box;
-    }
+      box-sizing: border-box;    }
 
     body {
       margin: 0;
@@ -428,6 +427,51 @@
         font-size: 18px;
       }
     }
+/* ACCOUNT SIDE PANEL */
+.account-panel {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 280px;
+  height: 100%;
+  background: #ffffff;
+  z-index: 9999;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.18);
+  padding: 70px 22px 25px;
+  transition: right 0.3s ease;
+}
+
+.account-panel.open {
+  right: 0;
+}
+
+.account-panel h2 {
+  color: #8b0000;
+  margin: 0 0 25px;
+  font-size: 24px;
+}
+
+.account-panel a {
+  display: block;
+  padding: 15px 5px;
+  color: #0b1b3d;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 700;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.account-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border: 0;
+  background: transparent;
+  color: #8b0000;
+  font-size: 32px;
+  cursor: pointer;
+} 
+  
   </style>
 </head>
 
@@ -455,7 +499,7 @@
       </div>
 
       <button class="account-button" onclick="openAccount()" aria-label="Account">
-        👤
+       <span style="color:#8b0000;">&#128100;&#xfe0e;</span>
       </button>
     </header>
 
@@ -873,8 +917,12 @@
     }
 
     function openAccount() {
-      alert("Observer account page coming soon.");
-    }
+  document.getElementById("accountPanel").classList.add("open");
+}
+
+function closeAccount() {
+  document.getElementById("accountPanel").classList.remove("open");
+}
 
     function startNavigation() {
       if (!assignment) {
@@ -976,6 +1024,20 @@
 
     loadAssignment();
   </script>
+
+<!-- ACCOUNT SIDE PANEL -->
+<div id="accountPanel" class="account-panel">
+  <button class="account-close" onclick="closeAccount()">×</button>
+
+  <h2>Observer Account</h2>
+
+  <a href="dashboard.html">Dashboard</a>
+  <a href="#">Profile</a>
+  <a href="#">Completed Assignments</a>
+  <a href="#">Payment & Earnings</a>
+  <a href="#">Help & Support</a>
+  <a href="login.html">Log Out</a>
+</div>
 
 </body>
 </html>
