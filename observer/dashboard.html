@@ -530,7 +530,16 @@ right: 22px;
 </div>
 
 <div class="overlay" id="overlay" onclick="closePanels()"></div>
+<!-- HAMBURGER MENU -->
+<aside class="menu-panel" id="menuPanel">
+  <h2>Menu</h2>
 
+  <a href="dashboard.html">🏠 Dashboard</a>
+  <a href="#assignments" onclick="closePanels()">📋 Available Assignments</a>
+  <a href="complete-assignment.html">✅ Completed Assignments</a>
+  <a href="#" onclick="openAccount(); return false;">👤 My Account</a>
+  <a href="login.html" class="logout">↪ Log Out</a>
+</aside>
 <aside class="account-panel" id="accountPanel">
 
   <div class="drawer-inner">
@@ -625,10 +634,17 @@ function openAccount() {
 function openMenu() {
   closePanels();
 
-  document.getElementById("menuPanel").classList.add("open");
-  document.getElementById("overlay").classList.add("open");
-}
+  const menuPanel = document.getElementById("menuPanel");
+  const overlay = document.getElementById("overlay");
 
+  if (menuPanel) {
+    menuPanel.classList.add("open");
+  }
+
+  if (overlay) {
+    overlay.classList.add("open");
+  }
+}
 function closePanels() {
   document.getElementById("accountPanel").classList.remove("open");
   document.getElementById("menuPanel").classList.remove("open");
