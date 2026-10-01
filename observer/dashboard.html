@@ -695,35 +695,6 @@ if (savedAvailability) {
 }
 
 
-/* NOTIFICATIONS */
-
-document
-  .getElementById("notificationBtn")
-  .addEventListener("click", async function () {
-
-    if (!("Notification" in window)) {
-      alert("Notifications are not supported on this device.");
-      return;
-    }
-
-    try {
-
-      const permission = await Notification.requestPermission();
-
-      if (permission === "granted") {
-        this.textContent = "✓ Assignment Notifications Enabled";
-        this.style.background = "#16863a";
-      }
-
-      if (permission === "denied") {
-        alert("Notifications are blocked in your browser settings.");
-      }
-
-    } catch (error) {
-      console.error(error);
-    }
-
-  });
 
 
 /*
