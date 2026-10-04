@@ -455,46 +455,62 @@
 
   </section>
 
-  <section class="profile-links">
+<section class="observer-details-card" style="margin:18px 0; border:1px solid #e5e7eb; border-radius:16px; overflow:hidden; background:#fff; box-shadow:0 3px 12px rgba(0,0,0,.06);">
 
-    <a class="profile-link" href="profile.html">
-      <span class="link-icon">♟</span>
-      <span class="link-text">My Profile</span>
-      <span class="arrow">›</span>
-    </a>
+  <div style="background:#d40000; color:#fff; padding:12px 16px; font-size:18px; font-weight:700;">
+    Observer Information
+  </div>
 
-    <a class="profile-link" href="dashboard.html">
-      <span class="link-icon">▣</span>
-      <span class="link-text">My Assignments</span>
-      <span class="arrow">›</span>
-    </a>
+  <div style="padding:16px;">
 
-    <a class="profile-link" href="complete-assignment.html">
-      <span class="link-icon">◷</span>
-      <span class="link-text">Assignment History</span>
-      <span class="arrow">›</span>
-    </a>
+    <div style="margin-bottom:14px;">
+      <strong>Account Status</strong><br>
+      <span style="color:#0a8f45; font-weight:700;">✓ Approved Observer</span>
+    </div>
 
-    <a class="profile-link" href="#">
-      <span class="link-icon">⚙</span>
-      <span class="link-text">Settings</span>
-      <span class="arrow">›</span>
-    </a>
+    <div style="margin-bottom:14px;">
+      <strong>Service Area</strong><br>
+      <span id="serviceArea">Virginia</span>
+    </div>
 
-    <a class="profile-link" href="#">
-      <span class="link-icon">$</span>
-      <span class="link-text">Payment &amp; Earnings</span>
-      <span class="arrow">›</span>
-    </a>
+    <div style="margin-bottom:14px;">
+      <strong>Observer Type</strong><br>
+      Licensed Security Observer
+    </div>
 
-    <a class="profile-link logout" href="#" id="logoutButton">
-      <span class="link-icon">↪</span>
-      <span class="link-text">Log Out</span>
-      <span class="arrow">›</span>
-    </a>
+    <div style="margin-bottom:14px;">
+      <strong>License Verification</strong><br>
+      <span style="color:#0a8f45; font-weight:700;">✓ Verified</span>
+    </div>
 
-  </section>
+    <div style="margin-bottom:14px;">
+      <strong>Profile Review</strong><br>
+      Realtor Guard may periodically review observer information
+      and license status to help keep account information current.
+    </div>
 
+    <button
+      type="button"
+      id="editProfileButton"
+      style="width:100%; padding:13px; margin-top:4px; border:2px solid #d40000; border-radius:10px; background:#fff; color:#d40000; font-size:16px; font-weight:700; cursor:pointer;"
+    >
+      Edit Information
+    </button>
+
+    <button
+      type="button"
+      id="submitProfileButton"
+      style="width:100%; padding:13px; margin-top:10px; border:0; border-radius:10px; background:#d40000; color:#fff; font-size:16px; font-weight:700; cursor:pointer;"
+    >
+      Submit Changes for Review
+    </button>
+
+    <p style="margin:12px 4px 0; text-align:center; color:#6b7280; font-size:12px; line-height:1.4;">
+      Changes to license or account information may require review by Realtor Guard.
+    </p>
+
+  </div>
+</section>  
 </div>
 
 <script type="module">
@@ -650,7 +666,34 @@
   document
     .getElementById("logoutMenu")
     .addEventListener("click", logoutObserver);
+// My Profile - Edit Information
+const editProfileButton = document.getElementById("editProfileButton");
+const submitProfileButton = document.getElementById("submitProfileButton");
 
+if (editProfileButton) {
+  editProfileButton.addEventListener("click", function () {
+    alert(
+      "Profile editing is ready. Observer information changes will be submitted to Realtor Guard for review."
+    );
+  });
+}
+
+// My Profile - Submit Changes for Review
+if (submitProfileButton) {
+  submitProfileButton.addEventListener("click", function () {
+    const confirmed = confirm(
+      "Submit your updated information to Realtor Guard for review?"
+    );
+
+    if (!confirmed) return;
+
+    localStorage.setItem("observer_profile_review_status", "Pending Review");
+
+    alert(
+      "Your profile changes have been submitted to Realtor Guard for review."
+    );
+  });
+}
 </script>
 
 </body>
