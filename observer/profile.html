@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | Realtor Guard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #111827;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #ffffff;
+      position: relative;
+      padding-bottom: 35px;
+    }
+
+    /* HEADER */
+    .header {
+      position: relative;
+      min-height: 145px;
+      padding: 12px 20px 5px;
+      text-align: center;
+      background: #ffffff;
+    }
+
+    .logo {
+      display: block;
+      width: 150px;
+      max-height: 105px;
+      object-fit: contain;
+      margin: 0 auto;
+    }
+
+    .menu-button {
+      position: absolute;
+      top: 25px;
+      right: 20px;
+      border: 0;
+      background: transparent;
+      color: #b40000;
+      font-size: 30px;
+      font-weight: bold;
+      line-height: 1;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    /* MENU */
+    .menu-panel {
+      display: none;
+      position: absolute;
+      top: 68px;
+      right: 15px;
+      width: 220px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0,0,0,.18);
+      border: 1px solid #eeeeee;
+      z-index: 1000;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .menu-panel.open {
+      display: block;
+    }
+
+    .menu-title {
+      background: #c90000;
+      color: #ffffff;
+      padding: 14px 16px;
+      font-weight: 700;
+      font-size: 17px;
+    }
+
+    .menu-panel a {
+      display: block;
+      padding: 14px 16px;
+      color: #111827;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .menu-panel a:last-child {
+      border-bottom: 0;
+    }
+
+    /* TITLE */
+    .title-area {
+      text-align: center;
+      padding: 0 20px 12px;
+    }
+
+    .title-area h1 {
+      margin: 0;
+      color: #cf0000;
+      font-size: 31px;
+      line-height: 1.1;
+    }
+
+    .title-area p {
+      margin: 5px 0 0;
+      font-size: 15px;
+      color: #374151;
+    }
+
+    /* PROFILE CARD */
+    .profile-card {
+      margin: 0 16px 14px;
+      padding: 16px;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.07);
+      background: #ffffff;
+    }
+
+    .profile-top {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .photo-column {
+      width: 38%;
+      min-width: 120px;
+    }
+
+    .profile-photo {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid #dddddd;
+      background: #f3f4f6;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: 12px;
+      border: 1px solid #dddddd;
+      background: #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #6b7280;
+      font-size: 13px;
+      padding: 10px;
+    }
+
+    .update-photo {
+      width: 100%;
+      margin-top: 8px;
+      border: 0;
+      border-radius: 9px;
+      background: #cf0000;
+      color: white;
+      padding: 10px 6px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    #photoInput {
+      display: none;
+    }
+
+    .profile-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .profile-name {
+      margin: 0 0 7px;
+      font-size: 24px;
+      line-height: 1.05;
+      font-weight: 800;
+    }
+
+    .approved {
+      display: inline-block;
+      background: #d1fae5;
+      color: #078545;
+      padding: 7px 9px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    .role {
+      margin: 0 0 11px;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .contact-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      margin: 7px 0;
+      font-size: 13px;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .contact-icon {
+      color: #cf0000;
+      width: 18px;
+      flex: 0 0 18px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .license-info {
+      margin-top: 11px;
+      padding-top: 10px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 13px;
+    }
+
+    .license-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 7px 0;
+    }
+
+    .license-row strong {
+      font-weight: 700;
+    }
+
+    /* PROFILE LINKS */
+    .profile-links {
+      margin: 0 16px;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      background: #ffffff;
+    }
+
+    .profile-link {
+      display: flex;
+      align-items: center;
+      min-height: 55px;
+      padding: 0 17px;
+      text-decoration: none;
+      color: #111827;
+      border-bottom: 1px solid #e5e7eb;
+      font-weight: 700;
+    }
+
+    .profile-link:last-child {
+      border-bottom: 0;
+    }
+
+    .link-icon {
+      width: 40px;
+      color: #cf0000;
+      font-size: 22px;
+    }
+
+    .link-text {
+      flex: 1;
+    }
+
+    .arrow {
+      color: #cf0000;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .logout {
+      color: #b40000;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 12px 20px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    @media (max-width: 370px) {
+      .profile-top {
+        gap: 10px;
+      }
+
+      .photo-column {
+        width: 35%;
+        min-width: 105px;
+      }
+
+      .profile-name {
+        font-size: 20px;
+      }
+
+      .contact-row,
+      .license-info {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <header class="header">
+
+    <!-- Uses the Realtor Guard logo already stored in this repository -->
+    <img
+      class="logo"
+      src="../logo.png"
+      alt="Realtor Guard"
+      id="mainLogo"
+    >
+
+    <button
+      class="menu-button"
+      id="menuButton"
+      type="button"
+      aria-label="Open menu"
+    >
+      ☰
+    </button>
+
+    <nav class="menu-panel" id="menuPanel">
+      <div class="menu-title">Observer Menu</div>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="profile.html">My Profile</a>
+      <a href="dashboard.html">My Assignments</a>
+      <a href="complete-assignment.html">Assignment History</a>
+      <a href="#">Settings</a>
+      <a href="#">Payment &amp; Earnings</a>
+      <a href="#" id="logoutMenu">Log Out</a>
+    </nav>
+
+  </header>
+
+  <section class="title-area">
+    <h1>My Profile</h1>
+    <p>Manage your account information.</p>
+  </section>
+
+  <div class="loading" id="loadingMessage">
+    Loading your profile...
+  </div>
+
+  <section class="profile-card" id="profileCard">
+
+    <div class="profile-top">
+
+      <div class="photo-column">
+
+        <div
+          class="photo-placeholder"
+          id="photoPlaceholder"
+        >
+          Observer Photo
+        </div>
+
+        <img
+          class="profile-photo"
+          id="profilePhoto"
+          alt="Observer profile photo"
+          style="display:none;"
+        >
+
+        <button
+          class="update-photo"
+          id="updatePhotoButton"
+          type="button"
+        >
+          📷 Update Photo
+        </button>
+
+        <input
+          id="photoInput"
+          type="file"
+          accept="image/*"
+        >
+
+      </div>
+
+      <div class="profile-details">
+
+        <h2 class="profile-name" id="fullName">
+          Observer
+        </h2>
+
+        <div class="approved" id="approvalBadge">
+          ✓ Approved Observer
+        </div>
+
+        <p class="role">
+          Licensed Security Observer<br>
+          Realtor Guard
+        </p>
+
+        <div class="contact-row">
+          <span class="contact-icon">✉</span>
+          <span id="email">—</span>
+        </div>
+
+        <div class="contact-row">
+          <span class="contact-icon">☎</span>
+          <span id="phone">—</span>
+        </div>
+
+        <div class="contact-row">
+          <span class="contact-icon">●</span>
+          <span id="address">—</span>
+        </div>
+
+        <div class="license-info">
+
+          <div class="license-row">
+            <strong>License Number:</strong>
+            <span id="licenseNumber">—</span>
+          </div>
+
+          <div class="license-row">
+            <strong>License State:</strong>
+            <span id="licenseState">—</span>
+          </div>
+
+          <div class="license-row">
+            <strong>Expiration Date:</strong>
+            <span id="expirationDate">—</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="profile-links">
+
+    <a class="profile-link" href="profile.html">
+      <span class="link-icon">♟</span>
+      <span class="link-text">My Profile</span>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="profile-link" href="dashboard.html">
+      <span class="link-icon">▣</span>
+      <span class="link-text">My Assignments</span>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="profile-link" href="complete-assignment.html">
+      <span class="link-icon">◷</span>
+      <span class="link-text">Assignment History</span>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="profile-link" href="#">
+      <span class="link-icon">⚙</span>
+      <span class="link-text">Settings</span>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="profile-link" href="#">
+      <span class="link-icon">$</span>
+      <span class="link-text">Payment &amp; Earnings</span>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="profile-link logout" href="#" id="logoutButton">
+      <span class="link-icon">↪</span>
+      <span class="link-text">Log Out</span>
+      <span class="arrow">›</span>
+    </a>
+
+  </section>
+
+</div>
+
+<script type="module">
+
+  const menuButton = document.getElementById("menuButton");
+  const menuPanel = document.getElementById("menuPanel");
+
+  menuButton.addEventListener("click", function (event) {
+    event.stopPropagation();
+    menuPanel.classList.toggle("open");
+  });
+
+  document.addEventListener("click", function (event) {
+    if (
+      !menuPanel.contains(event.target) &&
+      !menuButton.contains(event.target)
+    ) {
+      menuPanel.classList.remove("open");
+    }
+  });
+
+  const updatePhotoButton =
+    document.getElementById("updatePhotoButton");
+
+  const photoInput =
+    document.getElementById("photoInput");
+
+  const profilePhoto =
+    document.getElementById("profilePhoto");
+
+  const photoPlaceholder =
+    document.getElementById("photoPlaceholder");
+
+  updatePhotoButton.addEventListener("click", function () {
+    photoInput.click();
+  });
+
+  photoInput.addEventListener("change", function () {
+
+    const file = photoInput.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      profilePhoto.src = event.target.result;
+      profilePhoto.style.display = "block";
+      photoPlaceholder.style.display = "none";
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+
+  /*
+    PROFILE DATA
+
+    This page is ready for the observer's live Supabase
+    profile information.
+
+    Until we connect the exact observer profile columns,
+    the page safely checks locally stored observer data.
+  */
+
+  function loadStoredProfile() {
+
+    const storedName =
+      localStorage.getItem("observer_name");
+
+    const storedEmail =
+      localStorage.getItem("observer_email");
+
+    const storedPhone =
+      localStorage.getItem("observer_phone");
+
+    const storedAddress =
+      localStorage.getItem("observer_address");
+
+    const storedLicense =
+      localStorage.getItem("observer_license_number");
+
+    const storedLicenseState =
+      localStorage.getItem("observer_license_state");
+
+    const storedExpiration =
+      localStorage.getItem("observer_license_expiration");
+
+    const storedPhoto =
+      localStorage.getItem("observer_photo_url");
+
+    if (storedName) {
+      document.getElementById("fullName").textContent =
+        storedName;
+    }
+
+    if (storedEmail) {
+      document.getElementById("email").textContent =
+        storedEmail;
+    }
+
+    if (storedPhone) {
+      document.getElementById("phone").textContent =
+        storedPhone;
+    }
+
+    if (storedAddress) {
+      document.getElementById("address").textContent =
+        storedAddress;
+    }
+
+    if (storedLicense) {
+      document.getElementById("licenseNumber").textContent =
+        storedLicense;
+    }
+
+    if (storedLicenseState) {
+      document.getElementById("licenseState").textContent =
+        storedLicenseState;
+    }
+
+    if (storedExpiration) {
+      document.getElementById("expirationDate").textContent =
+        storedExpiration;
+    }
+
+    if (storedPhoto) {
+      profilePhoto.src = storedPhoto;
+      profilePhoto.style.display = "block";
+      photoPlaceholder.style.display = "none";
+    }
+
+    document.getElementById("loadingMessage").style.display =
+      "none";
+  }
+
+  loadStoredProfile();
+
+
+  function logoutObserver(event) {
+
+    event.preventDefault();
+
+    localStorage.removeItem("observer_logged_in");
+
+    window.location.href = "login.html";
+  }
+
+  document
+    .getElementById("logoutButton")
+    .addEventListener("click", logoutObserver);
+
+  document
+    .getElementById("logoutMenu")
+    .addEventListener("click", logoutObserver);
+
+</script>
+
+</body>
+</html>
