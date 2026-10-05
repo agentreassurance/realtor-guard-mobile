@@ -566,89 +566,118 @@
   });
 
 
-  /*
-    PROFILE DATA
+// LOAD REAL LOGGED-IN OBSERVER PROFILE FROM SUPABASE
+async function loadObserverProfile() {
+  const loadingMessage = document.getElementById("loadingMessage");
 
-    This page is ready for the observer's live Supabase
-    profile information.
+  try {
+    // Get the observer who is currently logged in
+    const {
+      data: { user },
+      error: userError
+    } = await supabase.auth.getUser();
 
-    Until we connect the exact observer profile columns,
-    the page safely checks locally stored observer data.
-  */
-
-  function loadStoredProfile() {
-
-    const storedName =
-      localStorage.getItem("observer_name");
-
-    const storedEmail =
-      localStorage.getItem("observer_email");
-
-    const storedPhone =
-      localStorage.getItem("observer_phone");
-
-    const storedAddress =
-      localStorage.getItem("observer_address");
-
-    const storedLicense =
-      localStorage.getItem("observer_license_number");
-
-    const storedLicenseState =
-      localStorage.getItem("observer_license_state");
-
-    const storedExpiration =
-      localStorage.getItem("observer_license_expiration");
-
-    const storedPhoto =
-      localStorage.getItem("observer_photo_url");
-
-    if (storedName) {
-      document.getElementById("fullName").textContent =
-        storedName;
+    if (userError) {
+      throw userError;
     }
 
-    if (storedEmail) {
-      document.getElementById("email").textContent =
-        storedEmail;
+    // If nobody is logged in, send them back to login
+    if (!user) {
+      window.location.href = "login.html";
+      return;
     }
 
-    if (storedPhone) {
-      document.getElementById("phone").textContent =
-        storedPhone;
+    // Find this observer using their Supabase Auth user ID
+    const { data: observer, error: profileError } = await supabase
+      .from("observers")
+      .select("*")
+      .eq("auth_user_id", user.id)
+      .single();
+
+    if (profileError) {
+      throw profileError;
     }
 
-    if (storedAddress) {
-      document.getElementById("address").textContent =
-        storedAddress;
+    if (!observer) {
+      throw new Error("Observer profile not found.");
     }
 
-    if (storedLicense) {
-      document.getElementById("licenseNumber").textContent =
-        storedLicense;
+    // Get the profile page fields
+    const fullName = document.getElementById("fullName");
+    const email = document.getElementById("email");
+    const phone = document.getElementById("phone");
+    const address = document.getElementById("address");
+    const licenseNumber = document.getElementById("licenseNumber");
+    const licenseState = document.getElementById("licenseState");
+    const expirationDate = document.getElementById("expirationDate");
+    const profilePhoto = document.getElementById("profilePhoto");
+    const photoPlaceholder = document.getElementById("photoPlaceholder");
+
+    // Display the real observer information
+    if (fullName) {
+      fullName.textContent = observer.full_name || "Observer";
     }
 
-    if (storedLicenseState) {
-      document.getElementById("licenseState").textContent =
-        storedLicenseState;
+    if (email) {
+      email.textContent = observer.email || user.email || "—";
     }
 
-    if (storedExpiration) {
-      document.getElementById("expirationDate").textContent =
-        storedExpiration;
+    if (phone) {
+      phone.textContent = observer.phone || "—";
     }
 
-    if (storedPhoto) {
-      profilePhoto.src = storedPhoto;
+    if (address) {
+      const addressParts = [
+        observer.address,
+        observer.city,
+        observer.state,
+        observer.zip
+      ].filter(Boolean);
+
+      address.textContent =
+        addressParts.length > 0 ? addressParts.join(", ") : "—";
+    }
+
+    if (licenseNumber) {
+      licenseNumber.textContent = observer.license_id || "—";
+    }
+
+    if (licenseState) {
+      licenseState.textContent = observer.state || "Virginia";
+    }
+
+    if (expirationDate) {
+      expirationDate.textContent =
+        observer.license_expiration_date || "—";
+    }
+
+    // Display observer photo if available
+    if (observer.selfie_url && profilePhoto) {
+      profilePhoto.src = observer.selfie_url;
       profilePhoto.style.display = "block";
-      photoPlaceholder.style.display = "none";
+
+      if (photoPlaceholder) {
+        photoPlaceholder.style.display = "none";
+      }
     }
 
-    document.getElementById("loadingMessage").style.display =
-      "none";
+    // Remove loading message
+    if (loadingMessage) {
+      loadingMessage.style.display = "none";
+    }
+
+  } catch (error) {
+    console.error("Error loading observer profile:", error);
+
+    if (loadingMessage) {
+      loadingMessage.textContent =
+        "Unable to load your profile information.";
+    }
   }
+}
 
-  loadStoredProfile();
-
+// Load the logged-in observer when My Profile opens
+loadObserverProfile();
 
   function logoutObserver(event) {
 
