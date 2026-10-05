@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>My Profile | Realtor Guard</title>
 
   <style>
@@ -20,112 +21,108 @@
     .page {
       width: 100%;
       max-width: 430px;
-      min-height: 100vh;
       margin: 0 auto;
-      background: #ffffff;
-      position: relative;
-      padding-bottom: 35px;
+      padding: 18px 16px 40px;
     }
 
     /* HEADER */
+
     .header {
       position: relative;
-      min-height: 145px;
-      padding: 12px 20px 5px;
-      text-align: center;
-      background: #ffffff;
+      min-height: 125px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
     }
 
     .logo {
+      width: 125px;
+      height: auto;
       display: block;
-      width: 150px;
-      max-height: 105px;
-      object-fit: contain;
-      margin: 0 auto;
     }
 
     .menu-button {
       position: absolute;
-      top: 25px;
-      right: 20px;
+      top: 18px;
+      right: 6px;
       border: 0;
       background: transparent;
-      color: #b40000;
-      font-size: 30px;
-      font-weight: bold;
-      line-height: 1;
+      color: #a90000;
+      font-size: 32px;
+      font-weight: 900;
       cursor: pointer;
-      padding: 5px;
+      padding: 4px 8px;
     }
 
-    /* MENU */
     .menu-panel {
       display: none;
       position: absolute;
-      top: 68px;
-      right: 15px;
-      width: 220px;
+      right: 5px;
+      top: 58px;
+      width: 205px;
       background: #ffffff;
+      border: 1px solid #e5e7eb;
       border-radius: 12px;
-      box-shadow: 0 6px 24px rgba(0,0,0,.18);
-      border: 1px solid #eeeeee;
-      z-index: 1000;
+      box-shadow: 0 8px 24px rgba(0,0,0,.15);
       overflow: hidden;
-      text-align: left;
+      z-index: 100;
     }
 
     .menu-panel.open {
       display: block;
     }
 
-    .menu-title {
-      background: #c90000;
-      color: #ffffff;
-      padding: 14px 16px;
-      font-weight: 700;
-      font-size: 17px;
-    }
-
     .menu-panel a {
       display: block;
       padding: 14px 16px;
-      color: #111827;
       text-decoration: none;
-      font-weight: 600;
+      color: #111827;
+      font-size: 15px;
+      font-weight: 700;
       border-bottom: 1px solid #eeeeee;
     }
 
     .menu-panel a:last-child {
       border-bottom: 0;
+      color: #b00000;
     }
 
     /* TITLE */
-    .title-area {
+
+    .title {
       text-align: center;
-      padding: 0 20px 12px;
+      margin-top: 4px;
+      margin-bottom: 20px;
     }
 
-    .title-area h1 {
+    .title h1 {
       margin: 0;
-      color: #cf0000;
-      font-size: 31px;
-      line-height: 1.1;
+      color: #b00000;
+      font-size: 30px;
     }
 
-    .title-area p {
-      margin: 5px 0 0;
+    .title p {
+      margin: 6px 0 0;
+      color: #4b5563;
       font-size: 15px;
-      color: #374151;
+    }
+
+    #loadingMessage {
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 14px;
     }
 
     /* PROFILE CARD */
+
     .profile-card {
-      margin: 0 16px 14px;
-      padding: 16px;
+      background: #ffffff;
       border: 1px solid #e5e7eb;
       border-radius: 16px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.07);
-      background: #ffffff;
+      padding: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.08);
+      margin-bottom: 20px;
     }
 
     .profile-top {
@@ -135,44 +132,42 @@
     }
 
     .photo-column {
-      width: 38%;
-      min-width: 120px;
+      width: 128px;
+      flex-shrink: 0;
     }
 
-    .profile-photo {
-      width: 100%;
-      aspect-ratio: 4 / 5;
-      object-fit: cover;
+    .photo-box {
+      width: 128px;
+      height: 150px;
       border-radius: 12px;
-      border: 1px solid #dddddd;
+      border: 1px solid #d1d5db;
       background: #f3f4f6;
-    }
-
-    .photo-placeholder {
-      width: 100%;
-      aspect-ratio: 4 / 5;
-      border-radius: 12px;
-      border: 1px solid #dddddd;
-      background: #f3f4f6;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
       color: #6b7280;
       font-size: 13px;
-      padding: 10px;
+      text-align: center;
     }
 
-    .update-photo {
+    #profilePhoto {
       width: 100%;
-      margin-top: 8px;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .photo-button {
+      width: 100%;
       border: 0;
-      border-radius: 9px;
-      background: #cf0000;
-      color: white;
-      padding: 10px 6px;
-      font-size: 14px;
+      background: #d40000;
+      color: #ffffff;
       font-weight: 700;
+      font-size: 13px;
+      padding: 10px 5px;
+      border-radius: 9px;
+      margin-top: 8px;
       cursor: pointer;
     }
 
@@ -187,133 +182,235 @@
 
     .profile-name {
       margin: 0 0 7px;
-      font-size: 24px;
-      line-height: 1.05;
-      font-weight: 800;
+      font-size: 22px;
+      color: #111827;
+      overflow-wrap: anywhere;
     }
 
-    .approved {
+    .approved-badge {
       display: inline-block;
       background: #d1fae5;
-      color: #078545;
-      padding: 7px 9px;
-      border-radius: 8px;
+      color: #00873e;
+      padding: 8px 9px;
+      border-radius: 9px;
       font-size: 13px;
       font-weight: 700;
-      margin-bottom: 7px;
+      margin-bottom: 10px;
     }
 
-    .role {
-      margin: 0 0 11px;
+    .pending-badge {
+      background: #fff4cc;
+      color: #8a6500;
+    }
+
+    .observer-type {
       font-size: 14px;
       line-height: 1.35;
+      margin-bottom: 13px;
     }
 
     .contact-row {
       display: flex;
       gap: 8px;
-      align-items: flex-start;
-      margin: 7px 0;
+      margin: 8px 0;
       font-size: 13px;
       line-height: 1.35;
-      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
-    .contact-icon {
-      color: #cf0000;
+    .icon {
       width: 18px;
-      flex: 0 0 18px;
-      font-weight: 700;
-      text-align: center;
+      flex-shrink: 0;
+      color: #c00000;
     }
 
-    .license-info {
-      margin-top: 11px;
-      padding-top: 10px;
+    .license-area {
       border-top: 1px solid #e5e7eb;
-      font-size: 13px;
+      margin-top: 13px;
+      padding-top: 11px;
     }
 
     .license-row {
       display: flex;
       justify-content: space-between;
       gap: 10px;
-      margin: 7px 0;
+      margin: 8px 0;
+      font-size: 13px;
     }
 
     .license-row strong {
-      font-weight: 700;
+      flex-shrink: 0;
     }
 
-    /* PROFILE LINKS */
-    .profile-links {
-      margin: 0 16px;
+    .license-row span {
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    /* INFORMATION CARD */
+
+    .info-card {
       border: 1px solid #e5e7eb;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      background: #ffffff;
+      box-shadow: 0 4px 14px rgba(0,0,0,.07);
+      margin-bottom: 20px;
+    }
+
+    .info-header {
+      background: #d40000;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      padding: 14px 16px;
+    }
+
+    .info-body {
+      padding: 16px;
+    }
+
+    .info-item {
+      margin-bottom: 15px;
+    }
+
+    .info-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-label {
+      display: block;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+
+    .green {
+      color: #00873e;
+      font-weight: 700;
+    }
+
+    /* EDIT SECTION */
+
+    .edit-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      background: #ffffff;
+      padding: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.07);
+    }
+
+    .edit-card h2 {
+      margin: 0 0 6px;
+      color: #b00000;
+      font-size: 19px;
+    }
+
+    .edit-note {
+      margin: 0 0 15px;
+      color: #6b7280;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    #editForm {
+      display: none;
+      margin-top: 16px;
+    }
+
+    .field {
+      margin-bottom: 13px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      font-size: 15px;
       background: #ffffff;
     }
 
-    .profile-link {
-      display: flex;
-      align-items: center;
-      min-height: 55px;
-      padding: 0 17px;
-      text-decoration: none;
-      color: #111827;
-      border-bottom: 1px solid #e5e7eb;
-      font-weight: 700;
+    .field input:focus {
+      outline: 2px solid #efb3b3;
+      border-color: #b00000;
     }
 
-    .profile-link:last-child {
-      border-bottom: 0;
-    }
-
-    .link-icon {
-      width: 40px;
-      color: #cf0000;
-      font-size: 22px;
-    }
-
-    .link-text {
-      flex: 1;
-    }
-
-    .arrow {
-      color: #cf0000;
-      font-size: 28px;
-      font-weight: 700;
-    }
-
-    .logout {
-      color: #b40000;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 12px 20px;
-      font-size: 14px;
+    .locked-field {
+      background: #f3f4f6 !important;
       color: #6b7280;
     }
 
-    @media (max-width: 370px) {
+    .button {
+      width: 100%;
+      padding: 13px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .edit-button {
+      border: 2px solid #d40000;
+      background: #ffffff;
+      color: #b00000;
+    }
+
+    .submit-button {
+      border: 0;
+      background: #d40000;
+      color: #ffffff;
+      margin-top: 4px;
+    }
+
+    .cancel-button {
+      border: 1px solid #d1d5db;
+      background: #f3f4f6;
+      color: #374151;
+      margin-top: 9px;
+    }
+
+    .message {
+      display: none;
+      margin-top: 14px;
+      padding: 11px;
+      border-radius: 9px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .success-message {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+
+    .error-message {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    @media (max-width: 380px) {
       .profile-top {
         gap: 10px;
       }
 
-      .photo-column {
-        width: 35%;
-        min-width: 105px;
+      .photo-column,
+      .photo-box {
+        width: 112px;
       }
 
       .profile-name {
-        font-size: 20px;
-      }
-
-      .contact-row,
-      .license-info {
-        font-size: 12px;
+        font-size: 19px;
       }
     }
   </style>
@@ -321,399 +418,1017 @@
 
 <body>
 
-<div class="page">
+  <main class="page">
 
-  <header class="header">
+    <header class="header">
 
-    <!-- Uses the Realtor Guard logo already stored in this repository -->
-    <img
-      class="logo"
-      src="../logo.png"
-      alt="Realtor Guard"
-      id="mainLogo"
-    >
+      <img
+        src="../logo.png"
+        alt="Realtor Guard"
+        class="logo"
+      >
 
-    <button
-      class="menu-button"
-      id="menuButton"
-      type="button"
-      aria-label="Open menu"
-    >
-      ☰
-    </button>
+      <button
+        type="button"
+        class="menu-button"
+        id="menuButton"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
 
-    <nav class="menu-panel" id="menuPanel">
-      <div class="menu-title">Observer Menu</div>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="profile.html">My Profile</a>
-      <a href="dashboard.html">My Assignments</a>
-      <a href="complete-assignment.html">Assignment History</a>
-      <a href="#">Settings</a>
-      <a href="#">Payment &amp; Earnings</a>
-      <a href="#" id="logoutMenu">Log Out</a>
-    </nav>
+      <nav class="menu-panel" id="menuPanel">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="dashboard.html">My Assignments</a>
+        <a href="profile.html">My Profile</a>
+        <a href="#" id="logoutMenu">Log Out</a>
+      </nav>
 
-  </header>
+    </header>
 
-  <section class="title-area">
-    <h1>My Profile</h1>
-    <p>Manage your account information.</p>
-  </section>
 
-  <div class="loading" id="loadingMessage">
-    Loading your profile...
-  </div>
+    <section class="title">
+      <h1>My Profile</h1>
+      <p>Manage your account information.</p>
+    </section>
 
-  <section class="profile-card" id="profileCard">
+    <div id="loadingMessage">
+      Loading your profile...
+    </div>
 
-    <div class="profile-top">
 
-      <div class="photo-column">
+    <!-- PROFILE CARD -->
 
-        <div
-          class="photo-placeholder"
-          id="photoPlaceholder"
-        >
-          Observer Photo
+    <section class="profile-card">
+
+      <div class="profile-top">
+
+        <div class="photo-column">
+
+          <div class="photo-box">
+
+            <img
+              id="profilePhoto"
+              alt="Observer profile photo"
+            >
+
+            <span id="photoPlaceholder">
+              Observer Photo
+            </span>
+
+          </div>
+
+          <button
+            type="button"
+            class="photo-button"
+            id="updatePhotoButton"
+          >
+            📷 Update Photo
+          </button>
+
+          <input
+            type="file"
+            id="photoInput"
+            accept="image/*"
+          >
+
         </div>
 
-        <img
-          class="profile-photo"
-          id="profilePhoto"
-          alt="Observer profile photo"
-          style="display:none;"
-        >
+
+        <div class="profile-details">
+
+          <h2
+            class="profile-name"
+            id="fullName"
+          >
+            Observer
+          </h2>
+
+          <div
+            class="approved-badge"
+            id="approvalBadge"
+          >
+            Checking Status...
+          </div>
+
+          <div class="observer-type">
+            Licensed Security Observer<br>
+            Realtor Guard
+          </div>
+
+
+          <div class="contact-row">
+            <span class="icon">✉</span>
+            <span id="email">—</span>
+          </div>
+
+          <div class="contact-row">
+            <span class="icon">☎</span>
+            <span id="phone">—</span>
+          </div>
+
+          <div class="contact-row">
+            <span class="icon">●</span>
+            <span id="location">—</span>
+          </div>
+
+
+          <div class="license-area">
+
+            <div class="license-row">
+              <strong>License Number:</strong>
+              <span id="licenseId">—</span>
+            </div>
+
+            <div class="license-row">
+              <strong>License State:</strong>
+              <span id="licenseState">Virginia</span>
+            </div>
+
+            <div class="license-row">
+              <strong>Expiration Date:</strong>
+              <span id="expirationDate">—</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- OBSERVER INFORMATION -->
+
+    <section class="info-card">
+
+      <div class="info-header">
+        Observer Information
+      </div>
+
+      <div class="info-body">
+
+        <div class="info-item">
+          <span class="info-label">
+            Account Status
+          </span>
+
+          <span
+            id="accountStatus"
+            class="green"
+          >
+            Checking...
+          </span>
+        </div>
+
+
+        <div class="info-item">
+          <span class="info-label">
+            Service Area
+          </span>
+
+          <span id="serviceArea">
+            Virginia
+          </span>
+        </div>
+
+
+        <div class="info-item">
+          <span class="info-label">
+            Observer Type
+          </span>
+
+          <span>
+            Licensed Security Observer
+          </span>
+        </div>
+
+
+        <div class="info-item">
+          <span class="info-label">
+            License Verification
+          </span>
+
+          <span
+            id="licenseVerification"
+            class="green"
+          >
+            ✓ Verified
+          </span>
+        </div>
+
+
+        <div class="info-item">
+          <span class="info-label">
+            Profile Review
+          </span>
+
+          <span id="profileReview">
+            Current
+          </span>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- EDIT INFORMATION -->
+
+    <section class="edit-card">
+
+      <h2>Profile Information</h2>
+
+      <p class="edit-note">
+        Contact and license changes may require review by Realtor Guard.
+        Approval and verification status cannot be changed by the observer.
+      </p>
+
+
+      <button
+        type="button"
+        class="button edit-button"
+        id="editProfileButton"
+      >
+        Edit Information
+      </button>
+
+
+      <form id="editForm">
+
+        <div class="field">
+          <label for="editEmail">
+            Email Address
+          </label>
+
+          <input
+            type="email"
+            id="editEmail"
+            class="locked-field"
+            readonly
+          >
+        </div>
+
+
+        <div class="field">
+          <label for="editPhone">
+            Phone Number
+          </label>
+
+          <input
+            type="tel"
+            id="editPhone"
+          >
+        </div>
+
+
+        <div class="field">
+          <label for="editAddress">
+            Address
+          </label>
+
+          <input
+            type="text"
+            id="editAddress"
+          >
+        </div>
+
+
+        <div class="field">
+          <label for="editCity">
+            City
+          </label>
+
+          <input
+            type="text"
+            id="editCity"
+          >
+        </div>
+
+
+        <div class="field">
+          <label for="editLicenseId">
+            License Number
+          </label>
+
+          <input
+            type="text"
+            id="editLicenseId"
+          >
+        </div>
+
+
+        <div class="field">
+          <label for="editExpirationDate">
+            License Expiration Date
+          </label>
+
+          <input
+            type="date"
+            id="editExpirationDate"
+          >
+        </div>
+
 
         <button
-          class="update-photo"
-          id="updatePhotoButton"
-          type="button"
+          type="submit"
+          class="button submit-button"
         >
-          📷 Update Photo
+          Submit Changes for Review
         </button>
 
-        <input
-          id="photoInput"
-          type="file"
-          accept="image/*"
+
+        <button
+          type="button"
+          class="button cancel-button"
+          id="cancelEditButton"
         >
+          Cancel
+        </button>
 
+      </form>
+
+
+      <div
+        id="successMessage"
+        class="message success-message"
+      >
+        Your profile changes have been submitted for review.
       </div>
 
-      <div class="profile-details">
 
-        <h2 class="profile-name" id="fullName">
-          Observer
-        </h2>
+      <div
+        id="errorMessage"
+        class="message error-message"
+      ></div>
 
-        <div class="approved" id="approvalBadge">
-          ✓ Approved Observer
-        </div>
+    </section>
 
-        <p class="role">
-          Licensed Security Observer<br>
-          Realtor Guard
-        </p>
-
-        <div class="contact-row">
-          <span class="contact-icon">✉</span>
-          <span id="email">—</span>
-        </div>
-
-        <div class="contact-row">
-          <span class="contact-icon">☎</span>
-          <span id="phone">—</span>
-        </div>
-
-        <div class="contact-row">
-          <span class="contact-icon">●</span>
-          <span id="address">—</span>
-        </div>
-
-        <div class="license-info">
-
-          <div class="license-row">
-            <strong>License Number:</strong>
-            <span id="licenseNumber">—</span>
-          </div>
-
-          <div class="license-row">
-            <strong>License State:</strong>
-            <span id="licenseState">—</span>
-          </div>
-
-          <div class="license-row">
-            <strong>Expiration Date:</strong>
-            <span id="expirationDate">—</span>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-<section class="observer-details-card" style="margin:18px 0; border:1px solid #e5e7eb; border-radius:16px; overflow:hidden; background:#fff; box-shadow:0 3px 12px rgba(0,0,0,.06);">
-
-  <div style="background:#d40000; color:#fff; padding:12px 16px; font-size:18px; font-weight:700;">
-    Observer Information
-  </div>
-
-  <div style="padding:16px;">
-
-    <div style="margin-bottom:14px;">
-      <strong>Account Status</strong><br>
-      <span style="color:#0a8f45; font-weight:700;">✓ Approved Observer</span>
-    </div>
-
-    <div style="margin-bottom:14px;">
-      <strong>Service Area</strong><br>
-      <span id="serviceArea">Virginia</span>
-    </div>
-
-    <div style="margin-bottom:14px;">
-      <strong>Observer Type</strong><br>
-      Licensed Security Observer
-    </div>
-
-    <div style="margin-bottom:14px;">
-      <strong>License Verification</strong><br>
-      <span style="color:#0a8f45; font-weight:700;">✓ Verified</span>
-    </div>
-
-    <div style="margin-bottom:14px;">
-      <strong>Profile Review</strong><br>
-      Realtor Guard may periodically review observer information
-      and license status to help keep account information current.
-    </div>
-
-    <button
-      type="button"
-      id="editProfileButton"
-      style="width:100%; padding:13px; margin-top:4px; border:2px solid #d40000; border-radius:10px; background:#fff; color:#d40000; font-size:16px; font-weight:700; cursor:pointer;"
-    >
-      Edit Information
-    </button>
-
-    <button
-      type="button"
-      id="submitProfileButton"
-      style="width:100%; padding:13px; margin-top:10px; border:0; border-radius:10px; background:#d40000; color:#fff; font-size:16px; font-weight:700; cursor:pointer;"
-    >
-      Submit Changes for Review
-    </button>
-
-    <p style="margin:12px 4px 0; text-align:center; color:#6b7280; font-size:12px; line-height:1.4;">
-      Changes to license or account information may require review by Realtor Guard.
-    </p>
-
-  </div>
-</section>  
-</div>
-
-<script type="module">
-
-  const menuButton = document.getElementById("menuButton");
-  const menuPanel = document.getElementById("menuPanel");
-
-  menuButton.addEventListener("click", function (event) {
-    event.stopPropagation();
-    menuPanel.classList.toggle("open");
-  });
-
-  document.addEventListener("click", function (event) {
-    if (
-      !menuPanel.contains(event.target) &&
-      !menuButton.contains(event.target)
-    ) {
-      menuPanel.classList.remove("open");
-    }
-  });
-
-  const updatePhotoButton =
-    document.getElementById("updatePhotoButton");
-
-  const photoInput =
-    document.getElementById("photoInput");
-
-  const profilePhoto =
-    document.getElementById("profilePhoto");
-
-  const photoPlaceholder =
-    document.getElementById("photoPlaceholder");
-
-  updatePhotoButton.addEventListener("click", function () {
-    photoInput.click();
-  });
-
-  photoInput.addEventListener("change", function () {
-
-    const file = photoInput.files[0];
-
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function (event) {
-      profilePhoto.src = event.target.result;
-      profilePhoto.style.display = "block";
-      photoPlaceholder.style.display = "none";
-    };
-
-    reader.readAsDataURL(file);
-  });
+  </main>
 
 
-// LOAD REAL LOGGED-IN OBSERVER PROFILE FROM SUPABASE
-async function loadObserverProfile() {
-  const loadingMessage = document.getElementById("loadingMessage");
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  try {
-    // Get the observer who is currently logged in
-    const {
-      data: { user },
-      error: userError
-    } = await supabase.auth.getUser();
+  <script>
 
-    if (userError) throw userError;
+    const SUPABASE_URL =
+      "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
 
-    if (!user) {
-      window.location.href = "login.html";
-      return;
-    }
+    const SUPABASE_KEY =
+      "sb_publishable_9q5KNgJ4lLvwqqn0IdIlBw_KIAWNxgR";
 
-    // Find this observer's record in public.observers
-    const { data: observer, error: profileError } = await supabase
-      .from("observers")
-      .select("*")
-      .eq("auth_user_id", user.id)
-      .single();
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-    if (profileError) throw profileError;
 
-    // Get the My Profile display areas
-    const fullName = document.getElementById("fullName");
-    const email = document.getElementById("email");
-    const phone = document.getElementById("phone");
-    const address = document.getElementById("address");
-    const licenseNumber = document.getElementById("licenseNumber");
-    const licenseState = document.getElementById("licenseState");
-    const expirationDate = document.getElementById("expirationDate");
-    const profilePhoto = document.getElementById("profilePhoto");
-    const photoPlaceholder = document.getElementById("photoPlaceholder");
+    let currentObserver = null;
 
-    // Display observer information
-    if (fullName) {
-      fullName.textContent = observer.full_name || "Observer";
-    }
 
-    if (email) {
-      email.textContent = observer.email || user.email || "—";
-    }
+    /* -------------------------
+       HAMBURGER MENU
+    ------------------------- */
 
-    if (phone) {
-      phone.textContent = observer.phone || "—";
-    }
+    const menuButton =
+      document.getElementById("menuButton");
 
-    if (address) {
-      const addressParts = [
-        observer.address,
-        observer.city,
-        observer.state,
-        observer.zip
-      ].filter(Boolean);
+    const menuPanel =
+      document.getElementById("menuPanel");
 
-      address.textContent =
-        addressParts.length > 0 ? addressParts.join(", ") : "—";
-    }
 
-    if (licenseNumber) {
-      licenseNumber.textContent = observer.license_id || "—";
-    }
+    menuButton.addEventListener(
+      "click",
+      function (event) {
 
-    if (licenseState) {
-      licenseState.textContent = observer.state || "Virginia";
-    }
+        event.stopPropagation();
 
-    if (expirationDate) {
-      expirationDate.textContent =
-        observer.license_expiration_date || "—";
-    }
+        menuPanel.classList.toggle("open");
 
-    // Display observer selfie/photo
-    if (observer.selfie_url && profilePhoto) {
-      profilePhoto.src = observer.selfie_url;
-      profilePhoto.style.display = "block";
-
-      if (photoPlaceholder) {
-        photoPlaceholder.style.display = "none";
       }
-    }
-
-    // Remove loading message
-    if (loadingMessage) {
-      loadingMessage.style.display = "none";
-    }
-
-  } catch (error) {
-    console.error("Error loading observer profile:", error);
-
-    if (loadingMessage) {
-      loadingMessage.textContent =
-        "Unable to load your profile information.";
-    }
-  }
-}
-
-// Load the logged-in observer's real profile
-loadObserverProfile();
-  function logoutObserver(event) {
-
-    event.preventDefault();
-
-    localStorage.removeItem("observer_logged_in");
-
-    window.location.href = "login.html";
-  }
-
-  document
-    .getElementById("logoutButton")
-    .addEventListener("click", logoutObserver);
-
-  document
-    .getElementById("logoutMenu")
-    .addEventListener("click", logoutObserver);
-// My Profile - Edit Information
-const editProfileButton = document.getElementById("editProfileButton");
-const submitProfileButton = document.getElementById("submitProfileButton");
-
-if (editProfileButton) {
-  editProfileButton.addEventListener("click", function () {
-    alert(
-      "Profile editing is ready. Observer information changes will be submitted to Realtor Guard for review."
-    );
-  });
-}
-
-// My Profile - Submit Changes for Review
-if (submitProfileButton) {
-  submitProfileButton.addEventListener("click", function () {
-    const confirmed = confirm(
-      "Submit your updated information to Realtor Guard for review?"
     );
 
-    if (!confirmed) return;
 
-    localStorage.setItem("observer_profile_review_status", "Pending Review");
+    document.addEventListener(
+      "click",
+      function (event) {
 
-    alert(
-      "Your profile changes have been submitted to Realtor Guard for review."
+        if (
+          !menuPanel.contains(event.target) &&
+          !menuButton.contains(event.target)
+        ) {
+
+          menuPanel.classList.remove("open");
+
+        }
+
+      }
     );
-  });
-}
-</script>
+
+
+    /* -------------------------
+       FORMAT DATE
+    ------------------------- */
+
+    function formatDate(value) {
+
+      if (!value) {
+        return "—";
+      }
+
+      const parts = value.split("-");
+
+      if (parts.length !== 3) {
+        return value;
+      }
+
+      return (
+        parts[1] +
+        "/" +
+        parts[2] +
+        "/" +
+        parts[0]
+      );
+
+    }
+
+
+    /* -------------------------
+       DISPLAY PROFILE
+    ------------------------- */
+
+    function displayObserver(observer) {
+
+      currentObserver = observer;
+
+
+      document.getElementById(
+        "fullName"
+      ).textContent =
+        observer.full_name || "Observer";
+
+
+      document.getElementById(
+        "email"
+      ).textContent =
+        observer.email || "—";
+
+
+      document.getElementById(
+        "phone"
+      ).textContent =
+        observer.phone || "—";
+
+
+      const locationParts = [];
+
+      if (observer.city) {
+        locationParts.push(observer.city);
+      }
+
+      locationParts.push("Virginia");
+
+      document.getElementById(
+        "location"
+      ).textContent =
+        locationParts.join(", ");
+
+
+      document.getElementById(
+        "licenseId"
+      ).textContent =
+        observer.license_id || "—";
+
+
+      document.getElementById(
+        "expirationDate"
+      ).textContent =
+        formatDate(
+          observer.license_expiration_date
+        );
+
+
+      const status =
+        (
+          observer.approval_status || ""
+        ).toLowerCase();
+
+
+      const approvalBadge =
+        document.getElementById(
+          "approvalBadge"
+        );
+
+      const accountStatus =
+        document.getElementById(
+          "accountStatus"
+        );
+
+
+      if (status === "approved") {
+
+        approvalBadge.textContent =
+          "✓ Approved Observer";
+
+        approvalBadge.classList.remove(
+          "pending-badge"
+        );
+
+        accountStatus.textContent =
+          "✓ Approved Observer";
+
+      } else {
+
+        approvalBadge.textContent =
+          "Pending Approval";
+
+        approvalBadge.classList.add(
+          "pending-badge"
+        );
+
+        accountStatus.textContent =
+          "Pending Approval";
+
+        accountStatus.classList.remove(
+          "green"
+        );
+
+      }
+
+
+      /* PROFILE PHOTO */
+
+      if (observer.selfie_url) {
+
+        const profilePhoto =
+          document.getElementById(
+            "profilePhoto"
+          );
+
+        profilePhoto.src =
+          observer.selfie_url;
+
+        profilePhoto.style.display =
+          "block";
+
+        document.getElementById(
+          "photoPlaceholder"
+        ).style.display =
+          "none";
+
+      }
+
+
+      /* EDIT FORM VALUES */
+
+      document.getElementById(
+        "editEmail"
+      ).value =
+        observer.email || "";
+
+
+      document.getElementById(
+        "editPhone"
+      ).value =
+        observer.phone || "";
+
+
+      document.getElementById(
+        "editAddress"
+      ).value =
+        observer.address || "";
+
+
+      document.getElementById(
+        "editCity"
+      ).value =
+        observer.city || "";
+
+
+      document.getElementById(
+        "editLicenseId"
+      ).value =
+        observer.license_id || "";
+
+
+      document.getElementById(
+        "editExpirationDate"
+      ).value =
+        observer.license_expiration_date || "";
+
+    }
+
+
+    /* -------------------------
+       LOAD LOGGED-IN OBSERVER
+    ------------------------- */
+
+    async function loadObserverProfile() {
+
+      const loadingMessage =
+        document.getElementById(
+          "loadingMessage"
+        );
+
+
+      try {
+
+        const {
+          data: userData,
+          error: userError
+        } =
+          await supabaseClient.auth.getUser();
+
+
+        if (
+          userError ||
+          !userData ||
+          !userData.user
+        ) {
+
+          window.location.href =
+            "login.html";
+
+          return;
+
+        }
+
+
+        const user =
+          userData.user;
+
+
+        const {
+          data: observer,
+          error: observerError
+        } =
+          await supabaseClient
+            .from("observers")
+            .select("*")
+            .eq(
+              "auth_user_id",
+              user.id
+            )
+            .single();
+
+
+        if (observerError) {
+
+          console.error(
+            "Observer profile error:",
+            observerError
+          );
+
+          loadingMessage.textContent =
+            "Unable to load your profile information.";
+
+          return;
+
+        }
+
+
+        displayObserver(observer);
+
+        loadingMessage.style.display =
+          "none";
+
+
+      } catch (error) {
+
+        console.error(
+          "Profile loading error:",
+          error
+        );
+
+        loadingMessage.textContent =
+          "Unable to load your profile information.";
+
+      }
+
+    }
+
+
+    /* -------------------------
+       EDIT INFORMATION
+    ------------------------- */
+
+    const editProfileButton =
+      document.getElementById(
+        "editProfileButton"
+      );
+
+    const editForm =
+      document.getElementById(
+        "editForm"
+      );
+
+    const cancelEditButton =
+      document.getElementById(
+        "cancelEditButton"
+      );
+
+
+    editProfileButton.addEventListener(
+      "click",
+      function () {
+
+        editForm.style.display =
+          "block";
+
+        editProfileButton.style.display =
+          "none";
+
+        document.getElementById(
+          "successMessage"
+        ).style.display =
+          "none";
+
+        document.getElementById(
+          "errorMessage"
+        ).style.display =
+          "none";
+
+      }
+    );
+
+
+    cancelEditButton.addEventListener(
+      "click",
+      function () {
+
+        editForm.style.display =
+          "none";
+
+        editProfileButton.style.display =
+          "block";
+
+        if (currentObserver) {
+          displayObserver(
+            currentObserver
+          );
+        }
+
+      }
+    );
+
+
+    /* -------------------------
+       SUBMIT CHANGES
+    ------------------------- */
+
+    editForm.addEventListener(
+      "submit",
+      async function (event) {
+
+        event.preventDefault();
+
+
+        if (!currentObserver) {
+          return;
+        }
+
+
+        const errorMessage =
+          document.getElementById(
+            "errorMessage"
+          );
+
+        const successMessage =
+          document.getElementById(
+            "successMessage"
+          );
+
+
+        errorMessage.style.display =
+          "none";
+
+        successMessage.style.display =
+          "none";
+
+
+        const updates = {
+
+          phone:
+            document.getElementById(
+              "editPhone"
+            ).value.trim(),
+
+          address:
+            document.getElementById(
+              "editAddress"
+            ).value.trim(),
+
+          city:
+            document.getElementById(
+              "editCity"
+            ).value.trim(),
+
+          license_id:
+            document.getElementById(
+              "editLicenseId"
+            ).value.trim(),
+
+          license_expiration_date:
+            document.getElementById(
+              "editExpirationDate"
+            ).value || null
+
+        };
+
+
+        try {
+
+          const {
+            error
+          } =
+            await supabaseClient
+              .from("observers")
+              .update(updates)
+              .eq(
+                "auth_user_id",
+                currentObserver.auth_user_id
+              );
+
+
+          if (error) {
+
+            console.error(
+              "Profile update error:",
+              error
+            );
+
+            errorMessage.textContent =
+              "We could not submit your changes. Please try again.";
+
+            errorMessage.style.display =
+              "block";
+
+            return;
+
+          }
+
+
+          /*
+            The observer can update permitted
+            profile information.
+
+            Approval status and verification
+            status are NOT changed here.
+          */
+
+
+          successMessage.style.display =
+            "block";
+
+          document.getElementById(
+            "profileReview"
+          ).textContent =
+            "Changes Submitted";
+
+
+          editForm.style.display =
+            "none";
+
+          editProfileButton.style.display =
+            "block";
+
+
+          await loadObserverProfile();
+
+
+      } catch (error) {
+
+          console.error(
+            "Profile update error:",
+            error
+          );
+
+          errorMessage.textContent =
+            "We could not submit your changes. Please try again.";
+
+          errorMessage.style.display =
+            "block";
+
+        }
+
+      }
+    );
+
+
+    /* -------------------------
+       PHOTO BUTTON
+    ------------------------- */
+
+    const updatePhotoButton =
+      document.getElementById(
+        "updatePhotoButton"
+      );
+
+    const photoInput =
+      document.getElementById(
+        "photoInput"
+      );
+
+
+    updatePhotoButton.addEventListener(
+      "click",
+      function () {
+
+        photoInput.click();
+
+      }
+    );
+
+
+    photoInput.addEventListener(
+      "change",
+      function () {
+
+        const file =
+          photoInput.files[0];
+
+        if (!file) {
+          return;
+        }
+
+
+        /*
+          Preview the selected photo.
+          Upload/storage connection can be
+          handled separately.
+        */
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload =
+          function (event) {
+
+            const profilePhoto =
+              document.getElementById(
+                "profilePhoto"
+              );
+
+            profilePhoto.src =
+              event.target.result;
+
+            profilePhoto.style.display =
+              "block";
+
+            document.getElementById(
+              "photoPlaceholder"
+            ).style.display =
+              "none";
+
+          };
+
+
+        reader.readAsDataURL(file);
+
+      }
+    );
+
+
+    /* -------------------------
+       LOG OUT
+    ------------------------- */
+
+    async function logoutObserver(
+      event
+    ) {
+
+      event.preventDefault();
+
+      await supabaseClient.auth.signOut();
+
+      localStorage.removeItem(
+        "observer_logged_in"
+      );
+
+      window.location.href =
+        "login.html";
+
+    }
+
+
+    document.getElementById(
+      "logoutMenu"
+    ).addEventListener(
+      "click",
+      logoutObserver
+    );
+
+
+    /* -------------------------
+       START PROFILE PAGE
+    ------------------------- */
+
+    loadObserverProfile();
+
+  </script>
 
 </body>
 </html>
