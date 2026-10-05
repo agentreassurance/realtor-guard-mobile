@@ -577,32 +577,23 @@ async function loadObserverProfile() {
       error: userError
     } = await supabase.auth.getUser();
 
-    if (userError) {
-      throw userError;
-    }
+    if (userError) throw userError;
 
-    // If nobody is logged in, send them back to login
     if (!user) {
       window.location.href = "login.html";
       return;
     }
 
-    // Find this observer using their Supabase Auth user ID
+    // Find this observer's record in public.observers
     const { data: observer, error: profileError } = await supabase
       .from("observers")
       .select("*")
       .eq("auth_user_id", user.id)
       .single();
 
-    if (profileError) {
-      throw profileError;
-    }
+    if (profileError) throw profileError;
 
-    if (!observer) {
-      throw new Error("Observer profile not found.");
-    }
-
-    // Get the profile page fields
+    // Get the My Profile display areas
     const fullName = document.getElementById("fullName");
     const email = document.getElementById("email");
     const phone = document.getElementById("phone");
@@ -613,7 +604,7 @@ async function loadObserverProfile() {
     const profilePhoto = document.getElementById("profilePhoto");
     const photoPlaceholder = document.getElementById("photoPlaceholder");
 
-    // Display the real observer information
+    // Display observer information
     if (fullName) {
       fullName.textContent = observer.full_name || "Observer";
     }
@@ -651,7 +642,7 @@ async function loadObserverProfile() {
         observer.license_expiration_date || "—";
     }
 
-    // Display observer photo if available
+    // Display observer selfie/photo
     if (observer.selfie_url && profilePhoto) {
       profilePhoto.src = observer.selfie_url;
       profilePhoto.style.display = "block";
@@ -676,9 +667,8 @@ async function loadObserverProfile() {
   }
 }
 
-// Load the logged-in observer when My Profile opens
+// Load the logged-in observer's real profile
 loadObserverProfile();
-
   function logoutObserver(event) {
 
     event.preventDefault();
