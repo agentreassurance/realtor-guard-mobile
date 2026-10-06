@@ -1042,18 +1042,12 @@
           await supabaseClient.auth.getUser();
 
 
-        if (
-          userError ||
-          !userData ||
-          !userData.user
-        ) {
-
-          window.location.href =
-            "login.html";
-
-          return;
-
-        }
+       if (userError || !userData || !userData.user) {
+  console.error("Observer session error:", userError);
+  loadingMessage.textContent =
+    "Your session could not be verified. Please log in again.";
+  return;
+}
 
 
         const user =
