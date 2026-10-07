@@ -1025,84 +1025,45 @@
        LOAD LOGGED-IN OBSERVER
     ------------------------- */
 
-    async function loadObserverProfile() {
+   async function loadObserverProfile() {
+  const loadingMessage = document.getElementById("loadingMessage");
 
-      const loadingMessage =
-        document.getElementById(
-          "loadingMessage"
-        );
+  try {
+    const {
+      data: { user },
+      error: userError
+    } = await supabaseClient.auth.getUser();
 
-
-      try {
-
-        const {
-          data: userData,
-          error: userError
-        } =
-          await supabaseClient.auth.getUser();
-
-
-       if (userError || !userData || !userData.user) {
-  console.error("Observer session error:", userError);
-  loadingMessage.textContent =
-    "Your session could not be verified. Please log in again.";
-  return;
-}
-
-
-        const user =
-          userData.user;
-
-
-        const {
-          data: observer,
-          error: observerError
-        } =
-          await supabaseClient
-            .from("observers")
-            .select("*")
-            .eq(
-              "auth_user_id",
-              user.id
-            )
-            .single();
-
-
-        if (observerError) {
-
-          console.error(
-            "Observer profile error:",
-            observerError
-          );
-
-          loadingMessage.textContent =
-            "Unable to load your profile information.";
-
-          return;
-
-        }
-
-
-        displayObserver(observer);
-
-        loadingMessage.style.display =
-          "none";
-
-
-      } catch (error) {
-
-        console.error(
-          "Profile loading error:",
-          error
-        );
-
-        loadingMessage.textContent =
-          "Unable to load your profile information.";
-
-      }
-
+    if (userError || !user) {
+      console.error("Observer session error:", userError);
+      loadingMessage.textContent =
+        "Your session could not be verified. Please log in again.";
+      return;
     }
 
+    const { data: observer, error: observerError } =
+      await supabaseClient
+        .from("observers")
+        .select("*")
+        .eq("auth_user_id", user.id)
+        .single();
+
+    if (observerError || !observer) {
+      console.error("Observer profile error:", observerError);
+      loadingMessage.textContent =
+        "Unable to load your profile information.";
+      return;
+    }
+
+    displayObserver(observer);
+    loadingMessage.style.display = "none";
+
+  } catch (error) {
+    console.error("Profile loading error:", error);
+    loadingMessage.textContent =
+      "Unable to load your profile information.";
+  }
+}
 
     /* -------------------------
        EDIT INFORMATION
