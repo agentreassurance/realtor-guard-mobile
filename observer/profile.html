@@ -1025,28 +1025,39 @@
        LOAD LOGGED-IN OBSERVER
     ------------------------- */
 
-   async function loadObserverProfile() {
+  async function loadObserverProfile() {
   const loadingMessage = document.getElementById("loadingMessage");
 
   try {
     const {
-      data: { user },
-      error: userError
-    } = await supabaseClient.auth.getUser();
+      data: { session },
+      error: sessionError
+    } = await supabaseClient.auth.getSession();
 
-    if (userError || !user) {
-      console.error("Observer session error:", userError);
+    if (sessionError) {
+      console.error("Session error:", sessionError);
+      loadingMessage.textContent =
+        "Unable to verify your account.";
+      return;
+    }
+
+    if (!session || !session.user) {
+      console.error("No logged-in observer session found.");
       loadingMessage.textContent =
         "Your session could not be verified. Please log in again.";
       return;
     }
 
-    const { data: observer, error: observerError } =
-      await supabaseClient
-        .from("observers")
-        .select("*")
-        .eq("auth_user_id", user.id)
-        .single();
+    const user = session.user;
+
+    const {
+      data: observer,
+      error: observerError
+    } = await supabaseClient
+      .from("observers")
+      .select("*")
+      .eq("auth_user_id", user.id)
+      .single();
 
     if (observerError || !observer) {
       console.error("Observer profile error:", observerError);
@@ -1055,6 +1066,7 @@
       return;
     }
 
+    currentObserver = observer;
     displayObserver(observer);
     loadingMessage.style.display = "none";
 
