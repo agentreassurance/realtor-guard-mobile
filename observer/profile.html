@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>My Profile | Realtor Guard</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
@@ -15,1387 +16,425 @@
       margin: 0;
       background: #ffffff;
       font-family: Arial, Helvetica, sans-serif;
-      color: #111827;
+      color: #222;
     }
-
-    .page {
-      width: 100%;
-      max-width: 430px;
-      margin: 0 auto;
-      padding: 18px 16px 40px;
-    }
-
-    /* HEADER */
 
     .header {
-      position: relative;
-      min-height: 125px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-    }
-
-    .logo {
-      width: 125px;
-      height: auto;
-      display: block;
-    }
-
-    .menu-button {
-      position: absolute;
-      top: 18px;
-      right: 6px;
-      border: 0;
-      background: transparent;
-      color: #a90000;
-      font-size: 32px;
-      font-weight: 900;
-      cursor: pointer;
-      padding: 4px 8px;
-    }
-
-    .menu-panel {
-      display: none;
-      position: absolute;
-      right: 5px;
-      top: 58px;
-      width: 205px;
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,.15);
-      overflow: hidden;
-      z-index: 100;
-    }
-
-    .menu-panel.open {
-      display: block;
-    }
-
-    .menu-panel a {
-      display: block;
-      padding: 14px 16px;
-      text-decoration: none;
-      color: #111827;
-      font-size: 15px;
-      font-weight: 700;
+      width: 100%;
+      padding: 18px 20px;
       border-bottom: 1px solid #eeeeee;
-    }
-
-    .menu-panel a:last-child {
-      border-bottom: 0;
-      color: #b00000;
-    }
-
-    /* TITLE */
-
-    .title {
-      text-align: center;
-      margin-top: 4px;
-      margin-bottom: 20px;
-    }
-
-    .title h1 {
-      margin: 0;
-      color: #b00000;
-      font-size: 30px;
-    }
-
-    .title p {
-      margin: 6px 0 0;
-      color: #4b5563;
-      font-size: 15px;
-    }
-
-    #loadingMessage {
-      text-align: center;
-      color: #6b7280;
-      font-size: 14px;
-      margin-bottom: 14px;
-    }
-
-    /* PROFILE CARD */
-
-    .profile-card {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 4px 14px rgba(0,0,0,.08);
-      margin-bottom: 20px;
-    }
-
-    .profile-top {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-    }
-
-    .photo-column {
-      width: 128px;
-      flex-shrink: 0;
-    }
-
-    .photo-box {
-      width: 128px;
-      height: 150px;
-      border-radius: 12px;
-      border: 1px solid #d1d5db;
-      background: #f3f4f6;
-      overflow: hidden;
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: #6b7280;
-      font-size: 13px;
+      justify-content: space-between;
+    }
+
+    .brand {
+      color: #8b0000;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .menu {
+      color: #8b0000;
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 28px 20px 40px;
+    }
+
+    h1 {
       text-align: center;
+      color: #8b0000;
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 28px;
+    }
+
+    .photo-wrap {
+      text-align: center;
+      margin-bottom: 25px;
     }
 
     #profilePhoto {
-      width: 100%;
-      height: 100%;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
       object-fit: cover;
+      border: 3px solid #8b0000;
       display: none;
+      margin: 0 auto;
     }
 
-    .photo-button {
-      width: 100%;
-      border: 0;
-      background: #d40000;
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 13px;
-      padding: 10px 5px;
-      border-radius: 9px;
-      margin-top: 8px;
-      cursor: pointer;
-    }
-
-    #photoInput {
-      display: none;
-    }
-
-    .profile-details {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .profile-name {
-      margin: 0 0 7px;
-      font-size: 22px;
-      color: #111827;
-      overflow-wrap: anywhere;
-    }
-
-    .approved-badge {
-      display: inline-block;
-      background: #d1fae5;
-      color: #00873e;
-      padding: 8px 9px;
-      border-radius: 9px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .pending-badge {
-      background: #fff4cc;
-      color: #8a6500;
-    }
-
-    .observer-type {
+    .photo-placeholder {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: #f2f2f2;
+      border: 3px solid #8b0000;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
       font-size: 14px;
-      line-height: 1.35;
-      margin-bottom: 13px;
+      text-align: center;
+      padding: 10px;
     }
 
-    .contact-row {
-      display: flex;
-      gap: 8px;
-      margin: 8px 0;
-      font-size: 13px;
-      line-height: 1.35;
-      overflow-wrap: anywhere;
-    }
-
-    .icon {
-      width: 18px;
-      flex-shrink: 0;
-      color: #c00000;
-    }
-
-    .license-area {
-      border-top: 1px solid #e5e7eb;
-      margin-top: 13px;
-      padding-top: 11px;
-    }
-
-    .license-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin: 8px 0;
-      font-size: 13px;
-    }
-
-    .license-row strong {
-      flex-shrink: 0;
-    }
-
-    .license-row span {
-      text-align: right;
-      overflow-wrap: anywhere;
-    }
-
-    /* INFORMATION CARD */
-
-    .info-card {
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      overflow: hidden;
-      background: #ffffff;
-      box-shadow: 0 4px 14px rgba(0,0,0,.07);
+    .status {
+      text-align: center;
+      padding: 12px;
       margin-bottom: 20px;
+      border-radius: 8px;
+      background: #f7f7f7;
+      color: #555;
     }
 
-    .info-header {
-      background: #d40000;
-      color: #ffffff;
-      font-size: 18px;
-      font-weight: 700;
-      padding: 14px 16px;
+    .error {
+      background: #fff0f0;
+      color: #a00000;
     }
 
-    .info-body {
-      padding: 16px;
-    }
-
-    .info-item {
-      margin-bottom: 15px;
-    }
-
-    .info-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .info-label {
+    label {
       display: block;
+      margin: 16px 0 6px;
       font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 3px;
+      color: #444;
     }
 
-    .green {
-      color: #00873e;
-      font-weight: 700;
-    }
-
-    /* EDIT SECTION */
-
-    .edit-card {
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      background: #ffffff;
-      padding: 16px;
-      box-shadow: 0 4px 14px rgba(0,0,0,.07);
-    }
-
-    .edit-card h2 {
-      margin: 0 0 6px;
-      color: #b00000;
-      font-size: 19px;
-    }
-
-    .edit-note {
-      margin: 0 0 15px;
-      color: #6b7280;
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    #editForm {
-      display: none;
-      margin-top: 16px;
-    }
-
-    .field {
-      margin-bottom: 13px;
-    }
-
-    .field label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-
-    .field input {
-      width: 100%;
-      padding: 11px;
-      border: 1px solid #cbd5e1;
-      border-radius: 9px;
-      font-size: 15px;
-      background: #ffffff;
-    }
-
-    .field input:focus {
-      outline: 2px solid #efb3b3;
-      border-color: #b00000;
-    }
-
-    .locked-field {
-      background: #f3f4f6 !important;
-      color: #6b7280;
-    }
-
-    .button {
+    input {
       width: 100%;
       padding: 13px;
-      border-radius: 10px;
-      font-size: 15px;
+      border: 1px solid #cccccc;
+      border-radius: 8px;
+      font-size: 16px;
+      background: #f8f8f8;
+      color: #222;
+    }
+
+    input:disabled {
+      opacity: 1;
+      color: #222;
+      -webkit-text-fill-color: #222;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
       font-weight: 700;
       cursor: pointer;
     }
 
-    .edit-button {
-      border: 2px solid #d40000;
-      background: #ffffff;
-      color: #b00000;
+    #editBtn {
+      background: #8b0000;
+      color: white;
     }
 
-    .submit-button {
-      border: 0;
-      background: #d40000;
-      color: #ffffff;
-      margin-top: 4px;
-    }
-
-    .cancel-button {
-      border: 1px solid #d1d5db;
-      background: #f3f4f6;
-      color: #374151;
-      margin-top: 9px;
-    }
-
-    .message {
+    #submitBtn {
+      background: #8b0000;
+      color: white;
       display: none;
-      margin-top: 14px;
-      padding: 11px;
-      border-radius: 9px;
+    }
+
+    .back {
+      display: block;
       text-align: center;
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    .success-message {
-      background: #ecfdf5;
-      color: #047857;
-      border: 1px solid #a7f3d0;
-    }
-
-    .error-message {
-      background: #fef2f2;
-      color: #b91c1c;
-      border: 1px solid #fecaca;
-    }
-
-    @media (max-width: 380px) {
-      .profile-top {
-        gap: 10px;
-      }
-
-      .photo-column,
-      .photo-box {
-        width: 112px;
-      }
-
-      .profile-name {
-        font-size: 19px;
-      }
+      margin-top: 24px;
+      color: #8b0000;
+      font-weight: 700;
+      text-decoration: none;
     }
   </style>
 </head>
 
 <body>
 
-  <main class="page">
+  <div class="header">
+    <div class="brand">Realtor Guard</div>
+    <div class="menu">&#9776;</div>
+  </div>
 
-    <header class="header">
+  <main class="container">
 
-      <img
-        src="../logo.png"
-        alt="Realtor Guard"
-        class="logo"
-      >
+    <h1>My Profile</h1>
+    <div class="subtitle">Observer Profile</div>
 
-      <button
-        type="button"
-        class="menu-button"
-        id="menuButton"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
-
-      <nav class="menu-panel" id="menuPanel">
-        <a href="dashboard.html">Dashboard</a>
-        <a href="dashboard.html">My Assignments</a>
-        <a href="profile.html">My Profile</a>
-        <a href="#" id="logoutMenu">Log Out</a>
-      </nav>
-
-    </header>
-
-
-    <section class="title">
-      <h1>My Profile</h1>
-      <p>Manage your account information.</p>
-    </section>
-
-    <div id="loadingMessage">
+    <div id="status" class="status">
       Loading your profile...
     </div>
 
+    <div class="photo-wrap">
+      <img id="profilePhoto" alt="Observer profile photo">
 
-    <!-- PROFILE CARD -->
+      <div id="photoPlaceholder" class="photo-placeholder">
+        Profile Photo
+      </div>
+    </div>
 
-    <section class="profile-card">
+    <form id="profileForm">
 
-      <div class="profile-top">
+      <label for="full_name">Full Name</label>
+      <input id="full_name" disabled>
 
-        <div class="photo-column">
+      <label for="email">Email</label>
+      <input id="email" type="email" disabled>
 
-          <div class="photo-box">
+      <label for="phone">Phone</label>
+      <input id="phone" disabled>
 
-            <img
-              id="profilePhoto"
-              alt="Observer profile photo"
-            >
+      <label for="address">Address</label>
+      <input id="address" disabled>
 
-            <span id="photoPlaceholder">
-              Observer Photo
-            </span>
+      <label for="license_id">License Number</label>
+      <input id="license_id" disabled>
 
-          </div>
+      <label for="license_expiration_date">
+        License Expiration Date
+      </label>
+      <input id="license_expiration_date" type="date" disabled>
 
-          <button
-            type="button"
-            class="photo-button"
-            id="updatePhotoButton"
-          >
-            📷 Update Photo
-          </button>
-
-          <input
-            type="file"
-            id="photoInput"
-            accept="image/*"
-          >
-
-        </div>
-
-
-        <div class="profile-details">
-
-          <h2
-            class="profile-name"
-            id="fullName"
-          >
-            Observer
-          </h2>
-
-          <div
-            class="approved-badge"
-            id="approvalBadge"
-          >
-            Checking Status...
-          </div>
-
-          <div class="observer-type">
-            Licensed Security Observer<br>
-            Realtor Guard
-          </div>
-
-
-          <div class="contact-row">
-            <span class="icon">✉</span>
-            <span id="email">—</span>
-          </div>
-
-          <div class="contact-row">
-            <span class="icon">☎</span>
-            <span id="phone">—</span>
-          </div>
-
-          <div class="contact-row">
-            <span class="icon">●</span>
-            <span id="location">—</span>
-          </div>
-
-
-          <div class="license-area">
-
-            <div class="license-row">
-              <strong>License Number:</strong>
-              <span id="licenseId">—</span>
-            </div>
-
-            <div class="license-row">
-              <strong>License State:</strong>
-              <span id="licenseState">Virginia</span>
-            </div>
-
-            <div class="license-row">
-              <strong>Expiration Date:</strong>
-              <span id="expirationDate">—</span>
-            </div>
-
-          </div>
-
-        </div>
-
+      <div class="buttons">
+        <button type="button" id="editBtn">Edit</button>
+        <button type="submit" id="submitBtn">Submit</button>
       </div>
 
-    </section>
+    </form>
 
-
-    <!-- OBSERVER INFORMATION -->
-
-    <section class="info-card">
-
-      <div class="info-header">
-        Observer Information
-      </div>
-
-      <div class="info-body">
-
-        <div class="info-item">
-          <span class="info-label">
-            Account Status
-          </span>
-
-          <span
-            id="accountStatus"
-            class="green"
-          >
-            Checking...
-          </span>
-        </div>
-
-
-        <div class="info-item">
-          <span class="info-label">
-            Service Area
-          </span>
-
-          <span id="serviceArea">
-            Virginia
-          </span>
-        </div>
-
-
-        <div class="info-item">
-          <span class="info-label">
-            Observer Type
-          </span>
-
-          <span>
-            Licensed Security Observer
-          </span>
-        </div>
-
-
-        <div class="info-item">
-          <span class="info-label">
-            License Verification
-          </span>
-
-          <span
-            id="licenseVerification"
-            class="green"
-          >
-            ✓ Verified
-          </span>
-        </div>
-
-
-        <div class="info-item">
-          <span class="info-label">
-            Profile Review
-          </span>
-
-          <span id="profileReview">
-            Current
-          </span>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- EDIT INFORMATION -->
-
-    <section class="edit-card">
-
-      <h2>Profile Information</h2>
-
-      <p class="edit-note">
-        Contact and license changes may require review by Realtor Guard.
-        Approval and verification status cannot be changed by the observer.
-      </p>
-
-
-      <button
-        type="button"
-        class="button edit-button"
-        id="editProfileButton"
-      >
-        Edit Information
-      </button>
-
-
-      <form id="editForm">
-
-        <div class="field">
-          <label for="editEmail">
-            Email Address
-          </label>
-
-          <input
-            type="email"
-            id="editEmail"
-            class="locked-field"
-            readonly
-          >
-        </div>
-
-
-        <div class="field">
-          <label for="editPhone">
-            Phone Number
-          </label>
-
-          <input
-            type="tel"
-            id="editPhone"
-          >
-        </div>
-
-
-        <div class="field">
-          <label for="editAddress">
-            Address
-          </label>
-
-          <input
-            type="text"
-            id="editAddress"
-          >
-        </div>
-
-
-        <div class="field">
-          <label for="editCity">
-            City
-          </label>
-
-          <input
-            type="text"
-            id="editCity"
-          >
-        </div>
-
-
-        <div class="field">
-          <label for="editLicenseId">
-            License Number
-          </label>
-
-          <input
-            type="text"
-            id="editLicenseId"
-          >
-        </div>
-
-
-        <div class="field">
-          <label for="editExpirationDate">
-            License Expiration Date
-          </label>
-
-          <input
-            type="date"
-            id="editExpirationDate"
-          >
-        </div>
-
-
-        <button
-          type="submit"
-          class="button submit-button"
-        >
-          Submit Changes for Review
-        </button>
-
-
-        <button
-          type="button"
-          class="button cancel-button"
-          id="cancelEditButton"
-        >
-          Cancel
-        </button>
-
-      </form>
-
-
-      <div
-        id="successMessage"
-        class="message success-message"
-      >
-        Your profile changes have been submitted for review.
-      </div>
-
-
-      <div
-        id="errorMessage"
-        class="message error-message"
-      ></div>
-
-    </section>
+    <a class="back" href="dashboard.html">
+      Back to Dashboard
+    </a>
 
   </main>
 
+<script>
+  // ==========================================
+  // PASTE YOUR EXISTING SUPABASE VALUES HERE
+  // ==========================================
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  const SUPABASE_URL = "PASTE_YOUR_SUPABASE_URL_HERE";
+  const SUPABASE_ANON_KEY = "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
 
-  <script>
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
 
-    const SUPABASE_URL =
-      "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+  const statusBox = document.getElementById("status");
+  const form = document.getElementById("profileForm");
+  const editBtn = document.getElementById("editBtn");
+  const submitBtn = document.getElementById("submitBtn");
 
-    const SUPABASE_KEY =
-      "sb_publishable_9q5KNgJ4lLvwqqn0IdIlBw_KIAWNxgR";
+  const editableFields = [
+    "full_name",
+    "phone",
+    "address",
+    "license_id",
+    "license_expiration_date"
+  ];
 
-    const supabaseClient =
-      supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
+  let loggedInUser = null;
+  let observerProfile = null;
 
+  async function loadProfile() {
 
-    let currentObserver = null;
+    try {
 
+      const {
+        data: { user },
+        error: userError
+      } = await supabaseClient.auth.getUser();
 
-    /* -------------------------
-       HAMBURGER MENU
-    ------------------------- */
-
-    const menuButton =
-      document.getElementById("menuButton");
-
-    const menuPanel =
-      document.getElementById("menuPanel");
-
-
-    menuButton.addEventListener(
-      "click",
-      function (event) {
-
-        event.stopPropagation();
-
-        menuPanel.classList.toggle("open");
-
-      }
-    );
-
-
-    document.addEventListener(
-      "click",
-      function (event) {
-
-        if (
-          !menuPanel.contains(event.target) &&
-          !menuButton.contains(event.target)
-        ) {
-
-          menuPanel.classList.remove("open");
-
-        }
-
-      }
-    );
-
-
-    /* -------------------------
-       FORMAT DATE
-    ------------------------- */
-
-    function formatDate(value) {
-
-      if (!value) {
-        return "—";
+      if (userError) {
+        throw userError;
       }
 
-      const parts = value.split("-");
+      if (!user) {
+        statusBox.textContent =
+          "No logged-in observer was found. Please log in again.";
 
-      if (parts.length !== 3) {
-        return value;
+        statusBox.classList.add("error");
+        return;
       }
 
-      return (
-        parts[1] +
-        "/" +
-        parts[2] +
-        "/" +
-        parts[0]
-      );
+      loggedInUser = user;
 
-    }
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("observers")
+        .select("*")
+        .eq("auth_user_id", user.id)
+        .maybeSingle();
 
-
-    /* -------------------------
-       DISPLAY PROFILE
-    ------------------------- */
-
-    function displayObserver(observer) {
-
-      currentObserver = observer;
-
-
-      document.getElementById(
-        "fullName"
-      ).textContent =
-        observer.full_name || "Observer";
-
-
-      document.getElementById(
-        "email"
-      ).textContent =
-        observer.email || "—";
-
-
-      document.getElementById(
-        "phone"
-      ).textContent =
-        observer.phone || "—";
-
-
-      const locationParts = [];
-
-      if (observer.city) {
-        locationParts.push(observer.city);
+      if (error) {
+        throw error;
       }
 
-      locationParts.push("Virginia");
+      if (!data) {
+        statusBox.textContent =
+          "Your observer profile could not be found.";
 
-      document.getElementById(
-        "location"
-      ).textContent =
-        locationParts.join(", ");
-
-
-      document.getElementById(
-        "licenseId"
-      ).textContent =
-        observer.license_id || "—";
-
-
-      document.getElementById(
-        "expirationDate"
-      ).textContent =
-        formatDate(
-          observer.license_expiration_date
-        );
-
-
-      const status =
-        (
-          observer.approval_status || ""
-        ).toLowerCase();
-
-
-      const approvalBadge =
-        document.getElementById(
-          "approvalBadge"
-        );
-
-      const accountStatus =
-        document.getElementById(
-          "accountStatus"
-        );
-
-
-      if (status === "approved") {
-
-        approvalBadge.textContent =
-          "✓ Approved Observer";
-
-        approvalBadge.classList.remove(
-          "pending-badge"
-        );
-
-        accountStatus.textContent =
-          "✓ Approved Observer";
-
-      } else {
-
-        approvalBadge.textContent =
-          "Pending Approval";
-
-        approvalBadge.classList.add(
-          "pending-badge"
-        );
-
-        accountStatus.textContent =
-          "Pending Approval";
-
-        accountStatus.classList.remove(
-          "green"
-        );
-
+        statusBox.classList.add("error");
+        return;
       }
 
+      observerProfile = data;
 
-      /* PROFILE PHOTO */
+      document.getElementById("full_name").value =
+        data.full_name || "";
 
-      if (observer.selfie_url) {
+      document.getElementById("email").value =
+        data.email || user.email || "";
 
-        const profilePhoto =
-          document.getElementById(
-            "profilePhoto"
-          );
+      document.getElementById("phone").value =
+        data.phone || "";
 
-        profilePhoto.src =
-          observer.selfie_url;
+      document.getElementById("address").value =
+        data.address || "";
 
-        profilePhoto.style.display =
-          "block";
+      document.getElementById("license_id").value =
+        data.license_id || "";
+
+      document.getElementById("license_expiration_date").value =
+        data.license_expiration_date || "";
+
+      if (data.selfie_url) {
+
+        const photo =
+          document.getElementById("profilePhoto");
+
+        photo.src = data.selfie_url;
+        photo.style.display = "block";
 
         document.getElementById(
           "photoPlaceholder"
-        ).style.display =
-          "none";
-
+        ).style.display = "none";
       }
 
+      statusBox.textContent =
+        "Profile loaded successfully.";
 
-      /* EDIT FORM VALUES */
+      statusBox.classList.remove("error");
 
-      document.getElementById(
-        "editEmail"
-      ).value =
-        observer.email || "";
+    } catch (error) {
 
+      console.error("Profile error:", error);
 
-      document.getElementById(
-        "editPhone"
-      ).value =
-        observer.phone || "";
+      statusBox.textContent =
+        "Unable to load your profile: " +
+        error.message;
 
-
-      document.getElementById(
-        "editAddress"
-      ).value =
-        observer.address || "";
-
-
-      document.getElementById(
-        "editCity"
-      ).value =
-        observer.city || "";
-
-
-      document.getElementById(
-        "editLicenseId"
-      ).value =
-        observer.license_id || "";
-
-
-      document.getElementById(
-        "editExpirationDate"
-      ).value =
-        observer.license_expiration_date || "";
-
+      statusBox.classList.add("error");
     }
+  }
 
 
-    /* -------------------------
-       LOAD LOGGED-IN OBSERVER
-    ------------------------- */
+  editBtn.addEventListener("click", function () {
 
-  async function loadObserverProfile() {
-  const loadingMessage = document.getElementById("loadingMessage");
+    editableFields.forEach(function (field) {
+      document.getElementById(field).disabled = false;
+    });
 
-  try {
-    const {
-      data: { session },
-      error: sessionError
-    } = await supabaseClient.auth.getSession();
+    editBtn.style.display = "none";
+    submitBtn.style.display = "block";
 
-    if (sessionError) {
-      console.error("Session error:", sessionError);
-      loadingMessage.textContent =
-        "Unable to verify your account.";
+    statusBox.textContent =
+      "You can now edit your profile.";
+  });
+
+
+  form.addEventListener("submit", async function (event) {
+
+    event.preventDefault();
+
+    if (!loggedInUser) {
       return;
     }
 
-    if (!session || !session.user) {
-      console.error("No logged-in observer session found.");
-      loadingMessage.textContent =
-        "Your session could not be verified. Please log in again.";
-      return;
-    }
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Saving...";
 
-    const user = session.user;
+    const updates = {
+      full_name:
+        document.getElementById("full_name").value.trim(),
+
+      phone:
+        document.getElementById("phone").value.trim(),
+
+      address:
+        document.getElementById("address").value.trim(),
+
+      license_id:
+        document.getElementById("license_id").value.trim(),
+
+      license_expiration_date:
+        document.getElementById(
+          "license_expiration_date"
+        ).value || null
+    };
 
     const {
-      data: observer,
-      error: observerError
+      error
     } = await supabaseClient
       .from("observers")
-      .select("*")
-      .eq("auth_user_id", user.id)
-      .single();
+      .update(updates)
+      .eq("auth_user_id", loggedInUser.id);
 
-    if (observerError || !observer) {
-      console.error("Observer profile error:", observerError);
-      loadingMessage.textContent =
-        "Unable to load your profile information.";
+    if (error) {
+
+      console.error("Update error:", error);
+
+      statusBox.textContent =
+        "Profile could not be updated: " +
+        error.message;
+
+      statusBox.classList.add("error");
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit";
+
       return;
     }
 
-    currentObserver = observer;
-    displayObserver(observer);
-    loadingMessage.style.display = "none";
+    editableFields.forEach(function (field) {
+      document.getElementById(field).disabled = true;
+    });
 
-  } catch (error) {
-    console.error("Profile loading error:", error);
-    loadingMessage.textContent =
-      "Unable to load your profile information.";
-  }
-}
+    statusBox.textContent =
+      "Profile updated successfully.";
 
-    /* -------------------------
-       EDIT INFORMATION
-    ------------------------- */
+    statusBox.classList.remove("error");
 
-    const editProfileButton =
-      document.getElementById(
-        "editProfileButton"
-      );
+    submitBtn.style.display = "none";
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit";
 
-    const editForm =
-      document.getElementById(
-        "editForm"
-      );
+    editBtn.style.display = "block";
+  });
 
-    const cancelEditButton =
-      document.getElementById(
-        "cancelEditButton"
-      );
 
-
-    editProfileButton.addEventListener(
-      "click",
-      function () {
-
-        editForm.style.display =
-          "block";
-
-        editProfileButton.style.display =
-          "none";
-
-        document.getElementById(
-          "successMessage"
-        ).style.display =
-          "none";
-
-        document.getElementById(
-          "errorMessage"
-        ).style.display =
-          "none";
-
-      }
-    );
-
-
-    cancelEditButton.addEventListener(
-      "click",
-      function () {
-
-        editForm.style.display =
-          "none";
-
-        editProfileButton.style.display =
-          "block";
-
-        if (currentObserver) {
-          displayObserver(
-            currentObserver
-          );
-        }
-
-      }
-    );
-
-
-    /* -------------------------
-       SUBMIT CHANGES
-    ------------------------- */
-
-    editForm.addEventListener(
-      "submit",
-      async function (event) {
-
-        event.preventDefault();
-
-
-        if (!currentObserver) {
-          return;
-        }
-
-
-        const errorMessage =
-          document.getElementById(
-            "errorMessage"
-          );
-
-        const successMessage =
-          document.getElementById(
-            "successMessage"
-          );
-
-
-        errorMessage.style.display =
-          "none";
-
-        successMessage.style.display =
-          "none";
-
-
-        const updates = {
-
-          phone:
-            document.getElementById(
-              "editPhone"
-            ).value.trim(),
-
-          address:
-            document.getElementById(
-              "editAddress"
-            ).value.trim(),
-
-          city:
-            document.getElementById(
-              "editCity"
-            ).value.trim(),
-
-          license_id:
-            document.getElementById(
-              "editLicenseId"
-            ).value.trim(),
-
-          license_expiration_date:
-            document.getElementById(
-              "editExpirationDate"
-            ).value || null
-
-        };
-
-
-        try {
-
-          const {
-            error
-          } =
-            await supabaseClient
-              .from("observers")
-              .update(updates)
-              .eq(
-                "auth_user_id",
-                currentObserver.auth_user_id
-              );
-
-
-          if (error) {
-
-            console.error(
-              "Profile update error:",
-              error
-            );
-
-            errorMessage.textContent =
-              "We could not submit your changes. Please try again.";
-
-            errorMessage.style.display =
-              "block";
-
-            return;
-
-          }
-
-
-          /*
-            The observer can update permitted
-            profile information.
-
-            Approval status and verification
-            status are NOT changed here.
-          */
-
-
-          successMessage.style.display =
-            "block";
-
-          document.getElementById(
-            "profileReview"
-          ).textContent =
-            "Changes Submitted";
-
-
-          editForm.style.display =
-            "none";
-
-          editProfileButton.style.display =
-            "block";
-
-
-          await loadObserverProfile();
-
-
-      } catch (error) {
-
-          console.error(
-            "Profile update error:",
-            error
-          );
-
-          errorMessage.textContent =
-            "We could not submit your changes. Please try again.";
-
-          errorMessage.style.display =
-            "block";
-
-        }
-
-      }
-    );
-
-
-    /* -------------------------
-       PHOTO BUTTON
-    ------------------------- */
-
-    const updatePhotoButton =
-      document.getElementById(
-        "updatePhotoButton"
-      );
-
-    const photoInput =
-      document.getElementById(
-        "photoInput"
-      );
-
-
-    updatePhotoButton.addEventListener(
-      "click",
-      function () {
-
-        photoInput.click();
-
-      }
-    );
-
-
-    photoInput.addEventListener(
-      "change",
-      function () {
-
-        const file =
-          photoInput.files[0];
-
-        if (!file) {
-          return;
-        }
-
-
-        /*
-          Preview the selected photo.
-          Upload/storage connection can be
-          handled separately.
-        */
-
-        const reader =
-          new FileReader();
-
-
-        reader.onload =
-          function (event) {
-
-            const profilePhoto =
-              document.getElementById(
-                "profilePhoto"
-              );
-
-            profilePhoto.src =
-              event.target.result;
-
-            profilePhoto.style.display =
-              "block";
-
-            document.getElementById(
-              "photoPlaceholder"
-            ).style.display =
-              "none";
-
-          };
-
-
-        reader.readAsDataURL(file);
-
-      }
-    );
-
-
-    /* -------------------------
-       LOG OUT
-    ------------------------- */
-
-    async function logoutObserver(
-      event
-    ) {
-
-      event.preventDefault();
-
-      await supabaseClient.auth.signOut();
-
-      localStorage.removeItem(
-        "observer_logged_in"
-      );
-
-      window.location.href =
-        "login.html";
-
-    }
-
-
-    document.getElementById(
-      "logoutMenu"
-    ).addEventListener(
-      "click",
-      logoutObserver
-    );
-
-
-    /* -------------------------
-       START PROFILE PAGE
-    ------------------------- */
-
-    loadObserverProfile();
-
-  </script>
+  loadProfile();
+</script>
 
 </body>
 </html>
