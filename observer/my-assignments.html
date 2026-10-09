@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Assignments | Realtor Guard</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #fff;
+      color: #172448;
+      font-family: Arial, sans-serif;
+    }
+    header {
+      position: relative;
+      text-align: center;
+      padding: 18px 20px 8px;
+    }
+    .logo {
+      display: block;
+      width: 170px;
+      max-width: 55%;
+      height: auto;
+      margin: 0 auto;
+    }
+    .menu-button {
+      position: absolute;
+      right: 20px;
+      top: 22px;
+      border: none;
+      background: white;
+      color: #c90000;
+      font-size: 32px;
+      cursor: pointer;
+    }
+    .menu {
+      display: none;
+      position: absolute;
+      top: 65px;
+      right: 15px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 5px 18px #0002;
+      min-width: 190px;
+      z-index: 10;
+      text-align: left;
+    }
+    .menu.open { display: block; }
+    .menu a, .menu button {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      background: white;
+      color: #172448;
+      font-size: 15px;
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    main {
+      width: min(100% - 28px, 650px);
+      margin: 15px auto;
+    }
+    h1 {
+      text-align: center;
+      color: #cf0000;
+      font-size: 29px;
+      margin: 15px 0 6px;
+    }
+    .subtitle {
+      text-align: center;
+      margin: 0 0 25px;
+      line-height: 1.5;
+    }
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+    .tab {
+      flex: 1;
+      padding: 12px 4px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      background: white;
+      color: #172448;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .tab.selected {
+      background: #cf0000;
+      color: white;
+      border-color: #cf0000;
+    }
+    .panel { display: none; }
+    .panel.selected { display: block; }
+    .empty {
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 35px 18px;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .assignment {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      padding: 18px;
+      box-shadow: 0 2px 7px #0000000d;
+    }
+    .assignment h3 {
+      margin: 0 0 12px;
+      color: #c90000;
+    }
+    .assignment p { margin: 9px 0; }
+    .status {
+      display: inline-block;
+      background: #f2f2f2;
+      border-radius: 15px;
+      padding: 5px 10px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .action {
+      display: block;
+      background: #c90000;
+      color: white;
+      padding: 13px;
+      margin-top: 15px;
+      border-radius: 9px;
+      text-decoration: none;
+      text-align: center;
+      font-weight: bold;
+    }
+    .notice {
+      font-size: 13px;
+      text-align: center;
+      color: #666;
+      margin: 18px 0;
+    }
+    footer {
+      text-align: center;
+      padding: 25px 15px 35px;
+    }
+    footer img {
+      width: 85px;
+      max-width: 30%;
+      height: auto;
+    }
+    .error { color: #b00000; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="../logo.png" class="logo" alt="Realtor Guard">
+    <button class="menu-button" id="menuButton"
+      aria-label="Open menu" aria-expanded="false">☰</button>
+    <nav class="menu" id="menu">
+      <a href="dashboard.html">Observer Dashboard</a>
+      <a href="my-assignments.html">My Assignments</a>
+      <a href="profile.html">My Profile</a>
+      <button id="logoutButton">Logout</button>
+    </nav>
+  </header>
+
+  <main>
+    <h1>My Assignments</h1>
+    <p class="subtitle">
+      View your accepted, active, and completed assignments.
+    </p>
+
+    <div class="tabs">
+      <button class="tab selected" data-tab="upcoming">Upcoming</button>
+      <button class="tab" data-tab="active">Active</button>
+      <button class="tab" data-tab="completed">Completed</button>
+    </div>
+
+    <section id="upcoming" class="panel selected">
+      <div class="empty">Loading assignments...</div>
+    </section>
+    <section id="active" class="panel">
+      <div class="empty">Loading assignments...</div>
+    </section>
+    <section id="completed" class="panel">
+      <div class="empty">Loading assignments...</div>
+    </section>
+
+    <p class="notice">
+      Only assignments associated with your observer account
+      should appear here.
+    </p>
+  </main>
+
+  <footer>
+    <img src="../logo.png" alt="Realtor Guard">
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL =
+      "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+    const SUPABASE_KEY =
+      "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
+
+    const client = window.supabase.createClient(
+      SUPABASE_URL, SUPABASE_KEY
+    );
+
+    const menuButton = document.getElementById("menuButton");
+    const menu = document.getElementById("menu");
+
+    menuButton.addEventListener("click", () => {
+      const opened = menu.classList.toggle("open");
+      menuButton.setAttribute("aria-expanded", String(opened));
+    });
+
+    document.querySelectorAll(".tab").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(tab =>
+          tab.classList.remove("selected")
+        );
+        document.querySelectorAll(".panel").forEach(panel =>
+          panel.classList.remove("selected")
+        );
+        button.classList.add("selected");
+        document.getElementById(button.dataset.tab)
+          .classList.add("selected");
+      });
+    });
+
+    document.getElementById("logoutButton")
+      .addEventListener("click", async () => {
+        await client.auth.signOut();
+        localStorage.removeItem("observer_logged_in");
+        window.location.href = "login.html";
+      });
+
+    function showMessage(section, message, isError = false) {
+      const container = document.getElementById(section);
+      container.replaceChildren();
+      const div = document.createElement("div");
+      div.className = "empty" + (isError ? " error" : "");
+      div.textContent = message;
+      container.appendChild(div);
+    }
+
+    function addDetail(card, label, value) {
+      const p = document.createElement("p");
+      const strong = document.createElement("strong");
+      strong.textContent = label + ": ";
+      p.appendChild(strong);
+      p.appendChild(document.createTextNode(String(value || "Not provided")));
+      card.appendChild(p);
+    }
+
+    function renderAssignment(section, assignment) {
+      const card = document.createElement("article");
+      card.className = "assignment";
+
+      const title = document.createElement("h3");
+      title.textContent = "Property Assignment";
+      card.appendChild(title);
+
+      addDetail(card, "Agent", assignment.agent_name);
+      addDetail(card, "Address", assignment.property_address);
+      addDetail(card, "City", assignment.city);
+      addDetail(card, "Date", assignment.date);
+      addDetail(card, "Time", assignment.time);
+
+      const status = document.createElement("span");
+      status.className = "status";
+      status.textContent = assignment.status || "Accepted";
+      card.appendChild(status);
+
+      document.getElementById(section).appendChild(card);
+    }
+
+    async function loadAssignments() {
+      const { data: sessionData, error: sessionError } =
+        await client.auth.getUser();
+
+      if (sessionError || !sessionData.user) {
+        ["upcoming", "active", "completed"].forEach(section =>
+          showMessage(section, "Please log in to view your assignments.")
+        );
+        return;
+      }
+
+      const userId = sessionData.user.id;
+
+      const { data: observer, error: observerError } = await client
+        .from("observers")
+        .select("id")
+        .eq("auth_user_id", userId)
+        .single();
+
+      if (observerError || !observer) {
+        ["upcoming", "active", "completed"].forEach(section =>
+          showMessage(section, "Unable to find your observer profile.", true)
+        );
+        return;
+      }
+
+      /*
+        Assignment data connection:
+        This page needs the confirmed assignment table columns
+        before a safe, observer-specific query can be enabled.
+        Do not display assignments belonging to other observers.
+      */
+      ["upcoming", "active", "completed"].forEach(section =>
+        showMessage(
+          section,
+          "Your assignment list will appear here once the assignment connection is completed."
+        )
+      );
+    }
+
+    loadAssignments();
+  </script>
+</body>
+</html>
