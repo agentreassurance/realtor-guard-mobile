@@ -141,7 +141,7 @@ const SUPABASE_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
 const $ = id => document.getElementById(id);
 let db, currentUser, observer;
 
-const editable = ["full_name","phone","address","city","state","zip"];
+const editable = ["full_name", "phone", "address", "city", "state", "zip", "license_status", "license_id", "license_expiration_date"];
 
 function statusMessage(message){
   $("status").textContent = message;
