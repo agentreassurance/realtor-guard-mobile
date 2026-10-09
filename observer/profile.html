@@ -1,6 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+  
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -182,16 +183,24 @@ function fillProfile(data){
     $(id).value = value ?? "";
   });
 
+
+  const photoUrl = data.profile_url || data.photo_url || data.selfie_url;
+
   $("photo").style.display = "none";
   $("photoFallback").style.display = "block";
 
-  if(typeof data.selfie_url === "string" &&
-     /^https:\/\//i.test(data.selfie_url)){
+  if (typeof photoUrl === "string" && photoUrl.trim()) {
     $("photo").onload = () => {
       $("photo").style.display = "block";
       $("photoFallback").style.display = "none";
     };
-    $("photo").src = data.selfie_url;
+
+    $("photo").onerror = () => {
+      $("photo").style.display = "none";
+      $("photoFallback").style.display = "block";
+    };
+
+    $("photo").src = photoUrl;
   }
 }
 
