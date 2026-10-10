@@ -283,7 +283,10 @@ localStorage.removeItem("realtorGuardEditMode");
 }
   requestForm.addEventListener("submit", async function (event) {
     event.preventDefault();
-
+    if (requestForm.dataset.submitting === "true") {
+      return;
+    }
+    requestForm.dataset.submitting = "true";
     const agentName = document.getElementById("agentName").value.trim();
     const address = document.getElementById("address").value.trim();
     const city = document.getElementById("city").value.trim();
@@ -322,6 +325,7 @@ localStorage.removeItem("realtorGuardEditMode");
           .single();
 
       if (saveError) {
+        requestForm.dataset.submitting = "false";        
         console.error("Assignment save failed:", saveError);
         alert("Unable to send your request: " + saveError.message);
         return;
