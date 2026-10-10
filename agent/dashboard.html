@@ -311,7 +311,27 @@ localStorage.removeItem("realtorGuardEditMode");
       "realtorGuardAgentRequest",
       JSON.stringify(agentRequest)
     );
+      const { data: savedAssignment, error: saveError } =
+        await supabaseClient
+          .from("assignments")
+          .insert({
+            ...agentRequest,
+            status: "pending"
+          })
+          .select("id")
+          .single();
 
+      if (saveError) {
+        console.error("Assignment save failed:", saveError);
+        alert("Unable to send your request: " + saveError.message);
+        return;
+      }
+
+      agentRequest.id = savedAssignment.id;
+      localStorage.setItem(
+        "realtorGuardAgentRequest",
+        JSON.stringify(agentRequest)
+      );
    
     window.location.href = "pending.html";
   });
