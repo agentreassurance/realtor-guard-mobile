@@ -269,7 +269,11 @@
       addDetail(card, "Address", assignment.property_address);
       addDetail(card, "City", assignment.city);
       addDetail(card, "Date", assignment.date);
-      addDetail(card, "Time", assignment.time);
+     const timeParts = String(assignment.time || "00:00").split(":");
+const hours = Number(timeParts[0]);
+const minutes = timeParts[1] || "00";
+const formattedTime = `${hours % 12 || 12}:${minutes} ${hours >= 12 ? "PM" : "AM"}`;
+addDetail(card, "Time", formattedTime);
 
       const status = document.createElement("span");
       status.className = "status";
@@ -335,7 +339,7 @@
     } else if (status === "active" || status === "in_progress") {
       section = "active";
     } else if (status === "accepted") {
-      section = scheduled > now ? "upcoming" : "active";
+      section = "upcoming";
     } else {
       return;
     }
