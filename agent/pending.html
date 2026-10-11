@@ -233,23 +233,42 @@ document.getElementById("approveRequest").addEventListener("click", async functi
         status: "pending"
     };
 
-    const { data, error } = await supabaseClient
-        .from("assignments")
-        .insert([assignment])
-        .select();
+   
+const existingId = Number(
+    localStorage.getItem("realtorGuardRequestId") || request.id
+);
 
-    if (error) {
-        console.error("Assignment submit error:", error);
-       alert("Submit error: " + error.message);
-        return;
-    }
+if (!Number.isInteger(existingId) || existingId <= 0) {
+    alert("Request ID missing. Please submit a new request.");
+    return;
+}
 
-    localStorage.setItem(
-        "realtorGuardAgentRequest",
-      JSON.stringify(data[0])
-    );
-    localStorage.setItem("realtorGuardRequestId", data[0].id);
+const { data: existingAssignment, error } = await supabaseClient
+    .from("assignments")
+    .select("*")
+    .eq("id", existingId)
+    .maybeSingle();
 
+if (error) {
+    console.error("Assignment lookup error:", error);
+    alert("Unable to find request: " + error.message);
+    return;
+}
+
+if (!existingAssignment) {
+    alert("Request not found. Please submit a new request.");
+    return;
+}
+
+localStorage.setItem(
+    "realtorGuardAgentRequest",
+    JSON.stringify(existingAssignment)
+);
+
+localStorage.setItem(
+    "realtorGuardRequestId",
+    existingAssignment.id
+);
     localStorage.setItem(
         "realtorGuardRequestStatus",
         "pending"
