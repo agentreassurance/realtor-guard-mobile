@@ -235,7 +235,7 @@ document.getElementById("approveRequest").addEventListener("click", async functi
 
    
 const existingId = Number(
-    localStorage.getItem("realtorGuardRequestId") || request.id
+  request?.id || localStorage.getItem("realtorGuardRequestId")
 );
 
 if (!Number.isInteger(existingId) || existingId <= 0) {
