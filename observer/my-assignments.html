@@ -305,18 +305,49 @@
         return;
       }
 
-      /*
-        Assignment data connection:
-        This page needs the confirmed assignment table columns
-        before a safe, observer-specific query can be enabled.
-        Do not display assignments belonging to other observers.
-      */
-      ["upcoming", "active", "completed"].forEach(section =>
-        showMessage(
-          section,
-          "Your assignment list will appear here once the assignment connection is completed."
-        )
-      );
+        const { data: assignments, error: assignmentError } = await client
+    .from("assignments")
+    .select("*")
+    .eq("observer_id", observer.id)
+    .order("date", { ascending: true });
+
+  if (assignmentError) {
+    ["upcoming", "active", "completed"].forEach(section =>
+      showMessage(section, "Unable to load assignments.", true)
+    );
+    console.error(assignmentError);
+    return;
+  }
+
+  ["upcoming", "active", "completed"].forEach(section => {
+    document.getElementById(section).replaceChildren();
+  });
+
+  const now = new Date();
+
+  (assignments || []).forEach(assignment => {
+    const status = String(assignment.status || "").toLowerCase();
+    const scheduled = new Date(assignment.date + "T" + assignment.time);
+
+    let section;
+    if (status === "completed") {
+      section = "completed";
+    } else if (status === "active" || status === "in_progress") {
+      section = "active";
+    } else if (status === "accepted") {
+      section = scheduled > now ? "upcoming" : "active";
+    } else {
+      return;
+    }
+
+    renderAssignment(section, assignment);
+  });
+
+  ["upcoming", "active", "completed"].forEach(section => {
+    if (!document.getElementById(section).children.length) {
+      showMessage(section, "No assignments in this section.");
+    }
+  });
     }
 
     loadAssignments();
