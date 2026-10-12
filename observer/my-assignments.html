@@ -175,14 +175,14 @@
 
     <div class="tabs">
       <button class="tab selected" data-tab="upcoming">Upcoming</button>
-      <button class="tab" data-tab="active">Active</button>
-      <button class="tab" data-tab="completed">Completed</button>
+    <button class="tab" data-tab="completed">Completed</button>
+<button class="tab" data-tab="archives">Archives</button>
     </div>
 
     <section id="upcoming" class="panel selected">
       <div class="empty">Loading assignments...</div>
     </section>
-    <section id="active" class="panel">
+    <section id="archives" class="panel">
       <div class="empty">Loading assignments...</div>
     </section>
     <section id="completed" class="panel">
@@ -279,7 +279,29 @@ addDetail(card, "Time", formattedTime);
       status.className = "status";
       status.textContent = assignment.status || "Accepted";
       card.appendChild(status);
+if (section === "completed" && !assignment.archived_at) {
+  const archiveButton = document.createElement("button");
+  archiveButton.textContent = "Archive Assignment";
 
+  archiveButton.onclick = async () => {
+    if (!confirm("Move this completed assignment to Archives?")) return;
+
+    const { error } = await client
+      .from("assignments")
+      .update({ archived_at: new Date().toISOString() })
+      .eq("id", assignment.id)
+      .eq("observer_id", assignment.observer_id);
+
+    if (error) {
+      alert("Unable to archive assignment: " + error.message);
+      return;
+    }
+
+    await loadAssignments();
+  };
+
+  card.appendChild(archiveButton);
+}
       document.getElementById(section).appendChild(card);
     }
 
@@ -316,14 +338,14 @@ addDetail(card, "Time", formattedTime);
     .order("date", { ascending: true });
 
   if (assignmentError) {
-    ["upcoming", "active", "completed"].forEach(section =>
+["upcoming", "completed", "archives"].forEach(section =>
       showMessage(section, "Unable to load assignments.", true)
     );
     console.error(assignmentError);
     return;
   }
 
-  ["upcoming", "active", "completed"].forEach(section => {
+ ["upcoming", "completed", "archives"].forEach(section => {
     document.getElementById(section).replaceChildren();
   });
 
@@ -333,21 +355,24 @@ addDetail(card, "Time", formattedTime);
     const status = String(assignment.status || "").toLowerCase();
     const scheduled = new Date(assignment.date + "T" + assignment.time);
 
-    let section;
-    if (status === "completed") {
-      section = "completed";
-    } else if (status === "active" || status === "in_progress") {
-      section = "active";
-    } else if (status === "accepted") {
-      section = "upcoming";
-    } else {
-      return;
-    }
+   let section;
+
+if (status === "completed") {
+  section = assignment.archived_at ? "archives" : "completed";
+} else if (
+  status === "accepted" ||
+  status === "active" ||
+  status === "in_progress"
+) {
+  section = "upcoming";
+} else {
+  return;
+}
 
     renderAssignment(section, assignment);
   });
 
-  ["upcoming", "active", "completed"].forEach(section => {
+["upcoming", "completed", "archives"].forEach(section => {
     if (!document.getElementById(section).children.length) {
       showMessage(section, "No assignments in this section.");
     }
