@@ -302,6 +302,54 @@ if (section === "completed" && !assignment.archived_at) {
 
   card.appendChild(archiveButton);
 }
+
+if (section === "upcoming") {
+  const buttons = document.createElement("div");
+  buttons.style.cssText =
+    "display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;";
+
+  const navigationButton = document.createElement("button");
+  navigationButton.textContent = "Navigation";
+  navigationButton.onclick = () => {
+    const address = [
+      assignment.property_address,
+      assignment.city,
+      assignment.state,
+      assignment.zip
+    ].filter(Boolean).join(", ");
+
+    window.open(
+      "https://www.google.com/maps/dir/?api=1&destination=" +
+        encodeURIComponent(address),
+      "_blank"
+    );
+  };
+
+  const startButton = document.createElement("button");
+  startButton.textContent = "Start Assignment";
+  startButton.onclick = () => {
+    sessionStorage.setItem("rg_assignment_id", String(assignment.id));
+    window.location.href =
+      "active-assignment.html?assignment_id=" +
+      encodeURIComponent(assignment.id);
+  };
+
+  const cancelButton = document.createElement("button");
+  cancelButton.textContent = "Cancel";
+  cancelButton.onclick = () => {
+    sessionStorage.setItem("rg_assignment_id", String(assignment.id));
+    window.location.href =
+      "accepted.html?assignment_id=" +
+      encodeURIComponent(assignment.id);
+  };
+
+  buttons.appendChild(navigationButton);
+  buttons.appendChild(startButton);
+  buttons.appendChild(cancelButton);
+  card.appendChild(buttons);
+}
+     
+      
       document.getElementById(section).appendChild(card);
     }
 
