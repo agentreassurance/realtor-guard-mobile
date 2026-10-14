@@ -334,14 +334,58 @@ if (section === "upcoming") {
       encodeURIComponent(assignment.id);
   };
 
-  const cancelButton = document.createElement("button");
-  cancelButton.textContent = "Cancel";
-  cancelButton.onclick = () => {
-    sessionStorage.setItem("rg_assignment_id", String(assignment.id));
-    window.location.href =
-      "accepted.html?assignment_id=" +
-      encodeURIComponent(assignment.id);
-  };
+const cancelButton = document.createElement("button");
+cancelButton.textContent = "Unassign";
+
+cancelButton.onclick = async () => {
+  const reasons = [
+    "Schedule conflict",
+    "Transportation issue",
+    "Personal emergency",
+    "Unable to reach property",
+    "Other"
+  ];
+
+  const reason = prompt(
+    "Reason for unassigning:\n\n" +
+    reasons.map((r, i) => `${i + 1}. ${r}`).join("\n") +
+    "\n\nEnter a number (1-5):"
+  );
+
+  if (reason === null) return;
+
+  const choice = Number(reason);
+  if (!Number.isInteger(choice) || choice < 1 || choice > 5) {
+    alert("Please select a valid reason (1-5).");
+    return;
+  }
+
+  if (!confirm("Unassign yourself from this assignment?")) return;
+
+  const { data, error } = await client
+    .from("assignments")
+    .update({
+      status: "pending",
+      observer_id: null
+    })
+    .eq("id", assignment.id)
+    .eq("observer_id", assignment.observer_id)
+    .eq("status", "accepted")
+    .select("id");
+
+  if (error) {
+    alert("Unable to unassign: " + error.message);
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    alert("Assignment was not updated. Please refresh.");
+    return;
+  }
+
+  alert("You have been unassigned. The request is available again.");
+  await loadAssignments();
+};
 
   buttons.appendChild(navigationButton);
   buttons.appendChild(startButton);
