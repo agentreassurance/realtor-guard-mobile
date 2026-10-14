@@ -863,7 +863,7 @@ if (observerError || !observer) {
     localStorage.setItem("acceptedAssignment", JSON.stringify(data[0]));
 
    window.location.href =
-  "accepted.html?id=" + encodeURIComponent(assignmentId); 
+ "my-assignments.html";
   } catch (error) {
     console.error("Accept assignment error:", error);
     alert("Unable to accept this assignment. Please try again.");
