@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Appointments | Realtor Guard</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff;
+    color: #292929;
+  }
+  header {
+    position: relative;
+    text-align: center;
+    padding: 18px 18px 8px;
+  }
+  .logo { width: 100px; max-width: 35%; }
+  .menu-button {
+    position: absolute;
+    right: 18px;
+    top: 25px;
+    border: 0;
+    background: none;
+    color: #850d19;
+    font-size: 29px;
+    cursor: pointer;
+  }
+  .menu {
+    display: none;
+    position: absolute;
+    right: 16px;
+    top: 65px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px #0002;
+    z-index: 10;
+    min-width: 190px;
+    text-align: left;
+  }
+  .menu.open { display: block; }
+  .menu a {
+    display: block;
+    padding: 13px 16px;
+    text-decoration: none;
+    color: #850d19;
+    border-bottom: 1px solid #eee;
+  }
+  h1 {
+    text-align: center;
+    color: #850d19;
+    font-size: 25px;
+    margin: 12px 0 5px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin: 0 12px 22px;
+  }
+  main { max-width: 650px; margin: auto; padding: 0 15px 30px; }
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 9px;
+    margin-bottom: 20px;
+  }
+  .tab {
+    border: 1px solid #850d19;
+    border-radius: 9px;
+    padding: 13px 5px;
+    background: white;
+    color: #850d19;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .tab.active { background: #850d19; color: white; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .panel h2 { color: #850d19; font-size: 19px; }
+  .empty {
+    text-align: center;
+    border: 1px solid #e3e3e3;
+    background: #fafafa;
+    padding: 28px 15px;
+    border-radius: 12px;
+    color: #666;
+    line-height: 1.6;
+  }
+  .action {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    background: #850d19;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  footer {
+    text-align: center;
+    padding: 25px;
+    color: #888;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="rglogo.png" alt="Realtor Guard Logo" class="logo">
+  <button class="menu-button" id="menuButton"
+    aria-label="Open menu" aria-expanded="false">☰</button>
+  <nav class="menu" id="menu">
+    <a href="agent-home.html">Agent Home</a>
+    <a href="dashboard.html">Request Observer</a>
+    <a href="my-appointments.html">My Appointments</a>
+    <a href="login.html">Agent Login</a>
+  </nav>
+</header>
+
+<h1>My Appointments</h1>
+<p class="subtitle">Manage and review your Realtor Guard appointments</p>
+
+<main>
+  <div class="tabs" role="tablist" aria-label="Appointment categories">
+    <button class="tab active" data-tab="upcoming">Upcoming</button>
+    <button class="tab" data-tab="accepted">Accepted</button>
+    <button class="tab" data-tab="unassigned">Unassigned</button>
+    <button class="tab" data-tab="completed">Completed</button>
+  </div>
+
+  <section class="panel active" id="upcoming">
+    <h2>Upcoming Appointments</h2>
+    <div class="empty">
+      Your upcoming appointments will appear here.
+      <div><a class="action" href="dashboard.html">Request Observer</a></div>
+    </div>
+  </section>
+
+  <section class="panel" id="accepted">
+    <h2>Accepted Appointments</h2>
+    <div class="empty">
+      Appointments accepted by an observer will appear here.
+    </div>
+  </section>
+
+  <section class="panel" id="unassigned">
+    <h2>Unassigned Appointments</h2>
+    <div class="empty">
+      Appointments waiting for an observer will appear here.
+    </div>
+  </section>
+
+  <section class="panel" id="completed">
+    <h2>Completed Appointments</h2>
+    <div class="empty">
+      Your completed appointments will appear here.
+    </div>
+  </section>
+</main>
+
+<footer>Realtor Guard &copy; 2026</footer>
+
+<script>
+  const menuButton = document.getElementById("menuButton");
+  const menu = document.getElementById("menu");
+
+  menuButton.addEventListener("click", () => {
+    const open = menu.classList.toggle("open");
+    menuButton.setAttribute("aria-expanded", String(open));
+  });
+
+  document.querySelectorAll(".tab").forEach(button => {
+    button.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(tab =>
+        tab.classList.remove("active")
+      );
+      document.querySelectorAll(".panel").forEach(panel =>
+        panel.classList.remove("active")
+      );
+      button.classList.add("active");
+      document.getElementById(button.dataset.tab).classList.add("active");
+    });
+  });
+</script>
+
+</body>
+</html>
