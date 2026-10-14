@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Home | Realtor Guard</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #f7f7f7;
+      color: #222;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 480px;
+      min-height: 100vh;
+      margin: auto;
+      padding: 24px 20px 36px;
+      background: white;
+    }
+    .logo {
+      display: block;
+      width: 135px;
+      max-width: 50%;
+      margin: 0 auto 16px;
+    }
+    h1 {
+      text-align: center;
+      color: #bb1018;
+      font-size: 27px;
+      margin: 12px 0 8px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #555;
+      font-size: 15px;
+      margin-bottom: 28px;
+    }
+    .menu {
+      display: grid;
+      gap: 13px;
+    }
+    .menu a {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 19px 17px;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      color: #222;
+      background: #fff;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: bold;
+      box-shadow: 0 3px 9px rgba(0,0,0,.05);
+    }
+    .menu a:active {
+      background: #fff2f2;
+    }
+    .symbol {
+      color: #bd1018;
+      font-size: 25px;
+      width: 32px;
+      text-align: center;
+    }
+    .menu small {
+      display: block;
+      color: #777;
+      font-size: 12px;
+      font-weight: normal;
+      margin-top: 5px;
+    }
+    .appointment {
+      margin-top: 28px;
+      padding: 18px;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      background: #fafafa;
+    }
+    .appointment h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      color: #b60000;
+    }
+    .appointment p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0;
+    }
+    footer {
+      text-align: center;
+      color: #888;
+      font-size: 12px;
+      margin-top: 32px;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <img class="logo" src="rglogo.png" alt="Realtor Guard logo">
+
+    <h1>Agent Dashboard</h1>
+    <p class="subtitle">Welcome to Realtor Guard</p>
+
+    <nav class="menu" aria-label="Agent navigation">
+      <a href="dashboard.html">
+        <span class="symbol">＋</span>
+        <span>Request Observer
+          <small>Schedule a new showing or open house</small>
+        </span>
+      </a>
+
+      <a href="my-appointments.html">
+        <span class="symbol">▦</span>
+        <span>My Appointments
+          <small>View scheduled and past appointments</small>
+        </span>
+      </a>
+
+      <a href="updates.html">
+        <span class="symbol">♧</span>
+        <span>Updates
+          <small>Observer accepted and unassigned alerts</small>
+        </span>
+      </a>
+
+      <a href="accepted.html">
+        <span class="symbol">✓</span>
+        <span>Accepted Observer
+          <small>View your assigned observer</small>
+        </span>
+      </a>
+
+      <a href="searching.html">
+        <span class="symbol">⌕</span>
+        <span>Request Status
+          <small>Check the status of your request</small>
+        </span>
+      </a>
+
+      <a href="login.html">
+        <span class="symbol">↪</span>
+        <span>Agent Login
+          <small>Return to the sign-in page</small>
+        </span>
+      </a>
+    </nav>
+
+    <section class="appointment">
+      <h2>Upcoming Appointment</h2>
+      <p>
+        Your next appointment will appear here
+        once the live appointment connection is added.
+      </p>
+    </section>
+
+    <footer>Realtor Guard — Never Alone at a Showing</footer>
+  </main>
+</body>
+</html>
