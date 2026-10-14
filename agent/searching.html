@@ -221,7 +221,32 @@ agentSupabaseClient
     }
   )
   .subscribe();    
- 
+ // Notify the agent when an observer unassigns.
+agentSupabaseClient
+  .channel("agent-assignment-unassigned-" + request.id)
+  .on(
+    "postgres_changes",
+    {
+      event: "UPDATE",
+      schema: "public",
+      table: "assignments",
+      filter: `id=eq.${request.id}`
+    },
+    (payload) => {
+      if (
+        payload.new?.status === "pending" &&
+       
+        payload.new?.observer_id == null
+      ) {
+        alert(
+          "Realtor Guard Notification\n\n" +
+          "Your observer has unassigned from this request.\n" +
+          "We are searching for another available observer."
+        );
+      }
+    }
+  )
+  .subscribe();
   </script>
 
 </body>
