@@ -167,6 +167,17 @@
 
 <footer>Realtor Guard &copy; 2026</footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_e9q5KNgJ4lLVWqqn0IdILBw_KIAWNxgR";
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+</script>
+
 <script>
   const menuButton = document.getElementById("menuButton");
   const menu = document.getElementById("menu");
@@ -188,6 +199,34 @@
       document.getElementById(button.dataset.tab).classList.add("active");
     });
   });
+
+ 
+// Load appointments belonging to the logged-in agent.
+async function loadAgentAppointments() {
+  const { data: authData, error: authError } =
+    await supabaseClient.auth.getUser();
+
+  if (authError || !authData?.user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const { data: appointments, error } = await supabaseClient
+    .from("assignments")
+    .select("*")
+    .eq("agent_id", authData.user.id)
+    .order("date", { ascending: true });
+
+  if (error) {
+    console.error("Unable to load appointments:", error.message);
+    return;
+  }
+
+  console.log("Agent appointments:", appointments);
+}
+
+loadAgentAppointments();
+
 </script>
 
 </body>
