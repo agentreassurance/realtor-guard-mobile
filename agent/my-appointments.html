@@ -207,9 +207,10 @@ async function loadAgentAppointments() {
     await supabaseClient.auth.getUser();
 
   if (authError || !authData?.user) {
-    window.location.href = "login.html";
-    return;
-  }
+  console.error("Agent session unavailable:", authError);
+  alert("Your agent session could not be verified. Please sign in again.");
+  return;
+}
 
   const { data: appointments, error } = await supabaseClient
     .from("assignments")
