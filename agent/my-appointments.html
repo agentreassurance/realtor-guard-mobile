@@ -203,14 +203,18 @@
  
 // Load appointments belonging to the logged-in agent.
 async function loadAgentAppointments() {
-  const { data: authData, error: authError } =
-    await supabaseClient.auth.getUser();
+  const { data: sessionData, error: sessionError } =
+  await supabaseClient.auth.getSession();
 
-  if (authError || !authData?.user) {
-  console.error("Agent session unavailable:", authError);
-  alert("Your agent session could not be verified. Please sign in again.");
+const currentUser = sessionData?.session?.user;
+
+if (sessionError || !currentUser) {
+  console.error("Agent session unavailable:", sessionError);
+  alert("Please log in to access your appointments.");
   return;
 }
+
+const authData = { user: currentUser };
 
   const { data: appointments, error } = await supabaseClient
     .from("assignments")
