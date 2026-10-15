@@ -287,6 +287,19 @@ localStorage.removeItem("realtorGuardEditMode");
       return;
     }
     requestForm.dataset.submitting = "true";
+    
+const { data: authData, error: authError } =
+  await supabaseClient.auth.getUser();
+
+if (authError || !authData?.user) {
+  alert("Please log in before requesting an observer.");
+  requestForm.dataset.submitting = "false";
+  window.location.href = "login.html";
+  return;
+}
+
+const agentId = authData.user.id;
+
     const agentName = document.getElementById("agentName").value.trim();
     const address = document.getElementById("address").value.trim();
     const city = document.getElementById("city").value.trim();
@@ -298,6 +311,7 @@ localStorage.removeItem("realtorGuardEditMode");
     const timezone = document.getElementById("timezone").value;
 
     const agentRequest = {
+     agent_id: agentId,
       agent_name: agentName,
       property_address: address,
       city: city,
