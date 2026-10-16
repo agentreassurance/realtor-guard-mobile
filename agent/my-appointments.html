@@ -275,7 +275,7 @@ const createAppointmentCard = (appointment) => {
     ["Time", formatTime(appointment.time)],
     ["Time Zone", appointment.timezone],
     ["Duration", appointment.duration],
-    ["Status", appointment.status]
+   ["Status", (appointment.status || "pending").toLowerCase()]
   ];
 
   details.forEach(([label, value]) => {
@@ -283,9 +283,34 @@ const createAppointmentCard = (appointment) => {
     const heading = document.createElement("strong");
     heading.textContent = `${label}: `;
     line.appendChild(heading);
-    line.appendChild(
-      document.createTextNode(value || "Not specified")
-    );
+   if (label === "Status") {
+  const status = String(value || "pending").toLowerCase();
+
+  const colors = {
+    pending: "#dc2626",
+    unassigned: "#dc2626",
+    accepted: "#eab308",
+    completed: "#16a34a"
+  };
+
+  const indicator = document.createElement("span");
+  indicator.textContent = "● ";
+  indicator.style.color = colors[status] || "#6b7280";
+  indicator.style.fontWeight = "bold";
+
+  const statusText = document.createElement("span");
+  statusText.textContent =
+    status.charAt(0).toUpperCase() + status.slice(1);
+  statusText.style.color = colors[status] || "#6b7280";
+  statusText.style.fontWeight = "bold";
+
+  line.appendChild(indicator);
+  line.appendChild(statusText);
+} else {
+  line.appendChild(
+    document.createTextNode(value || "Not specified")
+  );
+}
     card.appendChild(line);
   });
 
