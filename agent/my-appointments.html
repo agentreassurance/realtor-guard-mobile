@@ -227,7 +227,85 @@ const authData = { user: currentUser };
     return;
   }
 
-  console.log("Agent appointments:", appointments);
+ console.log("Agent appointments:", appointments);
+
+const appointmentGroups = {
+  upcoming: [],
+  accepted: [],
+  unassigned: [],
+  completed: []
+};
+
+(appointments || []).forEach(appointment => {
+  const status = (appointment.status || "").toLowerCase();
+
+  if (status === "completed") {
+    appointmentGroups.completed.push(appointment);
+  } else if (status === "accepted") {
+    appointmentGroups.accepted.push(appointment);
+    appointmentGroups.upcoming.push(appointment);
+  } else if (status === "pending" || status === "unassigned") {
+    appointmentGroups.unassigned.push(appointment);
+    appointmentGroups.upcoming.push(appointment);
+  }
+});
+
+console.log("Appointment groups:", appointmentGroups);
+ 
+const formatTime = (time) => {
+  if (!time) return "Not specified";
+  const parts = time.split(":");
+  const hour = Number(parts[0]);
+  const minute = parts[1] || "00";
+  return `${hour % 12 || 12}:${minute} ${hour >= 12 ? "PM" : "AM"}`;
+};
+
+const createAppointmentCard = (appointment) => {
+  const card = document.createElement("div");
+  card.className = "empty";
+  card.style.textAlign = "left";
+  card.style.marginBottom = "12px";
+
+  const details = [
+    ["Agent", appointment.agent_name],
+    ["Property", appointment.property_address],
+    ["City", appointment.city],
+    ["State", appointment.state],
+    ["Date", appointment.date],
+    ["Time", formatTime(appointment.time)],
+    ["Time Zone", appointment.timezone],
+    ["Duration", appointment.duration],
+    ["Status", appointment.status]
+  ];
+
+  details.forEach(([label, value]) => {
+    const line = document.createElement("p");
+    const heading = document.createElement("strong");
+    heading.textContent = `${label}: `;
+    line.appendChild(heading);
+    line.appendChild(
+      document.createTextNode(value || "Not specified")
+    );
+    card.appendChild(line);
+  });
+
+  return card;
+};
+
+Object.entries(appointmentGroups).forEach(([group, records]) => {
+  const panel = document.getElementById(group);
+  if (!panel) return;
+
+  const container = panel.querySelector(".empty");
+  if (!container || records.length === 0) return;
+
+  container.replaceChildren();
+
+  records.forEach(appointment => {
+    container.appendChild(createAppointmentCard(appointment));
+  });
+});
+
 }
 
 loadAgentAppointments();
