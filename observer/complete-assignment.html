@@ -1,111 +1,168 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Assignment Complete | Realtor Guard</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
+* {
+  box-sizing: border-box;
 }
 
-body{
-    background:#f4f4f4;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #222;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.container{
-    width:95%;
-    max-width:420px;
-    background:white;
-    border-radius:18px;
-    padding:25px;
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
+.container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 20px 32px;
+  text-align: center;
 }
 
-.logo{
-    text-align:center;
-    font-size:55px;
+.header {
+  position: relative;
+  min-height: 145px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-h1{
-    text-align:center;
-    color:#b00000;
-    margin-top:10px;
-    margin-bottom:20px;
+.logo {
+  display: block;
+  width: 125px;
+  max-width: 45%;
+  height: auto;
+  object-fit: contain;
 }
 
-.status{
-    background:#e8f8ea;
-    color:#0b6b25;
-    text-align:center;
-    padding:15px;
-    border-radius:12px;
-    font-weight:bold;
-    margin-bottom:25px;
+.menu-button {
+  position: absolute;
+  top: 12px;
+  right: 0;
+  background: transparent;
+  color: #990000;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  padding: 5px;
 }
 
-.earnings{
-    background:#f8f8f8;
-    border-radius:12px;
-    padding:18px;
-    text-align:center;
-    margin-bottom:20px;
+.menu {
+  display: none;
+  text-align: left;
+  background: #fff;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  overflow: hidden;
 }
 
-.earnings h2{
-    color:#444;
-    margin-bottom:10px;
+.menu.open {
+  display: block;
 }
 
-.amount{
-    font-size:40px;
-    font-weight:bold;
-    color:#0b6b25;
+.menu a {
+  display: block;
+  padding: 14px 16px;
+  color: #990000;
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 1px solid #eeeeee;
 }
 
-button{
-    width:100%;
-    border:none;
-    border-radius:10px;
-    padding:15px;
-    font-size:17px;
-    font-weight:bold;
-    margin-top:12px;
-    cursor:pointer;
+.menu a:last-child {
+  border-bottom: none;
 }
 
-.cashout{
-    background:#0b6b25;
-    color:white;
+h1 {
+  color: #a00000;
+  font-size: 28px;
+  margin: 12px 0 20px;
 }
 
-.bank{
-    background:#003366;
-    color:white;
+.success {
+  background: #eaf7ed;
+  color: #08712b;
+  border-radius: 12px;
+  padding: 22px 16px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.history{
-    background:#777;
-    color:white;
+.success p {
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 1.5;
+  margin: 10px 0 0;
 }
 
-.rate{
-    background:#b00000;
-    color:white;
+.earnings {
+  background: #f7f7f7;
+  border: 1px solid #eeeeee;
+  border-radius: 12px;
+  padding: 24px 16px;
+  margin: 24px 0;
 }
 
-.dashboard{
-    background:black;
-    color:white;
+.earnings h2 {
+  margin: 0 0 14px;
+  font-size: 22px;
+}
+
+.amount {
+  font-size: 43px;
+  font-weight: bold;
+  color: #08712b;
+}
+
+.pay-note {
+  color: #666666;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 14px;
+}
+
+.action {
+  display: block;
+  width: 100%;
+  padding: 17px 12px;
+  margin: 12px 0;
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cashout {
+  background: #08712b;
+}
+
+.history {
+  background: #666666;
+}
+
+.rate {
+  background: #b00000;
+}
+
+.dashboard {
+  background: #222222;
+}
+
+.action:focus-visible,
+.menu-button:focus-visible,
+.menu a:focus-visible {
+  outline: 3px solid #cc7777;
+  outline-offset: 3px;
 }
 </style>
 </head>
@@ -114,51 +171,138 @@ button{
 
 <div class="container">
 
-<div class="logo">🛡️</div>
+  <header class="header">
+    <img
+      src="../logo.png"
+      class="logo"
+      alt="Realtor Guard Logo"
+    >
 
-<h1>Assignment Complete</h1>
+    <button
+      class="menu-button"
+      id="menuButton"
+      type="button"
+      aria-label="Open menu"
+      aria-controls="menu"
+      aria-expanded="false"
+    >☰</button>
+  </header>
 
-<div class="status">
-✅ Great job!<br><br>
-Your assignment has been completed successfully.
-</div>
+  <nav class="menu" id="menu">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="my-assignments.html">My Assignments</a>
+    <a href="profile.html">My Profile</a>
+  </nav>
 
-<div class="earnings">
-<h2>Total Earnings</h2>
-<div class="amount" id="finalPay">$25.00</div>
-</div>
+  <h1>Assignment Complete</h1>
 
-<button class="cashout">
-⚡ Instant Cash Out
-</button>
+  <div class="success">
+    &#10004; Great Job!
+    <p>
+      Your assignment has been completed
+      successfully.
+    </p>
+  </div>
 
-<button class="bank">
-🏦 Transfer to Bank
-</button>
+  <div class="earnings">
+    <h2>Total Earnings</h2>
 
-<button class="history">
-📄 Earnings History
-</button>
+    <div class="amount" id="finalPay">
+      Loading...
+    </div>
 
-<button class="rate">
-⭐ Rate Agent
-</button>
+    <div class="pay-note">
+      $25 first hour guaranteed.
+      Additional time paid proportionally
+      by the minute.
+    </div>
+  </div>
 
-<button class="dashboard"
-onclick="location.href='dashboard.html'">
-🏠 Return to Dashboard
-</button>
+  <button
+    type="button"
+    class="action cashout"
+    id="cashoutButton"
+  >
+    ⚡ Instant Cash Out
+  </button>
+
+  <button
+    type="button"
+    class="action history"
+    onclick="location.href='my-assignments.html'"
+  >
+    📄 Earnings History
+  </button>
+
+  <button
+    type="button"
+    class="action rate"
+    id="rateButton"
+  >
+    ⭐ Rate Agent
+  </button>
+
+  <button
+    type="button"
+    class="action dashboard"
+    onclick="location.href='dashboard.html'"
+  >
+    🏠 Return to Dashboard
+  </button>
 
 </div>
 
 <script>
-  const savedFinalPay = sessionStorage.getItem("realtorGuardFinalPay");
+  const menuButton =
+    document.getElementById("menuButton");
 
-  if (savedFinalPay) {
-    document.getElementById("finalPay").textContent =
+  const menu =
+    document.getElementById("menu");
+
+  menuButton.addEventListener("click", function () {
+    const isOpen = menu.classList.toggle("open");
+
+    menuButton.setAttribute(
+      "aria-expanded",
+      String(isOpen)
+    );
+  });
+
+  // Read final earnings saved by Active Assignment.
+  const savedFinalPay = sessionStorage.getItem(
+    "realtorGuardFinalPay"
+  );
+
+  const finalPayElement =
+    document.getElementById("finalPay");
+
+  if (
+    savedFinalPay !== null &&
+    savedFinalPay.trim() !== "" &&
+    Number.isFinite(Number(savedFinalPay)) &&
+    Number(savedFinalPay) >= 0
+  ) {
+    finalPayElement.textContent =
       "$" + Number(savedFinalPay).toFixed(2);
+  } else {
+    finalPayElement.textContent = "Unavailable";
   }
-</script>    
+
+  // Real cash-out requires a payment provider.
+  document.getElementById("cashoutButton")
+    .addEventListener("click", function () {
+      alert(
+        "Instant Cash Out is coming soon. " +
+        "No money has been transferred."
+      );
+    });
+
+  // Agent ratings will be connected later.
+  document.getElementById("rateButton")
+    .addEventListener("click", function () {
+      alert("Agent ratings are coming soon.");
+    });
+</script>
 
 </body>
 </html>
