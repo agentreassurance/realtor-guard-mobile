@@ -767,7 +767,7 @@ if (agentInitialsElement && agentName) {
         formatTime(elapsedSeconds);
      const completedMinutes = Math.floor(elapsedSeconds / 60);
 const extraMinutes = Math.max(0, completedMinutes - 60);
-const currentPay = 25 + (extraMinutes * 0.50);
+const currentPay = 25 + (extraMinutes * (25 / 60));
 
 document.getElementById("currentPay").textContent =
   "$" + currentPay.toFixed(2); 
