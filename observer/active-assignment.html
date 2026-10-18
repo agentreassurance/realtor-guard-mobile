@@ -829,49 +829,84 @@ document.getElementById("currentPay").textContent =
       }
     }
 
-    function completeAssignment() {
-      const confirmed = window.confirm(
-        "Has the agent confirmed that the showing is finished and it is safe to complete this assignment?"
-      );
+  
+async function completeAssignment() {
+  const confirmed = window.confirm(
+    "Has the agent confirmed that the showing is finished and it is safe to complete this assignment?"
+  );
 
-      if (!confirmed) {
-        return;
-      }
-const finalPayText = document
-  .getElementById("currentPay")
-  .textContent
-  .replace("$", "");
+  if (!confirmed) {
+    return;
+  }
 
-sessionStorage.setItem("realtorGuardFinalPay", finalPayText);
-const assignmentId =
-  activeAssignment.id ||
-  activeAssignment.assignment_id;
+  const assignmentId =
+    activeAssignment?.id ||
+    activeAssignment?.assignment_id;
 
-if (assignmentId) {
-  supabaseClient
-    .from("assignments")
-    .update({
-      status: "completed"
-    })
-    .eq("id", assignmentId)
-    .then(({ error }) => {
-      if (error) {
-        console.error("Supabase completion error:", error);
-      } else {
-        console.log("Assignment marked completed in Supabase.");
-      }
-    });
-}
-      
-      showMessage(
-        "Assignment completed successfully. Returning to the Observer Dashboard...",
-        "success"
-      );
+  if (!assignmentId) {
+    showMessage(
+      "Unable to identify this assignment. Please try again.",
+      "warning"
+    );
+    return;
+  }
 
-      window.setTimeout(function () {
-        window.location.href = "complete-assignment.html";
-      }, 1800);
+  const payElement = document.getElementById("currentPay");
+
+  if (!payElement) {
+    showMessage("Unable to read final earnings.", "warning");
+    return;
+  }
+
+  const finalPay = Number(
+    payElement.textContent.replace("$", "").trim()
+  );
+
+  if (!Number.isFinite(finalPay)) {
+    showMessage("Invalid earnings amount.", "warning");
+    return;
+  }
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("assignments")
+      .update({ status: "completed" })
+      .eq("id", assignmentId)
+      .select("id");
+
+    if (error) {
+      throw error;
     }
+
+    if (!data || data.length === 0) {
+      throw new Error(
+        "Assignment was not updated. Check database permissions."
+      );
+    }
+
+    sessionStorage.setItem(
+      "realtorGuardFinalPay",
+      finalPay.toFixed(2)
+    );
+
+    showMessage(
+      "Assignment completed successfully!",
+      "success"
+    );
+
+    window.setTimeout(function () {
+      window.location.href = "complete-assignment.html";
+    }, 1800);
+
+  } catch (error) {
+    console.error("Supabase completion error:", error);
+
+    showMessage(
+      "Unable to save assignment completion. Please try again.",
+      "warning"
+    );
+  }
+}
 
     showStartedTime();
     window.setInterval(updateTimer, 1000);
