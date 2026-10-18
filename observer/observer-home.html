@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Observer Home | Realtor Guard</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #fff;
+      font-family: Arial, sans-serif;
+      color: #202020;
+    }
+    .container {
+      max-width: 520px;
+      margin: auto;
+      padding: 25px 20px 45px;
+    }
+    header {
+      text-align: center;
+      background: white;
+      padding-bottom: 20px;
+    }
+    .logo {
+      max-width: 135px;
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto 12px;
+    }
+    h1 {
+      color: #b00000;
+      font-size: 29px;
+      margin: 10px 0;
+    }
+    .subtitle {
+      color: #555;
+      font-size: 16px;
+    }
+    .menu {
+      display: grid;
+      gap: 13px;
+      margin-top: 20px;
+    }
+    .menu a, .menu button {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 15px;
+      padding: 20px 16px;
+      text-decoration: none;
+      text-align: left;
+      color: #222;
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 15px;
+      box-shadow: 0 3px 10px #00000009;
+      font: inherit;
+      cursor: pointer;
+    }
+    .menu a:focus-visible,
+    .menu button:focus-visible {
+      outline: 3px solid #b00000;
+    }
+    .symbol {
+      color: #bd0000;
+      font-size: 30px;
+      width: 40px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .info { flex: 1; }
+    .info strong {
+      display: block;
+      font-size: 17px;
+      margin-bottom: 5px;
+    }
+    .info small {
+      color: #666;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .arrow {
+      color: #b00000;
+      font-size: 27px;
+    }
+    .menu a:nth-child(1) { background: #fff3f3; }
+    .menu a:nth-child(2) { background: #f0f5ff; }
+    .menu a:nth-child(3) { background: #f1faf3; }
+    .menu a:nth-child(4) { background: #fff9eb; }
+    .menu a:nth-child(5) { background: #f5f0ff; }
+    .menu button { background: #f6f6f6; }
+    footer {
+      margin-top: 35px;
+      text-align: center;
+      color: #666;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <img class="logo" src="../rglogo.png"
+           alt="Realtor Guard"
+           onerror="this.style.display='none'">
+      <h1>Observer Dashboard</h1>
+      <p class="subtitle">Welcome to Realtor Guard</p>
+    </header>
+
+    <nav class="menu" aria-label="Observer navigation">
+      <a href="dashboard.html">
+        <span class="symbol">▦</span>
+        <span class="info">
+          <strong>Available Assignments</strong>
+          <small>View and accept new assignments</small>
+        </span>
+        <span class="arrow">›</span>
+      </a>
+
+      <a href="my-assignments.html">
+        <span class="symbol">▤</span>
+        <span class="info">
+          <strong>My Assignments</strong>
+          <small>View your upcoming assignments</small>
+        </span>
+        <span class="arrow">›</span>
+      </a>
+
+      <a href="my-assignments.html?tab=completed">
+        <span class="symbol">◷</span>
+        <span class="info">
+          <strong>Assignment History</strong>
+          <small>Completed and archived assignments</small>
+        </span>
+        <span class="arrow">›</span>
+      </a>
+
+      <a href="profile.html">
+        <span class="symbol">⚙</span>
+        <span class="info">
+          <strong>Settings</strong>
+          <small>View and update your profile</small>
+        </span>
+        <span class="arrow">›</span>
+      </a>
+
+      <a href="#" onclick="comingSoon(event)">
+        <span class="symbol">$</span>
+        <span class="info">
+          <strong>Payments &amp; Earnings</strong>
+          <small>Payment features coming soon</small>
+        </span>
+        <span class="arrow">›</span>
+      </a>
+
+      <button type="button" onclick="logout()">
+        <span class="symbol">⇥</span>
+        <span class="info">
+          <strong>Logout</strong>
+          <small>Sign out of your Realtor Guard account</small>
+        </span>
+        <span class="arrow">›</span>
+      </button>
+    </nav>
+
+    <footer>
+      Never alone at a showing or open house.<br>
+      Realtor Guard — We Got You.
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    function comingSoon(event) {
+      event.preventDefault();
+      alert("Payments & Earnings is coming soon.");
+    }
+
+    async function logout() {
+      // We will connect Supabase sign-out using
+      // the existing login configuration.
+      alert("Logout connection is not configured yet.");
+    }
+  </script>
+</body>
+</html>
