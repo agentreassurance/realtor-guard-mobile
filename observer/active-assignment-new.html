@@ -9,398 +9,310 @@
 
 <style>
 :root {
-  --red:#cf0000;
+  --red:#cc0000;
   --navy:#102340;
-  --green:#078d35;
+  --green:#078c35;
 }
 * {box-sizing:border-box}
 body {
   margin:0;
-  background:#fff;
+  background:white;
   color:var(--navy);
   font-family:Arial,sans-serif;
 }
-.page {
-  width:100%;
-  max-width:820px;
+main {
+  max-width:850px;
   margin:auto;
-  padding:12px 14px 105px;
+  padding:16px 15px 95px;
 }
-.logo-area {
-  text-align:center;
-  padding:0 0 6px;
-}
+header {text-align:center}
 .logo {
   display:block;
-  width:215px;
-  max-width:70%;
-  margin:0 auto;
-}
-.logo-fallback {
-  color:var(--red);
-  font-weight:900;
-  font-size:23px;
+  width:220px;
+  max-width:65%;
+  margin:0 auto 8px;
+  object-fit:contain;
 }
 h1 {
-  text-align:center;
-  font-size:clamp(29px,5vw,43px);
-  margin:6px 0;
-  font-weight:800;
+  font-size:clamp(28px,5vw,42px);
+  margin:10px 0 5px;
 }
-.subtitle {
-  text-align:center;
-  font-size:clamp(14px,2.5vw,19px);
-  margin:0 0 17px;
+.subtitle {font-size:17px;margin:0 0 20px}
+.card {
+  border:1px solid #e0e0e0;
+  border-radius:14px;
+  overflow:hidden;
+  margin-bottom:16px;
+  background:white;
 }
+.card-title {
+  background:#fff3f3;
+  border-bottom:1px solid #ffdddd;
+  padding:13px 18px;
+  color:var(--red);
+  font-size:19px;
+  font-weight:bold;
+}
+.card-body {padding:16px 20px}
 .timer-card {
-  border:1px solid #70d891;
-  border-radius:15px;
-  background:#f2fff6;
   text-align:center;
-  padding:15px;
-  margin-bottom:15px;
+  padding:14px 10px;
+  background:#f0fff4;
+  border:1px solid #77d999;
 }
 .status {
   display:inline-block;
-  border-radius:25px;
-  padding:9px 19px;
-  color:white;
   background:var(--green);
-  font-size:15px;
+  color:white;
+  border-radius:30px;
+  padding:9px 20px;
   font-weight:bold;
 }
-.timer-label {
-  margin:13px 0 5px;
-  font-size:15px;
-}
-.timer {
-  font-size:clamp(39px,7vw,53px);
+.small-label {margin-top:12px;color:#48566b}
+#timer {
+  font-size:clamp(38px,7vw,53px);
   font-weight:800;
   letter-spacing:2px;
+  margin:7px 0;
+  font-variant-numeric:tabular-nums;
 }
-.pay {
-  margin:7px 0 3px;
-  font-size:19px;
-}
+.pay {font-size:20px}
 .pay strong {color:var(--red)}
-.started {font-size:14px;color:#4c5666}
-.card {
-  border:1px solid #e2e2e2;
-  border-radius:14px;
-  overflow:hidden;
-  margin-bottom:15px;
-  box-shadow:0 3px 12px #00000008;
-}
-.card-title {
-  background:#fff5f5;
-  border-bottom:1px solid #f5dddd;
-  padding:12px 17px;
-  font-size:19px;
-  font-weight:bold;
-  color:var(--red);
-}
-.card-body {padding:15px 20px}
+#startedAt {margin-top:6px;color:#48566b}
 .agent-row {
   display:flex;
-  gap:17px;
   align-items:center;
+  gap:20px;
 }
 .avatar {
-  width:72px;
-  height:72px;
+  width:70px;
+  height:70px;
   flex-shrink:0;
   display:grid;
   place-items:center;
-  border:1px solid #ffb8b8;
-  border-radius:50%;
   background:#fff0f0;
+  border:1px solid #ffbbbb;
+  border-radius:50%;
   color:var(--red);
-  font-weight:bold;
   font-size:24px;
+  font-weight:bold;
 }
-.agent-name {
-  font-size:23px;
-  font-weight:800;
-  margin-bottom:8px;
-}
-.contact {
-  display:block;
-  color:var(--navy);
-  text-decoration:none;
-  margin:7px 0;
-  overflow-wrap:anywhere;
-}
-.detail {
+.agent-name {font-size:23px;font-weight:bold}
+.agent-contact {margin-top:8px;overflow-wrap:anywhere}
+.detail-row {
   display:grid;
-  grid-template-columns:28px 1fr;
-  gap:12px;
-  align-items:start;
-  margin:10px 0;
-  font-size:16px;
+  grid-template-columns:30px 1fr;
+  gap:10px;
+  margin-bottom:11px;
+  line-height:1.45;
 }
-.detail-icon {
-  font-size:22px;
-  text-align:center;
-}
-.detail strong {display:block}
-.detail small {
-  display:block;
-  color:#4d5665;
-  margin-top:3px;
-  font-size:15px;
-}
-.instructions {
-  border-color:#c9e6ff;
-  background:#f2f9ff;
-}
+.detail-row:last-child {margin-bottom:0}
+.instructions {background:#eef7ff;border-color:#cbe6ff}
 .instructions .card-title {
   background:#eef7ff;
   border-color:#d6eaff;
 }
-.instruction-text {
-  background:#e5f2ff;
-  border-left:6px solid #1484f5;
-  border-radius:9px;
-  padding:15px 18px;
-  line-height:1.55;
-  font-size:15px;
+.instructions p {
+  margin:0;
+  background:#e5f3ff;
+  border-left:5px solid #1687f7;
+  padding:13px;
+  line-height:1.5;
 }
 .action {
   display:block;
   width:100%;
-  padding:15px;
-  margin:10px 0;
   border-radius:10px;
-  border:2px solid var(--navy);
+  padding:16px;
   font-size:19px;
-  font-weight:800;
-  text-align:center;
+  font-weight:bold;
   cursor:pointer;
+  margin-bottom:10px;
 }
 .complete {
   background:var(--green);
+  border:1px solid var(--green);
   color:white;
-  border-color:var(--green);
 }
 .call {
   background:white;
+  border:2px solid var(--navy);
   color:var(--navy);
+  text-align:center;
+  text-decoration:none;
 }
-.action:disabled {
-  opacity:.6;
-  cursor:wait;
-}
-.cancel-box {
-  border:1px solid var(--red);
-  border-radius:13px;
-  overflow:hidden;
-  background:#fffafa;
-  margin:12px 0;
-}
-.cancel-box summary {
-  cursor:pointer;
-  background:#ffe7e7;
+.call.disabled {opacity:.5;pointer-events:none}
+.cancel-card {border:1px solid red;background:#fff7f7}
+.cancel-title {
+  padding:14px 17px;
   color:var(--red);
-  font-size:20px;
+  font-size:19px;
   font-weight:bold;
-  padding:15px 18px;
+  cursor:pointer;
+  background:#ffe4e4;
 }
-.cancel-content {padding:15px 18px}
-.cancel-content label {
-  display:block;
-  margin-bottom:8px;
-}
+.cancel-content {padding:14px 18px}
 select {
   width:100%;
   padding:13px;
-  font-size:15px;
+  font-size:16px;
   border:1px solid var(--red);
   border-radius:8px;
   background:white;
+  margin:8px 0 12px;
 }
 .cancel-confirm {
   background:var(--red);
   color:white;
-  border-color:var(--red);
+  border:0;
+  border-radius:8px;
+  padding:13px;
+  font-weight:bold;
+  width:100%;
   font-size:16px;
+  cursor:pointer;
 }
 .message {
-  display:none;
-  padding:14px;
-  border-radius:9px;
-  background:#fff0f0;
-  color:#a00000;
-  font-weight:bold;
+  padding:12px;
+  border-radius:8px;
+  margin:12px 0;
   text-align:center;
-  margin:15px 0;
+  display:none;
+  background:#fff0f0;
+  color:#aa0000;
 }
-.bottom-nav {
+nav {
   position:fixed;
   bottom:0;
   left:50%;
   transform:translateX(-50%);
-  width:min(820px,100%);
-  display:flex;
-  justify-content:space-around;
+  width:100%;
+  max-width:850px;
   background:white;
-  box-shadow:0 -3px 16px #00000014;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  box-shadow:0 -2px 12px #0001;
+  border-top:1px solid #eee;
   z-index:5;
 }
-.bottom-nav a {
-  flex:1;
+nav a {
+  padding:10px 3px;
+  color:#555;
   text-align:center;
   text-decoration:none;
-  color:#555;
   font-size:12px;
-  padding:10px 3px;
 }
-.bottom-nav a span {
-  display:block;
-  font-size:25px;
-  margin-bottom:4px;
-}
-.bottom-nav a.selected {
+nav a span {display:block;font-size:25px;margin-bottom:3px}
+nav a.active {
   color:var(--red);
   font-weight:bold;
   border-bottom:3px solid var(--red);
 }
-@media(max-width:430px) {
-  .page {padding:10px 12px 95px}
-  .logo {width:160px}
-  .card-body {padding:13px}
-  .agent-name {font-size:19px}
-  .avatar {width:60px;height:60px}
-  .card-title {font-size:17px}
-  .detail {font-size:14px}
-  .action {font-size:17px}
-}
+button:disabled {opacity:.55;cursor:not-allowed}
 </style>
 </head>
 
 <body>
-<main class="page">
+<main>
+<header>
+  <img class="logo" id="rgLogo" alt="Realtor Guard logo">
+  <h1>Active Assignment</h1>
+  <p class="subtitle">
+    Remain alert and stay with the agent until the showing ends.
+  </p>
+</header>
 
-<div class="logo-area">
-  <img
-    id="brandLogo"
-    class="logo"
-    src="../realtor-guard-logo.png"
-    alt="Realtor Guard"
-    onerror="this.hidden=true;document.getElementById('logoFallback').hidden=false"
-  >
-  <div class="logo-fallback" id="logoFallback" hidden>
-    REALTOR GUARD
-  </div>
-</div>
-
-<h1>Active Assignment</h1>
-<p class="subtitle">
-  Remain alert and stay with the agent until the showing ends.
-</p>
-
-<section class="timer-card">
-  <div class="status">● &nbsp; ASSIGNMENT ACTIVE</div>
-  <p class="timer-label">TIME ELAPSED</p>
-  <div class="timer" id="timer">00:00:00</div>
-  <div class="pay">
-    Current Pay: <strong id="pay">$25.00</strong>
-  </div>
-  <div class="started" id="started">Assignment started —</div>
+<section class="card timer-card">
+  <div class="status">● ASSIGNMENT ACTIVE</div>
+  <div class="small-label">TIME ELAPSED</div>
+  <div id="timer">00:00:00</div>
+  <div class="pay">Current Pay: <strong id="currentPay">$25.00</strong></div>
+  <div id="startedAt">Loading start time...</div>
 </section>
 
 <section class="card">
-  <div class="card-title">👤 &nbsp; Agent Information</div>
+  <div class="card-title">👤 Agent Information</div>
   <div class="card-body agent-row">
     <div class="avatar" id="initials">—</div>
     <div>
-      <div class="agent-name" id="agentName">Loading…</div>
-      <a class="contact" id="phoneLink">☎ &nbsp; —</a>
-      <a class="contact" id="emailLink">✉ &nbsp; —</a>
+      <div class="agent-name" id="agentName">Loading...</div>
+      <div class="agent-contact" id="agentPhone">☎ Not available</div>
+      <div class="agent-contact" id="agentEmail">✉ Not available</div>
     </div>
   </div>
 </section>
 
 <section class="card">
-  <div class="card-title">🏠 &nbsp; Property &amp; Appointment Details</div>
+  <div class="card-title">🏠 Property &amp; Appointment Details</div>
   <div class="card-body">
-
-    <div class="detail">
-      <span class="detail-icon">📍</span>
+    <div class="detail-row">
+      <span>📍</span>
       <div>
-        <strong id="address">—</strong>
-        <small id="location">—</small>
+        <strong id="property">Loading...</strong>
+        <div id="location"></div>
       </div>
     </div>
-
-    <div class="detail">
-      <span class="detail-icon">▦</span>
-      <div id="date">—</div>
+    <div class="detail-row">
+      <span>▦</span>
+      <div id="appointmentDate">—</div>
     </div>
-
-    <div class="detail">
-      <span class="detail-icon">◷</span>
-      <div id="time">—</div>
+    <div class="detail-row">
+      <span>◷</span>
+      <div id="appointmentTime">—</div>
     </div>
-
-    <div class="detail">
-      <span class="detail-icon">🌐</span>
-      <div id="timezone">—</div>
+    <div class="detail-row">
+      <span>🌐</span>
+      <div id="timezone">Eastern Time (ET)</div>
     </div>
-
   </div>
 </section>
 
 <section class="card instructions">
-  <div class="card-title">🛡️ &nbsp; Observer Instructions</div>
+  <div class="card-title">🛡 Observer Instructions</div>
   <div class="card-body">
-    <div class="instruction-text">
+    <p>
       Stay aware of everyone entering or leaving the property.
       Remain close enough to assist the agent without interfering
       with the showing. Do not leave until the agent confirms
       that the assignment is complete.
-    </div>
+    </p>
   </div>
 </section>
 
 <button class="action complete" id="completeBtn">
-  ✓ &nbsp; Complete Assignment
+  ✓ Complete Assignment
 </button>
 
-<button class="action call" id="callBtn">
-  ☎ &nbsp; Call Agent
-</button>
+<a class="action call disabled" id="callAgent" href="#">
+  ☎ Call Agent
+</a>
 
-<details class="cancel-box">
-  <summary>✖ &nbsp; Cancel Assignment</summary>
-  <div class="cancel-content">
-    <label for="cancelReason">
-      Select a reason for cancellation:
-    </label>
-
+<section class="card cancel-card">
+  <div class="cancel-title" id="cancelToggle">
+    ✖ Cancel Assignment ▾
+  </div>
+  <div class="cancel-content" id="cancelContent" hidden>
+    <label for="cancelReason">Select a reason for cancellation:</label>
     <select id="cancelReason">
-      <option value="">Choose a reason…</option>
+      <option value="">Choose a reason...</option>
       <option>Agent requested cancellation</option>
       <option>Personal emergency</option>
       <option>Unable to arrive on time</option>
       <option>Scheduling conflict</option>
       <option>Other</option>
     </select>
-
-    <button class="action cancel-confirm" id="cancelBtn">
+    <button class="cancel-confirm" id="cancelBtn">
       Confirm Cancellation
     </button>
   </div>
-</details>
+</section>
 
-<div class="message" id="message" role="status"></div>
-
+<div class="message" id="message" role="alert"></div>
 </main>
 
-<nav class="bottom-nav">
+<nav>
   <a href="dashboard.html"><span>⌂</span>Dashboard</a>
-  <a href="active-assignment-new.html" class="selected">
-    <span>🛡️</span>Active
-  </a>
+  <a class="active" href="active-assignment-new.html"><span>🛡</span>Active</a>
   <a href="my-assignments.html"><span>▤</span>Assignment</a>
   <a href="profile.html"><span>●</span>Account</a>
 </nav>
@@ -408,287 +320,321 @@ select {
 <script>
 "use strict";
 
+/*
+  Replace the logo path below with the exact image filename
+  already uploaded to your GitHub repository.
+*/
+document.getElementById("rgLogo").src = "../logo.png";
 const SUPABASE_URL =
   "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
+  "PASTE_YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY_HERE";
 
-const db = window.supabase?.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const $ = id => document.getElementById(id);
+const params = new URLSearchParams(location.search);
 
-const el = id => document.getElementById(id);
+let db = null;
+let assignment = null;
+let startTimestamp = null;
+let finished = false;
 
-function readJSON(key) {
-  try {
-    return JSON.parse(localStorage.getItem(key) || "null");
-  } catch {
-    return null;
-  }
-}
-
-const stored =
-  readJSON("realtorGuardCurrentAssignment") ||
-  readJSON("realtorGuardActiveAssignment") ||
-  {};
-
-const assignment = stored.assignment || stored;
-
-const assignmentId =
-  stored.id ||
-  stored.assignment_id ||
-  assignment.id ||
-  assignment.assignment_id;
-
-function value(...items) {
-  return items.find(item =>
-    item !== null &&
-    item !== undefined &&
-    String(item).trim() !== ""
-  ) || "";
-}
-
-function text(id, content) {
-  el(id).textContent = content || "—";
-}
-
-function show(message) {
-  el("message").textContent = message;
-  el("message").style.display = "block";
-}
-
-const agentName = value(
-  assignment.agent_name,
-  assignment.agent_full_name,
-  assignment.agentName,
-  assignment.agent?.full_name,
-  assignment.full_name
-);
-
-const agentPhone = value(
-  assignment.agent_phone,
-  assignment.agentPhone,
-  assignment.agent?.phone,
-  assignment.phone
-);
-
-const agentEmail = value(
-  assignment.agent_email,
-  assignment.agentEmail,
-  assignment.agent?.email
-);
-
-text("agentName", agentName);
-
-el("initials").textContent = agentName
-  ? agentName.trim().split(/\s+/).slice(0,2)
-      .map(part => part[0].toUpperCase()).join("")
-  : "—";
-
-el("phoneLink").textContent = "☎  " + (agentPhone || "Not available");
-el("emailLink").textContent = "✉  " + (agentEmail || "Not available");
-
-if (agentPhone) {
-  el("phoneLink").href =
-    "tel:" + String(agentPhone).replace(/[^+\d]/g,"");
-}
-
-if (agentEmail) {
-  el("emailLink").href = "mailto:" + agentEmail;
-}
-
-text("address", value(
-  assignment.property_address,
-  assignment.propertyAddress,
-  assignment.address
-));
-
-text("location", [
-  value(assignment.city),
-  value(assignment.state),
-  value(assignment.zip, assignment.zip_code)
-].filter(Boolean).join(", "));
-
-text("date", value(
-  assignment.appointment_date,
-  assignment.showing_date,
-  assignment.date
-));
-
-text("time", value(
-  assignment.appointment_time,
-  assignment.showing_time,
-  assignment.time
-));
-
-text("timezone", value(
-  assignment.time_zone,
-  assignment.timezone,
-  "Eastern Time (ET)"
-));
-
-const startKey =
-  "rgActiveStart:" + String(assignmentId || "unknown");
-
-let startMs = Number(localStorage.getItem(startKey));
-
-if (!Number.isFinite(startMs) || startMs <= 0) {
-  const savedStart = value(
-    assignment.started_at,
-    assignment.actual_start_time,
-    assignment.start_time_actual
+if (
+  window.supabase &&
+  !SUPABASE_KEY.startsWith("PASTE_")
+) {
+  db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
   );
-
-  startMs = savedStart ? Date.parse(savedStart) : NaN;
-
-  if (!Number.isFinite(startMs)) {
-    startMs = Date.now();
-  }
-
-  localStorage.setItem(startKey, String(startMs));
 }
 
-el("started").textContent =
-  "Assignment started at " +
-  new Date(startMs).toLocaleTimeString("en-US", {
-    hour:"numeric",
-    minute:"2-digit"
-  });
+function message(text) {
+  $("message").textContent = text;
+  $("message").style.display = "block";
+}
 
-let elapsedSeconds = 0;
-let currentPay = 25;
+function pick(obj, keys) {
+  for (const key of keys) {
+    if (obj && obj[key] !== undefined &&
+        obj[key] !== null && obj[key] !== "") {
+      return obj[key];
+    }
+  }
+  return null;
+}
 
-function updateTimer() {
-  elapsedSeconds = Math.max(
+function formatDate(value) {
+  if (!value) return "Not available";
+  const date = new Date(value);
+  return Number.isNaN(date.getTime())
+    ? String(value)
+    : date.toLocaleDateString("en-US", {
+        weekday:"long",
+        year:"numeric",
+        month:"short",
+        day:"numeric"
+      });
+}
+
+function formatTime(value) {
+  if (!value) return "Not available";
+  const match = String(value).match(/^(\d{1,2}):(\d{2})/);
+  if (!match) return String(value);
+  const hour = Number(match[1]);
+  const minute = match[2];
+  return `${hour % 12 || 12}:${minute} ${hour >= 12 ? "PM" : "AM"}`;
+}
+
+function secondsElapsed() {
+  if (!startTimestamp) return 0;
+  return Math.max(
     0,
-    Math.floor((Date.now() - startMs) / 1000)
+    Math.floor((Date.now() - startTimestamp) / 1000)
   );
-
-  const hours = Math.floor(elapsedSeconds / 3600);
-  const minutes = Math.floor((elapsedSeconds % 3600) / 60);
-  const seconds = elapsedSeconds % 60;
-
-  el("timer").textContent =
-    [hours, minutes, seconds]
-      .map(n => String(n).padStart(2,"0"))
-      .join(":");
-
-  currentPay = 25 * Math.max(1, elapsedSeconds / 3600);
-
-  el("pay").textContent = "$" + currentPay.toFixed(2);
 }
 
-updateTimer();
-const timerInterval = setInterval(updateTimer, 1000);
+function earnings(seconds) {
+  return Math.max(25, seconds / 3600 * 25);
+}
 
-async function updateDatabase(fields) {
+function refreshTimer() {
+  if (finished || !startTimestamp) return;
+
+  const seconds = secondsElapsed();
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor(seconds % 3600 / 60);
+  const s = seconds % 60;
+
+  $("timer").textContent =
+    [h,m,s].map(n => String(n).padStart(2,"0")).join(":");
+
+  $("currentPay").textContent =
+    "$" + earnings(seconds).toFixed(2);
+}
+
+function populate(data) {
+  assignment = data;
+
+  const name = pick(data, [
+    "agent_name","agent_full_name","full_name"
+  ]) || "Not available";
+
+  $("agentName").textContent = name;
+
+  $("initials").textContent =
+    name === "Not available" ? "—" :
+    name.split(/\s+/).slice(0,2)
+      .map(word => word[0].toUpperCase()).join("");
+
+  const phone = pick(data, [
+    "agent_phone","phone","phone_number"
+  ]);
+  const email = pick(data, [
+    "agent_email","email"
+  ]);
+
+  $("agentPhone").textContent =
+    phone ? "☎ " + phone : "☎ Not available";
+
+  $("agentEmail").textContent =
+    email ? "✉ " + email : "✉ Not available";
+
+  if (phone) {
+    $("callAgent").href = "tel:" + phone.replace(/[^\d+]/g,"");
+    $("callAgent").classList.remove("disabled");
+  }
+
+  $("property").textContent =
+    pick(data, ["property_address","address","property"])
+    || "Not available";
+
+  const city = pick(data, ["city","property_city"]);
+  const state = pick(data, ["state","property_state"]);
+  const zip = pick(data, ["zip","zipcode","property_zip"]);
+
+  $("location").textContent =
+    [city,state,zip].filter(Boolean).join(", ") ||
+    "Location not available";
+
+  $("appointmentDate").textContent =
+    formatDate(pick(data, [
+      "appointment_date","date","showing_date"
+    ]));
+
+  $("appointmentTime").textContent =
+    formatTime(pick(data, [
+      "appointment_time","time","start_time"
+    ]));
+
+  $("timezone").textContent =
+    pick(data, ["timezone","time_zone"]) ||
+    "Eastern Time (ET)";
+
+  const savedStart = pick(data, [
+    "started_at","actual_start_time","start_timestamp"
+  ]);
+
+  if (savedStart) {
+    const parsed = new Date(savedStart).getTime();
+    if (Number.isFinite(parsed)) {
+      startTimestamp = parsed;
+    }
+  }
+
+  if (!startTimestamp) {
+    const localStart = sessionStorage.getItem(
+      "realtorGuardActiveStart"
+    );
+    if (localStart && Number.isFinite(Number(localStart))) {
+      startTimestamp = Number(localStart);
+    }
+  }
+
+  if (!startTimestamp) {
+    startTimestamp = Date.now();
+    sessionStorage.setItem(
+      "realtorGuardActiveStart",
+      String(startTimestamp)
+    );
+  }
+
+  $("startedAt").textContent =
+    "Assignment started at " +
+    new Date(startTimestamp).toLocaleTimeString("en-US", {
+      hour:"numeric",
+      minute:"2-digit"
+    });
+
+  refreshTimer();
+}
+
+async function loadAssignment() {
+  const id = params.get("id") ||
+    params.get("assignment_id") ||
+    sessionStorage.getItem("activeAssignmentId");
+
+  if (!id) {
+    message("No assignment ID was provided. Open this page from your active assignment.");
+    $("completeBtn").disabled = true;
+    $("cancelBtn").disabled = true;
+    return;
+  }
+
   if (!db) {
-    throw new Error("Supabase is unavailable.");
+    message("Supabase is not connected. Add the existing publishable key before testing completion.");
+    $("completeBtn").disabled = true;
+    $("cancelBtn").disabled = true;
+    return;
   }
 
-  if (!assignmentId) {
-    throw new Error(
-      "No assignment ID found. Open this page from your accepted assignment."
-    );
-  }
+  try {
+    const {data,error} = await db
+      .from("assignments")
+      .select("*")
+      .eq("id",id)
+      .single();
 
-  const {data:authData, error:authError} =
-    await db.auth.getUser();
+    if (error) throw error;
+    if (!data) throw new Error("Assignment not found.");
 
-  if (authError || !authData?.user) {
-    throw new Error("Observer login is required.");
-  }
-
-  const {data:rows, error} = await db
-    .from("assignments")
-    .update(fields)
-    .eq("id", assignmentId)
-    .select("id");
-
-  if (error) throw error;
-
-  if (!rows?.length) {
-    throw new Error(
-      "Supabase did not update this assignment. Check table permissions."
-    );
+    sessionStorage.setItem("activeAssignmentId",String(id));
+    populate(data);
+  } catch (error) {
+    message("Unable to load assignment: " + error.message);
+    $("completeBtn").disabled = true;
+    $("cancelBtn").disabled = true;
   }
 }
 
-el("completeBtn").onclick = async () => {
+async function completeAssignment() {
+  if (!assignment || finished || !db) return;
+
   if (!confirm("Complete this assignment?")) return;
 
-  const button = el("completeBtn");
-  button.disabled = true;
-  button.textContent = "Saving completion…";
+  const seconds = secondsElapsed();
+  const finalPay = earnings(seconds);
+
+  $("completeBtn").disabled = true;
 
   try {
-    updateTimer();
+    const {data,error} = await db
+      .from("assignments")
+      .update({status:"completed"})
+      .eq("id",assignment.id)
+      .select("id")
+      .single();
 
-    await updateDatabase({status:"completed"});
+    if (error) throw error;
+    if (!data) throw new Error("Completion was not saved.");
 
-    clearInterval(timerInterval);
+    finished = true;
 
     sessionStorage.setItem(
       "realtorGuardFinalPay",
-      currentPay.toFixed(2)
+      String(finalPay)
     );
 
-    localStorage.removeItem(startKey);
-    localStorage.removeItem("realtorGuardCurrentAssignment");
+    sessionStorage.removeItem("realtorGuardActiveStart");
 
     location.href = "complete-assignment.html";
-
   } catch (error) {
-    show("Unable to save completion: " + error.message);
-    button.disabled = false;
-    button.textContent = "✓ Complete Assignment";
+    message("Unable to save assignment completion: " + error.message);
+    $("completeBtn").disabled = false;
   }
-};
+}
 
-el("callBtn").onclick = () => {
-  if (!agentPhone) {
-    show("Agent phone number is not available.");
-    return;
-  }
+async function cancelAssignment() {
+  if (!assignment || finished || !db) return;
 
-  location.href =
-    "tel:" + String(agentPhone).replace(/[^+\d]/g,"");
-};
-
-el("cancelBtn").onclick = async () => {
-  const reason = el("cancelReason").value;
+  const reason = $("cancelReason").value;
 
   if (!reason) {
-    show("Please choose a cancellation reason.");
+    message("Please choose a cancellation reason.");
     return;
   }
 
-  if (!confirm("Are you sure you want to cancel?")) return;
+  if (!confirm("Cancel this assignment?")) return;
 
-  const button = el("cancelBtn");
-  button.disabled = true;
+  $("cancelBtn").disabled = true;
 
   try {
-    await updateDatabase({
-      status:"cancelled",
-      cancellation_reason:reason
-    });
+    const {data,error} = await db
+      .from("assignments")
+      .update({status:"cancelled"})
+      .eq("id",assignment.id)
+      .select("id")
+      .single();
 
-    clearInterval(timerInterval);
+    if (error) throw error;
+    if (!data) throw new Error("Cancellation was not saved.");
 
-    localStorage.removeItem(startKey);
-    localStorage.removeItem("realtorGuardCurrentAssignment");
+    finished = true;
+    sessionStorage.removeItem("realtorGuardActiveStart");
+    sessionStorage.removeItem("activeAssignmentId");
 
+    alert("Assignment cancelled. Reason: " + reason);
     location.href = "my-assignments.html";
-
   } catch (error) {
-    show("Unable to cancel: " + error.message);
-    button.disabled = false;
+    message("Unable to cancel assignment: " + error.message);
+    $("cancelBtn").disabled = false;
   }
-};
-</script>
+}
 
+$("cancelToggle").addEventListener("click", () => {
+  $("cancelContent").hidden = !$("cancelContent").hidden;
+});
+
+$("completeBtn").addEventListener(
+  "click", completeAssignment
+);
+
+$("cancelBtn").addEventListener(
+  "click", cancelAssignment
+);
+
+setInterval(refreshTimer,1000);
+loadAssignment();
+</script>
 </body>
 </html>
