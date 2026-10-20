@@ -839,10 +839,12 @@ async function completeAssignment() {
     return;
   }
 
-  const assignmentId =
-    activeAssignment?.id ||
-    activeAssignment?.assignment_id;
+const assignmentId =
+  activeAssignment?.id ||
+  activeAssignment?.assignment_id;
 
+console.log("Completing assignment ID:", assignmentId);
+console.log("Active assignment:", activeAssignment);
   if (!assignmentId) {
     showMessage(
       "Unable to identify this assignment. Please try again.",
