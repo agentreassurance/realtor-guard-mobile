@@ -11,8 +11,18 @@
     *{box-sizing:border-box}
     body{margin:0;background:white;color:var(--navy);font-family:Arial,Helvetica,sans-serif}
     .wrap{max-width:820px;margin:auto;padding:0 16px 100px}
-    header{text-align:center}
-    .logo{display:block;width:215px;max-width:65%;height:auto;margin:0 auto 10px}
+   header{position:relative;text-align:center}
+   #menuButton{
+  position:absolute;
+  top:16px;
+  right:16px;
+  background:white;
+  border:none;
+  color:#900000;
+  font-size:30px;
+  cursor:pointer;
+  z-index:100;
+}    .logo{display:block;width:215px;max-width:65%;height:auto;margin:0 auto 10px}
     h1{font-size:clamp(30px,5vw,43px);margin:4px 0}
     .subtitle{font-size:17px;margin:0 0 16px}
     .card{border:1px solid #e0e3e8;border-radius:15px;margin:15px 0;overflow:hidden;background:#fff;box-shadow:0 2px 8px #10234009}
