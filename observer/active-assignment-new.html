@@ -2,639 +2,585 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Active Assignment | Realtor Guard</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-:root {
-  --red:#cc0000;
-  --navy:#102340;
-  --green:#078c35;
-}
-* {box-sizing:border-box}
-body {
-  margin:0;
-  background:white;
-  color:var(--navy);
-  font-family:Arial,sans-serif;
-}
-main {
-  max-width:850px;
-  margin:auto;
-  padding:16px 15px 95px;
-}
-header {text-align:center}
-.logo {
-  display:block;
-  width:220px;
-  max-width:65%;
-  margin:0 auto 8px;
-  object-fit:contain;
-}
-h1 {
-  font-size:clamp(28px,5vw,42px);
-  margin:10px 0 5px;
-}
-.subtitle {font-size:17px;margin:0 0 20px}
-.card {
-  border:1px solid #e0e0e0;
-  border-radius:14px;
-  overflow:hidden;
-  margin-bottom:16px;
-  background:white;
-}
-.card-title {
-  background:#fff3f3;
-  border-bottom:1px solid #ffdddd;
-  padding:13px 18px;
-  color:var(--red);
-  font-size:19px;
-  font-weight:bold;
-}
-.card-body {padding:16px 20px}
-.timer-card {
-  text-align:center;
-  padding:14px 10px;
-  background:#f0fff4;
-  border:1px solid #77d999;
-}
-.status {
-  display:inline-block;
-  background:var(--green);
-  color:white;
-  border-radius:30px;
-  padding:9px 20px;
-  font-weight:bold;
-}
-.small-label {margin-top:12px;color:#48566b}
-#timer {
-  font-size:clamp(38px,7vw,53px);
-  font-weight:800;
-  letter-spacing:2px;
-  margin:7px 0;
-  font-variant-numeric:tabular-nums;
-}
-.pay {font-size:20px}
-.pay strong {color:var(--red)}
-#startedAt {margin-top:6px;color:#48566b}
-.agent-row {
-  display:flex;
-  align-items:center;
-  gap:20px;
-}
-.avatar {
-  width:70px;
-  height:70px;
-  flex-shrink:0;
-  display:grid;
-  place-items:center;
-  background:#fff0f0;
-  border:1px solid #ffbbbb;
-  border-radius:50%;
-  color:var(--red);
-  font-size:24px;
-  font-weight:bold;
-}
-.agent-name {font-size:23px;font-weight:bold}
-.agent-contact {margin-top:8px;overflow-wrap:anywhere}
-.detail-row {
-  display:grid;
-  grid-template-columns:30px 1fr;
-  gap:10px;
-  margin-bottom:11px;
-  line-height:1.45;
-}
-.detail-row:last-child {margin-bottom:0}
-.instructions {background:#eef7ff;border-color:#cbe6ff}
-.instructions .card-title {
-  background:#eef7ff;
-  border-color:#d6eaff;
-}
-.instructions p {
-  margin:0;
-  background:#e5f3ff;
-  border-left:5px solid #1687f7;
-  padding:13px;
-  line-height:1.5;
-}
-.action {
-  display:block;
-  width:100%;
-  border-radius:10px;
-  padding:16px;
-  font-size:19px;
-  font-weight:bold;
-  cursor:pointer;
-  margin-bottom:10px;
-}
-.complete {
-  background:var(--green);
-  border:1px solid var(--green);
-  color:white;
-}
-.call {
-  background:white;
-  border:2px solid var(--navy);
-  color:var(--navy);
-  text-align:center;
-  text-decoration:none;
-}
-.call.disabled {opacity:.5;pointer-events:none}
-.cancel-card {border:1px solid red;background:#fff7f7}
-.cancel-title {
-  padding:14px 17px;
-  color:var(--red);
-  font-size:19px;
-  font-weight:bold;
-  cursor:pointer;
-  background:#ffe4e4;
-}
-.cancel-content {padding:14px 18px}
-select {
-  width:100%;
-  padding:13px;
-  font-size:16px;
-  border:1px solid var(--red);
-  border-radius:8px;
-  background:white;
-  margin:8px 0 12px;
-}
-.cancel-confirm {
-  background:var(--red);
-  color:white;
-  border:0;
-  border-radius:8px;
-  padding:13px;
-  font-weight:bold;
-  width:100%;
-  font-size:16px;
-  cursor:pointer;
-}
-.message {
-  padding:12px;
-  border-radius:8px;
-  margin:12px 0;
-  text-align:center;
-  display:none;
-  background:#fff0f0;
-  color:#aa0000;
-}
-nav {
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:850px;
-  background:white;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  box-shadow:0 -2px 12px #0001;
-  border-top:1px solid #eee;
-  z-index:5;
-}
-nav a {
-  padding:10px 3px;
-  color:#555;
-  text-align:center;
-  text-decoration:none;
-  font-size:12px;
-}
-nav a span {display:block;font-size:25px;margin-bottom:3px}
-nav a.active {
-  color:var(--red);
-  font-weight:bold;
-  border-bottom:3px solid var(--red);
-}
-button:disabled {opacity:.55;cursor:not-allowed}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Active Assignment | Realtor Guard</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root{--red:#c90000;--navy:#102340;--green:#078c35}
+    *{box-sizing:border-box}
+    body{margin:0;background:white;color:var(--navy);font-family:Arial,Helvetica,sans-serif}
+    .wrap{max-width:820px;margin:auto;padding:0 16px 100px}
+    header{text-align:center}
+    .logo{display:block;width:215px;max-width:65%;height:auto;margin:0 auto 10px}
+    h1{font-size:clamp(30px,5vw,43px);margin:4px 0}
+    .subtitle{font-size:17px;margin:0 0 16px}
+    .card{border:1px solid #e0e3e8;border-radius:15px;margin:15px 0;overflow:hidden;background:#fff;box-shadow:0 2px 8px #10234009}
+    .timer-card{padding:12px 18px 10px;text-align:center;background:#f0fff5;border-color:#6fd68c}
+    .pill{display:inline-block;border-radius:30px;background:var(--green);color:white;font-weight:700;padding:9px 18px}
+    .clock{font-size:clamp(44px,8vw,58px);font-weight:800;letter-spacing:1px;font-variant-numeric:tabular-nums;margin:4px 0}
+    .timer-label{margin:12px 0 4px;color:#44536b;font-size:17px}
+    .pay{font-size:20px}
+    .pay strong{color:var(--red)}
+    #startedAt{margin:5px 0 0;color:#45526a}
+    .section-heading{background:#fff4f4;color:var(--red);font-size:19px;font-weight:700;padding:13px 20px;border-bottom:1px solid #ffd9d9}
+    .section-body{padding:14px 20px}
+    .agent-layout{display:flex;align-items:center;gap:22px}
+    .avatar{flex-shrink:0;width:82px;height:82px;border-radius:50%;display:grid;place-items:center;background:#fff0f0;border:1px solid #ffbfc1;color:var(--red);font-size:27px;font-weight:800}
+    .agent-name{font-size:23px;font-weight:700;margin-bottom:6px}
+    .agent-line{margin:5px 0;overflow-wrap:anywhere}
+    .agent-line a{color:var(--navy);text-decoration:none}
+    .property-line{display:flex;gap:18px;align-items:flex-start;margin:9px 0}
+    .property-line .symbol{width:24px;text-align:center;font-size:21px;flex-shrink:0}
+    .property-line strong{font-size:18px}
+    .subtext{color:#48566a;margin-top:3px}
+    .instructions{border-color:#cce5ff;background:#f1f8ff}
+    .instructions .section-heading{background:#eaf5ff}
+    .instructions .section-body{padding:10px 18px}
+    .instruction-text{border-left:6px solid #1685ed;border-radius:8px;background:#e8f4ff;padding:12px 16px;line-height:1.45;font-size:16px}
+    .actions{display:grid;gap:8px;margin:12px 0}
+    button,.action-link{display:block;width:100%;border-radius:11px;padding:14px;font-size:18px;font-weight:700;text-align:center;cursor:pointer}
+    .complete{border:0;color:white;background:var(--green)}
+    .call{border:2px solid var(--navy);color:var(--navy);background:white;text-decoration:none}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .cancel-card{border:1px solid #f33;border-radius:13px;background:#fff7f7;overflow:hidden;margin:12px 0}
+    .cancel-card summary{padding:12px 18px;font-size:18px;color:#c00;font-weight:700;background:#ffe5e5;cursor:pointer}
+    .cancel-body{padding:12px 18px}
+    .cancel-body label{display:block;margin-bottom:7px}
+    .cancel-body select,.cancel-body textarea{width:100%;font:inherit;border:1px solid #d66;border-radius:8px;padding:12px;background:#fff;margin-bottom:10px}
+    .cancel-body button{background:#c00;color:#fff;border:0}
+    .message{padding:12px;border-radius:8px;background:#f0f3f6;white-space:pre-wrap;margin:12px 0}
+    .message:empty{display:none}
+    .message.error{background:#fff0f0;color:#a00000}
+    .pay-note{text-align:center;color:#526276;font-size:13px}
+    nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:#fff;border-top:1px solid #ddd;padding:8px 4px;z-index:10}
+    nav a{text-align:center;color:#555;text-decoration:none;font-size:12px;min-width:68px}
+    nav a span{display:block;font-size:24px;margin-bottom:3px}
+    nav a.active{color:var(--red);font-weight:700;border-bottom:3px solid var(--red)}
+    @media(max-width:420px){
+      .agent-layout{gap:12px}
+      .avatar{width:65px;height:65px;font-size:22px}
+      .section-body{padding:12px}
+      .agent-name{font-size:20px}
+      .section-heading{font-size:17px}
+    }
+  </style>
 </head>
-
 <body>
-<main>
-<header>
-  <img class="logo" id="rgLogo" alt="Realtor Guard logo">
-  <h1>Active Assignment</h1>
-  <p class="subtitle">
-    Remain alert and stay with the agent until the showing ends.
-  </p>
-</header>
+  <main class="wrap">
+    <header>
+      <img class="logo" src="../logo.png" alt="Realtor Guard logo">
+      <h1>Active Assignment</h1>
+      <p class="subtitle">Remain alert and stay with the agent until the showing ends.</p>
+    </header>
 
-<section class="card timer-card">
-  <div class="status">● ASSIGNMENT ACTIVE</div>
-  <div class="small-label">TIME ELAPSED</div>
-  <div id="timer">00:00:00</div>
-  <div class="pay">Current Pay: <strong id="currentPay">$25.00</strong></div>
-  <div id="startedAt">Loading start time...</div>
-</section>
+    <section class="card timer-card" aria-label="Assignment timer">
+      <span class="pill" id="statusPill">LOADING ASSIGNMENT</span>
+      <p class="timer-label">TIME ELAPSED</p>
+      <div class="clock" id="clock">00:00:00</div>
+      <div class="pay">Current Pay: <strong id="pay">$25.00</strong></div>
+      <p id="startedAt">Waiting for assignment details...</p>
+    </section>
 
-<section class="card">
-  <div class="card-title">👤 Agent Information</div>
-  <div class="card-body agent-row">
-    <div class="avatar" id="initials">—</div>
-    <div>
-      <div class="agent-name" id="agentName">Loading...</div>
-      <div class="agent-contact" id="agentPhone">☎ Not available</div>
-      <div class="agent-contact" id="agentEmail">✉ Not available</div>
-    </div>
-  </div>
-</section>
-
-<section class="card">
-  <div class="card-title">🏠 Property &amp; Appointment Details</div>
-  <div class="card-body">
-    <div class="detail-row">
-      <span>📍</span>
-      <div>
-        <strong id="property">Loading...</strong>
-        <div id="location"></div>
+    <section class="card">
+      <div class="section-heading">♟ &nbsp; Agent Information</div>
+      <div class="section-body agent-layout">
+        <div class="avatar" id="agentInitials">—</div>
+        <div>
+          <div class="agent-name" id="agentName">Loading...</div>
+          <div class="agent-line">☎ &nbsp; <a id="agentPhone" href="#" aria-label="Call agent">Not available</a></div>
+          <div class="agent-line">✉ &nbsp; <a id="agentEmail" href="#" aria-label="Email agent">Not available</a></div>
+        </div>
       </div>
-    </div>
-    <div class="detail-row">
-      <span>▦</span>
-      <div id="appointmentDate">—</div>
-    </div>
-    <div class="detail-row">
-      <span>◷</span>
-      <div id="appointmentTime">—</div>
-    </div>
-    <div class="detail-row">
-      <span>🌐</span>
-      <div id="timezone">Eastern Time (ET)</div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section class="card instructions">
-  <div class="card-title">🛡 Observer Instructions</div>
-  <div class="card-body">
-    <p>
-      Stay aware of everyone entering or leaving the property.
-      Remain close enough to assist the agent without interfering
-      with the showing. Do not leave until the agent confirms
-      that the assignment is complete.
+    <section class="card">
+      <div class="section-heading">⌂ &nbsp; Property &amp; Appointment Details</div>
+      <div class="section-body">
+        <div class="property-line">
+          <span class="symbol">📍</span>
+          <div>
+            <strong id="propertyAddress">Loading...</strong>
+            <div class="subtext" id="cityStateZip">Loading...</div>
+          </div>
+        </div>
+        <div class="property-line"><span class="symbol">▦</span><div id="showingDate">Loading...</div></div>
+        <div class="property-line"><span class="symbol">◷</span><div><span id="showingTime">Loading...</span> <span id="duration"></span></div></div>
+        <div class="property-line"><span class="symbol">◎</span><div id="timeZone">Time zone not provided</div></div>
+      </div>
+    </section>
+
+    <section class="card instructions">
+      <div class="section-heading">🛡 &nbsp; Observer Instructions</div>
+      <div class="section-body">
+        <div class="instruction-text">
+          Stay aware of everyone entering or leaving the property.
+          Remain close enough to assist the agent without interfering
+          with the showing. Do not leave until the agent confirms
+          that the assignment is complete.
+        </div>
+      </div>
+    </section>
+
+    <div id="message" class="message" role="status" aria-live="polite"></div>
+
+    <div class="actions">
+      <button id="completeBtn" class="complete" disabled>✓ &nbsp; Complete Assignment</button>
+      <a class="action-link call" id="callAgent" href="#" aria-disabled="true">☎ &nbsp; Call Agent</a>
+    </div>
+
+    <details class="cancel-card">
+      <summary>✖ &nbsp; Cancel Assignment</summary>
+      <div class="cancel-body">
+        <label for="cancelReason">Select a reason for cancellation:</label>
+        <select id="cancelReason">
+          <option value="">Choose a reason...</option>
+          <option>Agent requested cancellation</option>
+          <option>Personal emergency</option>
+          <option>Unable to arrive on time</option>
+          <option>Scheduling conflict</option>
+          <option>Other</option>
+        </select>
+        <textarea id="cancelNotes" rows="2" placeholder="Optional details"></textarea>
+        <button id="cancelBtn" disabled>Confirm Cancellation</button>
+      </div>
+    </details>
+
+    <p class="pay-note">
+      Observer Pay — $25 first hour guaranteed;
+      additional time paid proportionally to the minute.
     </p>
-  </div>
-</section>
+  </main>
 
-<button class="action complete" id="completeBtn">
-  ✓ Complete Assignment
-</button>
+  <nav aria-label="Observer navigation">
+    <a href="dashboard.html"><span>⌂</span>Dashboard</a>
+    <a href="active-assignment-new.html" class="active"><span>🛡</span>Active</a>
+    <a href="my-assignments.html"><span>▤</span>Assignment</a>
+    <a href="profile.html"><span>●</span>Account</a>
+  </nav>
 
-<a class="action call disabled" id="callAgent" href="#">
-  ☎ Call Agent
-</a>
+  <script>
+  "use strict";
 
-<section class="card cancel-card">
-  <div class="cancel-title" id="cancelToggle">
-    ✖ Cancel Assignment ▾
-  </div>
-  <div class="cancel-content" id="cancelContent" hidden>
-    <label for="cancelReason">Select a reason for cancellation:</label>
-    <select id="cancelReason">
-      <option value="">Choose a reason...</option>
-      <option>Agent requested cancellation</option>
-      <option>Personal emergency</option>
-      <option>Unable to arrive on time</option>
-      <option>Scheduling conflict</option>
-      <option>Other</option>
-    </select>
-    <button class="cancel-confirm" id="cancelBtn">
-      Confirm Cancellation
-    </button>
-  </div>
-</section>
+  const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdI1Bw_KIAWNxgR";
 
-<div class="message" id="message" role="alert"></div>
-</main>
+  const $ = id => document.getElementById(id);
+  const params = new URLSearchParams(location.search);
 
-<nav>
-  <a href="dashboard.html"><span>⌂</span>Dashboard</a>
-  <a class="active" href="active-assignment-new.html"><span>🛡</span>Active</a>
-  <a href="my-assignments.html"><span>▤</span>Assignment</a>
-  <a href="profile.html"><span>●</span>Account</a>
-</nav>
-
-<script>
-"use strict";
-
-/*
-  Replace the logo path below with the exact image filename
-  already uploaded to your GitHub repository.
-*/
-document.getElementById("rgLogo").src = "../logo.png";
-const SUPABASE_URL =
-  "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
-
-const SUPABASE_KEY =
- "sb_publishable_9q5KNgJ4lLvWqqn0IdI1Bw_KIAWNxgR";
-
-const $ = id => document.getElementById(id);
-const params = new URLSearchParams(location.search);
-
-let db = null;
-let assignment = null;
-let startTimestamp = null;
-let finished = false;
-
-if (
-  window.supabase &&
-  !SUPABASE_KEY.startsWith("PASTE_")
-) {
-  db = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-}
-
-function message(text) {
-  $("message").textContent = text;
-  $("message").style.display = "block";
-}
-
-function pick(obj, keys) {
-  for (const key of keys) {
-    if (obj && obj[key] !== undefined &&
-        obj[key] !== null && obj[key] !== "") {
-      return obj[key];
-    }
-  }
-  return null;
-}
-
-function formatDate(value) {
-  if (!value) return "Not available";
-  const date = new Date(value);
-  return Number.isNaN(date.getTime())
-    ? String(value)
-    : date.toLocaleDateString("en-US", {
-        weekday:"long",
-        year:"numeric",
-        month:"short",
-        day:"numeric"
-      });
-}
-
-function formatTime(value) {
-  if (!value) return "Not available";
-  const match = String(value).match(/^(\d{1,2}):(\d{2})/);
-  if (!match) return String(value);
-  const hour = Number(match[1]);
-  const minute = match[2];
-  return `${hour % 12 || 12}:${minute} ${hour >= 12 ? "PM" : "AM"}`;
-}
-
-function secondsElapsed() {
-  if (!startTimestamp) return 0;
-  return Math.max(
-    0,
-    Math.floor((Date.now() - startTimestamp) / 1000)
-  );
-}
-
-function earnings(seconds) {
-  return Math.max(25, seconds / 3600 * 25);
-}
-
-function refreshTimer() {
-  if (finished || !startTimestamp) return;
-
-  const seconds = secondsElapsed();
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor(seconds % 3600 / 60);
-  const s = seconds % 60;
-
-  $("timer").textContent =
-    [h,m,s].map(n => String(n).padStart(2,"0")).join(":");
-
-  $("currentPay").textContent =
-    "$" + earnings(seconds).toFixed(2);
-}
-
-function populate(data) {
-  assignment = data;
-
-  const name = pick(data, [
-    "agent_name","agent_full_name","full_name"
-  ]) || "Not available";
-
-  $("agentName").textContent = name;
-
-  $("initials").textContent =
-    name === "Not available" ? "—" :
-    name.split(/\s+/).slice(0,2)
-      .map(word => word[0].toUpperCase()).join("");
-
-  const phone = pick(data, [
-    "agent_phone","phone","phone_number"
-  ]);
-  const email = pick(data, [
-    "agent_email","email"
-  ]);
-
-  $("agentPhone").textContent =
-    phone ? "☎ " + phone : "☎ Not available";
-
-  $("agentEmail").textContent =
-    email ? "✉ " + email : "✉ Not available";
-
-  if (phone) {
-    $("callAgent").href = "tel:" + phone.replace(/[^\d+]/g,"");
-    $("callAgent").classList.remove("disabled");
-  }
-
-  $("property").textContent =
-    pick(data, ["property_address","address","property"])
-    || "Not available";
-
-  const city = pick(data, ["city","property_city"]);
-  const state = pick(data, ["state","property_state"]);
-  const zip = pick(data, ["zip","zipcode","property_zip"]);
-
-  $("location").textContent =
-    [city,state,zip].filter(Boolean).join(", ") ||
-    "Location not available";
-
-  $("appointmentDate").textContent =
-    formatDate(pick(data, [
-      "appointment_date","date","showing_date"
-    ]));
-
-  $("appointmentTime").textContent =
-    formatTime(pick(data, [
-      "appointment_time","time","start_time"
-    ]));
-
-  $("timezone").textContent =
-    pick(data, ["timezone","time_zone"]) ||
-    "Eastern Time (ET)";
-
-  const savedStart = pick(data, [
-    "started_at","actual_start_time","start_timestamp"
-  ]);
-
-  if (savedStart) {
-    const parsed = new Date(savedStart).getTime();
-    if (Number.isFinite(parsed)) {
-      startTimestamp = parsed;
-    }
-  }
-
-  if (!startTimestamp) {
-    const localStart = sessionStorage.getItem(
-      "realtorGuardActiveStart"
-    );
-    if (localStart && Number.isFinite(Number(localStart))) {
-      startTimestamp = Number(localStart);
-    }
-  }
-
-  if (!startTimestamp) {
-    startTimestamp = Date.now();
-    sessionStorage.setItem(
-      "realtorGuardActiveStart",
-      String(startTimestamp)
-    );
-  }
-
-  $("startedAt").textContent =
-    "Assignment started at " +
-    new Date(startTimestamp).toLocaleTimeString("en-US", {
-      hour:"numeric",
-      minute:"2-digit"
-    });
-
-  refreshTimer();
-}
-
-async function loadAssignment() {
-  const id = params.get("id") ||
+  const assignmentId =
     params.get("assignment_id") ||
-    sessionStorage.getItem("activeAssignmentId");
+    params.get("id") ||
+    sessionStorage.getItem("activeAssignmentId") ||
+    sessionStorage.getItem("rg_assignment_id");
 
-  if (!id) {
-    message("No assignment ID was provided. Open this page from your active assignment.");
-    $("completeBtn").disabled = true;
-    $("cancelBtn").disabled = true;
-    return;
+  let db = null;
+  let assignment = null;
+  let startedAtMs = null;
+  let interval = null;
+  let completed = false;
+
+  const storageKey = "rg_active_start_" + String(assignmentId || "none");
+
+  function setMessage(text, error=false) {
+    $("message").textContent = text;
+    $("message").className = "message" + (error ? " error" : "");
   }
 
-  if (!db) {
-    message("Supabase is not connected. Add the existing publishable key before testing completion.");
-    $("completeBtn").disabled = true;
-    $("cancelBtn").disabled = true;
-    return;
+  function first(obj, names) {
+    for (const name of names) {
+      if (
+        obj[name] !== null &&
+        obj[name] !== undefined &&
+        String(obj[name]).trim() !== ""
+      ) {
+        return obj[name];
+      }
+    }
+    return null;
   }
 
-  try {
-    const {data,error} = await db
-      .from("assignments")
-      .select("*")
-      .eq("id",id)
-      .single();
-
-    if (error) throw error;
-    if (!data) throw new Error("Assignment not found.");
-
-    sessionStorage.setItem("activeAssignmentId",String(id));
-    populate(data);
-  } catch (error) {
-    message("Unable to load assignment: " + error.message);
-    $("completeBtn").disabled = true;
-    $("cancelBtn").disabled = true;
+  function put(id, value, fallback="Not available") {
+    $(id).textContent = value == null ? fallback : String(value);
   }
-}
 
-async function completeAssignment() {
-  if (!assignment || finished || !db) return;
+  function formatElapsed(seconds) {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor(seconds % 3600 / 60);
+    const s = seconds % 60;
+    return [h,m,s].map(x => String(x).padStart(2,"0")).join(":");
+  }
 
-  if (!confirm("Complete this assignment?")) return;
+  function elapsedSeconds() {
+    return startedAtMs
+      ? Math.max(0,Math.floor((Date.now()-startedAtMs)/1000))
+      : 0;
+  }
 
-  const seconds = secondsElapsed();
-  const finalPay = earnings(seconds);
+  function earnings(seconds) {
+    return 25 + Math.max(0,seconds-3600)*(25/3600);
+  }
 
-  $("completeBtn").disabled = true;
+  function refreshTimer() {
+    const seconds = elapsedSeconds();
+    $("clock").textContent = formatElapsed(seconds);
+    $("pay").textContent = "$" + earnings(seconds).toFixed(2);
+  }
 
-  try {
-    const {data,error} = await db
-      .from("assignments")
-      .update({status:"completed"})
-      .eq("id",assignment.id)
-      .select("id")
-      .single();
+  function parseStart(value) {
+    if (!value) return null;
+    const parsed = typeof value === "number" ? value : Date.parse(value);
+    const ms =
+      typeof parsed === "number" && parsed < 1e11
+        ? parsed*1000
+        : parsed;
 
-    if (error) throw error;
-    if (!data) throw new Error("Completion was not saved.");
+    return Number.isFinite(ms) && ms > 0 && ms <= Date.now()+60000
+      ? ms
+      : null;
+  }
 
-    finished = true;
+  function formatShowingTime(value) {
+    if (!value) return "Not provided";
+    const s = String(value).trim();
 
-    sessionStorage.setItem(
-      "realtorGuardFinalPay",
-      String(finalPay)
+    if (/^\d{1,2}:\d{2}(:\d{2})?$/.test(s)) {
+      const [h,m] = s.split(":").map(Number);
+      return `${h%12||12}:${String(m).padStart(2,"0")} ${h>=12?"PM":"AM"}`;
+    }
+    return s;
+  }
+
+  function formatDate(value) {
+    if (!value) return "Not provided";
+    const s = String(value).slice(0,10);
+
+    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+      const [y,m,d] = s.split("-").map(Number);
+      return new Date(y,m-1,d).toLocaleDateString("en-US",{
+        weekday:"long",
+        month:"short",
+        day:"numeric",
+        year:"numeric"
+      });
+    }
+    return String(value);
+  }
+
+  function populate(data) {
+    const name = first(data,[
+      "agent_name","agent_full_name","full_name","agentName","name"
+    ]);
+
+    put("agentName",name);
+    put("agentInitials",
+      name
+        ? String(name).trim().split(/\s+/).slice(0,2)
+            .map(n=>n[0]).join("").toUpperCase()
+        : "—"
     );
 
-    sessionStorage.removeItem("realtorGuardActiveStart");
+    const phone = first(data,[
+      "agent_phone","phone","phone_number"
+    ]);
 
-    location.href = "complete-assignment.html";
-  } catch (error) {
-    message("Unable to save assignment completion: " + error.message);
+    const email = first(data,[
+      "agent_email","email"
+    ]);
+
+    put("agentPhone",phone);
+    put("agentEmail",email);
+
+    if (phone) {
+      $("agentPhone").href =
+        "tel:" + String(phone).replace(/[^+\d]/g,"");
+      $("callAgent").href = $("agentPhone").href;
+      $("callAgent").removeAttribute("aria-disabled");
+    } else {
+      $("callAgent").addEventListener("click",e=>{
+        e.preventDefault();
+        setMessage(
+          "No agent phone number is available for this assignment.",
+          true
+        );
+      });
+    }
+
+    if (email) {
+      $("agentEmail").href = "mailto:" + String(email);
+    }
+
+    put("propertyAddress",first(data,[
+      "property_address","address","propertyAddress","street_address"
+    ]));
+
+    const city = first(data,["city","property_city"]);
+    const state = first(data,["state","property_state"]);
+    const zip = first(data,[
+      "zip","zip_code","zipcode","property_zip"
+    ]);
+
+    put(
+      "cityStateZip",
+      [city,state].filter(Boolean).join(", ") +
+      (zip ? " "+zip : "")
+    );
+
+    put("showingDate",formatDate(first(data,[
+      "date","showing_date","assignment_date","scheduled_date"
+    ])));
+
+    put("showingTime",formatShowingTime(first(data,[
+      "time","showing_time","assignment_time","scheduled_time"
+    ])));
+
+    const duration = first(data,[
+      "duration","duration_minutes","estimated_duration"
+    ]);
+
+    put(
+      "duration",
+      duration
+        ? "(" + duration +
+          (String(duration).match(/hour|minute|hr|min/i) ? "" : " min") +
+          ")"
+        : "",
+      ""
+    );
+
+    put(
+      "timeZone",
+      first(data,["time_zone","timezone","timeZone","tz"]),
+      "Time zone not provided"
+    );
+  }
+
+  function startClock() {
+    const stored = Number(sessionStorage.getItem(storageKey));
+
+    const dbStart = parseStart(first(assignment,[
+      "started_at","start_time_actual","actual_start_time"
+    ]));
+
+    startedAtMs =
+      dbStart ||
+      (
+        Number.isFinite(stored) &&
+        stored > 0 &&
+        stored <= Date.now()
+          ? stored
+          : null
+      ) ||
+      Date.now();
+
+    sessionStorage.setItem(storageKey,String(startedAtMs));
+    sessionStorage.setItem("activeAssignmentId",String(assignmentId));
+
+    $("startedAt").textContent =
+      "Assignment started at " +
+      new Date(startedAtMs).toLocaleTimeString("en-US",{
+        hour:"numeric",
+        minute:"2-digit"
+      });
+
+    $("statusPill").textContent = "● ASSIGNMENT ACTIVE";
     $("completeBtn").disabled = false;
-  }
-}
-
-async function cancelAssignment() {
-  if (!assignment || finished || !db) return;
-
-  const reason = $("cancelReason").value;
-
-  if (!reason) {
-    message("Please choose a cancellation reason.");
-    return;
-  }
-
-  if (!confirm("Cancel this assignment?")) return;
-
-  $("cancelBtn").disabled = true;
-
-  try {
-    const {data,error} = await db
-      .from("assignments")
-      .update({status:"cancelled"})
-      .eq("id",assignment.id)
-      .select("id")
-      .single();
-
-    if (error) throw error;
-    if (!data) throw new Error("Cancellation was not saved.");
-
-    finished = true;
-    sessionStorage.removeItem("realtorGuardActiveStart");
-    sessionStorage.removeItem("activeAssignmentId");
-
-    alert("Assignment cancelled. Reason: " + reason);
-    location.href = "my-assignments.html";
-  } catch (error) {
-    message("Unable to cancel assignment: " + error.message);
     $("cancelBtn").disabled = false;
+
+    refreshTimer();
+    interval = setInterval(refreshTimer,1000);
   }
-}
 
-$("cancelToggle").addEventListener("click", () => {
-  $("cancelContent").hidden = !$("cancelContent").hidden;
-});
+  async function loadAssignment() {
+    if (!assignmentId) {
+      $("statusPill").textContent = "NO ASSIGNMENT SELECTED";
+      setMessage(
+        "No assignment ID was provided. Open this page using Start Assignment from My Assignments.",
+        true
+      );
+      return;
+    }
 
-$("completeBtn").addEventListener(
-  "click", completeAssignment
-);
+    if (!window.supabase || !window.supabase.createClient) {
+      setMessage(
+        "Supabase library did not load. Check your connection and refresh.",
+        true
+      );
+      return;
+    }
 
-$("cancelBtn").addEventListener(
-  "click", cancelAssignment
-);
+    try {
+      db = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-setInterval(refreshTimer,1000);
-loadAssignment();
-</script>
+      const {data,error} = await db
+        .from("assignments")
+        .select("*")
+        .eq("id",assignmentId)
+        .single();
+
+      if (error) throw error;
+      if (!data) throw new Error("Assignment not found.");
+
+      assignment = data;
+      populate(data);
+
+      const status = String(data.status || "").toLowerCase();
+
+      if (
+        status === "completed" ||
+        status === "cancelled" ||
+        status === "canceled"
+      ) {
+        $("statusPill").textContent =
+          "ASSIGNMENT " + status.toUpperCase();
+
+        setMessage(
+          "This assignment is already " + status +
+          ". It cannot be completed again.",
+          true
+        );
+        return;
+      }
+
+      startClock();
+      setMessage("");
+
+    } catch (error) {
+      $("statusPill").textContent = "UNABLE TO LOAD";
+
+      setMessage(
+        "Unable to load assignment " + assignmentId +
+        ": " + (error.message || String(error)) +
+        ". Check Supabase permissions and the assignment record.",
+        true
+      );
+    }
+  }
+
+  async function completeAssignment() {
+    if (!db || !assignment || completed || !startedAtMs) return;
+
+    if (!confirm(
+      "Complete this assignment? This will mark it completed in Realtor Guard."
+    )) return;
+
+    const finalSeconds = elapsedSeconds();
+    const finalPay = earnings(finalSeconds);
+
+    $("completeBtn").disabled = true;
+    $("completeBtn").textContent = "Saving completion...";
+
+    try {
+      const {data,error} = await db
+        .from("assignments")
+        .update({status:"completed"})
+        .eq("id",assignment.id)
+        .select("id,status")
+        .single();
+
+      if (error) throw error;
+
+      if (
+        !data ||
+        String(data.status).toLowerCase() !== "completed"
+      ) {
+        throw new Error(
+          "Completion was not confirmed by the database."
+        );
+      }
+
+      completed = true;
+      clearInterval(interval);
+
+      sessionStorage.setItem(
+        "realtorGuardFinalPay",
+        String(finalPay)
+      );
+
+      sessionStorage.setItem(
+        "realtorGuardCompletedAssignmentId",
+        String(assignment.id)
+      );
+
+      sessionStorage.removeItem(storageKey);
+      location.href = "complete-assignment.html";
+
+    } catch (error) {
+      setMessage(
+        "Completion was not saved: " +
+        (error.message || String(error)),
+        true
+      );
+
+      $("completeBtn").disabled = false;
+      $("completeBtn").textContent = "✓  Complete Assignment";
+    }
+  }
+
+  async function cancelAssignment() {
+    if (!db || !assignment || completed) return;
+
+    const reason = $("cancelReason").value;
+
+    if (!reason) {
+      setMessage("Choose a cancellation reason first.",true);
+      return;
+    }
+
+    if (!confirm(
+      "Cancel this assignment? This will release the assignment and cannot be undone here."
+    )) return;
+
+    $("cancelBtn").disabled = true;
+
+    try {
+      const {data,error} = await db
+        .from("assignments")
+        .update({status:"cancelled"})
+        .eq("id",assignment.id)
+        .select("id,status")
+        .single();
+
+      if (error) throw error;
+
+      if (
+        !data ||
+        String(data.status).toLowerCase() !== "cancelled"
+      ) {
+        throw new Error(
+          "Cancellation was not confirmed by the database."
+        );
+      }
+
+      completed = true;
+      clearInterval(interval);
+      sessionStorage.removeItem(storageKey);
+
+      sessionStorage.setItem("rg_last_cancel_reason",reason);
+      sessionStorage.setItem(
+        "rg_last_cancel_notes",
+        $("cancelNotes").value
+      );
+
+      location.href = "my-assignments.html";
+
+    } catch (error) {
+      setMessage(
+        "Cancellation was not saved: " +
+        (error.message || String(error)),
+        true
+      );
+      $("cancelBtn").disabled = false;
+    }
+  }
+
+  $("cancelBtn").addEventListener("click",cancelAssignment);
+  $("completeBtn").addEventListener("click",completeAssignment);
+
+  loadAssignment();
+  </script>
 </body>
 </html>
