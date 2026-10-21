@@ -72,7 +72,28 @@
       <img class="logo" src="../logo.png" alt="Realtor Guard logo">
       <h1>Active Assignment</h1>
       <p class="subtitle">Remain alert and stay with the agent until the showing ends.</p>
+      <button id="menuButton" type="button"
+  aria-label="Open menu"
+  aria-expanded="false"
+  aria-controls="observerMenu"
+  onclick="toggleObserverMenu()"
+  style="position:absolute;top:16px;right:16px;
+  background:white;border:none;color:#900000;
+  font-size:30px;cursor:pointer;z-index:100;">
+  &#9776;
+</button>
     </header>
+<nav id="observerMenu" aria-label="Observer menu"
+  style="display:none;position:absolute;top:60px;right:16px;
+  background:white;border:1px solid #ddd;border-radius:10px;
+  padding:12px;z-index:101;min-width:190px;
+  box-shadow:0 4px 12px #0002;">
+
+  <a href="dashboard.html">Observer Dashboard</a>
+  <a href="my-assignments.html">My Assignments</a>
+  <a href="profile.html">My Profile</a>
+  <a href="login.html">Logout</a>
+</nav>
 
     <section class="card timer-card" aria-label="Assignment timer">
       <span class="pill" id="statusPill">LOADING ASSIGNMENT</span>
@@ -582,5 +603,19 @@
 
   loadAssignment();
   </script>
+
+<script>
+function toggleObserverMenu() {
+  const menu = document.getElementById("observerMenu");
+  const button = document.getElementById("menuButton");
+
+  if (!menu || !button) return;
+
+  const isOpen = menu.style.display !== "none";
+  menu.style.display = isOpen ? "none" : "block";
+  button.setAttribute("aria-expanded", String(!isOpen));
+}
+</script>
+
 </body>
 </html>
