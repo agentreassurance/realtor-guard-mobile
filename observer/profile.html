@@ -67,15 +67,11 @@ button:disabled{opacity:.55;cursor:default}
 <h1>My Profile</h1>
 <p class="subtitle">Observer Account Information</p>
 
-<div class="avatar">
-  <img id="photo" alt="Observer photo">
-  <span id="photoFallback">👤</span>
+
+<div style="text-align:center; margin:20px 0;">
+  <strong id="observerName" style="font-size:26px; color:#000; font-weight:800;"></strong>
 </div>
 
-<div class="photo-action">
-  <button type="button" id="photoBtn">📷 Update Photo</button>
-  <input type="file" id="photoInput" accept="image/*" hidden>
-</div>
 
 <div class="rating">
   <div id="stars" class="stars">☆☆☆☆☆</div>
@@ -182,6 +178,8 @@ function fillProfile(data){
   Object.entries(values).forEach(([id,value]) => {
     $(id).value = value ?? "";
   });
+
+$("observerName").textContent = values.full_name || "";
 
 
   const photoUrl = data.profile_url || data.photo_url || data.selfie_url;
