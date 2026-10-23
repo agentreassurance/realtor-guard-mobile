@@ -306,16 +306,17 @@ $("profileForm").onsubmit = async event => {
   }
 };
 
-$("logoutBtn").onclick = async () => {
-  if(!db) return;
-  await db.auth.signOut();
-  window.location.href = "login.html";
-};
+
+const logoutBtn = $("logoutBtn");
+if (logoutBtn) {
+  logoutBtn.onclick = async () => {
+    if (!db) return;
+    await db.auth.signOut();
+    window.location.href = "login.html";
+  };
+}
 
 
-$("photoBtn").onclick = () => {
-  $("photoInput").click();
-};
 
   showRatings();
 loadProfile();
