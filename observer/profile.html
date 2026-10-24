@@ -180,24 +180,7 @@ function fillProfile(data){
 $("observerName").textContent = values.full_name || "";
 
 
-  const photoUrl = data.profile_url || data.photo_url || data.selfie_url;
 
-  $("photo").style.display = "none";
-  $("photoFallback").style.display = "block";
-
-  if (typeof photoUrl === "string" && photoUrl.trim()) {
-    $("photo").onload = () => {
-      $("photo").style.display = "block";
-      $("photoFallback").style.display = "none";
-    };
-
-    $("photo").onerror = () => {
-      $("photo").style.display = "none";
-      $("photoFallback").style.display = "block";
-    };
-
-    $("photo").src = photoUrl;
-  }
 }
 
 function showRatings(){
