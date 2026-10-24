@@ -500,7 +500,12 @@
     try {
       const {data,error} = await db
         .from("assignments")
-        .update({status:"completed"})
+        .update({
+  status: "completed",
+  started_at: new Date(startedAtMs).toISOString(),
+  ended_at: new Date().toISOString(),
+  earnings: Number(finalPay.toFixed(2))
+})
         .eq("id",assignment.id)
         .select("id,status")
         .single();
