@@ -1,314 +1,115 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Assignment Complete | Realtor Guard</title>
-
 <style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: #ffffff;
-  color: #222;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.container {
-  width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 16px 20px 32px;
-  text-align: center;
-}
-
-.header {
-  position: relative;
-  min-height: 145px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo {
-  display: block;
-  width: 125px;
-  max-width: 45%;
-  height: auto;
-  object-fit: contain;
-}
-
-.menu-button {
-  position: absolute;
-  top: 12px;
-  right: 0;
-  background: transparent;
-  color: #990000;
-  border: none;
-  font-size: 30px;
-  cursor: pointer;
-  padding: 5px;
-}
-
-.menu {
-  display: none;
-  text-align: left;
-  background: #fff;
-  border: 1px solid #dddddd;
-  border-radius: 10px;
-  margin-bottom: 18px;
-  overflow: hidden;
-}
-
-.menu.open {
-  display: block;
-}
-
-.menu a {
-  display: block;
-  padding: 14px 16px;
-  color: #990000;
-  text-decoration: none;
-  font-weight: bold;
-  border-bottom: 1px solid #eeeeee;
-}
-
-.menu a:last-child {
-  border-bottom: none;
-}
-
-h1 {
-  color: #a00000;
-  font-size: 28px;
-  margin: 12px 0 20px;
-}
-
-.success {
-  background: #eaf7ed;
-  color: #08712b;
-  border-radius: 12px;
-  padding: 22px 16px;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.success p {
-  font-size: 15px;
-  font-weight: normal;
-  line-height: 1.5;
-  margin: 10px 0 0;
-}
-
-.earnings {
-  background: #f7f7f7;
-  border: 1px solid #eeeeee;
-  border-radius: 12px;
-  padding: 24px 16px;
-  margin: 24px 0;
-}
-
-.earnings h2 {
-  margin: 0 0 14px;
-  font-size: 22px;
-}
-
-.amount {
-  font-size: 43px;
-  font-weight: bold;
-  color: #08712b;
-}
-
-.pay-note {
-  color: #666666;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-top: 14px;
-}
-
-.action {
-  display: block;
-  width: 100%;
-  padding: 17px 12px;
-  margin: 12px 0;
-  border: none;
-  border-radius: 10px;
-  color: #ffffff;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.cashout {
-  background: #08712b;
-}
-
-.history {
-  background: #666666;
-}
-
-.rate {
-  background: #b00000;
-}
-
-.dashboard {
-  background: #222222;
-}
-
-.action:focus-visible,
-.menu-button:focus-visible,
-.menu a:focus-visible {
-  outline: 3px solid #cc7777;
-  outline-offset: 3px;
-}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#222;font-family:Arial,Helvetica,sans-serif}
+.container{max-width:480px;margin:auto;padding:16px 20px 32px;text-align:center}
+.header{position:relative;min-height:145px;display:flex;align-items:center;justify-content:center}
+.logo{width:125px;max-width:45%;height:auto;object-fit:contain}
+.menu-button{position:absolute;top:12px;right:0;background:transparent;color:#990000;border:0;font-size:30px;cursor:pointer}
+.menu{display:none;text-align:left;border:1px solid #ddd;border-radius:10px;margin-bottom:18px}
+.menu.open{display:block}
+.menu a{display:block;padding:14px;color:#990000;text-decoration:none;font-weight:bold;border-bottom:1px solid #eee}
+h1{color:#a00000;font-size:28px}
+.success{background:#eaf7ed;color:#08712b;border-radius:12px;padding:22px 16px;font-size:18px;font-weight:bold}
+.success p{font-size:15px;font-weight:normal}
+.earnings{background:#f7f7f7;border:1px solid #eee;border-radius:12px;padding:24px 16px;margin:24px 0}
+.amount{font-size:43px;font-weight:bold;color:#08712b}
+.pay-note{color:#666;font-size:13px;line-height:1.6;margin-top:14px}
+.action{display:block;width:100%;padding:17px 12px;margin:12px 0;border:0;border-radius:10px;color:#fff;font-size:17px;font-weight:bold;cursor:pointer}
+.cashout{background:#08712b}.history{background:#666}.rate{background:#b00000}.dashboard{background:#222}
+.details{font-size:14px;line-height:1.7;text-align:left;margin:18px 0}
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
-  <header class="header">
-    <img
-      src="../logo.png"
-      class="logo"
-      alt="Realtor Guard Logo"
-    >
-
-    <button
-      class="menu-button"
-      id="menuButton"
-      type="button"
-      aria-label="Open menu"
-      aria-controls="menu"
-      aria-expanded="false"
-    >☰</button>
-  </header>
-
-  <nav class="menu" id="menu">
-    <a href="dashboard.html">Dashboard</a>
-    <a href="my-assignments.html">My Assignments</a>
-    <a href="profile.html">My Profile</a>
-  </nav>
-
-  <h1>Assignment Complete</h1>
-
-  <div class="success">
-    &#10004; Great Job!
-    <p>
-      Your assignment has been completed
-      successfully.
-    </p>
-  </div>
-
-  <div class="earnings">
-    <h2>Total Earnings</h2>
-
-    <div class="amount" id="finalPay">
-      Loading...
-    </div>
-
-    <div class="pay-note">
-      $25 first hour guaranteed.
-      Additional time paid proportionally
-      by the minute.
-    </div>
-  </div>
-
-  <button
-    type="button"
-    class="action cashout"
-    id="cashoutButton"
-  >
-    ⚡ Instant Cash Out
-  </button>
-<button
-  type="button"
-  class="action history"
-  onclick="location.href='payment-earnings.html'"
->
-  💰 View Earnings
-</button>
-  <button
-    type="button"
-    class="action history"
-    onclick="location.href='my-assignments.html'"
-  >
-    📄 Earnings History
-  </button>
-
-  <button
-    type="button"
-    class="action rate"
-    id="rateButton"
-  >
-    ⭐ Rate Agent
-  </button>
-
-  <button
-    type="button"
-    class="action dashboard"
-    onclick="location.href='dashboard.html'"
-  >
-    🏠 Return to Dashboard
-  </button>
-
+<header class="header">
+<img src="../logo.png" class="logo" alt="Realtor Guard Logo">
+<button class="menu-button" id="menuButton" type="button" aria-label="Open menu">☰</button>
+</header>
+<nav class="menu" id="menu">
+<a href="dashboard.html">Dashboard</a>
+<a href="my-assignments.html">My Assignments</a>
+<a href="payment-earnings.html">Payment & Earnings</a>
+<a href="profile.html">My Profile</a>
+</nav>
+<h1>Assignment Complete</h1>
+<div class="success">✔ Great Job!<p>Your assignment has been completed successfully.</p></div>
+<div class="earnings">
+<h2>Total Earnings</h2>
+<div class="amount" id="finalPay">Loading...</div>
+<div class="details" id="assignmentDetails"></div>
+<div class="pay-note">$25 first hour guaranteed. Additional time paid proportionally by the minute.</div>
 </div>
-
+<button type="button" class="action cashout" onclick="location.href='payment-earnings.html'">⚡ Instant Cash Out</button>
+<button type="button" class="action history" onclick="location.href='payment-earnings.html'">💰 View Earnings</button>
+<button type="button" class="action history" onclick="location.href='payment-earnings.html'">📄 Earnings History</button>
+<button type="button" class="action rate" id="rateButton">⭐ Rate Agent</button>
+<button type="button" class="action dashboard" onclick="location.href='dashboard.html'">🏠 Return to Dashboard</button>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  const menuButton =
-    document.getElementById("menuButton");
-
-  const menu =
-    document.getElementById("menu");
-
-  menuButton.addEventListener("click", function () {
-    const isOpen = menu.classList.toggle("open");
-
-    menuButton.setAttribute(
-      "aria-expanded",
-      String(isOpen)
-    );
-  });
-
-  // Read final earnings saved by Active Assignment.
-  const savedFinalPay = sessionStorage.getItem(
-    "realtorGuardFinalPay"
+const menuButton=document.getElementById("menuButton");
+const menu=document.getElementById("menu");
+menuButton.addEventListener("click",()=>menu.classList.toggle("open"));
+const finalPayElement=document.getElementById("finalPay");
+const detailsElement=document.getElementById("assignmentDetails");
+async function loadCompletedEarnings() {
+  const client = window.supabase?.createClient(
+    "https://ujnvhlleqfqjgnkcjlrc.supabase.co",
+  "sb_publishable_9q5KNgJ4lLvWqqn0IdI1Bw_KIAWNxgR"
   );
 
-  const finalPayElement =
-    document.getElementById("finalPay");
-
-  if (
-    savedFinalPay !== null &&
-    savedFinalPay.trim() !== "" &&
-    Number.isFinite(Number(savedFinalPay)) &&
-    Number(savedFinalPay) >= 0
-  ) {
-    finalPayElement.textContent =
-      "$" + Number(savedFinalPay).toFixed(2);
-  } else {
+  if (!client) {
     finalPayElement.textContent = "Unavailable";
+    return;
   }
 
-  // Real cash-out requires a payment provider.
-  document.getElementById("cashoutButton")
-    .addEventListener("click", function () {
-      alert(
-        "Instant Cash Out is coming soon. " +
-        "No money has been transferred."
-      );
-    });
+  const { data: { user }, error: authError } =
+    await client.auth.getUser();
 
-  // Agent ratings will be connected later.
-  document.getElementById("rateButton")
-    .addEventListener("click", function () {
-      alert("Agent ratings are coming soon.");
-    });
+  if (authError || !user) {
+    finalPayElement.textContent = "Please log in";
+    return;
+  }
+
+  const { data: observer, error: observerError } =
+    await client
+      .from("observers")
+      .select("id")
+      .eq("auth_user_id", user.id)
+      .single();
+
+  if (observerError || !observer) {
+    finalPayElement.textContent = "Profile not found";
+    return;
+  }
+
+  const { data: assignment, error } =
+    await client
+      .from("assignments")
+      .select("earnings")
+      .eq("observer_id", observer.id)
+      .eq("status", "completed")
+      .order("ended_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+  if (error || !assignment || assignment.earnings == null) {
+    finalPayElement.textContent = "Unavailable";
+    return;
+  }
+
+  finalPayElement.textContent =
+    "$" + Number(assignment.earnings).toFixed(2);
+}
+
+loadCompletedEarnings();
+document.getElementById("rateButton").addEventListener("click",()=>alert("Agent ratings are coming soon."));
 </script>
-
 </body>
 </html>
