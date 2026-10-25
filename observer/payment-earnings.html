@@ -1,256 +1,590 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Payment & Earnings | Realtor Guard</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: #fff;
-      color: #172033;
-      font-family: Arial, sans-serif;
-    }
-    .page {
-      max-width: 560px;
-      margin: auto;
-      padding: 20px 16px 45px;
-    }
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .menu-button {
-      border: 0;
-      background: transparent;
-      color: #b90000;
-      font-size: 30px;
-      cursor: pointer;
-    }
-    .menu {
-      display: none;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-    }
-    .menu a {
-      display: block;
-      padding: 12px;
-      color: #172033;
-      text-decoration: none;
-    }
-    .logo {
-      display: block;
-      width: 145px;
-      max-width: 100%;
-      margin: 8px auto 18px;
-    }
-    h1 {
-      color: #c40000;
-      text-align: center;
-      font-size: 27px;
-      margin: 10px 0;
-    }
-    .subtitle {
-      text-align: center;
-      color: #666;
-      margin-bottom: 24px;
-    }
-    .card {
-      border: 1px solid #e2e2e2;
-      border-radius: 14px;
-      padding: 19px;
-      margin: 14px 0;
-      box-shadow: 0 3px 12px #0000000a;
-    }
-    .card h2 {
-      margin: 0 0 15px;
-      color: #b90000;
-      font-size: 19px;
-    }
-    .amount {
-      font-size: 34px;
-      font-weight: bold;
-      color: #12813a;
-    }
-    .muted {
-      color: #666;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-    .summary {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .summary .card {
-      margin: 0;
-      text-align: center;
-      padding: 16px 10px;
-    }
-    .summary strong {
-      display: block;
-      font-size: 24px;
-      margin: 10px 0;
-    }
-    .row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 11px 0;
-      border-bottom: 1px solid #eee;
-    }
-    .row:last-child { border-bottom: 0; }
-    .button {
-      display: block;
-      width: 100%;
-      border: 0;
-      border-radius: 9px;
-      padding: 15px;
-      background: #c40000;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      text-align: center;
-      text-decoration: none;
-      cursor: pointer;
-      margin-top: 14px;
-    }
-    .button:disabled {
-      background: #999;
-      cursor: not-allowed;
-    }
-    .empty {
-      text-align: center;
-      padding: 20px 5px;
-      color: #666;
-    }
-    .footer {
-      text-align: center;
-      margin-top: 28px;
-      color: #777;
-      font-size: 12px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment & Earnings | Realtor Guard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #fff;
+  color: #10213d;
+  font-family: Arial, sans-serif;
+}
+.page {
+  max-width: 640px;
+  margin: auto;
+  padding: 12px 16px 40px;
+}
+header {
+  position: relative;
+  text-align: center;
+}
+.logo {
+  display: block;
+  width: 220px;
+  max-width: 70%;
+  margin: 0 auto 8px;
+}
+.menu-button {
+  position: absolute;
+  top: 14px;
+  right: 0;
+  border: 0;
+  background: transparent;
+  color: #bb0000;
+  font-size: 32px;
+  cursor: pointer;
+}
+nav {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 55px;
+  z-index: 5;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px #0002;
+  min-width: 210px;
+  text-align: left;
+}
+nav.open { display: block; }
+nav a {
+  display: block;
+  padding: 14px;
+  color: #10213d;
+  text-decoration: none;
+  border-bottom: 1px solid #eee;
+}
+h1 {
+  text-align: center;
+  font-size: clamp(27px, 6vw, 37px);
+  margin: 12px 0 5px;
+}
+.subtitle {
+  text-align: center;
+  color: #596476;
+  margin: 0 0 20px;
+  line-height: 1.4;
+}
+.card {
+  border: 1px solid #dfe3e9;
+  border-radius: 13px;
+  margin: 15px 0;
+  padding: 17px;
+  overflow: hidden;
+}
+.latest {
+  background: #f0fbf2;
+  border-color: #b3dfbd;
+}
+.card-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.card-heading h2 {
+  margin: 0;
+  font-size: 21px;
+}
+.circle {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #09892d;
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+}
+.green { color: #087d28; }
+.red { color: #c00000; }
+.latest-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 15px;
+}
+.details {
+  display: grid;
+  gap: 12px;
+}
+.detail {
+  display: grid;
+  grid-template-columns: 22px 74px minmax(0, 1fr);
+  gap: 7px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.detail .label { color: #5a6574; }
+.detail .value { overflow-wrap: anywhere; }
+.earnings {
+  border-left: 1px solid #b3dfbd;
+  padding-left: 14px;
+  text-align: center;
+}
+.earnings h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+.amount {
+  font-size: clamp(29px, 6vw, 40px);
+  font-weight: bold;
+  color: #087d28;
+}
+.small {
+  color: #596476;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+.status {
+  background: #fff7f7;
+  border-color: #ffbfc4;
+}
+.status-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 14px;
+  align-items: center;
+}
+.status-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #c00000;
+}
+.status-value {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 4px 0;
+}
+.availability {
+  text-align: center;
+  border-left: 1px solid #ffc4c4;
+  padding-left: 12px;
+}
+.availability strong {
+  display: block;
+  font-size: 19px;
+  margin: 7px 0;
+}
+.cash-button {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  background: #0b862b;
+  color: white;
+  padding: 18px;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 15px 0;
+}
+.cash-button:disabled { opacity: .65; cursor: not-allowed; }
+.section-card { padding: 0; }
+.section-heading {
+  background: #f5f6f8;
+  padding: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.section-heading h2 {
+  margin: 0;
+  font-size: 21px;
+}
+.section-heading button {
+  background: none;
+  border: none;
+  color: #c00000;
+  font-size: 15px;
+  cursor: pointer;
+}
+.history-item {
+  padding: 15px 17px;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) auto;
+  gap: 12px;
+  border-top: 1px solid #e4e7eb;
+  align-items: center;
+}
+.history-item strong { color: #087d28; }
+.history-item .location {
+  color: #596476;
+  font-size: 13px;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+.message {
+  padding: 20px;
+  color: #596476;
+  text-align: center;
+  line-height: 1.5;
+}
+.bank {
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  line-height: 1.5;
+}
+.bank-icon { font-size: 28px; }
+.add-bank {
+  width: calc(100% - 34px);
+  margin: 0 17px 17px;
+  padding: 15px;
+  background: white;
+  border: 1.5px solid #c00000;
+  border-radius: 10px;
+  color: #c00000;
+  font-size: 19px;
+  font-weight: bold;
+}
+.add-bank:disabled { opacity: .7; cursor: not-allowed; }
+.notice {
+  margin-top: 12px;
+  color: #596476;
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.5;
+}
+@media(max-width:420px) {
+  .page { padding: 10px 12px 35px; }
+  .card { padding: 13px; }
+  .section-card { padding: 0; }
+  .latest-grid { gap: 9px; }
+  .earnings { padding-left: 9px; }
+  .detail { grid-template-columns: 18px 52px minmax(0,1fr); gap: 4px; font-size: 12px; }
+  .card-heading h2, .section-heading h2 { font-size: 18px; }
+  .status-grid { gap: 9px; }
+  .status-title { font-size: 17px; }
+}
+</style>
 </head>
 <body>
-<div class="page">
+<main class="page">
   <header>
-    <span></span>
-    <button class="menu-button"
-      id="menuButton"
-      aria-label="Open menu"
-      aria-expanded="false">☰</button>
+    <img class="logo" src="../logo.png" alt="Realtor Guard">
+    <button class="menu-button" id="menuButton" aria-label="Open menu" aria-expanded="false">☰</button>
+    <nav id="menu">
+      <a href="dashboard.html">Observer Dashboard</a>
+      <a href="my-assignments.html">My Assignments</a>
+      <a href="profile.html">My Profile</a>
+      <a href="payment-earnings.html">Payment & Earnings</a>
+    </nav>
   </header>
 
-  <nav class="menu" id="menu">
-    <a href="dashboard.html">Observer Dashboard</a>
-    <a href="my-assignments.html">My Assignments</a>
-    <a href="profile.html">My Profile</a>
-    <a href="payment-earnings.html">Payment & Earnings</a>
-  </nav>
-
-  <img class="logo" src="../logo.png"
-       alt="Realtor Guard">
-
   <h1>Payment & Earnings</h1>
-  <p class="subtitle">
-    View your completed assignment earnings
-    and payment information.
+  <p class="subtitle">View your earnings, payment status, and payout options.</p>
+
+  <section class="card latest">
+    <div class="card-heading">
+      <span class="circle">✓</span>
+      <h2 class="green">Latest Assignment Completed</h2>
+    </div>
+    <div id="latestContent" class="message">Loading completed assignments...</div>
+  </section>
+
+  <section class="card status">
+    <div class="status-grid">
+      <div>
+        <div class="status-title">◷ Payment Status</div>
+        <div class="status-value" id="paymentStatus">Not connected</div>
+        <div class="small" id="paymentExplanation">
+          Payment processing has not been connected yet.
+        </div>
+      </div>
+      <div class="availability">
+        <div class="small">Estimated Availability</div>
+        <strong id="availability">Not available</strong>
+        <div class="small" id="availabilityDate">—</div>
+      </div>
+    </div>
+  </section>
+
+  <button class="cash-button" disabled>⚡ Instant Cash Out</button>
+
+  <section class="card section-card">
+    <div class="section-heading">
+      <h2>▥ Earnings History</h2>
+      <button id="viewAll" type="button">View All ❯</button>
+    </div>
+    <div id="history" class="message">Loading earnings history...</div>
+  </section>
+
+  <section class="card section-card">
+    <div class="section-heading">
+      <h2>▣ Payment Method</h2>
+      <button type="button" disabled>Manage ❯</button>
+    </div>
+    <div class="bank">
+      <span class="bank-icon">▤</span>
+      <div>
+        <strong>No payment method connected</strong>
+        <div class="small">Secure bank account connection will be available when payment processing is enabled.</div>
+      </div>
+    </div>
+    <button class="add-bank" disabled>＋ Add Bank Account</button>
+  </section>
+
+  <p class="notice">
+    Observer pay: $25 guaranteed for the first hour.
+    Additional time paid proportionally by the minute.
+    Displayed earnings are estimates until payment records are connected.
   </p>
-
-  <section class="card">
-    <h2>Total Earnings</h2>
-    <div class="amount" id="totalEarnings">$0.00</div>
-    <p class="muted" id="earningsNote">
-      No completed assignment earnings loaded yet.
-    </p>
-  </section>
-
-  <section class="summary">
-    <div class="card">
-      <div class="muted">Completed Jobs</div>
-      <strong id="completedCount">0</strong>
-    </div>
-    <div class="card">
-      <div class="muted">Available to Cash Out</div>
-      <strong id="cashOutAmount">$0.00</strong>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>Observer Pay Rate</h2>
-    <div class="row">
-      <span>First hour guaranteed</span>
-      <strong>$25.00</strong>
-    </div>
-   
-<div class="row">
-  <span>Extra time (per minute)</span>
-  <strong>Prorated</strong>
-</div>
-<p class="muted">
-  $25 guaranteed for the first hour.
-  Extra time paid by the minute at $25/hour.
-</p>
-
-  </section>
-
-  <section class="card">
-    <h2>Instant Cash Out</h2>
-    <p class="muted">
-      Cash out will become available when
-      verified payment processing is connected.
-    </p>
-    <button class="button" disabled>
-      Instant Cash Out — Coming Soon
-    </button>
-  </section>
-
-  <section class="card">
-    <h2>Completed Assignment History</h2>
-    <div id="assignmentHistory" class="empty">
-      No completed assignments to display yet.
-    </div>
-  </section>
-
-  <div class="footer">
-    Realtor Guard — Observer Payment & Earnings
-  </div>
-</div>
+</main>
 
 <script>
-  const menuButton = document.getElementById("menuButton");
-  const menu = document.getElementById("menu");
+const SUPABASE_URL = "https://ujnvhlleqfqjgnkcjlrc.supabase.co";
+const SUPABASE_KEY = "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR";
 
-  menuButton.addEventListener("click", () => {
-    const isOpen = menu.style.display === "block";
-    menu.style.display = isOpen ? "none" : "block";
-    menuButton.setAttribute(
-      "aria-expanded", String(!isOpen)
-    );
-  });
+const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // Guaranteed first hour: $25.
-  // Additional time is prorated by the minute.
-  function calculateEarnings(minutes) {
-    const duration = Number(minutes);
-    if (!Number.isFinite(duration) || duration < 0) {
-      return 0;
+const menuButton = document.getElementById("menuButton");
+const menu = document.getElementById("menu");
+
+menuButton.addEventListener("click", () => {
+  const open = menu.classList.toggle("open");
+  menuButton.setAttribute("aria-expanded", String(open));
+});
+
+function money(value) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD"
+  }).format(value);
+}
+
+function readableDate(value) {
+  if (!value) return "Date unavailable";
+  const date = new Date(String(value).slice(0, 10) + "T12:00:00");
+  return Number.isNaN(date.getTime())
+    ? String(value)
+    : date.toLocaleDateString("en-US", {
+        month: "short", day: "numeric", year: "numeric"
+      });
+}
+
+function getDurationMinutes(item) {
+  const direct = [
+    item.duration_minutes,
+    item.actual_duration_minutes,
+    item.elapsed_minutes
+  ];
+
+  for (const value of direct) {
+    if (value !== null && value !== undefined && value !== "") {
+      const minutes = Number(value);
+      if (Number.isFinite(minutes) && minutes >= 0) return minutes;
     }
-    return 25 + Math.max(0, duration - 60) * (25 / 60);
   }
 
-  function formatMoney(value) {
-    return "$" + Number(value).toFixed(2);
+  const start = item.started_at || item.start_time;
+  const end = item.completed_at || item.ended_at || item.end_time;
+
+  if (start && end) {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    if (!Number.isNaN(startDate.getTime()) &&
+        !Number.isNaN(endDate.getTime()) &&
+        endDate >= startDate) {
+      return (endDate - startDate) / 60000;
+    }
+  }
+  return null;
+}
+
+function earningsFor(minutes) {
+  if (minutes === null) return null;
+  return 25 + Math.max(0, minutes - 60) * (25 / 60);
+}
+
+function durationText(minutes) {
+  if (minutes === null) return "Not recorded";
+  const rounded = Math.floor(minutes);
+  const hours = Math.floor(rounded / 60);
+  const remainder = rounded % 60;
+  if (!hours) return remainder + " minutes";
+  return hours + (hours === 1 ? " hour " : " hours ") +
+    remainder + " minutes";
+}
+
+function locationText(item) {
+  return [
+    item.property_address || item.address,
+    item.city,
+    item.state,
+    item.zip || item.zip_code
+  ].filter(Boolean).join(", ") || "Property address unavailable";
+}
+
+function detail(icon, label, value) {
+  const row = document.createElement("div");
+  row.className = "detail";
+
+  const iconNode = document.createElement("span");
+  iconNode.textContent = icon;
+
+  const labelNode = document.createElement("span");
+  labelNode.className = "label";
+  labelNode.textContent = label;
+
+  const valueNode = document.createElement("span");
+  valueNode.className = "value";
+  valueNode.textContent = value;
+
+  row.append(iconNode, labelNode, valueNode);
+  return row;
+}
+
+function renderLatest(item) {
+  const container = document.getElementById("latestContent");
+  container.className = "";
+  container.replaceChildren();
+
+  const grid = document.createElement("div");
+  grid.className = "latest-grid";
+
+  const details = document.createElement("div");
+  details.className = "details";
+
+  const minutes = getDurationMinutes(item);
+  const amount = earningsFor(minutes);
+
+  details.append(
+    detail("▣", "Date", readableDate(item.date)),
+    detail("◷", "Duration", durationText(minutes)),
+    detail("⌖", "Property", locationText(item)),
+    detail("●", "Agent", item.agent_name || item.agent_full_name || "Not available")
+  );
+
+  const earnings = document.createElement("div");
+  earnings.className = "earnings";
+
+  const heading = document.createElement("h3");
+  heading.textContent = "Total Earnings";
+
+  const amountNode = document.createElement("div");
+  amountNode.className = "amount";
+  amountNode.textContent = amount === null ? "—" : money(amount);
+
+  const note = document.createElement("div");
+  note.className = "small";
+  note.textContent = amount === null
+    ? "Actual assignment duration is needed to calculate earnings."
+    : "$25 first hour guaranteed. Additional time paid proportionally by the minute.";
+
+  earnings.append(heading, amountNode, note);
+  grid.append(details, earnings);
+  container.appendChild(grid);
+}
+
+function renderHistory(assignments, showAll = false) {
+  const container = document.getElementById("history");
+  container.replaceChildren();
+  container.className = "";
+
+  if (!assignments.length) {
+    container.className = "message";
+    container.textContent = "No completed assignments yet.";
+    return;
   }
 
-  // Live completed assignment data will be
-  // connected here after confirming the
-  // assignment fields and observer login session.
+  const visible = showAll ? assignments : assignments.slice(0, 3);
+
+  visible.forEach(item => {
+    const row = document.createElement("div");
+    row.className = "history-item";
+
+    const icon = document.createElement("span");
+    icon.textContent = "▣";
+    icon.style.fontSize = "23px";
+
+    const info = document.createElement("div");
+    const date = document.createElement("div");
+    date.textContent = readableDate(item.date);
+
+    const address = document.createElement("div");
+    address.className = "location";
+    address.textContent = locationText(item);
+
+    info.append(date, address);
+
+    const amount = document.createElement("strong");
+    const calculated = earningsFor(getDurationMinutes(item));
+    amount.textContent = calculated === null ? "—" : money(calculated);
+
+    row.append(icon, info, amount);
+    container.appendChild(row);
+  });
+}
+
+async function loadEarnings() {
+  const latest = document.getElementById("latestContent");
+  const history = document.getElementById("history");
+
+  try {
+    const { data: userData, error: userError } =
+      await client.auth.getUser();
+
+    if (userError || !userData?.user) {
+      latest.textContent = "Please log in to view your earnings.";
+      history.textContent = "Please log in to view your history.";
+      return;
+    }
+
+    const { data: observer, error: observerError } = await client
+      .from("observers")
+      .select("id")
+      .eq("auth_user_id", userData.user.id)
+      .single();
+
+    if (observerError || !observer) {
+      latest.textContent = "Observer profile not found.";
+      history.textContent = "Unable to load earnings history.";
+      return;
+    }
+
+    const { data: assignments, error: assignmentError } = await client
+      .from("assignments")
+      .select("*")
+      .eq("observer_id", observer.id);
+
+    if (assignmentError) throw assignmentError;
+
+    const completed = (assignments || [])
+      .filter(item => String(item.status || "").toLowerCase() === "completed")
+      .sort((a, b) => {
+        const aTime = Date.parse(a.completed_at || a.date || "") || 0;
+        const bTime = Date.parse(b.completed_at || b.date || "") || 0;
+        return bTime - aTime;
+      });
+
+    if (completed.length) {
+      renderLatest(completed[0]);
+    } else {
+      latest.textContent = "No completed assignments yet.";
+    }
+
+    renderHistory(completed);
+
+    document.getElementById("viewAll").addEventListener("click", () => {
+      renderHistory(completed, true);
+    });
+
+  } catch (error) {
+    console.error("Payment & Earnings loading error:", error);
+    latest.textContent = "Unable to load earnings. Please try again.";
+    history.textContent = "Unable to load earnings history.";
+  }
+}
+
+loadEarnings();
 </script>
 </body>
 </html>
