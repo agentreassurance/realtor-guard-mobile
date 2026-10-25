@@ -395,20 +395,20 @@ cancelButton.onclick = async () => {
       document.getElementById(section).appendChild(card);
     }
 
-    async function loadAssignments() {
-      const { data: sessionData, error: sessionError } =
-        await client.auth.getUser();
+   
+async function loadAssignments() {
+  try {
+    const { data: sessionData, error: sessionError } =
+      await client.auth.getUser();
 
-     
-if (sessionError || !sessionData.user) {
-  ["upcoming", "completed", "archives"].forEach(section => {
-    showMessage(section, "Please log in to view your assignments.");
-  });
-  return;
-}
+    if (sessionError || !sessionData?.user) {
+      ["upcoming", "completed", "archives"].forEach(section => {
+        showMessage(section, "Please log in to view your assignments.");
+      });
+      return;
+    }
 
-
-      const userId = sessionData.user.id;
+    const userId = sessionData.user.id;
 
       const { data: observer, error: observerError } = await client
         .from("observers")
@@ -469,7 +469,13 @@ if (status === "completed") {
       showMessage(section, "No assignments in this section.");
     }
   });
+       } catch (error) {
+      console.error("Error loading assignments:", error);
+      ["upcoming", "completed", "archives"].forEach(section => {
+        showMessage(section, "Unable to load assignments. Please refresh.", true);
+      });
     }
+}
 
     loadAssignments();
   </script>
