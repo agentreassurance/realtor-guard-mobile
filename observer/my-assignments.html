@@ -230,12 +230,7 @@
       });
     });
 
-    document.getElementById("logoutButton")
-      .addEventListener("click", async () => {
-        await client.auth.signOut();
-        localStorage.removeItem("observer_logged_in");
-        window.location.href = "login.html";
-      });
+   
 
     function showMessage(section, message, isError = false) {
       const container = document.getElementById(section);
