@@ -8,7 +8,7 @@
   <style>
     * { box-sizing: border-box; }
     body {
-      margin: 0;
+      margin: 0;loadAssignments
       background: #fff;
       color: #172448;
       font-family: Arial, sans-serif;
@@ -399,12 +399,14 @@ cancelButton.onclick = async () => {
       const { data: sessionData, error: sessionError } =
         await client.auth.getUser();
 
-      if (sessionError || !sessionData.user) {
-        ["upcoming", "active", "completed"].forEach(section =>
-          showMessage(section, "Please log in to view your assignments.")
-        );
-        return;
-      }
+     
+if (sessionError || !sessionData.user) {
+  ["upcoming", "completed", "archives"].forEach(section => {
+    showMessage(section, "Please log in to view your assignments.");
+  });
+  return;
+}
+
 
       const userId = sessionData.user.id;
 
