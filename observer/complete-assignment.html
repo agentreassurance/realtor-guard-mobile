@@ -144,7 +144,8 @@ h1{text-align:center;font-size:34px;margin:15px 0 7px}
 <p class="message" id="message">Assignment information and payment features will be connected in the next step.</p>
 </div>
 
-<script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+ <script>
 const menuButton = document.getElementById("menuButton");
 const menu = document.getElementById("menu");
 
@@ -164,6 +165,166 @@ document.getElementById("viewAll").addEventListener("click", () => {
   document.getElementById("message").textContent =
     "Full earnings history will be available after the assignment data is connected.";
 });
-</script>
+
+const rgClient = window.supabase.createClient(
+  "https://ujnvhlleqfqjgnkcjlrc.supabase.co",
+  "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR"
+);
+
+function rgDuration(item) {
+  for (const value of [
+    item.duration_minutes,
+    item.actual_duration_minutes,
+    item.elapsed_minutes
+  ]) {
+    if (value !== null && value !== undefined && value !== "") {
+      const n = Number(value);
+      if (Number.isFinite(n) && n >= 0) return n;
+    }
+  }
+
+  const start = item.started_at || item.start_time;
+  const end = item.completed_at || item.ended_at || item.end_time;
+  if (!start || !end) return null;
+
+  const a = new Date(start);
+  const b = new Date(end);
+
+  if (
+    Number.isNaN(a.getTime()) ||
+    Number.isNaN(b.getTime()) ||
+    b < a
+  ) return null;
+
+  return (b - a) / 60000;
+}
+
+function rgDurationText(minutes) {
+  if (minutes === null) return "Not recorded";
+
+  const rounded = Math.floor(minutes);
+  const hours = Math.floor(rounded / 60);
+  const remaining = rounded % 60;
+
+  if (!hours) return remaining + " minutes";
+
+  return hours +
+    (hours === 1 ? " hour " : " hours ") +
+    remaining + " minutes";
+}
+
+function rgDate(value) {
+  if (!value) return "Date unavailable";
+
+  const d = new Date(String(value).slice(0, 10) + "T12:00:00");
+
+  return Number.isNaN(d.getTime())
+    ? String(value)
+    : d.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+      });
+}
+
+function rgProperty(item) {
+  return [
+    item.property_address || item.address,
+    item.city,
+    item.state,
+    item.zip || item.zip_code
+  ].filter(Boolean).join(", ") || "Property address unavailable";
+}
+
+async function loadCompleteAssignment() {
+  const message = document.getElementById("message");
+
+  try {
+    const { data: userData, error: userError } =
+      await rgClient.auth.getUser();
+
+    if (userError || !userData?.user) {
+      message.textContent =
+        "Please log in to view your assignment.";
+      return;
+    }
+
+    const { data: observer, error: observerError } =
+      await rgClient
+        .from("observers")
+        .select("id")
+        .eq("auth_user_id", userData.user.id)
+        .single();
+
+    if (observerError || !observer) {
+      message.textContent = "Observer profile not found.";
+      return;
+    }
+
+    const { data: assignments, error } =
+      await rgClient
+        .from("assignments")
+        .select("*")
+        .eq("observer_id", observer.id);
+
+    if (error) throw error;
+
+    const completed = (assignments || [])
+      .filter(item =>
+        String(item.status || "").toLowerCase() === "completed"
+      )
+      .sort((a, b) =>
+        (Date.parse(b.completed_at || b.date || "") || 0) -
+        (Date.parse(a.completed_at || a.date || "") || 0)
+      );
+
+    if (!completed.length) {
+      message.textContent = "No completed assignments yet.";
+      return;
+    }
+
+    const item = completed[0];
+    const minutes = rgDuration(item);
+
+    const amount = minutes === null
+      ? null
+      : 25 + Math.max(0, minutes - 60) * (25 / 60);
+
+    document.getElementById("date").textContent =
+      rgDate(item.date);
+
+    document.getElementById("duration").textContent =
+      rgDurationText(minutes);
+
+    document.getElementById("property").textContent =
+      rgProperty(item);
+
+    document.getElementById("agent").textContent =
+      item.agent_name ||
+      item.agent_full_name ||
+      "Not available";
+
+    document.getElementById("totalEarnings").textContent =
+      amount === null
+        ? "—"
+        : new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD"
+          }).format(amount);
+
+    message.textContent =
+      "Assignment details loaded. Payment processing is not connected.";
+
+  } catch (error) {
+    console.error("Complete Assignment loading error:", error);
+
+    message.textContent =
+      "Unable to load assignment details. Please try again.";
+  }
+}
+
+loadCompleteAssignment();
+
+ </script>
 </body>
 </html>
