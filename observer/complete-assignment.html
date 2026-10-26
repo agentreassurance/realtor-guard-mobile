@@ -284,7 +284,8 @@ async function loadCompleteAssignment() {
     }
 
     const item = completed[0];
-    const minutes = rgDuration(item);
+   const rawMinutes = rgDuration(item);
+const minutes = rawMinutes === null ? null : Math.floor(rawMinutes);
 
     const amount = minutes === null
       ? null
