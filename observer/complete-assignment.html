@@ -161,11 +161,11 @@ function notConnected() {
 document.getElementById("cashout").addEventListener("click", notConnected);
 document.getElementById("addBank").addEventListener("click", notConnected);
 document.getElementById("manage").addEventListener("click", notConnected);
-document.getElementById("viewAll").addEventListener("click", () => {
-  document.getElementById("message").textContent =
-    "Full earnings history will be available after the assignment data is connected.";
-});
 
+document.getElementById("viewAll").addEventListener("click", () => {
+  window.location.href = "payment-earnings.html";
+});
+  
 const rgClient = window.supabase.createClient(
   "https://ujnvhlleqfqjgnkcjlrc.supabase.co",
   "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR"
