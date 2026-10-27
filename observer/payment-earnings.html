@@ -399,7 +399,7 @@ function getDurationMinutes(item) {
 
 function earningsFor(minutes) {
   if (minutes === null) return null;
-  return 25 + Math.max(0, minutes - 60) * (25 / 60);
+ return 25 + Math.max(0, Math.floor(minutes) - 60) * (25 / 60);
 }
 
 function durationText(minutes) {
