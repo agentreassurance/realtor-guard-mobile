@@ -571,9 +571,17 @@ async function loadEarnings() {
 
     renderHistory(completed);
 
-    document.getElementById("viewAll").addEventListener("click", () => {
-      renderHistory(completed, true);
-    });
+   
+let historyExpanded = false;
+
+document.getElementById("viewAll").addEventListener("click", () => {
+  historyExpanded = !historyExpanded;
+  renderHistory(completed, historyExpanded);
+
+  document.getElementById("viewAll").textContent =
+    historyExpanded ? "Show Less ▲" : "View All ❯";
+});
+
 
   } catch (error) {
     console.error("Payment & Earnings loading error:", error);
