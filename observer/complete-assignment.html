@@ -274,8 +274,8 @@ async function loadCompleteAssignment() {
         String(item.status || "").toLowerCase() === "completed"
       )
       .sort((a, b) =>
-        (Date.parse(b.completed_at || b.date || "") || 0) -
-        (Date.parse(a.completed_at || a.date || "") || 0)
+       (Date.parse(b.ended_at || b.completed_at || b.date || "") || 0) -
+(Date.parse(a.ended_at || a.completed_at || a.date || "") || 0)
       );
 
     if (!completed.length) {
