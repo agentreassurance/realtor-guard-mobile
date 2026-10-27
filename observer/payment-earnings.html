@@ -558,8 +558,8 @@ async function loadEarnings() {
     const completed = (assignments || [])
       .filter(item => String(item.status || "").toLowerCase() === "completed")
       .sort((a, b) => {
-        const aTime = Date.parse(a.completed_at || a.date || "") || 0;
-        const bTime = Date.parse(b.completed_at || b.date || "") || 0;
+      const aTime = Date.parse(a.ended_at || a.completed_at || a.date || "") || 0;
+const bTime = Date.parse(b.ended_at || b.completed_at || b.date || "") || 0;
         return bTime - aTime;
       });
 
