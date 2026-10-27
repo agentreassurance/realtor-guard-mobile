@@ -236,10 +236,24 @@ footer {
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-async function logout() {
-  alert("Logout will be connected to Supabase next.");
-}
-</script>
 
+
+async function logout() {
+  try {
+    const supabaseClient = window.supabase.createClient(
+      "https://ujnvhlleqfqjgnkcjlrc.supabase.co",
+      "sb_publishable_9q5KNgJ4lLvWqqn0IdIlBw_KIAWNxgR"
+    );
+
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) throw error;
+
+    window.location.href = "login.html";
+  } catch (error) {
+    alert("Logout failed: " + error.message);
+  }
+}
+
+</script>
 </body>
 </html>
