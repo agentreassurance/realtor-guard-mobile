@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Realtor Guard GPS Navigation</title>
+
+<link rel="stylesheet"
+ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+ integrity="sha256-p4NxAoJBhIIN+hmNHrzxZJsE8d5f9C6J5kGStX+gF0E="
+ crossorigin="">
+
+<style>
+:root { --red:#cc0000; --navy:#14213d; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:Arial,sans-serif;
+       background:white; color:var(--navy); }
+header { background:var(--red); color:white;
+         padding:20px; text-align:center;
+         font-size:21px; font-weight:bold; }
+main { max-width:650px; margin:auto; padding:15px; }
+h2 { color:var(--red); font-size:19px; }
+.card { border:1px solid #ddd; border-radius:12px;
+        padding:16px; margin-bottom:15px; }
+#map { height:340px; width:100%;
+       border-radius:12px; margin-bottom:15px; }
+button, .button {
+  display:block; width:100%; padding:16px;
+  margin:10px 0; background:var(--red);
+  color:white; border:2px solid var(--red);
+  border-radius:9px; font-size:16px;
+  font-weight:bold; text-align:center;
+  text-decoration:none; cursor:pointer;
+}
+.secondary { background:white; color:var(--red); }
+button:disabled { opacity:.45; cursor:not-allowed; }
+#status { line-height:1.5; }
+#directions { padding-left:22px; line-height:1.6; }
+#directions li { margin-bottom:10px; }
+small { color:#555; }
+</style>
+</head>
+
+<body>
+<header>Realtor Guard GPS Navigation</header>
+
+<main>
+  <div class="card">
+    <h2>Property Destination</h2>
+    <p id="destination">Loading destination...</p>
+  </div>
+
+  <div id="map" aria-label="GPS navigation map"></div>
+
+  <div class="card">
+    <h2>GPS Status</h2>
+    <p id="status" role="status">
+      Tap Locate Me to begin.
+    </p>
+    <button id="locate">Locate Me</button>
+    <button id="route" disabled>
+      Get Driving Route
+    </button>
+    <button id="follow" disabled class="secondary">
+      Follow My Location
+    </button>
+  </div>
+
+  <div class="card">
+    <h2>Driving Directions</h2>
+    <ol id="directions">
+      <li>Locate yourself and calculate a route.</li>
+    </ol>
+  </div>
+
+  <a id="return" class="button secondary"
+     href="my-assignments.html">
+    Return to My Assignments
+  </a>
+
+  <small>
+    Map data © OpenStreetMap contributors.
+    GPS and route guidance are informational.
+    Follow road signs and drive safely.
+    Keep your phone secured while driving.
+  </small>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+ integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+ crossorigin=""></script>
+
+<script>
+"use strict";
+
+const params = new URLSearchParams(location.search);
+const assignmentId =
+  params.get("assignment_id") ||
+  params.get("id") || "";
+
+const storageKey = "rg_navigation_" +
+  (assignmentId || "current");
+
+let saved = {};
+try {
+  saved = JSON.parse(
+    sessionStorage.getItem(storageKey) || "{}"
+  );
+} catch (_) {}
+
+const address = params.get("address") ||
+  saved.address || "";
+const city = params.get("city") ||
+  saved.city || "";
+const state = params.get("state") ||
+  saved.state || "";
+const zip = params.get("zip") ||
+  saved.zip || "";
+
+const destinationText =
+  [address, city, state, zip]
+  .filter(Boolean).join(", ");
+
+document.getElementById("destination").textContent =
+  destinationText || "Destination not provided.";
+
+if (assignmentId) {
+  document.getElementById("return").href =
+    "my-assignments.html?assignment_id=" +
+    encodeURIComponent(assignmentId);
+}
+
+sessionStorage.setItem(storageKey, JSON.stringify({
+  address, city, state, zip
+}));
+
+const statusBox = document.getElementById("status");
+const routeButton = document.getElementById("route");
+const followButton = document.getElementById("follow");
+const directionsBox = document.getElementById("directions");
+
+const map = L.map("map").setView([37.5,-78.5],7);
+
+L.tileLayer(
+  "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    maxZoom:19,
+    attribution:"© OpenStreetMap contributors"
+  }
+).addTo(map);
+
+let myLocation = null;
+let destinationLocation = null;
+let myMarker = null;
+let destinationMarker = null;
+let routeLine = null;
+let watchId = null;
+
+function status(message) {
+  statusBox.textContent = message;
+}
+
+function updateLocation(lat, lon) {
+  myLocation = [lat,lon];
+
+  if (myMarker) {
+    myMarker.setLatLng(myLocation);
+  } else {
+    myMarker = L.marker(myLocation)
+      .addTo(map)
+      .bindPopup("Your Location");
+  }
+
+  map.setView(myLocation,15);
+  routeButton.disabled = !destinationLocation;
+  followButton.disabled = false;
+}
+
+function gpsError(error) {
+  status("GPS unavailable: " + error.message +
+    ". Check location permissions.");
+}
+
+document.getElementById("locate")
+.addEventListener("click", () => {
+  if (!navigator.geolocation) {
+    status("GPS is not supported on this device.");
+    return;
+  }
+
+  status("Requesting GPS location...");
+
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      updateLocation(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+      status("GPS location found. Ready for routing.");
+    },
+    gpsError,
+    {enableHighAccuracy:true,timeout:20000}
+  );
+});
+
+document.getElementById("follow")
+.addEventListener("click", () => {
+  if (watchId !== null) {
+    navigator.geolocation.clearWatch(watchId);
+    watchId = null;
+    followButton.textContent = "Follow My Location";
+    status("Live location tracking stopped.");
+    return;
+  }
+
+  watchId = navigator.geolocation.watchPosition(
+    position => {
+      updateLocation(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+      status("Following your GPS location.");
+    },
+    gpsError,
+    {
+      enableHighAccuracy:true,
+      maximumAge:3000,
+      timeout:20000
+    }
+  );
+
+  followButton.textContent = "Stop Following";
+});
+
+async function findDestination() {
+  if (!destinationText) {
+    status("Return to My Assignments to select a property.");
+    return;
+  }
+
+  status("Finding property destination...");
+
+  try {
+    const url =
+      "https://nominatim.openstreetmap.org/search" +
+      "?format=json&limit=1&q=" +
+      encodeURIComponent(destinationText);
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Search unavailable");
+
+    const results = await response.json();
+    if (!results.length) {
+      status("Address not found. Verify property address.");
+      return;
+    }
+
+    const result = results[0];
+    destinationLocation = [
+      Number(result.lat),
+      Number(result.lon)
+    ];
+
+    destinationMarker = L.marker(destinationLocation)
+      .addTo(map)
+      .bindPopup("Property Destination");
+
+    map.setView(destinationLocation,14);
+    routeButton.disabled = !myLocation;
+    status("Property found. Tap Locate Me, then Get Driving Route.");
+  } catch (error) {
+    status("Could not find destination: " + error.message);
+  }
+}
+
+function instruction(step) {
+  const maneuver = step.maneuver || {};
+  const type = maneuver.type || "continue";
+  const modifier = maneuver.modifier || "";
+  const road = step.name ? " onto " + step.name : "";
+
+  if (type === "arrive") return "Arrive at destination";
+  if (type === "depart") return "Depart" + road;
+  if (type === "turn") return "Turn " + modifier + road;
+  if (type === "roundabout")
+    return "Enter roundabout" + road;
+  if (type === "merge") return "Merge " + modifier + road;
+  if (type === "on ramp") return "Take ramp" + road;
+  if (type === "off ramp") return "Exit ramp" + road;
+
+  return "Continue" + road;
+}
+
+document.getElementById("route")
+.addEventListener("click", async () => {
+  if (!myLocation || !destinationLocation) return;
+
+  status("Calculating driving route...");
+  routeButton.disabled = true;
+
+  try {
+    const [a,b] = myLocation;
+    const [c,d] = destinationLocation;
+
+    const url =
+      "https://router.project-osrm.org/route/v1/driving/" +
+      b + "," + a + ";" + d + "," + c +
+      "?overview=full&geometries=geojson&steps=true";
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Routing unavailable");
+
+    const result = await response.json();
+    if (result.code !== "Ok" || !result.routes?.length)
+      throw new Error("No driving route found");
+
+    const route = result.routes[0];
+
+    if (routeLine) map.removeLayer(routeLine);
+
+    routeLine = L.geoJSON(route.geometry,{
+      style:{color:"#cc0000",weight:6}
+    }).addTo(map);
+
+    map.fitBounds(routeLine.getBounds(),{
+      padding:[25,25]
+    });
+
+    const miles = (route.distance / 1609.344).toFixed(1);
+    const minutes = Math.round(route.duration / 60);
+
+    status("Route found: " + miles +
+      " miles, approximately " + minutes +
+      " minutes. Estimated travel time only.");
+
+    directionsBox.replaceChildren();
+
+    for (const leg of route.legs) {
+      for (const step of leg.steps) {
+        const item = document.createElement("li");
+        item.textContent = instruction(step);
+        directionsBox.appendChild(item);
+      }
+    }
+
+  } catch (error) {
+    status("Unable to calculate route: " + error.message);
+  } finally {
+    routeButton.disabled = false;
+  }
+});
+
+window.addEventListener("pagehide", () => {
+  if (watchId !== null)
+    navigator.geolocation.clearWatch(watchId);
+});
+
+findDestination();
+</script>
+</body>
+</html>
