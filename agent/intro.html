@@ -1,385 +1,410 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#bd080e">
   <title>Welcome New Agent | Realtor Guard</title>
 
   <style>
+    :root {
+      --red: #bd080e;
+      --dark: #101827;
+      --soft: #fff5f5;
+    }
+
     * {
       box-sizing: border-box;
     }
 
     body {
       margin: 0;
-      min-height: 100vh;
-      background: #f5f5f5;
+      background: #ffffff;
+      color: var(--dark);
       font-family: Arial, Helvetica, sans-serif;
-      color: #252525;
     }
 
     .page {
-      width: 100%;
-      max-width: 430px;
-      min-height: 100vh;
+      width: min(100%, 660px);
       margin: 0 auto;
-      background: #ffffff;
-      overflow: hidden;
-      position: relative;
+      padding: 0 16px 28px;
     }
 
-    /* RED TOP HEADER */
-   .top-header {
-  height: 100px;
-  background: #990000;
-  border-radius: 0 0 50% 50% / 0 0 22% 22%;
-  text-align: center;
-  padding-top: 17px;
-  color: white;
-}
-
-    .brand-top {
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-    }
-
-    .brand-top span {
-      font-size: 12px;
-    }
-
-    .brand-sub {
-      margin-top: 3px;
-      font-size: 7px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    /* MAIN CONTENT */
-    .content {
-      padding: 0 22px 18px;
+    .topbar {
+      margin: 0 -16px 22px;
+      padding: 15px 12px 19px;
+      background: var(--red);
+      color: white;
       text-align: center;
-    }
-
-    .welcome {
-      margin-top: 7px;
-      margin-bottom: 6px;
-      font-size: 16px;
+      font-size: 12px;
       font-weight: 800;
-      letter-spacing: 1px;
-      color: #333;
+      letter-spacing: 5px;
+      border-radius: 0 0 30px 30px;
     }
 
-    .welcome strong {
-      color: #e00000;
+    .brand {
+      text-align: center;
+      margin: 0 auto 24px;
     }
 
-    /* REALTOR GUARD SHIELD */
-    .shield {
-      width: 92px;
-      height: 105px;
-      margin: 4px auto 3px;
-      position: relative;
-    }
-
-    .shield-shape {
-      width: 82px;
-      height: 92px;
+    .brand-icon {
+      width: 106px;
+      height: 106px;
       margin: auto;
-      border: 6px solid #e00000;
-      border-radius: 18px 18px 38px 38px;
-      position: relative;
-      background: #fff;
+      display: grid;
+      place-items: center;
+      color: var(--red);
     }
 
-    .shield-inner {
-      position: absolute;
-      left: 7px;
-      right: 7px;
-      top: 7px;
-      bottom: 7px;
-      border: 2px solid #e00000;
-      border-radius: 11px 11px 30px 30px;
+    .brand-icon svg {
+      width: 100%;
+      height: 100%;
     }
 
-    .guard-head {
-      width: 32px;
-      height: 36px;
-      border-radius: 50% 50% 45% 45%;
-      background: #111;
-      position: absolute;
-      top: 27px;
-      left: 19px;
-    }
-
-    .guard-hat {
-      width: 42px;
-      height: 9px;
-      background: #e00000;
-      border-radius: 8px 8px 3px 3px;
-      position: absolute;
-      top: 21px;
-      left: 14px;
-    }
-
-    .guard-body {
-      width: 48px;
-      height: 30px;
-      background: #111;
-      position: absolute;
-      top: 55px;
-      left: 11px;
-      border-radius: 25px 25px 8px 8px;
-    }
-
-    .rg {
-      position: absolute;
-      bottom: 3px;
-      right: 7px;
-      color: #e00000;
-      font-size: 10px;
-      font-weight: bold;
-      z-index: 2;
-    }
-
-    /* LOGO WORDING */
-    .logo-name {
-      color: #df0000;
+    .brand-name {
+      color: var(--red);
+      font-size: clamp(27px, 7vw, 40px);
       font-weight: 900;
-      font-size: 19px;
-      margin-top: -4px;
-      line-height: 1;
+      letter-spacing: -1.5px;
     }
 
-    .logo-name .lock {
-      display: inline-block;
-      font-size: 14px;
-      margin: 0 2px;
-    }
-
-    .logo-slogan {
+    .tagline {
       margin-top: 5px;
-      color: #d00000;
-      font-size: 7px;
+      font-size: 10px;
       font-weight: 800;
-      letter-spacing: .3px;
       text-transform: uppercase;
     }
 
-    .we-got-you {
-      color: #d00000;
-      font-size: 8px;
-      font-weight: 900;
-      letter-spacing: 3px;
-      margin: 4px 0 14px;
-    }
-
-    /* WELCOME COPY */
-    .message {
-      margin: 0 auto 11px;
-      max-width: 355px;
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    .message.second {
-      font-size: 12px;
-      line-height: 1.4;
-      margin-bottom: 9px;
-    }
-
-    .care-title {
-      color: #df0000;
-      font-size: 15px;
-      font-weight: 900;
-      margin: 5px 0 2px;
-    }
-
-    .care-text {
-      font-size: 13px;
-      margin: 0 0 13px;
-    }
-
-    /* FREE TRIAL BOX */
-    .free-offer {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      text-align: left;
-      padding: 11px 12px;
-      margin: 0 auto 13px;
-      border: 1px solid #ffc4c4;
-      border-radius: 14px;
-      background: linear-gradient(90deg, #fff7f7, #ffeaea);
-      box-shadow: 0 3px 12px rgba(220, 0, 0, 0.13);
-    }
-
-    .gift {
-      width: 64px;
+    h1 {
+      margin: 0 0 12px;
       text-align: center;
-      font-size: 43px;
-      line-height: 1;
-      border-right: 1px solid #e5bcbc;
-      padding-right: 10px;
-      margin-right: 12px;
+      font-size: clamp(30px, 7vw, 45px);
+      line-height: 1.08;
+      letter-spacing: -1.5px;
     }
 
-    .offer-copy {
-      flex: 1;
+    h1 span {
+      color: var(--red);
     }
 
-    .offer-title {
-      color: #df0000;
-      font-size: 19px;
-      font-weight: 900;
-      line-height: 1;
-      margin-bottom: 2px;
-    }
-
-    .offer-hours {
-      color: #252525;
+    .intro {
+      margin: 0 auto 24px;
+      max-width: 540px;
+      text-align: center;
       font-size: 16px;
-      font-weight: 900;
-      line-height: 1.05;
+      line-height: 1.5;
     }
 
-    .offer-small {
-      margin-top: 4px;
-      color: #555;
-      font-size: 10px;
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 9px;
+      margin-bottom: 17px;
+    }
+
+    .benefit {
+      min-width: 0;
+      background: var(--soft);
+      border-radius: 19px;
+      padding: 18px 8px;
+      text-align: center;
+    }
+
+    .benefit-icon {
+      font-size: 29px;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+
+    .benefit h2 {
+      font-size: 15px;
+      line-height: 1.15;
+      margin: 0 0 8px;
+    }
+
+    .benefit p {
+      font-size: 12px;
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    .warning {
+      background: #f4f4f4;
+      border-radius: 18px;
+      padding: 17px;
+      margin-bottom: 17px;
+    }
+
+    .warning h2 {
+      color: var(--red);
+      font-size: 19px;
+      margin: 0 0 9px;
       line-height: 1.2;
     }
 
-    /* GET STARTED */
-    .get-started {
+    .warning p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .offer {
+      border: 2px solid var(--red);
+      border-radius: 19px;
+      padding: 22px 15px;
+      background: #fffafa;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .offer-label {
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 3px;
+    }
+
+    .gift {
+      font-size: 46px;
+      margin: 10px 0 0;
+    }
+
+    .discount {
+      color: var(--red);
+      font-size: clamp(48px, 12vw, 72px);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-top: 4px;
+    }
+
+    .offer h2 {
+      font-size: 19px;
+      margin: 3px 0 12px;
+    }
+
+    .price {
+      background: #ffe0e0;
+      border-radius: 10px;
+      padding: 12px 6px;
+      font-size: 14px;
+    }
+
+    .price strong {
+      color: var(--red);
+      font-size: 28px;
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      color: #555;
+    }
+
+    .extra {
+      margin: 13px 0 5px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .fineprint {
+      color: #666;
+      font-size: 12px;
+      margin: 0;
+    }
+
+    .btn {
       display: block;
       width: 100%;
-      border: none;
-      border-radius: 7px;
-      padding: 14px 10px;
-     background: #000000;
-      color: #fff;
+      border-radius: 15px;
+      padding: 18px 12px;
+      text-align: center;
       text-decoration: none;
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: .5px;
-      box-shadow: 0 3px 8px rgba(190, 0, 0, .25);
-      cursor: pointer;
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 12px;
     }
 
-    .get-started:active {
-      transform: scale(.99);
+    .primary {
+      color: white;
+      background: var(--red);
     }
 
-    .footer {
-      margin-top: 10px;
-      color: #777;
-      font-size: 8px;
+    .secondary {
+      color: var(--red);
+      background: white;
+      border: 2px solid var(--red);
+      font-size: 15px;
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid #111;
+      outline-offset: 3px;
+    }
+
+    footer {
+      padding-top: 14px;
+      text-align: center;
+      color: #666;
+      font-size: 10px;
+      letter-spacing: 2px;
+      line-height: 1.8;
+      text-transform: uppercase;
     }
 
     .heart {
-      color: #e00000;
-      font-size: 10px;
-      margin-left: 4px;
+      display: block;
+      color: var(--red);
+      font-size: 20px;
+      margin-top: 5px;
     }
 
     @media (max-width: 360px) {
-      .content {
-        padding-left: 16px;
-        padding-right: 16px;
+      .page {
+        padding-left: 10px;
+        padding-right: 10px;
       }
 
-      .message {
-        font-size: 12px;
+      .topbar {
+        margin-left: -10px;
+        margin-right: -10px;
       }
 
-      .offer-title {
-        font-size: 17px;
+      .benefits {
+        gap: 6px;
       }
 
-      .offer-hours {
-        font-size: 14px;
+      .benefit {
+        padding: 14px 5px;
+      }
+
+      .benefit h2 {
+        font-size: 13px;
+      }
+
+      .benefit p {
+        font-size: 11px;
       }
     }
   </style>
 </head>
 
 <body>
-
   <main class="page">
 
-    <header class="top-header">
-      <div class="brand-top">
-        ◀ RE<span>ALTOR</span> GUARD ▶
+    <div class="topbar">
+      PROTECTING AGENTS
+    </div>
+
+    <header class="brand">
+      <div class="brand-icon" aria-hidden="true">
+        <svg viewBox="0 0 100 110" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 5 L91 23 V55 C91 80 73 98 50 106
+                   C27 98 9 80 9 55 V23 Z"
+                stroke="#bd080e" stroke-width="7"/>
+          <path d="M50 18 L78 31 V54 C78 71 66 85 50 92
+                   C34 85 22 71 22 54 V31 Z"
+                stroke="#bd080e" stroke-width="3"/>
+          <circle cx="50" cy="48" r="15" fill="#111827"/>
+          <path d="M27 79 C30 59 70 59 73 79"
+                fill="#111827"/>
+          <path d="M34 35 L66 35 L61 28 L39 28 Z"
+                fill="#bd080e"/>
+        </svg>
       </div>
-      <div class="brand-sub">
-        Protecting Agents
+
+      <div class="brand-name">REALTOR GUARD</div>
+      <div class="tagline">
+        Never alone at a showing or open house
       </div>
     </header>
 
-    <section class="content">
+    <h1>
+      You Can't Put a Price on
+      <span>Safety.</span>
+    </h1>
 
-      <div class="welcome">
-        WELCOME, <strong>NEW AGENT.</strong>
-      </div>
+    <p class="intro">
+      Every showing and open house should be focused
+      on your clients — not on personal safety concerns.
+    </p>
 
-      
-<img src="rglogo.png" alt="Realtor Guard" style="display:block; width:100%; max-width:280px; height:auto; margin:20px auto;">     
-      <p class="message">
-        Welcome to Realtor Guard, your professional partner for a safer
-        showing experience. We believe you deserve to feel confident
-        and secure at every appointment.
-      </p>
+    <section class="benefits" aria-label="Why Realtor Guard">
 
-      <p class="message second">
-        Realtor Guard Assist provides a subtle, verified observer
-        presence for your showings and open houses. It is a seamless
-        layer of protection that helps you feel supported while you
-        stay focused on your clients and sales.
-      </p>
+      <article class="benefit">
+        <div class="benefit-icon" aria-hidden="true">⌂</div>
+        <h2>Licensed<br>Observers</h2>
+        <p>A professional, discreet presence.</p>
+      </article>
 
-      <div class="care-title">
-        Your safety matters to us.
-      </div>
+      <article class="benefit">
+        <div class="benefit-icon" aria-hidden="true">⬟</div>
+        <h2>Added<br>Protection</h2>
+        <p>Feel confident at every showing.</p>
+      </article>
 
-      <p class="care-text">
-        Let us help you protect what matters most.
-      </p>
-
-      
-      <div class="free-offer">
-
-        <div class="gift">🎁</div>
-
-        <div class="offer-copy">
-          <div class="offer-title">
-            TRY IT FOR FREE
-          </div>
-
-          <div class="offer-hours">
-            UP TO 2 HOURS ON US!
-          </div>
-
-          <div class="offer-small">
-            Experience peace of mind — no risk, just support.
-          </div>
-        </div>
-
-      </div>
-
-      <a class="get-started" href="signup.html">
-        GET STARTED ❯
-      </a>
-
-      <div class="footer">
-        Safer Showings. Stronger Agents. A Brighter Tomorrow.
-        <span class="heart">♥</span>
-      </div>
+      <article class="benefit">
+        <div class="benefit-icon" aria-hidden="true">♟</div>
+        <h2>Focus on<br>Your Clients</h2>
+        <p>We handle safety so you can do what you do best.</p>
+      </article>
 
     </section>
 
-  </main>
+    <section class="warning">
+      <h2>⚠ Vacant Properties Aren't Always Empty.</h2>
+      <p>
+        Unauthorized occupants, including squatters,
+        may be hiding inside without anyone knowing.
+        Even a routine showing can bring unexpected
+        safety concerns. Don't take the risk — have
+        a licensed observer with you.
+      </p>
+    </section>
 
+    <section class="offer" aria-label="New agent discount">
+      <div class="offer-label">
+        EXCLUSIVE NEW AGENT OFFER
+      </div>
+
+      <div class="gift" aria-hidden="true">🎁</div>
+
+      <div class="discount">10% OFF</div>
+
+      <h2>YOUR FIRST ASSIGNMENT'S FIRST HOUR</h2>
+
+      <div class="price">
+        <strong>Just $31.50</strong>
+        <div>
+          Regular Price
+          <span class="old-price">$35.00</span>
+        </div>
+      </div>
+
+      <p class="extra">
+        Additional time $0.50 per minute
+        after the first hour.
+      </p>
+
+      <p class="fineprint">
+        One-time introductory offer for new agents.
+      </p>
+    </section>
+
+    <a class="btn primary" href="signup.html">
+      GET STARTED ❯
+    </a>
+
+    <a class="btn secondary" href="login.html">
+      Already have an account? Log In ❯
+    </a>
+
+    <footer>
+      Safer Showings. Stronger Agents.
+      A Brighter Tomorrow.
+      <span class="heart" aria-hidden="true">♥</span>
+    </footer>
+
+  </main>
 </body>
 </html>
