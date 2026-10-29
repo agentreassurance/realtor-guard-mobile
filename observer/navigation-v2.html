@@ -1,0 +1,140 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Realtor Guard | GPS Navigation</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<style>
+:root{--red:#b90000;--dark:#990000;--blue:#0866df}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;font-family:Arial,sans-serif;color:#202020}
+main{max-width:480px;margin:auto;padding:16px}
+h1{font-size:29px;color:var(--dark);margin:14px 0 3px}
+.subtitle{color:#626c7a;margin:0 0 16px}
+#map{height:460px;background:#fff;border:1px solid #f1d0d0;border-radius:18px;overflow:hidden}
+.card{background:#fff;border:1px solid #e5e5e5;border-radius:16px;padding:16px;margin-top:13px}
+.card h3{color:var(--red);margin:0 0 7px}
+button,.btn{font:inherit;cursor:pointer}
+.primary{width:100%;background:var(--red);color:white;border:0;border-radius:14px;padding:17px;font-weight:700;margin-top:14px}
+.secondary{display:block;text-align:center;text-decoration:none;color:var(--red);border:2px solid var(--red);border-radius:14px;padding:15px;margin-top:14px;font-weight:700}
+.details{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.small{color:#647080;font-size:13px}
+#status{font-size:13px;color:#666;margin:10px 0}
+#directions{padding-left:20px;line-height:1.5}
+.pin{width:22px;height:22px;background:var(--red);border:4px solid white;border-radius:50%;box-shadow:0 1px 8px #555}
+.gps{width:22px;height:22px;background:var(--blue);border:4px solid white;border-radius:50%;box-shadow:0 0 0 3px var(--blue)}
+</style>
+</head>
+<body>
+<main>
+<h1>GPS Navigation</h1>
+<p class="subtitle">Follow the route to the property location.</p>
+<div id="map"></div>
+<div id="status">Loading Realtor Guard navigation...</div>
+<div class="card details">
+<div><h3>Property Address</h3><div id="address">No property selected</div></div>
+<div><h3>Estimated Drive Time</h3><strong id="eta">—</strong><div class="small" id="distance">—</div></div>
+</div>
+<button class="primary" id="routeButton">🚗 Get Driving Route</button>
+<div class="card">
+<h3>Driving Directions</h3>
+<div id="instruction">Your route instructions will appear here.</div>
+<ol id="directions"></ol>
+</div>
+<a class="secondary" href="my-assignments.html">← Return to My Assignments</a>
+</main>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const params=new URLSearchParams(location.search);
+const address=[params.get('address'),params.get('city'),params.get('state'),params.get('zip')].filter(Boolean).join(', ');
+$('address').textContent=address||'No property selected';
+let map,origin,destination,gpsMarker,destMarker;
+const setStatus=t=>$('status').textContent=t;
+async function init(){
+try{
+const response=await fetch('https://tiles.openfreemap.org/styles/liberty');
+if(!response.ok)throw Error('Map style unavailable');
+const style=await response.json();
+for(const layer of style.layers||[]){
+const id=(layer.id||'').toLowerCase();
+const sl=(layer['source-layer']||'').toLowerCase();
+const paint=layer.paint||(layer.paint={});
+if(layer.type==='background')paint['background-color']='#fff';
+if(layer.type==='fill'){
+paint['fill-color']=/water/.test(id+' '+sl)?'#f9e9e9':'#fff';
+paint['fill-opacity']=1;
+}
+if(layer.type==='line'){
+paint['line-color']=/road|street|highway|transportation|bridge|tunnel/.test(id+' '+sl)?'#dd5555':'#f5dada';
+}
+if(layer.type==='symbol'){
+if(/poi|airport|transit/.test(id))layer.layout={...(layer.layout||{}),visibility:'none'};
+else{
+paint['text-color']='#333';
+paint['text-halo-color']='#fff';
+paint['text-halo-width']=1.5;
+}
+}
+}
+map=new maplibregl.Map({
+container:'map',style,center:[-77.436,37.541],zoom:12
+});
+map.addControl(new maplibregl.NavigationControl(),'top-left');
+map.on('load',()=>setStatus('Map ready. Select Get Driving Route.'));
+map.on('error',e=>setStatus('Map error: '+(e.error?.message||'Unknown error')));
+if(address){
+const geo=await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q='+encodeURIComponent(address));
+const results=await geo.json();
+if(results.length){
+destination=[Number(results[0].lon),Number(results[0].lat)];
+const el=document.createElement('div');el.className='pin';
+destMarker=new maplibregl.Marker({element:el}).setLngLat(destination).addTo(map);
+map.flyTo({center:destination,zoom:13});
+}else setStatus('Property address could not be located.');
+}
+}catch(e){setStatus('Navigation unavailable: '+e.message)}
+}
+async function route(){
+if(!destination){setStatus('A valid property address is required.');return}
+if(!navigator.geolocation){setStatus('GPS is not supported in this browser.');return}
+setStatus('Getting your current GPS location...');
+navigator.geolocation.getCurrentPosition(async position=>{
+try{
+origin=[position.coords.longitude,position.coords.latitude];
+if(gpsMarker)gpsMarker.remove();
+const el=document.createElement('div');el.className='gps';
+gpsMarker=new maplibregl.Marker({element:el}).setLngLat(origin).addTo(map);
+const url='https://router.project-osrm.org/route/v1/driving/'+origin.join(',')+';'+destination.join(',')+'?overview=full&geometries=geojson&steps=true';
+const response=await fetch(url);
+const data=await response.json();
+if(data.code!=='Ok'||!data.routes?.length)throw Error('No driving route found');
+const r=data.routes[0];
+const coordinates=r.geometry.coordinates;
+if(map.getLayer('route'))map.removeLayer('route');
+if(map.getSource('route'))map.removeSource('route');
+map.addSource('route',{type:'geojson',data:{type:'Feature',geometry:{type:'LineString',coordinates}}});
+map.addLayer({id:'route',type:'line',source:'route',layout:{'line-join':'round','line-cap':'round'},paint:{'line-color':'#ad0000','line-width':8}});
+const bounds=new maplibregl.LngLatBounds();
+coordinates.forEach(c=>bounds.extend(c));
+map.fitBounds(bounds,{padding:55});
+$('eta').textContent=Math.round(r.duration/60)+' min';
+$('distance').textContent=(r.distance/1609.344).toFixed(1)+' miles';
+$('instruction').textContent='Follow these directions to the property:';
+$('directions').innerHTML='';
+for(const step of r.legs.flatMap(l=>l.steps)){
+const li=document.createElement('li');
+li.textContent=(step.maneuver.type||'Continue')+' '+(step.name?'on '+step.name:'')+' — '+Math.round(step.distance)+' m';
+$('directions').appendChild(li);
+}
+setStatus('Driving route calculated.');
+}catch(e){setStatus('Route error: '+e.message)}
+},e=>setStatus('GPS permission or location error: '+e.message),{enableHighAccuracy:true,timeout:20000});
+}
+$('routeButton').addEventListener('click',route);
+init();
+</script>
+</body>
+</html>
