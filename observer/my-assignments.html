@@ -303,20 +303,19 @@ if (section === "upcoming") {
 
   const navigationButton = document.createElement("button");
   navigationButton.textContent = "Navigation";
-  navigationButton.onclick = () => {
-    const address = [
-      assignment.property_address,
-      assignment.city,
-      assignment.state,
-      assignment.zip
-    ].filter(Boolean).join(", ");
+  
+navigationButton.onclick = () => {
+  const params = new URLSearchParams({
+    assignment_id: assignment.id,
+    address: assignment.property_address || "",
+    city: assignment.city || "",
+    state: assignment.state || "",
+    zip: assignment.zip || ""
+  });
 
-    window.open(
-      "https://www.google.com/maps/dir/?api=1&destination=" +
-        encodeURIComponent(address),
-      "_blank"
-    );
-  };
+  window.location.href = "navigation.html?" + params.toString();
+};
+
 
   const startButton = document.createElement("button");
   startButton.textContent = "Start Assignment";
