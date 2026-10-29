@@ -23,7 +23,7 @@ main { max-width:650px; margin:auto; padding:15px; }
 h2 { color:var(--red); font-size:19px; }
 .card { border:1px solid #ddd; border-radius:12px;
         padding:16px; margin-bottom:15px; }
-#map { height:340px; width:100%;
+#map { height:420px; width:100%;
        border-radius:12px; margin-bottom:15px; }
 button, .button {
   display:block; width:100%; padding:16px;
@@ -68,9 +68,7 @@ small { color:#555; }
     <button id="route" disabled>
       Get Driving Route
     </button>
-    <button id="follow" disabled class="secondary">
-      Follow My Location
-    </button>
+    
   </div>
 
   <div class="card">
@@ -142,8 +140,10 @@ sessionStorage.setItem(storageKey, JSON.stringify({
 }));
 
 const statusBox = document.getElementById("status");
+
 const routeButton = document.getElementById("route");
-const followButton = document.getElementById("follow");
+
+
 const directionsBox = document.getElementById("directions");
 
 const map = L.map("map").setView([37.5,-78.5],7);
@@ -180,7 +180,7 @@ function updateLocation(lat, lon) {
 
   map.setView(myLocation,15);
   routeButton.disabled = !destinationLocation;
-  followButton.disabled = false;
+ 
 }
 
 function gpsError(error) {
@@ -210,34 +210,6 @@ document.getElementById("locate")
   );
 });
 
-document.getElementById("follow")
-.addEventListener("click", () => {
-  if (watchId !== null) {
-    navigator.geolocation.clearWatch(watchId);
-    watchId = null;
-    followButton.textContent = "Follow My Location";
-    status("Live location tracking stopped.");
-    return;
-  }
-
-  watchId = navigator.geolocation.watchPosition(
-    position => {
-      updateLocation(
-        position.coords.latitude,
-        position.coords.longitude
-      );
-      status("Following your GPS location.");
-    },
-    gpsError,
-    {
-      enableHighAccuracy:true,
-      maximumAge:3000,
-      timeout:20000
-    }
-  );
-
-  followButton.textContent = "Stop Following";
-});
 
 async function findDestination() {
   if (!destinationText) {
