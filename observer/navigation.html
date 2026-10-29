@@ -3,299 +3,244 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Realtor Guard | GPS Navigation</title>
-
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
 <style>
 :root {
-  --red:#c00000;
-  --dark:#202020;
-  --gray:#66717e;
+  --red: #a90000;
+  --blue: #0866df;
+  --gray: #647080;
 }
-* { box-sizing:border-box; }
+* { box-sizing: border-box; }
 body {
-  margin:0;
-  background:#fff;
-  font-family:Arial,sans-serif;
-  color:var(--dark);
+  margin: 0;
+  background: #fff;
+  font-family: Arial, sans-serif;
+  color: #202020;
 }
 .page {
-  max-width:720px;
-  margin:auto;
-  padding:18px 15px 35px;
+  max-width: 760px;
+  margin: auto;
+  padding: 18px 15px 35px;
 }
 header {
-  position:relative;
-  text-align:center;
-  padding:12px 45px 25px;
+  position: relative;
+  text-align: center;
+  padding: 12px 45px 25px;
 }
 .brand {
-  color:var(--red);
-  font-size:27px;
-  font-weight:900;
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--red);
 }
 .tagline {
-  color:var(--red);
-  font-size:10px;
-  font-weight:bold;
-  letter-spacing:.5px;
+  color: var(--red);
+  font-size: 11px;
+  font-weight: bold;
 }
 .menu {
-  position:absolute;
-  right:5px;
-  top:12px;
-  border:0;
-  background:white;
-  color:var(--red);
-  font-size:35px;
-  cursor:pointer;
-}
-.menu-links {
-  display:none;
-  position:absolute;
-  right:5px;
-  top:55px;
-  background:white;
-  border:1px solid #ddd;
-  border-radius:10px;
-  padding:12px;
-  z-index:1500;
-  box-shadow:0 3px 12px #0002;
-}
-.menu-links a {
-  display:block;
-  color:var(--red);
-  padding:9px;
-  text-decoration:none;
-  font-weight:bold;
+  position: absolute;
+  right: 5px;
+  top: 10px;
+  color: var(--red);
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
 }
 h1 {
-  color:var(--red);
-  font-size:32px;
-  margin:12px 0 3px;
+  color: var(--red);
+  font-size: 32px;
+  margin: 15px 0 3px;
 }
 .subtitle {
-  color:var(--gray);
-  font-size:17px;
-  font-weight:bold;
-  margin:0 0 17px;
+  color: var(--gray);
+  font-weight: bold;
+  margin: 0 0 20px;
 }
 #map {
-  height:440px;
-  width:100%;
-  border-radius:17px;
-  overflow:hidden;
-  background:#ffe5e5;
-  border:1px solid #f0d0d0;
+  height: 480px;
+  border: 1px solid #eee;
+  border-radius: 20px;
+  overflow: hidden;
+  background: white;
 }
-.leaflet-tile-pane {
-  filter:sepia(.35) saturate(1.6)
-         hue-rotate(315deg);
+.leaflet-container {
+  background: white;
 }
 .leaflet-control-zoom a {
-  color:var(--red)!important;
+  color: var(--red) !important;
 }
 .info {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  margin-top:15px;
-  border:1px solid #ddd;
-  border-radius:17px;
-  padding:17px 12px;
-  gap:10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  margin-top: 15px;
+  padding: 18px 12px;
+  gap: 12px;
 }
 .info > div:first-child {
-  border-right:1px solid #ccc;
-  padding-right:10px;
+  border-right: 1px solid #ccc;
+  padding-right: 10px;
 }
 .info strong {
-  color:var(--red);
-  font-size:15px;
+  display: block;
+  color: var(--red);
+  margin-bottom: 8px;
 }
 .info p {
-  margin:8px 0 0;
-  line-height:1.5;
-  overflow-wrap:anywhere;
+  margin: 5px 0;
+  overflow-wrap: anywhere;
 }
-#eta {
-  font-size:23px;
-  font-weight:bold;
-}
-button.route {
-  width:100%;
-  margin-top:15px;
-  padding:19px 12px;
-  background:var(--red);
-  color:white;
-  border:0;
-  border-radius:16px;
-  font-size:20px;
-  font-weight:bold;
-  cursor:pointer;
+.route-button {
+  display: block;
+  width: 100%;
+  margin: 15px 0;
+  padding: 20px 12px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--red);
+  color: white;
+  font-size: 21px;
+  font-weight: bold;
+  cursor: pointer;
 }
 .directions {
-  border:1px solid #ddd;
-  border-radius:17px;
-  padding:17px;
-  margin-top:15px;
+  border: 1px solid #ddd;
+  border-radius: 18px;
+  padding: 16px;
 }
 .directions h2 {
-  color:var(--red);
-  font-size:21px;
-  margin:0 0 7px;
+  color: var(--red);
+  margin: 0 0 8px;
+  font-size: 22px;
 }
 .directions p {
-  color:var(--gray);
-  margin:0;
-  line-height:1.5;
+  color: var(--gray);
+  margin: 0;
+  line-height: 1.5;
 }
 #steps {
-  margin-top:12px;
-  padding-left:23px;
-  line-height:1.7;
-}
-#steps li {
-  padding:8px 0;
-  border-bottom:1px solid #eee;
+  padding-left: 24px;
+  line-height: 1.6;
 }
 .back {
-  display:block;
-  text-align:center;
-  border:2px solid var(--red);
-  color:var(--red);
-  border-radius:16px;
-  margin-top:20px;
-  padding:19px 8px;
-  font-size:19px;
-  font-weight:bold;
-  text-decoration:none;
+  display: block;
+  margin-top: 20px;
+  padding: 20px 10px;
+  text-align: center;
+  border: 2px solid var(--red);
+  border-radius: 18px;
+  color: var(--red);
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
 }
-.status {
-  font-size:13px;
-  color:var(--gray);
-  margin-top:9px;
-  text-align:center;
+.gps-dot {
+  width: 24px;
+  height: 24px;
+  background: var(--blue);
+  border: 5px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px var(--blue);
 }
-@media(max-width:480px) {
-  #map { height:390px; }
-  h1 { font-size:29px; }
-  .info { padding:13px 9px; }
-  .info strong { font-size:13px; }
-  .info p { font-size:13px; }
-  #eta { font-size:20px; }
+.pin {
+  font-size: 36px;
+  line-height: 40px;
+  color: var(--red);
+  text-shadow: 0 2px 3px white;
+}
+@media(max-width: 480px) {
+  .brand { font-size: 22px; }
+  h1 { font-size: 29px; }
+  #map { height: 420px; }
+  .info { font-size: 14px; }
+  .route-button { font-size: 19px; }
+  .back { font-size: 17px; }
 }
 </style>
 </head>
-
 <body>
 <div class="page">
+  <header>
+    <div class="brand">REALTOR GUARD</div>
+    <div class="tagline">
+      NEVER ALONE AT A SHOWING OR OPEN HOUSE
+    </div>
+    <button class="menu" id="menuButton"
+      aria-label="Return to assignments">☰</button>
+  </header>
 
-<header>
-  <div class="brand">REALTOR GUARD</div>
-  <div class="tagline">
-    NEVER ALONE AT A SHOWING OR OPEN HOUSE
-  </div>
-  <button class="menu" id="menuButton"
-    aria-label="Open menu">☰</button>
-  <nav class="menu-links" id="menuLinks">
-    <a href="my-assignments.html">My Assignments</a>
-    <a href="dashboard.html">Dashboard</a>
-  </nav>
-</header>
-
-<h1>GPS Navigation</h1>
-<p class="subtitle">
-  Follow the route to the property location.
-</p>
-
-<div id="map" aria-label="Interactive GPS map"></div>
-
-<div class="info">
-  <div>
-    <strong>📍 Property Address</strong>
-    <p id="address">Loading assignment...</p>
-  </div>
-  <div>
-    <strong>🚘 Estimated Drive Time</strong>
-    <p id="eta">—</p>
-    <p id="distance">—</p>
-  </div>
-</div>
-
-<button class="route" id="routeButton">
-  🚘 Get Driving Route ❯
-</button>
-
-<section class="directions">
-  <h2>Driving Directions</h2>
-  <p id="instruction">
-    Tap Get Driving Route to calculate directions
-    inside Realtor Guard.
+  <h1>GPS Navigation</h1>
+  <p class="subtitle">
+    Follow the route to the property location.
   </p>
-  <ol id="steps"></ol>
-</section>
 
-<a class="back" href="my-assignments.html">
-  ← Return to My Assignments
-</a>
+  <div id="map" aria-label="GPS navigation map"></div>
 
-<div class="status" id="status" role="status">
-  Waiting for assignment information.
-</div>
+  <div class="info">
+    <div>
+      <strong>📍 Property Address</strong>
+      <p id="address">Loading property...</p>
+    </div>
+    <div>
+      <strong>🚘 Estimated Drive Time</strong>
+      <p id="eta">—</p>
+      <p id="distance">—</p>
+    </div>
+  </div>
 
+  <button class="route-button" id="routeButton">
+    🚘 Get Driving Route ❯
+  </button>
+
+  <section class="directions">
+    <h2>Driving Directions</h2>
+    <p id="instruction">
+      Tap Get Driving Route to calculate directions
+      inside Realtor Guard.
+    </p>
+    <ol id="steps"></ol>
+  </section>
+
+  <a class="back" href="my-assignments.html">
+    ← Return to My Assignments
+  </a>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <script>
-"use strict";
-
 const $ = id => document.getElementById(id);
-
-$("menuButton").addEventListener("click", () => {
-  const menu = $("menuLinks");
-  menu.style.display =
-    menu.style.display === "block" ? "none" : "block";
-});
-
-function status(message) {
-  $("status").textContent = message;
-}
-
 const params = new URLSearchParams(location.search);
 
 const address =
   params.get("address") ||
   params.get("property_address") || "";
-
 const city = params.get("city") || "";
 const state = params.get("state") || "";
 const zip = params.get("zip") || "";
 
-const destinationText =
-  [address, city, state, zip]
-    .filter(Boolean)
-    .join(", ");
+const destinationText = [address, city, state, zip]
+  .filter(Boolean).join(", ");
 
 $("address").textContent =
   destinationText || "No property selected";
 
-const map = L.map("map").setView(
-  [37.5407,-77.4360], 11
-);
+$("menuButton").onclick = () => {
+  location.href = "my-assignments.html";
+};
 
-
+const map = L.map("map").setView([37.54, -77.44], 11);
 
 L.tileLayer(
-  "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
     maxZoom: 19,
-    attribution: '&copy; OpenStreetMap contributors'
+    attribution: "&copy; OpenStreetMap contributors"
   }
 ).addTo(map);
-
 
 let userPosition = null;
 let destination = null;
@@ -303,267 +248,167 @@ let userMarker = null;
 let destinationMarker = null;
 let routeLine = null;
 
-const destinationIcon = L.divIcon({
-  className:"",
-  html:
-    '<div style="font-size:34px;color:#c00000;' +
-    'text-shadow:0 2px 3px white">📍</div>',
-  iconSize:[35,40],
-  iconAnchor:[17,36]
+const gpsIcon = L.divIcon({
+  className: "",
+  html: '<div class="gps-dot"></div>',
+  iconSize: [32, 32],
+  iconAnchor: [16, 16]
 });
 
-function setUserPosition(lat,lng) {
-  userPosition = [lat,lng];
+const pinIcon = L.divIcon({
+  className: "",
+  html: '<div class="pin">📍</div>',
+  iconSize: [36, 42],
+  iconAnchor: [18, 40]
+});
 
-  if (!userMarker) {
-    userMarker = L.circleMarker(userPosition,{
-      radius:10,
-      color:"#fff",
-      weight:3,
-      fillColor:"#1677ff",
-      fillOpacity:1
-    }).addTo(map).bindPopup("Your GPS location");
-  } else {
+function setUserPosition(lat, lon) {
+  userPosition = [lat, lon];
+  if (userMarker) {
     userMarker.setLatLng(userPosition);
+  } else {
+    userMarker = L.marker(userPosition, {
+      icon: gpsIcon
+    }).addTo(map);
   }
-
-  if (!destination) {
-    map.setView(userPosition,14);
-  }
+  if (!destination) map.setView(userPosition, 13);
 }
 
-function startGPS() {
-  if (!navigator.geolocation) {
-    status("GPS is not supported by this browser.");
-    return;
-  }
-
+if (navigator.geolocation) {
   navigator.geolocation.watchPosition(
     position => {
       setUserPosition(
         position.coords.latitude,
         position.coords.longitude
       );
-      status("GPS location updated.");
     },
     error => {
-      status("GPS unavailable: " + error.message);
+      $("instruction").textContent =
+        "Location unavailable. Allow GPS access to calculate your route.";
     },
     {
-      enableHighAccuracy:true,
-      maximumAge:5000,
-      timeout:15000
+      enableHighAccuracy: true,
+      maximumAge: 10000,
+      timeout: 15000
     }
   );
 }
 
 async function findDestination() {
-  const lat = Number(params.get("lat"));
-  const lng = Number(params.get("lng"));
+  if (!destinationText) return;
 
-  if (
-    params.has("lat") &&
-    params.has("lng") &&
-    Number.isFinite(lat) &&
-    Number.isFinite(lng) &&
-    Math.abs(lat)<=90 &&
-    Math.abs(lng)<=180
-  ) {
-    destination = [lat,lng];
-  } else if (destinationText) {
-    try {
-      const url =
-        "https://nominatim.openstreetmap.org/search?" +
-        new URLSearchParams({
-          q:destinationText,
-          format:"json",
-          limit:"1"
-        });
+  const url =
+    "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
+    encodeURIComponent(destinationText);
 
-      const response = await fetch(url);
-      if (!response.ok) throw Error("Search unavailable");
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("Address lookup failed");
 
-      const results = await response.json();
+  const results = await response.json();
+  if (!results.length) throw new Error("Property not found");
 
-      if (results.length) {
-        destination = [
-          Number(results[0].lat),
-          Number(results[0].lon)
-        ];
-      }
-    } catch(error) {
-      status("Could not look up the property address.");
-    }
-  }
+  destination = [
+    Number(results[0].lat),
+    Number(results[0].lon)
+  ];
 
-  if (destination) {
-    destinationMarker = L.marker(destination,{
-      icon:destinationIcon
-    }).addTo(map);
+  destinationMarker = L.marker(destination, {
+    icon: pinIcon
+  }).addTo(map);
 
-    destinationMarker.bindPopup(
-      destinationText || "Property destination"
-    );
-
-    map.setView(destination,13);
-    status("Property location loaded.");
-  } else {
-    status(
-      "Open navigation from an assignment with a valid address."
-    );
-  }
+  map.setView(destination, 13);
 }
 
-function kmToMiles(km) {
-  return (km * 0.621371).toFixed(1);
-}
-
-function cleanInstruction(text) {
-  const div = document.createElement("div");
-  div.innerHTML = text;
-  return div.textContent || "";
-}
-
-function stepText(step) {
-  const type = step.maneuver?.type || "";
-  const modifier = step.maneuver?.modifier || "";
-  const road = step.name || "the road";
-
-  if (type === "arrive") {
-    return "Arrive at the property.";
-  }
-  if (type === "depart") {
-    return "Start on " + road + ".";
-  }
-  if (type === "roundabout") {
-    return "Enter the roundabout toward " + road + ".";
-  }
-
-  return (
-    (type === "turn" ? "Turn " : "Continue ") +
-    (modifier ? modifier + " " : "") +
-    "onto " + road + "."
-  );
-}
-
-async function calculateRoute() {
+async function getRoute() {
   if (!destination) {
-    status("Property destination is missing.");
+    $("instruction").textContent =
+      "Property location is not available.";
     return;
   }
-
   if (!userPosition) {
-    status(
-      "Allow location access and wait for GPS before routing."
-    );
+    $("instruction").textContent =
+      "Allow location access to calculate your driving route.";
     return;
   }
 
-  $("routeButton").disabled = true;
-  $("routeButton").textContent = "Calculating route...";
-  status("Calculating driving route.");
+  $("instruction").textContent = "Calculating driving route...";
 
   try {
-    const coordinates =
-      userPosition[1] + "," + userPosition[0] +
-      ";" +
-      destination[1] + "," + destination[0];
+    const [startLat, startLon] = userPosition;
+    const [endLat, endLon] = destination;
 
     const url =
       "https://router.project-osrm.org/route/v1/driving/" +
-      coordinates +
+      startLon + "," + startLat + ";" +
+      endLon + "," + endLat +
       "?overview=full&geometries=geojson&steps=true";
 
     const response = await fetch(url);
-
-    if (!response.ok) {
-      throw Error("Routing service unavailable");
-    }
+    if (!response.ok) throw new Error("Routing unavailable");
 
     const data = await response.json();
-
-    if (data.code !== "Ok" || !data.routes?.length) {
-      throw Error("No driving route found");
+    if (!data.routes || !data.routes.length) {
+      throw new Error("No driving route found");
     }
 
     const route = data.routes[0];
+    const coordinates =
+      route.geometry.coordinates.map(
+        point => [point[1], point[0]]
+      );
 
-    if (routeLine) {
-      map.removeLayer(routeLine);
-    }
+    if (routeLine) map.removeLayer(routeLine);
 
-    routeLine = L.geoJSON(route.geometry,{
-      style:{
-        color:"#c00000",
-        weight:7,
-        opacity:.92
-      }
+    routeLine = L.polyline(coordinates, {
+      color: "#a90000",
+      weight: 11,
+      opacity: 1,
+      lineJoin: "round",
+      lineCap: "round"
     }).addTo(map);
 
-    map.fitBounds(routeLine.getBounds(),{
-      padding:[35,35]
+    map.fitBounds(routeLine.getBounds(), {
+      padding: [35, 35]
     });
 
-    $("eta").textContent =
-      Math.max(1,Math.round(route.duration/60)) +
-      " min";
+    const minutes = Math.round(route.duration / 60);
+    const miles = route.distance / 1609.344;
 
+    $("eta").textContent = minutes + " min";
     $("distance").textContent =
-      "(" + kmToMiles(route.distance/1000) +
-      " miles)";
-
-    $("steps").replaceChildren();
-
-    let stepCount = 0;
-
-    for (const leg of route.legs || []) {
-      for (const step of leg.steps || []) {
-        const li = document.createElement("li");
-
-        const miles = step.distance / 1609.344;
-        const distanceLabel =
-          step.distance < 100
-            ? Math.round(step.distance * 3.28084) + " ft"
-            : miles.toFixed(1) + " mi";
-
-        li.textContent =
-          stepText(step) +
-          (step.maneuver?.type === "arrive"
-            ? ""
-            : " (" + distanceLabel + ")");
-
-        $("steps").appendChild(li);
-        stepCount++;
-      }
-    }
+      "(" + miles.toFixed(1) + " miles)";
 
     $("instruction").textContent =
-      "Follow these directions to the property.";
+      "Follow the directions below to reach the property.";
 
-    status(
-      "Driving route ready. " +
-      stepCount + " direction steps loaded."
-    );
+    const steps = $("steps");
+    steps.innerHTML = "";
 
-  } catch(error) {
-    status(
-      "Unable to calculate route: " + error.message
-    );
+    route.legs.forEach(leg => {
+      leg.steps.forEach(step => {
+        if (!step.maneuver) return;
+        const item = document.createElement("li");
+        item.textContent =
+          step.maneuver.type.replace(/_/g, " ") +
+          (step.name ? " onto " + step.name : "") +
+          " — " +
+          (step.distance / 1609.344).toFixed(2) +
+          " miles";
+        steps.appendChild(item);
+      });
+    });
+  } catch (error) {
     $("instruction").textContent =
-      "Route unavailable. Please try again.";
-  } finally {
-    $("routeButton").disabled = false;
-    $("routeButton").textContent =
-      "🚘 Get Driving Route ❯";
+      "Unable to calculate route. Please try again.";
   }
 }
 
-$("routeButton").addEventListener(
-  "click", calculateRoute
-);
+$("routeButton").onclick = getRoute;
 
-startGPS();
-findDestination();
+findDestination().catch(() => {
+  $("instruction").textContent =
+    "Unable to find the property address.";
+});
 </script>
 </body>
 </html>
