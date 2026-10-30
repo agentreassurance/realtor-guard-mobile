@@ -11,15 +11,21 @@
 * { box-sizing:border-box; }
 body { margin:0; background:#fff; font-family:Arial,sans-serif; color:#202020; }
 main { max-width:480px; margin:auto; padding:15px; }
-header { display:flex; align-items:center; justify-content:space-between; min-height:55px; }
-.logo { max-width:185px; max-height:60px; object-fit:contain; }
-.menu { background:white; border:0; color:var(--dark); font-size:30px; cursor:pointer; }
+header { display:flex; align-items:center; justify-content:center; position:relative; min-height:110px; }
+.logo { max-width:250px; max-height:135px; object-fit:contain; }
+.menu { position:absolute; right:0; top:8px; background:white; border:0; color:var(--dark); font-size:30px; cursor:pointer; }
 h1 { color:var(--dark); font-size:29px; margin:16px 0 5px; }
 .subtitle { color:#626c7a; margin:0 0 17px; }
-#map { width:100%; height:440px; background:white; border:1px solid #efd3d3; border-radius:17px; overflow:hidden; }
+#map { width:100%; height:440px; background:#fff1f1; border:1px solid #efd3d3; border-radius:17px; overflow:hidden; position:relative; }
+#map::after { content:""; position:absolute; inset:0; background:rgba(220,0,0,.09); pointer-events:none; z-index:2; }
 .status { font-size:13px; color:#626c7a; margin:12px 0; }
 .card { border:1px solid #e5e5e5; border-radius:16px; padding:17px; margin:13px 0; background:white; }
 .info { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.info > div + div { border-left:1px solid #ddd; padding-left:14px; }
+@media(max-width:350px) {
+  .info { grid-template-columns:1fr; }
+  .info > div + div { border-left:0; border-top:1px solid #ddd; padding:12px 0 0; }
+}
 h2 { color:var(--dark); font-size:18px; margin:0 0 10px; }
 .value { font-size:15px; overflow-wrap:anywhere; }
 button.action, a.action { display:block; width:100%; text-align:center; font-size:16px; font-weight:bold; padding:17px 12px; border-radius:14px; cursor:pointer; text-decoration:none; margin-top:13px; }
@@ -46,24 +52,24 @@ button.action, a.action { display:block; width:100%; text-align:center; font-siz
 <p id="status" class="status">Preparing GPS navigation…</p>
 
 <section class="card info">
-<div>
-<h2>Property Address</h2>
-<div class="value" id="address">No property selected</div>
-</div>
-<div>
-<h2>Estimated Drive Time</h2>
-<div class="value" id="eta">—</div>
-<div class="status" id="distance">—</div>
-</div>
+  <div>
+    <h2>Property Address</h2>
+    <div class="value" id="address">No property selected</div>
+  </div>
+  <div>
+    <h2>Estimated Drive Time</h2>
+    <div class="value" id="eta">—</div>
+    <div class="status" id="distance">—</div>
+  </div>
 </section>
 
 <button class="action primary" id="routeBtn" type="button">🚗 Get Driving Route</button>
 
 <section class="card">
-<h2>Driving Directions</h2>
-<ol id="directions">
-<li>Select Get Driving Route to begin.</li>
-</ol>
+  <h2>Driving Directions</h2>
+  <ol id="directions">
+    <li>Open an assignment, then tap Get Driving Route for turn-by-turn directions.</li>
+  </ol>
 </section>
 
 <a class="action secondary" href="my-assignments.html">Return to My Assignments</a>
@@ -78,6 +84,7 @@ const addressParts = [
   params.get("state"),
   params.get("zip")
 ].filter(Boolean);
+
 const propertyAddress = addressParts.join(", ");
 const statusEl = document.getElementById("status");
 const addressEl = document.getElementById("address");
@@ -94,48 +101,54 @@ let destinationMarker = null;
 
 const map = new maplibregl.Map({
   container:"map",
-  style:"https://tiles.openfreemap.org/styles/liberty",
+  style:{
+    version:8,
+    sources:{
+      "street-base":{
+        type:"raster",
+        tiles:[
+          "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+          "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+          "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
+        ],
+        tileSize:256,
+        attribution:"© OpenStreetMap contributors © CARTO"
+      }
+    },
+    layers:[
+      {id:"street-base",type:"raster",source:"street-base"}
+    ]
+  },
   center:[-77.436,37.541],
   zoom:11,
   attributionControl:true
 });
+
 map.addControl(new maplibregl.NavigationControl(),"top-left");
 
 function setStatus(message) {
   statusEl.textContent = message;
 }
 
-function styleRoads() {
-  const style = map.getStyle();
-  if (!style || !style.layers) return;
-  for (const layer of style.layers) {
-    const id = layer.id.toLowerCase();
-    if (layer.type === "background") {
-      map.setPaintProperty(layer.id,"background-color","#ffffff");
-    }
-    if (layer.type === "fill" && /landcover|landuse|park|grass|wood|building/.test(id)) {
-      map.setPaintProperty(layer.id,"fill-color","#ffffff");
-      map.setPaintProperty(layer.id,"fill-opacity",0.85);
-    }
-    if (layer.type === "line" && /road|street|highway|motorway|trunk|primary|secondary|tertiary/.test(id) && !/rail|path|pedestrian/.test(id)) {
-    map.setPaintProperty(layer.id,"line-color","#990000");
-    }
-  }
-}
-
 map.on("load",() => {
-  try { styleRoads(); } catch(e) { console.warn("Map styling:",e); }
-  setStatus("Map ready. Select Get Driving Route.");
+  setStatus(
+    propertyAddress
+      ? "Finding the property…"
+      : "Open Navigation from My Assignments to load a property."
+  );
   if (propertyAddress) locateDestination();
 });
 
 function showGPS(lon,lat) {
   currentPosition = [lon,lat];
+
   if (!gpsMarker) {
     const dot = document.createElement("div");
     dot.className = "gps-dot";
+
     gpsMarker = new maplibregl.Marker({element:dot})
-      .setLngLat(currentPosition).addTo(map);
+      .setLngLat(currentPosition)
+      .addTo(map);
   } else {
     gpsMarker.setLngLat(currentPosition);
   }
@@ -147,6 +160,7 @@ function getGPS() {
       reject(new Error("GPS is not supported on this device."));
       return;
     }
+
     navigator.geolocation.getCurrentPosition(
       position => {
         const lon = position.coords.longitude;
@@ -154,33 +168,63 @@ function getGPS() {
         showGPS(lon,lat);
         resolve([lon,lat]);
       },
-      error => reject(new Error("Location unavailable. Allow location access in your browser and try again.")),
-      {enableHighAccuracy:true,timeout:20000,maximumAge:10000}
+      () => reject(
+        new Error("Location unavailable. Allow location access in your browser and try again.")
+      ),
+      {
+        enableHighAccuracy:true,
+        timeout:20000,
+        maximumAge:10000
+      }
     );
   });
 }
 
 async function locateDestination() {
   if (!propertyAddress) return;
+
   setStatus("Finding the property address…");
+
   try {
-    const url = "https://nominatim.openstreetmap.org/search?format=json&limit=1&q="
-      + encodeURIComponent(propertyAddress);
+    const url =
+      "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
+      encodeURIComponent(propertyAddress);
+
     const response = await fetch(url);
-    if (!response.ok) throw new Error("Address lookup unavailable.");
+
+    if (!response.ok) {
+      throw new Error("Address lookup unavailable.");
+    }
+
     const results = await response.json();
-    if (!results.length) throw new Error("Property address not found. Check the assignment address.");
-    destination = [Number(results[0].lon),Number(results[0].lat)];
+
+    if (!results.length) {
+      throw new Error("Property address not found. Check the assignment address.");
+    }
+
+    destination = [
+      Number(results[0].lon),
+      Number(results[0].lat)
+    ];
 
     if (destinationMarker) destinationMarker.remove();
+
     const pin = document.createElement("div");
     pin.className = "destination";
     pin.textContent = "📍";
-    destinationMarker = new maplibregl.Marker({element:pin,anchor:"bottom"})
+
+    destinationMarker = new maplibregl.Marker({
+      element:pin,
+      anchor:"bottom"
+    })
       .setLngLat(destination)
-      .setPopup(new maplibregl.Popup().setText(propertyAddress))
+      .setPopup(
+        new maplibregl.Popup().setText(propertyAddress)
+      )
       .addTo(map);
+
     map.flyTo({center:destination,zoom:13});
+
     setStatus("Property located. Select Get Driving Route.");
   } catch(error) {
     setStatus(error.message);
@@ -190,33 +234,62 @@ async function locateDestination() {
 function displayRoute(coordinates) {
   const data = {
     type:"Feature",
-    geometry:{type:"LineString",coordinates},
+    geometry:{
+      type:"LineString",
+      coordinates:coordinates
+    },
     properties:{}
   };
+
   if (map.getSource("driving-route")) {
     map.getSource("driving-route").setData(data);
   } else {
-    map.addSource("driving-route",{type:"geojson",data});
+    map.addSource("driving-route",{
+      type:"geojson",
+      data:data
+    });
+
     map.addLayer({
       id:"driving-route-outline",
       type:"line",
       source:"driving-route",
-      layout:{"line-join":"round","line-cap":"round"},
-      paint:{"line-color":"#ffffff","line-width":13}
+      layout:{
+        "line-join":"round",
+        "line-cap":"round"
+      },
+      paint:{
+        "line-color":"#ffffff",
+        "line-width":13
+      }
     });
+
     map.addLayer({
       id:"driving-route-line",
       type:"line",
       source:"driving-route",
-      layout:{"line-join":"round","line-cap":"round"},
-      paint:{"line-color":"#a90000","line-width":9}
+      layout:{
+        "line-join":"round",
+        "line-cap":"round"
+      },
+      paint:{
+        "line-color":"#a90000",
+        "line-width":9
+      }
     });
   }
+
   const bounds = coordinates.reduce(
     (b,point) => b.extend(point),
-    new maplibregl.LngLatBounds(coordinates[0],coordinates[0])
+    new maplibregl.LngLatBounds(
+      coordinates[0],
+      coordinates[0]
+    )
   );
-  map.fitBounds(bounds,{padding:55,maxZoom:15});
+
+  map.fitBounds(bounds,{
+    padding:55,
+    maxZoom:15
+  });
 }
 
 function readableInstruction(step) {
@@ -224,6 +297,7 @@ function readableInstruction(step) {
   const road = step.name ? " onto " + step.name : "";
   const type = maneuver.type || "continue";
   const modifier = maneuver.modifier || "";
+
   if (type === "arrive") return "You have arrived at the property.";
   if (type === "depart") return "Depart" + road + ".";
   if (type === "turn") return "Turn " + modifier + road + ".";
@@ -231,41 +305,65 @@ function readableInstruction(step) {
   if (type === "merge") return "Merge " + modifier + road + ".";
   if (type === "on ramp") return "Take the ramp" + road + ".";
   if (type === "off ramp") return "Take the exit" + road + ".";
+
   return "Continue" + road + ".";
 }
 
 async function getDrivingRoute() {
   const button = document.getElementById("routeBtn");
   button.disabled = true;
+
   try {
-    if (!propertyAddress) throw new Error("Open Navigation from an assignment to load its property address.");
+    if (!propertyAddress) {
+      throw new Error(
+        "Open Navigation from an assignment to load its property address."
+      );
+    }
+
     if (!destination) await locateDestination();
-    if (!destination) throw new Error("Could not locate the property address.");
+
+    if (!destination) {
+      throw new Error("Could not locate the property address.");
+    }
 
     setStatus("Getting your current GPS location…");
     const start = await getGPS();
+
     setStatus("Calculating driving directions…");
 
-    const routeUrl = "https://router.project-osrm.org/route/v1/driving/"
-      + start.join(",") + ";" + destination.join(",")
-      + "?overview=full&geometries=geojson&steps=true";
+    const routeUrl =
+      "https://router.project-osrm.org/route/v1/driving/" +
+      start.join(",") + ";" + destination.join(",") +
+      "?overview=full&geometries=geojson&steps=true";
 
     const response = await fetch(routeUrl);
-    if (!response.ok) throw new Error("Driving route service unavailable.");
+
+    if (!response.ok) {
+      throw new Error("Driving route service unavailable.");
+    }
+
     const result = await response.json();
+
     if (result.code !== "Ok" || !result.routes?.length) {
       throw new Error("No driving route found.");
     }
 
     const route = result.routes[0];
+
     displayRoute(route.geometry.coordinates);
 
-    const minutes = Math.max(1,Math.round(route.duration/60));
+    const minutes = Math.max(
+      1,
+      Math.round(route.duration/60)
+    );
+
     const miles = route.distance/1609.344;
+
     etaEl.textContent = minutes + " min";
     distanceEl.textContent = miles.toFixed(1) + " miles";
 
     directionsEl.replaceChildren();
+
     for (const leg of route.legs) {
       for (const step of leg.steps) {
         const li = document.createElement("li");
@@ -273,7 +371,10 @@ async function getDrivingRoute() {
         directionsEl.appendChild(li);
       }
     }
-    setStatus("Driving route ready. Follow traffic laws and road signs.");
+
+    setStatus(
+      "Driving route ready. Follow traffic laws and road signs."
+    );
   } catch(error) {
     setStatus(error.message);
   } finally {
@@ -281,7 +382,8 @@ async function getDrivingRoute() {
   }
 }
 
-document.getElementById("routeBtn").addEventListener("click",getDrivingRoute);
+document.getElementById("routeBtn")
+  .addEventListener("click",getDrivingRoute);
 </script>
 </body>
 </html>
