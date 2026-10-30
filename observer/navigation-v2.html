@@ -118,7 +118,7 @@ function styleRoads() {
       map.setPaintProperty(layer.id,"fill-opacity",0.85);
     }
     if (layer.type === "line" && /road|street|highway|motorway|trunk|primary|secondary|tertiary/.test(id) && !/rail|path|pedestrian/.test(id)) {
-      map.setPaintProperty(layer.id,"line-color","#df4a4a");
+    map.setPaintProperty(layer.id,"line-color","#990000");
     }
   }
 }
