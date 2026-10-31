@@ -2,386 +2,616 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Realtor Guard | GPS Navigation</title>
-<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
-<style>
-:root { --red:#b90000; --dark:#990000; }
-* { box-sizing:border-box; }
-body { margin:0; background:#fff; font-family:Arial,sans-serif; color:#202020; }
-main { max-width:480px; margin:auto; padding:15px; }
-header { display:flex; align-items:center; justify-content:center; position:relative; min-height:110px; }
-.logo { max-width:250px; max-height:135px; object-fit:contain; }
-.menu { position:absolute; right:0; top:8px; background:white; border:0; color:var(--dark); font-size:30px; cursor:pointer; }
-h1 { color:var(--dark); font-size:29px; margin:16px 0 5px; }
-.subtitle { color:#626c7a; margin:0 0 17px; }
-#map { width:100%; height:440px; background:#fff1f1; border:1px solid #efd3d3; border-radius:17px; overflow:hidden; position:relative; }
-#map::after { content:""; position:absolute; inset:0; background:rgba(220,0,0,.09); pointer-events:none; z-index:2; }
-.status { font-size:13px; color:#626c7a; margin:12px 0; }
-.card { border:1px solid #e5e5e5; border-radius:16px; padding:17px; margin:13px 0; background:white; }
-.info { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.info > div + div { border-left:1px solid #ddd; padding-left:14px; }
-@media(max-width:350px) {
-  .info { grid-template-columns:1fr; }
-  .info > div + div { border-left:0; border-top:1px solid #ddd; padding:12px 0 0; }
-}
-h2 { color:var(--dark); font-size:18px; margin:0 0 10px; }
-.value { font-size:15px; overflow-wrap:anywhere; }
-button.action, a.action { display:block; width:100%; text-align:center; font-size:16px; font-weight:bold; padding:17px 12px; border-radius:14px; cursor:pointer; text-decoration:none; margin-top:13px; }
-.primary { background:var(--red); color:white; border:2px solid var(--red); }
-.secondary { background:white; color:var(--dark); border:2px solid var(--red); }
-#directions { padding-left:23px; line-height:1.65; font-size:14px; }
-#directions li { margin-bottom:8px; }
-.maplibregl-ctrl-group button { color:var(--dark); }
-.gps-dot { width:23px; height:23px; border-radius:50%; background:#0866df; border:4px solid white; box-shadow:0 0 0 3px #0866df,0 2px 8px #555; }
-.destination { font-size:34px; line-height:1; filter:drop-shadow(0 2px 2px #777); }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Realtor Guard | GPS Navigation</title>
+
+  <link rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <style>
+    :root {
+      --red: #b90000;
+      --dark: #990000;
+      --pale: #fff1f1;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: white;
+      color: #202020;
+      font-family: Arial, sans-serif;
+    }
+
+    main {
+      max-width: 480px;
+      margin: auto;
+      padding: 15px;
+    }
+
+    header {
+      position: relative;
+      text-align: center;
+      min-height: 105px;
+    }
+
+    .logo {
+      max-width: 250px;
+      max-height: 135px;
+      object-fit: contain;
+    }
+
+    .menu {
+      position: absolute;
+      right: 0;
+      top: 8px;
+      background: white;
+      border: 0;
+      color: var(--dark);
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    h1 {
+      color: var(--dark);
+      font-size: 29px;
+      margin: 15px 0 5px;
+    }
+
+    .subtitle, #status {
+      color: #626c7a;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    #map {
+      width: 100%;
+      height: 440px;
+      border: 1px solid #efd3d3;
+      border-radius: 17px;
+      overflow: hidden;
+      background: var(--pale);
+      margin: 16px 0;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #ead3d3;
+      border-radius: 14px;
+      padding: 15px;
+      margin: 13px 0;
+    }
+
+    .label {
+      color: var(--dark);
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    .value {
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      padding: 16px 12px;
+      margin: 13px 0;
+      border-radius: 12px;
+      border: 2px solid var(--red);
+      background: var(--red);
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .button:disabled {
+      opacity: 0.55;
+      cursor: wait;
+    }
+
+    .outline {
+      background: white;
+      color: var(--dark);
+    }
+
+    .directions {
+      padding-left: 22px;
+      line-height: 1.6;
+    }
+
+    .directions li {
+      margin-bottom: 10px;
+    }
+
+    .gps-marker {
+      background: #1674e8;
+      border: 3px solid white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      box-shadow: 0 0 0 3px #1674e855;
+    }
+
+    .destination-marker {
+      background: var(--red);
+      color: white;
+      border: 2px solid white;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      line-height: 26px;
+      font-weight: bold;
+      box-shadow: 0 2px 8px #0004;
+    }
+
+    .leaflet-control-attribution {
+      font-size: 10px;
+    }
+  </style>
 </head>
+
 <body>
 <main>
-<header>
-<img class="logo" src="../logo.png" alt="Realtor Guard">
-<button class="menu" type="button" aria-label="Return to My Assignments" onclick="location.href='my-assignments.html'">☰</button>
-</header>
+  <header>
+    <img src="../logo.png"
+      alt="Realtor Guard" class="logo">
+    <button class="menu"
+      onclick="window.location.href='my-assignments.html'"
+      aria-label="Return to assignments">&#9776;</button>
+  </header>
 
-<h1>GPS Navigation</h1>
-<p class="subtitle">Follow the route to the property location.</p>
+  <h1>GPS Navigation</h1>
+  <p class="subtitle">
+    Navigate safely to your assigned property.
+  </p>
 
-<div id="map" aria-label="Interactive GPS map"></div>
-<p id="status" class="status">Preparing GPS navigation…</p>
+  <p id="status" role="status">
+    Preparing GPS navigation...
+  </p>
 
-<section class="card info">
-  <div>
-    <h2>Property Address</h2>
-    <div class="value" id="address">No property selected</div>
+  <div id="map" aria-label="Interactive GPS map"></div>
+
+  <div class="card">
+    <div class="label">Property Address</div>
+    <div class="value" id="address">
+      Loading assignment address...
+    </div>
   </div>
-  <div>
-    <h2>Estimated Drive Time</h2>
-    <div class="value" id="eta">—</div>
-    <div class="status" id="distance">—</div>
+
+  <div class="card">
+    <div class="label">Estimated Travel</div>
+    <div class="value" id="eta">
+      Waiting for driving route...
+    </div>
+    <div class="value" id="distance"></div>
   </div>
-</section>
 
-<button class="action primary" id="routeBtn" type="button">🚗 Get Driving Route</button>
+  <button class="button" id="routeButton">
+    Get Driving Route
+  </button>
 
-<section class="card">
-  <h2>Driving Directions</h2>
-  <ol id="directions">
-    <li>Open an assignment, then tap Get Driving Route for turn-by-turn directions.</li>
-  </ol>
-</section>
+  <button class="button outline" id="locationButton">
+    Refresh My GPS Location
+  </button>
 
-<a class="action secondary" href="my-assignments.html">Return to My Assignments</a>
+  <div class="card">
+    <div class="label">Driving Directions</div>
+    <ol class="directions" id="directions">
+      <li>Your directions will appear here.</li>
+    </ol>
+  </div>
+
+  <a class="button outline" href="my-assignments.html">
+    Return to My Assignments
+  </a>
 </main>
 
-<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
-const params = new URLSearchParams(location.search);
-const addressParts = [
+"use strict";
+
+/*
+  GEOAPIFY SETUP
+
+  Replace the placeholder below with your existing
+  Geoapify API key directly inside GitHub.
+
+  Keep your HTTP Origin restriction enabled.
+*/
+
+const GEOAPIFY_KEY = "ce75dfbe2c5347c3907ff060c7ca66fe";
+
+const params = new URLSearchParams(window.location.search);
+
+const propertyAddress = [
   params.get("address"),
   params.get("city"),
   params.get("state"),
   params.get("zip")
-].filter(Boolean);
+].filter(Boolean).join(", ");
 
-const propertyAddress = addressParts.join(", ");
-const statusEl = document.getElementById("status");
 const addressEl = document.getElementById("address");
+const statusEl = document.getElementById("status");
 const etaEl = document.getElementById("eta");
 const distanceEl = document.getElementById("distance");
 const directionsEl = document.getElementById("directions");
+const routeButton = document.getElementById("routeButton");
+const locationButton = document.getElementById("locationButton");
 
-if (propertyAddress) addressEl.textContent = propertyAddress;
-
-let currentPosition = null;
-let destination = null;
+let map;
 let gpsMarker = null;
 let destinationMarker = null;
-
-const map = new maplibregl.Map({
-  container:"map",
-  style:{
-    version:8,
-    sources:{
-      "street-base":{
-        type:"raster",
-        tiles:[
-        "https://maps.geoapify.com/v1/tile/toner-grey/{z}/{x}/{y}.png?apiKey=0372faedb807435c8db23b428595c8ccY"
-],
-        tileSize:256,
-      attribution:"© OpenStreetMap contributors © Geoapify"
-      }
-    },
-    layers:[
-      {id:"street-base",type:"raster",source:"street-base"}
-    ]
-  },
-  center:[-77.436,37.541],
-  zoom:11,
-  attributionControl:true
-});
-
-map.addControl(new maplibregl.NavigationControl(),"top-left");
+let routeLine = null;
+let currentPosition = null;
+let destination = null;
 
 function setStatus(message) {
   statusEl.textContent = message;
 }
 
-map.on("load",() => {
-  setStatus(
-    propertyAddress
-      ? "Finding the property…"
-      : "Open Navigation from My Assignments to load a property."
-  );
-  if (propertyAddress) locateDestination();
-});
-
-function showGPS(lon,lat) {
-  currentPosition = [lon,lat];
-
-  if (!gpsMarker) {
-    const dot = document.createElement("div");
-    dot.className = "gps-dot";
-
-    gpsMarker = new maplibregl.Marker({element:dot})
-      .setLngLat(currentPosition)
-      .addTo(map);
-  } else {
-    gpsMarker.setLngLat(currentPosition);
+function checkKey() {
+  if (!GEOAPIFY_KEY ||
+      GEOAPIFY_KEY === "PASTE_YOUR_GEOAPIFY_KEY_HERE") {
+    setStatus("Geoapify API key must be configured.");
+    return false;
   }
+  return true;
+}
+
+function initializeMap() {
+  map = L.map("map", {
+    zoomControl: false
+  }).setView([38.9, -77.04], 11);
+
+  L.control.zoom({
+    position: "topright"
+  }).addTo(map);
+
+  L.tileLayer(
+    "https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=" +
+    encodeURIComponent(GEOAPIFY_KEY),
+    {
+      attribution:
+        'Powered by <a href="https://www.geoapify.com/">Geoapify</a> | ' +
+        '&copy; OpenStreetMap contributors',
+      maxZoom: 20
+    }
+  ).addTo(map);
+}
+
+function makeMarker(type) {
+  const className = type === "gps"
+    ? "gps-marker"
+    : "destination-marker";
+
+  return L.divIcon({
+    className: "",
+    html: '<div class="' + className + '">' +
+      (type === "gps" ? "" : "&#9679;") +
+      "</div>",
+    iconSize: type === "gps" ? [18, 18] : [30, 30],
+    iconAnchor: type === "gps" ? [9, 9] : [15, 15]
+  });
 }
 
 function getGPS() {
-  return new Promise((resolve,reject) => {
+  return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
-      reject(new Error("GPS is not supported on this device."));
+      reject(new Error("GPS is not supported by this device."));
       return;
     }
 
+    setStatus("Finding your current GPS location...");
+
     navigator.geolocation.getCurrentPosition(
       position => {
-        const lon = position.coords.longitude;
         const lat = position.coords.latitude;
-        showGPS(lon,lat);
-        resolve([lon,lat]);
+        const lon = position.coords.longitude;
+
+        currentPosition = [lat, lon];
+
+        if (gpsMarker) {
+          gpsMarker.setLatLng(currentPosition);
+        } else {
+          gpsMarker = L.marker(currentPosition, {
+            icon: makeMarker("gps")
+          }).addTo(map);
+          gpsMarker.bindPopup("Your current location");
+        }
+
+        map.setView(currentPosition, 15);
+        setStatus("GPS location found.");
+        resolve(currentPosition);
       },
-      () => reject(
-        new Error("Location unavailable. Allow location access in your browser and try again.")
-      ),
+      error => {
+        let message = "Unable to retrieve GPS location.";
+
+        if (error.code === 1) {
+          message = "Please allow location access in your browser.";
+        } else if (error.code === 2) {
+          message = "GPS location is currently unavailable.";
+        } else if (error.code === 3) {
+          message = "GPS location request timed out.";
+        }
+
+        setStatus(message);
+        reject(new Error(message));
+      },
       {
-        enableHighAccuracy:true,
-        timeout:20000,
-        maximumAge:10000
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 0
       }
     );
   });
 }
 
 async function locateDestination() {
-  if (!propertyAddress) return;
+  if (!propertyAddress) {
+    throw new Error(
+      "No property address was provided by the assignment."
+    );
+  }
 
-  setStatus("Finding the property address…");
+  setStatus("Finding the assigned property...");
+
+  const url =
+    "https://api.geoapify.com/v1/geocode/search?text=" +
+    encodeURIComponent(propertyAddress) +
+    "&limit=1&apiKey=" +
+    encodeURIComponent(GEOAPIFY_KEY);
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error("Property address lookup failed.");
+  }
+
+  const data = await response.json();
+
+  if (!data.features || !data.features.length) {
+    throw new Error("Property address could not be located.");
+  }
+
+  const coordinates = data.features[0].geometry.coordinates;
+
+  destination = [
+    coordinates[1],
+    coordinates[0]
+  ];
+
+  if (destinationMarker) {
+    destinationMarker.setLatLng(destination);
+  } else {
+    destinationMarker = L.marker(destination, {
+      icon: makeMarker("destination")
+    }).addTo(map);
+  }
+
+  destinationMarker.bindPopup(propertyAddress);
+
+  if (currentPosition) {
+    map.fitBounds(
+      L.latLngBounds([currentPosition, destination]),
+      { padding: [40, 40] }
+    );
+  } else {
+    map.setView(destination, 14);
+  }
+
+  setStatus("Property located. Ready for driving directions.");
+  return destination;
+}
+
+function formatDistance(meters) {
+  const miles = meters / 1609.344;
+  return miles.toFixed(1) + " miles";
+}
+
+function formatDuration(seconds) {
+  const minutes = Math.ceil(seconds / 60);
+
+  if (minutes < 60) {
+    return minutes + " minutes";
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const remaining = minutes % 60;
+
+  return hours + " hr" +
+    (remaining ? " " + remaining + " min" : "");
+}
+
+function showRoute(geometry) {
+  if (routeLine) {
+    map.removeLayer(routeLine);
+    routeLine = null;
+  }
+
+  routeLine = L.geoJSON(geometry, {
+    style: {
+      color: "#a90000",
+      weight: 7,
+      opacity: 0.95
+    }
+  }).addTo(map);
+
+  map.fitBounds(routeLine.getBounds(), {
+    padding: [35, 35]
+  });
+}
+
+function showDirections(properties) {
+  directionsEl.replaceChildren();
+
+  const legs = properties.legs || [];
+
+  const steps = legs.flatMap(leg => leg.steps || []);
+
+  if (!steps.length) {
+    const li = document.createElement("li");
+    li.textContent =
+      "Follow the highlighted route to the destination.";
+    directionsEl.appendChild(li);
+    return;
+  }
+
+  steps.forEach(step => {
+    const li = document.createElement("li");
+
+    const instruction = step.instruction?.text ||
+      step.instruction ||
+      step.name ||
+      "Continue along the route";
+
+    const message = typeof instruction === "string"
+      ? instruction
+      : "Continue along the route";
+
+    li.textContent = message;
+
+    if (typeof step.distance === "number" &&
+        step.distance > 0) {
+      li.textContent +=
+        " (" + formatDistance(step.distance) + ")";
+    }
+
+    directionsEl.appendChild(li);
+  });
+}
+
+async function getDrivingRoute() {
+  if (!checkKey()) return;
+
+  routeButton.disabled = true;
 
   try {
+    if (!currentPosition) {
+      await getGPS();
+    }
+
+    if (!destination) {
+      await locateDestination();
+    }
+
+    setStatus("Calculating your driving route...");
+
+    const waypoints =
+      currentPosition[0] + "," + currentPosition[1] +
+      "|" +
+      destination[0] + "," + destination[1];
+
     const url =
-      "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
-      encodeURIComponent(propertyAddress);
+      "https://api.geoapify.com/v1/routing?waypoints=" +
+      encodeURIComponent(waypoints) +
+      "&mode=drive&details=instruction_details" +
+      "&apiKey=" +
+      encodeURIComponent(GEOAPIFY_KEY);
 
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error("Address lookup unavailable.");
-    }
-
-    const results = await response.json();
-
-    if (!results.length) {
-      throw new Error("Property address not found. Check the assignment address.");
-    }
-
-    destination = [
-      Number(results[0].lon),
-      Number(results[0].lat)
-    ];
-
-    if (destinationMarker) destinationMarker.remove();
-
-    const pin = document.createElement("div");
-    pin.className = "destination";
-    pin.textContent = "📍";
-
-    destinationMarker = new maplibregl.Marker({
-      element:pin,
-      anchor:"bottom"
-    })
-      .setLngLat(destination)
-      .setPopup(
-        new maplibregl.Popup().setText(propertyAddress)
-      )
-      .addTo(map);
-
-    map.flyTo({center:destination,zoom:13});
-
-    setStatus("Property located. Select Get Driving Route.");
-  } catch(error) {
-    setStatus(error.message);
-  }
-}
-
-function displayRoute(coordinates) {
-  const data = {
-    type:"Feature",
-    geometry:{
-      type:"LineString",
-      coordinates:coordinates
-    },
-    properties:{}
-  };
-
-  if (map.getSource("driving-route")) {
-    map.getSource("driving-route").setData(data);
-  } else {
-    map.addSource("driving-route",{
-      type:"geojson",
-      data:data
-    });
-
-    map.addLayer({
-      id:"driving-route-outline",
-      type:"line",
-      source:"driving-route",
-      layout:{
-        "line-join":"round",
-        "line-cap":"round"
-      },
-      paint:{
-        "line-color":"#ffffff",
-        "line-width":13
-      }
-    });
-
-    map.addLayer({
-      id:"driving-route-line",
-      type:"line",
-      source:"driving-route",
-      layout:{
-        "line-join":"round",
-        "line-cap":"round"
-      },
-      paint:{
-        "line-color":"#a90000",
-        "line-width":9
-      }
-    });
-  }
-
-  const bounds = coordinates.reduce(
-    (b,point) => b.extend(point),
-    new maplibregl.LngLatBounds(
-      coordinates[0],
-      coordinates[0]
-    )
-  );
-
-  map.fitBounds(bounds,{
-    padding:55,
-    maxZoom:15
-  });
-}
-
-function readableInstruction(step) {
-  const maneuver = step.maneuver || {};
-  const road = step.name ? " onto " + step.name : "";
-  const type = maneuver.type || "continue";
-  const modifier = maneuver.modifier || "";
-
-  if (type === "arrive") return "You have arrived at the property.";
-  if (type === "depart") return "Depart" + road + ".";
-  if (type === "turn") return "Turn " + modifier + road + ".";
-  if (type === "roundabout") return "Enter the roundabout" + road + ".";
-  if (type === "merge") return "Merge " + modifier + road + ".";
-  if (type === "on ramp") return "Take the ramp" + road + ".";
-  if (type === "off ramp") return "Take the exit" + road + ".";
-
-  return "Continue" + road + ".";
-}
-
-async function getDrivingRoute() {
-  const button = document.getElementById("routeBtn");
-  button.disabled = true;
-
-  try {
-    if (!propertyAddress) {
       throw new Error(
-        "Open Navigation from an assignment to load its property address."
+        "Driving route request failed. Please try again."
       );
     }
 
-    if (!destination) await locateDestination();
+    const data = await response.json();
 
-    if (!destination) {
-      throw new Error("Could not locate the property address.");
+    if (!data.features || !data.features.length) {
+      throw new Error("No driving route was found.");
     }
 
-    setStatus("Getting your current GPS location…");
-    const start = await getGPS();
+    const route = data.features[0];
+    const properties = route.properties || {};
 
-    setStatus("Calculating driving directions…");
+    showRoute(route.geometry);
 
-    const routeUrl =
-      "https://router.project-osrm.org/route/v1/driving/" +
-      start.join(",") + ";" + destination.join(",") +
-      "?overview=full&geometries=geojson&steps=true";
-
-    const response = await fetch(routeUrl);
-
-    if (!response.ok) {
-      throw new Error("Driving route service unavailable.");
+    if (typeof properties.time === "number") {
+      etaEl.textContent = formatDuration(properties.time);
+    } else {
+      etaEl.textContent = "ETA unavailable";
     }
 
-    const result = await response.json();
-
-    if (result.code !== "Ok" || !result.routes?.length) {
-      throw new Error("No driving route found.");
+    if (typeof properties.distance === "number") {
+      distanceEl.textContent =
+        "Driving distance: " +
+        formatDistance(properties.distance);
     }
 
-    const route = result.routes[0];
+    showDirections(properties);
 
-    displayRoute(route.geometry.coordinates);
+    setStatus("Driving route ready. Follow the directions.");
 
-    const minutes = Math.max(
-      1,
-      Math.round(route.duration/60)
-    );
-
-    const miles = route.distance/1609.344;
-
-    etaEl.textContent = minutes + " min";
-    distanceEl.textContent = miles.toFixed(1) + " miles";
-
-    directionsEl.replaceChildren();
-
-    for (const leg of route.legs) {
-      for (const step of leg.steps) {
-        const li = document.createElement("li");
-        li.textContent = readableInstruction(step);
-        directionsEl.appendChild(li);
-      }
-    }
-
-    setStatus(
-      "Driving route ready. Follow traffic laws and road signs."
-    );
-  } catch(error) {
+  } catch (error) {
     setStatus(error.message);
   } finally {
-    button.disabled = false;
+    routeButton.disabled = false;
   }
 }
 
-document.getElementById("routeBtn")
-  .addEventListener("click",getDrivingRoute);
+async function refreshLocation() {
+  locationButton.disabled = true;
+
+  try {
+    await getGPS();
+
+    if (destination) {
+      map.fitBounds(
+        L.latLngBounds([currentPosition, destination]),
+        { padding: [40, 40] }
+      );
+    }
+  } catch (error) {
+    setStatus(error.message);
+  } finally {
+    locationButton.disabled = false;
+  }
+}
+
+routeButton.addEventListener("click", getDrivingRoute);
+locationButton.addEventListener("click", refreshLocation);
+
+async function startNavigation() {
+  addressEl.textContent =
+    propertyAddress || "No assignment address supplied.";
+
+  if (!checkKey()) return;
+
+  initializeMap();
+
+  try {
+    await locateDestination();
+  } catch (error) {
+    setStatus(error.message);
+  }
+
+  try {
+    await getGPS();
+  } catch (error) {
+    setStatus(error.message);
+  }
+
+  if (destination && currentPosition) {
+    map.fitBounds(
+      L.latLngBounds([currentPosition, destination]),
+      { padding: [40, 40] }
+    );
+
+    setStatus("Ready. Select Get Driving Route.");
+  }
+}
+
+startNavigation();
 </script>
 </body>
 </html>
