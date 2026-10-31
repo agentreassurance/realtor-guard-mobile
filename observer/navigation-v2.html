@@ -107,12 +107,10 @@ const map = new maplibregl.Map({
       "street-base":{
         type:"raster",
         tiles:[
-          "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-          "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-          "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-        ],
+        "https://maps.geoapify.com/v1/tile/toner-grey/{z}/{x}/{y}.png?apiKey=0372faedb807435c8db23b428595c8ccY"
+],
         tileSize:256,
-        attribution:"© OpenStreetMap contributors © CARTO"
+      attribution:"© OpenStreetMap contributors © Geoapify"
       }
     },
     layers:[
