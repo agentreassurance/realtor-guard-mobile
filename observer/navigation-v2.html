@@ -10,11 +10,13 @@
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
   <style>
-    :root {
-      --red: #b90000;
-      --dark: #990000;
-      --pale: #fff1f1;
-    }
+
+:root {
+  --red: #b00000;
+  --dark: #780000;
+  --pale: #fff1f1;
+}
+
 
     * { box-sizing: border-box; }
 
@@ -277,7 +279,7 @@ function initializeMap() {
   }).addTo(map);
 
   L.tileLayer(
-   "https://maps.geoapify.com/v1/tile/toner/{z}/{x}/{y}.png?apiKey=" +
+       "https://maps.geoapify.com/v1/tile/positron/{z}/{x}/{y}.png?apiKey=" +
     encodeURIComponent(GEOAPIFY_KEY),
     {
       attribution:
