@@ -162,7 +162,7 @@
 
 <body>
 <main>
-  <header>
+ <header style="display:none">
     <img src="../logo.png"
       alt="Realtor Guard" class="logo">
     <button class="menu"
@@ -170,25 +170,25 @@
       aria-label="Return to assignments">&#9776;</button>
   </header>
 
-  <h1>GPS Navigation</h1>
-  <p class="subtitle">
-    Navigate safely to your assigned property.
+ <h1 style="display:none">GPS Navigation</h1>
+<p class="subtitle" style="display:none">
+   
   </p>
 
-  <p id="status" role="status">
+ <p id="status" role="status" style="display:none">
     Preparing GPS navigation...
   </p>
 
   <div id="map" aria-label="Interactive GPS map"></div>
 
-  <div class="card">
+ <div class="card" style="display:none">
     <div class="label">Property Address</div>
     <div class="value" id="address">
       Loading assignment address...
     </div>
   </div>
 
-  <div class="card">
+ <div class="card" style="display:none">
     <div class="label">Estimated Travel</div>
     <div class="value" id="eta">
       Waiting for driving route...
@@ -196,22 +196,22 @@
     <div class="value" id="distance"></div>
   </div>
 
-  <button class="button" id="routeButton">
+ <button class="button" id="routeButton" style="display:none">
     Get Driving Route
   </button>
 
-  <button class="button outline" id="locationButton">
+  <button class="button outline" id="locationButton" style="display:none">
     Refresh My GPS Location
   </button>
 
-  <div class="card">
+  <div class="card" style="display:none">
     <div class="label">Driving Directions</div>
     <ol class="directions" id="directions">
       <li>Your directions will appear here.</li>
     </ol>
   </div>
 
-  <a class="button outline" href="my-assignments.html">
+ <a class="button outline" href="my-assignments.html" style="display:none">
     Return to My Assignments
   </a>
 </main>
