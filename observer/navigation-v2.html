@@ -227,7 +227,16 @@
 
 
    <div class="label" style="color:#000000;font-weight:800;font-size:18px;">Estimated Travel</div>
-   <div class="value" id="eta" style="color:#000000;font-weight:700;font-size:16px;">
+  
+<div id="travelModes" style="display:flex;justify-content:space-around;gap:6px;margin:10px 0;">
+  <button type="button" onclick="toggleTravelMode('drive')" style="flex:1;border:0;border-radius:9px;padding:8px 2px;background:#e5f3ea;color:#00843D;">🚗<div style="font-size:11px;">Drive</div></button>
+  <button type="button" onclick="toggleTravelMode('transit')" style="flex:1;border:0;border-radius:9px;padding:8px 2px;background:#f2f2f2;color:#000;">🚌<div style="font-size:11px;">Transit</div></button>
+  <button type="button" onclick="toggleTravelMode('walk')" style="flex:1;border:0;border-radius:9px;padding:8px 2px;background:#f2f2f2;color:#000;">🚶<div style="font-size:11px;">Walk</div></button>
+  <button type="button" onclick="toggleTravelMode('bike')" style="flex:1;border:0;border-radius:9px;padding:8px 2px;background:#f2f2f2;color:#000;">🚲<div style="font-size:11px;">Bike</div></button>
+</div>
+<div id="travelModeDetails" style="display:none;padding:10px;border-radius:9px;background:#f7f7f7;color:#000;font-size:13px;"></div>
+
+  <div class="value" id="eta" style="color:#000000;font-weight:700;font-size:16px;">
       Waiting for driving route...
     </div>
    <div class="value" id="distance" style="color:#000000;font-weight:700;font-size:16px;"></div>
@@ -657,7 +666,37 @@ async function startNavigation() {
     setStatus("Ready. Select Get Driving Route.");
   }
 }
+function toggleTravelMode(mode) {
+  const details = document.getElementById("travelModeDetails");
 
+  if (!details) return;
+
+  const labels = {
+    drive: "🚗 Driving",
+    transit: "🚌 Public Transportation",
+    walk: "🚶 Walking",
+    bike: "🚲 Bicycling"
+  };
+
+  if (details.style.display === "block" &&
+      details.dataset.mode === mode) {
+    details.style.display = "none";
+    return;
+  }
+
+  details.dataset.mode = mode;
+  details.style.display = "block";
+
+  if (mode === "drive") {
+    const eta = document.getElementById("eta")?.textContent || "";
+    const distance = document.getElementById("distance")?.textContent || "";
+
+    details.textContent = `${labels[mode]} — ${eta} ${distance}`;
+  } else {
+    details.textContent =
+      `${labels[mode]} — Travel time not yet available.`;
+  }
+}
 startNavigation();
 </script>
 </body>
