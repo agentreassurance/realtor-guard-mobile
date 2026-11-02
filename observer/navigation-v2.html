@@ -161,10 +161,7 @@
       font-size: 10px;
     }
 
-/* Realtor Guard royal-blue and white map */
-#map .leaflet-tile-pane {
-  filter: sepia(1) saturate(5) hue-rotate(175deg);
-}
+
 
   </style>
 </head>
@@ -323,7 +320,9 @@ function initializeMap() {
 
   L.tileLayer(
 
-"https://maps.geoapify.com/v1/tile/toner/{z}/{x}/{y}.png?apiKey=" +
+
+"https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=" +
+
 
     encodeURIComponent(GEOAPIFY_KEY),
     {
