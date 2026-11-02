@@ -16,7 +16,10 @@
   --dark: #780000;
   --pale: #fff1f1;
 }
-
+/* GPS map background */
+#map {
+  background-color: #FFFFFF;
+}
 
     * { box-sizing: border-box; }
 
@@ -313,7 +316,9 @@ function initializeMap() {
   }).addTo(map);
 
   L.tileLayer(
-       "https://maps.geoapify.com/v1/tile/toner/{z}/{x}/{y}.png?apiKey=" +
+
+"https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=" +
+
     encodeURIComponent(GEOAPIFY_KEY),
     {
       attribution:
