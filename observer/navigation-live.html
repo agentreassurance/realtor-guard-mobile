@@ -262,7 +262,8 @@
 
             map.setView([lat, lon], 15);
           } else {
-            currentMarker.setLatLng([lat, lon]);
+          currentMarker.setLatLng([lat, lon]);
+map.panTo([lat, lon], { animate: true });
           }
 
           if (!hasDestination) {
