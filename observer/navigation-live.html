@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Realtor Guard | Live Navigation</title>
+
+  <link rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: white;
+    }
+
+    #map {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100dvh;
+      background: white;
+    }
+
+    .turn-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: #00843d;
+      color: white;
+      padding: 18px 16px;
+      padding-top: max(18px, env(safe-area-inset-top));
+      box-shadow: 0 3px 8px #0003;
+    }
+
+    .turn-banner .instruction {
+      font-size: 23px;
+      font-weight: bold;
+    }
+
+    .turn-banner .distance {
+      font-size: 15px;
+      margin-top: 7px;
+    }
+
+    .bottom-controls {
+      position: fixed;
+      bottom: 15px;
+      left: 12px;
+      right: 12px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .travel-info {
+      background: white;
+      padding: 14px;
+      border-radius: 14px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 2px 8px #0002;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #assignmentBtn {
+      background: #4169e1;
+      color: white;
+    }
+
+    #endBtn {
+      background: #00843d;
+      color: white;
+    }
+
+    .leaflet-top {
+      top: 120px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="map"></div>
+
+  <div class="turn-banner">
+    <div class="instruction" id="instruction">
+      ↑ Preparing navigation...
+    </div>
+    <div class="distance" id="turnDistance">
+      Waiting for route information
+    </div>
+  </div>
+
+  <div class="bottom-controls">
+    <div class="travel-info" id="travelInfo">
+      Waiting for GPS...
+    </div>
+
+    <button id="assignmentBtn" type="button">
+      Start Assignment
+    </button>
+
+    <button id="endBtn" type="button">
+      End Navigation
+    </button>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    "use strict";
+
+    // Replace this placeholder with your existing Geoapify key.
+    const GEOAPIFY_KEY = "ce75dfbe2c5347c3907ff060c7ca66fe";
+
+    const params = new URLSearchParams(location.search);
+    const destinationLat = Number(params.get("lat"));
+    const destinationLon = Number(params.get("lon"));
+
+    const hasDestination =
+      params.has("lat") &&
+      params.has("lon") &&
+      Number.isFinite(destinationLat) &&
+      Number.isFinite(destinationLon) &&
+      Math.abs(destinationLat) <= 90 &&
+      Math.abs(destinationLon) <= 180;
+
+    const map = L.map("map", {
+      zoomControl: false
+    }).setView([38.9, -77.04], 12);
+
+    L.control.zoom({ position: "topright" }).addTo(map);
+
+    L.tileLayer(
+      "https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=" +
+      encodeURIComponent(GEOAPIFY_KEY),
+      {
+        maxZoom: 20,
+        attribution:
+          'Powered by <a href="https://www.geoapify.com/">Geoapify</a> | &copy; OpenStreetMap contributors'
+      }
+    ).addTo(map);
+
+    let routeLine = null;
+    let currentMarker = null;
+    let watchId = null;
+    let lastRouteTime = 0;
+    let routeBusy = false;
+    let navigationEnded = false;
+
+    const instruction = document.getElementById("instruction");
+    const turnDistance = document.getElementById("turnDistance");
+    const travelInfo = document.getElementById("travelInfo");
+
+    function formatDistance(meters) {
+      const miles = meters / 1609.344;
+      return miles < 0.1
+        ? Math.round(meters * 3.28084) + " ft"
+        : miles.toFixed(1) + " mi";
+    }
+
+    async function updateRoute(lat, lon) {
+      if (!hasDestination || routeBusy || navigationEnded) return;
+
+      routeBusy = true;
+
+      try {
+        const url =
+          "https://api.geoapify.com/v1/routing?" +
+          new URLSearchParams({
+            waypoints:
+              lat + "," + lon + "|" +
+              destinationLat + "," + destinationLon,
+            mode: "drive",
+            apiKey: GEOAPIFY_KEY
+          });
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Route unavailable");
+
+        const data = await response.json();
+        if (navigationEnded) return;
+
+        const feature = data.features?.[0];
+        if (!feature) throw new Error("No driving route found");
+
+        if (routeLine) map.removeLayer(routeLine);
+
+        routeLine = L.geoJSON(feature, {
+          style: {
+            color: "#4169E1",
+            weight: 8,
+            opacity: 0.95
+          }
+        }).addTo(map);
+
+        const properties = feature.properties || {};
+        const minutes = Math.ceil((properties.time || 0) / 60);
+
+        travelInfo.textContent =
+          (minutes ? minutes + " min • " : "") +
+          formatDistance(properties.distance || 0);
+
+        const steps = properties.legs?.[0]?.steps || [];
+        const nextStep = steps.find(
+          step => step.instruction && step.instruction.text
+        );
+
+        instruction.textContent =
+          nextStep?.instruction?.text || "↑ Follow the blue route";
+
+        turnDistance.textContent = nextStep
+          ? formatDistance(nextStep.distance || 0)
+          : "Continue toward destination";
+
+        lastRouteTime = Date.now();
+
+      } catch (error) {
+        instruction.textContent = "↑ Navigation route unavailable";
+        turnDistance.textContent = "Check destination and connection";
+      } finally {
+        routeBusy = false;
+      }
+    }
+
+    if (!navigator.geolocation) {
+      instruction.textContent = "GPS is not supported";
+    } else {
+      watchId = navigator.geolocation.watchPosition(
+        position => {
+          if (navigationEnded) return;
+
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          if (!currentMarker) {
+            currentMarker = L.circleMarker([lat, lon], {
+              radius: 9,
+              color: "white",
+              weight: 3,
+              fillColor: "#4169E1",
+              fillOpacity: 1
+            }).addTo(map);
+
+            map.setView([lat, lon], 15);
+          } else {
+            currentMarker.setLatLng([lat, lon]);
+          }
+
+          if (!hasDestination) {
+            instruction.textContent = "↑ GPS location ready";
+            turnDistance.textContent =
+              "Open navigation from an assignment to load directions";
+            travelInfo.textContent = "Destination not supplied";
+            return;
+          }
+
+          if (Date.now() - lastRouteTime > 15000) {
+            lastRouteTime = Date.now();
+            updateRoute(lat, lon);
+          }
+        },
+        error => {
+          instruction.textContent = "GPS location unavailable";
+          turnDistance.textContent = error.message;
+        },
+        {
+          enableHighAccuracy: true,
+          maximumAge: 3000,
+          timeout: 15000
+        }
+      );
+    }
+
+    document.getElementById("endBtn").addEventListener("click", () => {
+      navigationEnded = true;
+
+      if (watchId !== null) {
+        navigator.geolocation.clearWatch(watchId);
+      }
+
+      window.location.href = "my-assignments.html";
+    });
+
+    document.getElementById("assignmentBtn").addEventListener("click", () => {
+      // Assignment start must be connected to the existing
+      // Supabase assignment flow before this button goes live.
+      alert("Start Assignment will be connected to your assignment timer.");
+    });
+  </script>
+
+</body>
+</html>
