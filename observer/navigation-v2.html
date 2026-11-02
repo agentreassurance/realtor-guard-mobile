@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">toner/{z}/{x}/{y}
+<meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Realtor Guard | GPS Navigation</title>
 
   <link rel="stylesheet"
@@ -607,7 +607,9 @@ async function getDrivingRoute() {
     showDirections(properties);
 
     setStatus("Driving route ready. Follow the directions.");
-
+const liveNavigationURL = new URL("navigation-live.html", window.location.href);
+liveNavigationURL.search = window.location.search;
+window.location.href = liveNavigationURL.href;
   } catch (error) {
     setStatus(error.message);
   } finally {
