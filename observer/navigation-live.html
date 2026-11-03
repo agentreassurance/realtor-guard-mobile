@@ -221,6 +221,21 @@
           step => step.instruction && step.instruction.text
         );
 
+       if (nextStep && "speechSynthesis" in window) {
+  const spokenInstruction = nextStep.instruction.text;
+
+  if (window.lastSpokenInstruction !== spokenInstruction) {
+    window.speechSynthesis.cancel();
+
+    const voice = new SpeechSynthesisUtterance(spokenInstruction);
+    voice.lang = "en-US";
+    voice.rate = 0.9;
+    voice.volume = 1;
+
+    window.speechSynthesis.speak(voice);
+    window.lastSpokenInstruction = spokenInstruction;
+  }
+}
         instruction.textContent =
           nextStep?.instruction?.text || "↑ Follow the blue route";
 
