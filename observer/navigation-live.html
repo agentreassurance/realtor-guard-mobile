@@ -114,10 +114,7 @@
       Waiting for GPS...
     </div>
 
-    <button id="assignmentBtn" type="button">
-      Start Assignment
-    </button>
-
+   
     <button id="endBtn" type="button">
       End Navigation
     </button>
@@ -301,11 +298,7 @@ map.panTo([lat, lon], { animate: true });
       window.location.href = "my-assignments.html";
     });
 
-    document.getElementById("assignmentBtn").addEventListener("click", () => {
-      // Assignment start must be connected to the existing
-      // Supabase assignment flow before this button goes live.
-      alert("Start Assignment will be connected to your assignment timer.");
-    });
+   
   </script>
 
 </body>
