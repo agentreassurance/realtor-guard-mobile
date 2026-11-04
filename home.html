@@ -33,12 +33,17 @@
     }
 
     body {
-      min-height: 100vh;
-      min-height: 100dvh;
-      background: #f4f4f4;
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-    }
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: #f4f4f4;
+  background-image: url("realtor-guard-watermark.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: min(85vw, 380px) auto;
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
 
     .app {
       width: 100%;
@@ -47,7 +52,7 @@
       min-height: 100dvh;
       margin: 0 auto;
       overflow: hidden;
-      background: var(--white);
+     background: transparent;
       box-shadow: 0 0 25px rgba(0, 0, 0, 0.12);
     }
 
