@@ -11,210 +11,381 @@
 
   <style>
     * { box-sizing: border-box; }
-    html, body { margin: 0; height: 100%; font-family: Arial, sans-serif; background: white; }
-    #map { position: fixed; inset: 0; z-index: 1; background: #f2f2f0; }
 
-    .panel {
-      position: fixed; left: 12px; right: 12px; bottom: 14px;
-      z-index: 1000; background: white; padding: 15px;
-      border-radius: 16px; box-shadow: 0 3px 18px #0002;
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background: white;
     }
 
-    .panel h2 { margin: 0 0 10px; font-size: 19px; }
-    .panel p { margin: 8px 0; font-size: 14px; }
+    #map {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background: #f2f2f0;
+    }
+
+    .panel {
+      position: fixed;
+      bottom: 14px;
+      left: 12px;
+      right: 12px;
+      z-index: 1000;
+      background: white;
+      border-radius: 16px;
+      padding: 15px;
+      box-shadow: 0 3px 18px #0002;
+      max-height: 65vh;
+      overflow-y: auto;
+    }
+
+    h2 {
+      font-size: 19px;
+      margin: 0 0 14px;
+    }
 
     input {
-      width: 100%; padding: 12px; border: 1px solid #bbb;
-      border-radius: 9px; font-size: 16px;
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ccc;
+      border-radius: 9px;
+      font-size: 16px;
+      margin-bottom: 10px;
     }
 
     button, .back {
-      display: block; width: 100%; margin-top: 10px;
-      padding: 13px; border: 0; border-radius: 25px;
-      font-size: 16px; font-weight: bold; text-align: center;
-      text-decoration: none; cursor: pointer;
+      display: block;
+      width: 100%;
+      border: 0;
+      border-radius: 30px;
+      padding: 15px;
+      margin-top: 10px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
     }
 
-    #routeBtn { background: #001f54; color: white; }
-    #startBtn { background: #278444; color: white; }
-    #startBtn:disabled { background: #aaa; cursor: not-allowed; }
-    .back { background: #f0f0f0; color: #222; }
+    #routeBtn {
+      background: #06245c;
+      color: white;
+    }
 
-    .leaflet-control-attribution { font-size: 10px; }
+    #startBtn {
+      background: #287a3d;
+      color: white;
+    }
+
+    #startBtn:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+
+    .back {
+      background: #f0f0f0;
+      color: #222;
+    }
+
+    #status {
+      font-size: 14px;
+      margin: 10px 0;
+    }
+
+    #details {
+      font-size: 14px;
+      margin: 8px 0;
+      font-weight: bold;
+    }
+
+    .leaflet-control-attribution {
+      font-size: 10px;
+    }
+
+    @media (max-width: 600px) {
+      .panel {
+        bottom: 10px;
+        left: 8px;
+        right: 8px;
+        padding: 13px;
+      }
+    }
   </style>
 </head>
+
 <body>
 
   <div id="map"></div>
 
   <div class="panel">
     <h2>GPS Route Preview</h2>
-    <input id="address" placeholder="Enter property address"
-      autocomplete="street-address">
+
+    <input
+      id="address"
+      type="text"
+      placeholder="Enter property address"
+      autocomplete="street-address"
+    >
+
     <button id="routeBtn">Find Driving Route</button>
+
     <p id="status">Waiting for your GPS location...</p>
     <p id="details"></p>
-    <button id="startBtn" disabled>Start Navigation</button>
-    <a class="back" href="my-assignments.html">Back to My Assignment</a>
+
+    <button id="startBtn" disabled>
+      Start Navigation
+    </button>
+
+    <a class="back" href="my-assignments.html">
+      Back to My Assignment
+    </a>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
   <script>
-    // Replace this placeholder with your Geoapify Production key.
-    const GEOAPIFY_KEY = "be47816624ba450db8927d887bf40d5d";
+    // Paste your Geoapify Production API key below.
+    const GEOAPIFY_KEY = "PASTE_YOUR_GEOAPIFY_KEY_HERE";
 
-    const map = L.map("map").setView([37.54, -77.44], 11);
+    const $ = id => document.getElementById(id);
 
+    const params = new URLSearchParams(window.location.search);
+
+    const suppliedAddress =
+      params.get("address") ||
+      params.get("destination") ||
+      params.get("property_address") ||
+      "";
+
+    $("address").value = suppliedAddress;
+
+    const map = L.map("map", {
+      zoomControl: true
+    }).setView([37.54, -77.44], 11);
+
+    // Confirmed Geoapify Positron map.
     L.tileLayer(
-     
-"https://maps.geoapify.com/v1/tile/positron/{z}/{x}/{y}.png?apiKey=" +
-
+      "https://maps.geoapify.com/v1/tile/positron/{z}/{x}/{y}.png?apiKey=" +
       encodeURIComponent(GEOAPIFY_KEY),
       {
         maxZoom: 20,
-        attribution: '&copy; OpenStreetMap contributors | Powered by Geoapify'
+        attribution:
+          '&copy; OpenStreetMap contributors | Powered by Geoapify'
       }
     ).addTo(map);
 
     let currentPosition = null;
     let userMarker = null;
     let destinationMarker = null;
-    let routeLayer = null;
-    let destination = null;
+    let routeLine = null;
+    let routeDestination = null;
 
-    const status = document.getElementById("status");
-    const details = document.getElementById("details");
-    const addressInput = document.getElementById("address");
-    const startBtn = document.getElementById("startBtn");
+    function setStatus(message) {
+      $("status").textContent = message;
+    }
 
-    const params = new URLSearchParams(location.search);
-    const suppliedAddress =
-      params.get("address") ||
-      params.get("destination") ||
-      sessionStorage.getItem("rg_gps_address") || "";
+    function updatePosition(lat, lon) {
+      currentPosition = [lat, lon];
 
-    addressInput.value = suppliedAddress;
+      if (!userMarker) {
+        userMarker = L.circleMarker(currentPosition, {
+          radius: 9,
+          color: "white",
+          weight: 3,
+          fillColor: "#06245c",
+          fillOpacity: 1
+        }).addTo(map);
+
+        map.setView(currentPosition, 14);
+      } else {
+        userMarker.setLatLng(currentPosition);
+      }
+
+      if (!routeLine) {
+        setStatus("GPS location ready.");
+      }
+    }
 
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(
         position => {
-          currentPosition = [
+          updatePosition(
             position.coords.latitude,
             position.coords.longitude
-          ];
-
-          if (userMarker) {
-            userMarker.setLatLng(currentPosition);
-          } else {
-            userMarker = L.circleMarker(currentPosition, {
-              radius: 9, color: "white", weight: 3,
-              fillColor: "#001f54", fillOpacity: 1
-            }).addTo(map);
-            map.setView(currentPosition, 14);
-          }
-
-          if (!destination) status.textContent = "GPS location ready.";
+          );
         },
         error => {
-          status.textContent =
-            "GPS unavailable. Allow location permission on your device.";
+          setStatus(
+            "GPS unavailable: " + error.message +
+            ". Allow location access and try again."
+          );
         },
-        { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 }
+        {
+          enableHighAccuracy: true,
+          maximumAge: 10000,
+          timeout: 20000
+        }
       );
     } else {
-      status.textContent = "GPS is not supported on this device.";
+      setStatus("GPS is not supported by this browser.");
     }
 
-    async function findRoute() {
-      startBtn.disabled = true;
-      details.textContent = "";
+    async function geoapifyJSON(url) {
+      const response = await fetch(url);
 
-      if (GEOAPIFY_KEY === "PASTE_YOUR_GEOAPIFY_KEY_HERE") {
-        status.textContent = "Add your Geoapify API key first.";
+      if (!response.ok) {
+        throw new Error(
+          "Geoapify request failed (" + response.status + ")"
+        );
+      }
+
+      return response.json();
+    }
+
+    async function findDrivingRoute() {
+      const address = $("address").value.trim();
+
+      $("startBtn").disabled = true;
+      $("details").textContent = "";
+      routeDestination = null;
+
+      if (routeLine) {
+        map.removeLayer(routeLine);
+        routeLine = null;
+      }
+
+      if (!address) {
+        setStatus("Please enter the property address.");
         return;
       }
 
       if (!currentPosition) {
-        status.textContent = "Waiting for GPS. Please allow location access.";
+        setStatus("Waiting for GPS. Allow location access.");
         return;
       }
 
-      const address = addressInput.value.trim();
-      if (!address) {
-        status.textContent = "Enter the property address.";
+      if (
+        !GEOAPIFY_KEY ||
+        GEOAPIFY_KEY === "PASTE_YOUR_GEOAPIFY_KEY_HERE"
+      ) {
+        setStatus("Geoapify API key must be added first.");
         return;
       }
+
+      $("routeBtn").disabled = true;
+      setStatus("Finding property and calculating route...");
 
       try {
-        status.textContent = "Finding property...";
-
-        const geocodeUrl =
+        const geocodeURL =
           "https://api.geoapify.com/v1/geocode/search?text=" +
           encodeURIComponent(address) +
-          "&limit=1&apiKey=" + encodeURIComponent(GEOAPIFY_KEY);
+          "&limit=1&apiKey=" +
+          encodeURIComponent(GEOAPIFY_KEY);
 
-        const geocodeResponse = await fetch(geocodeUrl);
-        if (!geocodeResponse.ok) throw new Error("Address lookup failed.");
+        const locationData = await geoapifyJSON(geocodeURL);
+        const feature = locationData.features?.[0];
 
-        const geocode = await geocodeResponse.json();
-        const feature = geocode.features?.[0];
-        if (!feature) throw new Error("Property address not found.");
+        if (!feature) {
+          throw new Error("Property address not found.");
+        }
 
-        destination = [
-          feature.properties.lat,
-          feature.properties.lon
-        ];
+        const lon = feature.geometry.coordinates[0];
+        const lat = feature.geometry.coordinates[1];
 
-        if (destinationMarker) map.removeLayer(destinationMarker);
-        destinationMarker = L.marker(destination).addTo(map);
+        routeDestination = [lat, lon];
 
-        status.textContent = "Calculating driving route...";
+        if (destinationMarker) {
+          map.removeLayer(destinationMarker);
+        }
+
+        destinationMarker = L.marker(
+          routeDestination
+        ).addTo(map);
 
         const waypoints =
-          currentPosition.join(",") + "|" + destination.join(",");
+          currentPosition[0] + "," + currentPosition[1] +
+          "|" + lat + "," + lon;
 
-        const routingUrl =
+        const routingURL =
           "https://api.geoapify.com/v1/routing?waypoints=" +
           encodeURIComponent(waypoints) +
-          "&mode=drive&apiKey=" + encodeURIComponent(GEOAPIFY_KEY);
+          "&mode=drive&apiKey=" +
+          encodeURIComponent(GEOAPIFY_KEY);
 
-        const routeResponse = await fetch(routingUrl);
-        if (!routeResponse.ok) throw new Error("Routing request failed.");
-
-        const routeData = await routeResponse.json();
+        const routeData = await geoapifyJSON(routingURL);
         const route = routeData.features?.[0];
-        if (!route) throw new Error("No driving route found.");
 
-        if (routeLayer) map.removeLayer(routeLayer);
-        routeLayer = L.geoJSON(route, {
-          style: { color: "#001f54", weight: 7, opacity: 0.95 }
+        if (!route) {
+          throw new Error("No driving route was found.");
+        }
+
+        routeLine = L.geoJSON(route, {
+          style: {
+            color: "#123fba",
+            weight: 7,
+            opacity: 0.95
+          }
         }).addTo(map);
 
-        map.fitBounds(routeLayer.getBounds(), { padding: [35, 35] });
+        map.fitBounds(routeLine.getBounds(), {
+          padding: [40, 40],
+          maxZoom: 16
+        });
 
-        const seconds = route.properties.time;
-        const meters = route.properties.distance;
-        const minutes = Math.round(seconds / 60);
-        const miles = (meters / 1609.344).toFixed(1);
+        const distance =
+          route.properties?.distance || 0;
 
-        details.textContent =
-          minutes + " min • " + miles + " miles";
-        status.textContent = "Driving route ready.";
+        const time =
+          route.properties?.time || 0;
 
-        sessionStorage.setItem("rg_gps_address", address);
-        sessionStorage.setItem("rg_gps_destination", JSON.stringify(destination));
-        startBtn.disabled = false;
+        const miles = (distance / 1609.344).toFixed(1);
+        const minutes = Math.ceil(time / 60);
+
+        $("details").textContent =
+          miles + " miles | About " + minutes + " minutes";
+
+        setStatus("Driving route ready.");
+        $("startBtn").disabled = false;
 
       } catch (error) {
-        status.textContent = error.message;
+        setStatus(error.message);
+        $("startBtn").disabled = true;
+      } finally {
+        $("routeBtn").disabled = false;
       }
     }
 
-    document.getElementById("routeBtn").addEventListener("click", findRoute);
+    $("routeBtn").addEventListener(
+      "click",
+      findDrivingRoute
+    );
 
-    startBtn.addEventListener("click", () => {
-      if (!destination) return;
-      location.href = "gps-page-2.html";
+    $("startBtn").addEventListener("click", () => {
+      if (!routeDestination) return;
+
+      const next = new URL(
+        "navigation-live.html",
+        window.location.href
+      );
+
+      next.searchParams.set(
+        "address",
+        $("address").value.trim()
+      );
+
+      next.searchParams.set(
+        "lat",
+        String(routeDestination[0])
+      );
+
+      next.searchParams.set(
+        "lon",
+        String(routeDestination[1])
+      );
+
+      window.location.href = next.href;
     });
   </script>
 </body>
