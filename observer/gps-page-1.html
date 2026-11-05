@@ -129,7 +129,9 @@
       autocomplete="street-address"
     >
 
-    <button id="routeBtn">Find Driving Route</button>
+    
+<button id="routeBtn" hidden>Find Driving Route</button>
+
 
     <p id="status">Waiting for your GPS location...</p>
     <p id="details"></p>
@@ -181,7 +183,7 @@
     let destinationMarker = null;
     let routeLine = null;
     let routeDestination = null;
-
+let autoRouteStarted = false;
     function setStatus(message) {
       $("status").textContent = message;
     }
@@ -203,9 +205,15 @@
         userMarker.setLatLng(currentPosition);
       }
 
-      if (!routeLine) {
-        setStatus("GPS location ready.");
+      
+    if (!routeLine) {
+      setStatus("GPS location ready.");
+      if ($("address").value.trim() && !autoRouteStarted) {
+        autoRouteStarted = true;
+        findDrivingRoute();
       }
+    }
+
     }
 
     if (navigator.geolocation) {
