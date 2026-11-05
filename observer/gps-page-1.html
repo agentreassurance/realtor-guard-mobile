@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Realtor Guard | GPS Page 1</title>
+
+  <link rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; font-family: Arial, sans-serif; background: white; }
+    #map { position: fixed; inset: 0; z-index: 1; background: #f2f2f0; }
+
+    .panel {
+      position: fixed; left: 12px; right: 12px; bottom: 14px;
+      z-index: 1000; background: white; padding: 15px;
+      border-radius: 16px; box-shadow: 0 3px 18px #0002;
+    }
+
+    .panel h2 { margin: 0 0 10px; font-size: 19px; }
+    .panel p { margin: 8px 0; font-size: 14px; }
+
+    input {
+      width: 100%; padding: 12px; border: 1px solid #bbb;
+      border-radius: 9px; font-size: 16px;
+    }
+
+    button, .back {
+      display: block; width: 100%; margin-top: 10px;
+      padding: 13px; border: 0; border-radius: 25px;
+      font-size: 16px; font-weight: bold; text-align: center;
+      text-decoration: none; cursor: pointer;
+    }
+
+    #routeBtn { background: #001f54; color: white; }
+    #startBtn { background: #278444; color: white; }
+    #startBtn:disabled { background: #aaa; cursor: not-allowed; }
+    .back { background: #f0f0f0; color: #222; }
+
+    .leaflet-control-attribution { font-size: 10px; }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <div class="panel">
+    <h2>GPS Route Preview</h2>
+    <input id="address" placeholder="Enter property address"
+      autocomplete="street-address">
+    <button id="routeBtn">Find Driving Route</button>
+    <p id="status">Waiting for your GPS location...</p>
+    <p id="details"></p>
+    <button id="startBtn" disabled>Start Navigation</button>
+    <a class="back" href="my-assignments.html">Back to My Assignment</a>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // Replace this placeholder with your Geoapify Production key.
+    const GEOAPIFY_KEY = "be47816624ba450db8927d887bf40d5d";
+
+    const map = L.map("map").setView([37.54, -77.44], 11);
+
+    L.tileLayer(
+      "https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=" +
+      encodeURIComponent(GEOAPIFY_KEY),
+      {
+        maxZoom: 20,
+        attribution: '&copy; OpenStreetMap contributors | Powered by Geoapify'
+      }
+    ).addTo(map);
+
+    let currentPosition = null;
+    let userMarker = null;
+    let destinationMarker = null;
+    let routeLayer = null;
+    let destination = null;
+
+    const status = document.getElementById("status");
+    const details = document.getElementById("details");
+    const addressInput = document.getElementById("address");
+    const startBtn = document.getElementById("startBtn");
+
+    const params = new URLSearchParams(location.search);
+    const suppliedAddress =
+      params.get("address") ||
+      params.get("destination") ||
+      sessionStorage.getItem("rg_gps_address") || "";
+
+    addressInput.value = suppliedAddress;
+
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        position => {
+          currentPosition = [
+            position.coords.latitude,
+            position.coords.longitude
+          ];
+
+          if (userMarker) {
+            userMarker.setLatLng(currentPosition);
+          } else {
+            userMarker = L.circleMarker(currentPosition, {
+              radius: 9, color: "white", weight: 3,
+              fillColor: "#001f54", fillOpacity: 1
+            }).addTo(map);
+            map.setView(currentPosition, 14);
+          }
+
+          if (!destination) status.textContent = "GPS location ready.";
+        },
+        error => {
+          status.textContent =
+            "GPS unavailable. Allow location permission on your device.";
+        },
+        { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 }
+      );
+    } else {
+      status.textContent = "GPS is not supported on this device.";
+    }
+
+    async function findRoute() {
+      startBtn.disabled = true;
+      details.textContent = "";
+
+      if (GEOAPIFY_KEY === "PASTE_YOUR_GEOAPIFY_KEY_HERE") {
+        status.textContent = "Add your Geoapify API key first.";
+        return;
+      }
+
+      if (!currentPosition) {
+        status.textContent = "Waiting for GPS. Please allow location access.";
+        return;
+      }
+
+      const address = addressInput.value.trim();
+      if (!address) {
+        status.textContent = "Enter the property address.";
+        return;
+      }
+
+      try {
+        status.textContent = "Finding property...";
+
+        const geocodeUrl =
+          "https://api.geoapify.com/v1/geocode/search?text=" +
+          encodeURIComponent(address) +
+          "&limit=1&apiKey=" + encodeURIComponent(GEOAPIFY_KEY);
+
+        const geocodeResponse = await fetch(geocodeUrl);
+        if (!geocodeResponse.ok) throw new Error("Address lookup failed.");
+
+        const geocode = await geocodeResponse.json();
+        const feature = geocode.features?.[0];
+        if (!feature) throw new Error("Property address not found.");
+
+        destination = [
+          feature.properties.lat,
+          feature.properties.lon
+        ];
+
+        if (destinationMarker) map.removeLayer(destinationMarker);
+        destinationMarker = L.marker(destination).addTo(map);
+
+        status.textContent = "Calculating driving route...";
+
+        const waypoints =
+          currentPosition.join(",") + "|" + destination.join(",");
+
+        const routingUrl =
+          "https://api.geoapify.com/v1/routing?waypoints=" +
+          encodeURIComponent(waypoints) +
+          "&mode=drive&apiKey=" + encodeURIComponent(GEOAPIFY_KEY);
+
+        const routeResponse = await fetch(routingUrl);
+        if (!routeResponse.ok) throw new Error("Routing request failed.");
+
+        const routeData = await routeResponse.json();
+        const route = routeData.features?.[0];
+        if (!route) throw new Error("No driving route found.");
+
+        if (routeLayer) map.removeLayer(routeLayer);
+        routeLayer = L.geoJSON(route, {
+          style: { color: "#001f54", weight: 7, opacity: 0.95 }
+        }).addTo(map);
+
+        map.fitBounds(routeLayer.getBounds(), { padding: [35, 35] });
+
+        const seconds = route.properties.time;
+        const meters = route.properties.distance;
+        const minutes = Math.round(seconds / 60);
+        const miles = (meters / 1609.344).toFixed(1);
+
+        details.textContent =
+          minutes + " min • " + miles + " miles";
+        status.textContent = "Driving route ready.";
+
+        sessionStorage.setItem("rg_gps_address", address);
+        sessionStorage.setItem("rg_gps_destination", JSON.stringify(destination));
+        startBtn.disabled = false;
+
+      } catch (error) {
+        status.textContent = error.message;
+      }
+    }
+
+    document.getElementById("routeBtn").addEventListener("click", findRoute);
+
+    startBtn.addEventListener("click", () => {
+      if (!destination) return;
+      location.href = "gps-page-2.html";
+    });
+  </script>
+</body>
+</html>
