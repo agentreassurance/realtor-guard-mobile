@@ -234,13 +234,18 @@ $("menuButton").onclick = () => {
 
 const map = L.map("map").setView([37.54, -77.44], 11);
 
+
+const GEOAPIFY_API_KEY = "PASTE_YOUR_GEOAPIFY_KEY_HERE";
+
 L.tileLayer(
-  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  "https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=" +
+    GEOAPIFY_API_KEY,
   {
-    maxZoom: 19,
-    attribution: "&copy; OpenStreetMap contributors"
+    maxZoom: 20,
+    attribution: '&copy; OpenStreetMap contributors | &copy; Geoapify'
   }
 ).addTo(map);
+
 
 let userPosition = null;
 let destination = null;
