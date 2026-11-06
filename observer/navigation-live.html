@@ -100,14 +100,21 @@
 
   <div id="map"></div>
 
-  <div class="turn-banner">
-    <div class="instruction" id="instruction">
-      ↑ Preparing navigation...
-    </div>
-    <div class="distance" id="turnDistance">
-      Waiting for route information
+
+<div class="turn-banner">
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div id="turnArrow" style="font-size:48px;font-weight:bold;flex-shrink:0;" aria-hidden="true">↑</div>
+    <div>
+      <div class="instruction" id="instruction">
+        Preparing navigation...
+      </div>
+      <div class="distance" id="turnDistance">
+        Waiting for route information
+      </div>
     </div>
   </div>
+</div>
+  
 
   <div class="bottom-controls">
     <div class="travel-info" id="travelInfo">
@@ -236,6 +243,19 @@
     window.lastSpokenInstruction = spokenInstruction;
   }
 }
+
+const turnArrow = document.getElementById("turnArrow");
+
+if (turnArrow) {
+  const direction = (nextStep?.instruction?.text || "").toLowerCase();
+
+  turnArrow.textContent =
+    direction.includes("u-turn") ? "↶" :
+    direction.includes("left") ? "↰" :
+    direction.includes("right") ? "↱" :
+    direction.includes("destination") ? "●" : "↑";
+}
+
         instruction.textContent =
           nextStep?.instruction?.text || "↑ Follow the blue route";
 
