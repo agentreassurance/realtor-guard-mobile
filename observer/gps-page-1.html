@@ -212,15 +212,16 @@ display: inline-block;
     }).setView([37.54, -77.44], 11);
 
     // Confirmed Geoapify Positron map.
-    L.tileLayer(
-     "https://maps.geoapify.com/v1/tile/positron/{z}/{x}/{y}.png?apiKey=" +
-encodeURIComponent(GEOAPIFY_KEY),
-      {
-        maxZoom: 20,
-        attribution:
-          '&copy; OpenStreetMap contributors | Powered by Geoapify'
-      }
-    ).addTo(map);
+  
+L.tileLayer(
+  "https://maps.geoapify.com/v1/tile/positron/{z}/{x}/{y}.png?apiKey=" +
+    encodeURIComponent(GEOAPIFY_KEY),
+  {
+    maxZoom: 20,
+    attribution: '&copy; OpenStreetMap contributors | Powered by Geoapify'
+  }
+).addTo(map);
+
 
     let currentPosition = null;
     let userMarker = null;
