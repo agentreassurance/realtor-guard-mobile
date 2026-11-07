@@ -183,14 +183,17 @@ display: inline-block;
      ➤ Start
     </button>
 <button id="addStopsBtn" type="button" style="display:inline-block;width:auto;margin-left:10px;padding:12px 24px;border:0;border-radius:30px;background:#D8F5FA;color:#176875;font-size:16px;font-weight:bold;cursor:pointer;">⊕ Add stops</button>
-   
+<button id="shareBtn" type="button" onclick="navigator.share ? navigator.share({title:'Realtor Guard GPS',url:location.href}).catch(()=>{}) : navigator.clipboard.writeText(location.href).then(()=>alert('Link copied!')).catch(()=>alert('Sharing unavailable'))" style="display:inline-block;width:auto;margin-left:10px;padding:12px 24px;border:0;border-radius:30px;background:#D8F5FA;color:#075E70;font-size:16px;font-weight:bold;cursor:pointer;">↗ Share</button>
+
+<button id="saveBtn" type="button" onclick="localStorage.setItem('rgSavedGpsPage1',location.href);this.textContent='▣ Saved';" style="display:inline-block;width:auto;margin-left:10px;padding:12px 24px;border:0;border-radius:30px;background:#D8F5FA;color:#075E70;font-size:16px;font-weight:bold;cursor:pointer;">▯ Save</button>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
     // Paste your Geoapify Production API key below.
-    const GEOAPIFY_KEY = "be47816624ba450db8927d887bf40d5d";
+    const GEOAPIFY_KEY = "be47816624ba450db8927d887bf40d
+      5d";
 
     const $ = id => document.getElementById(id);
 
