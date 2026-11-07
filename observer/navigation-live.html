@@ -125,6 +125,16 @@
     <button id="endBtn" type="button">
       End Navigation
     </button>
+ 
+<div id="assignmentCountdown" style="background:white;color:#222;text-align:center;padding:12px;margin-top:10px;border-radius:12px;font-weight:bold;">
+  Assignment Starts — Loading...
+</div>
+
+<button id="startAssignmentBtn" type="button" 
+  style="width:100%;margin-top:10px;padding:16px;background:#888;color:white;border:0;border-radius:30px;font-size:18px;font-weight:bold;">
+  Start Assignment
+</button>
+
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -136,6 +146,7 @@
     const GEOAPIFY_KEY = "ce75dfbe2c5347c3907ff060c7ca66fe";
 
     const params = new URLSearchParams(location.search);
+    const assignmentId = params.get("assignment_id");
     const destinationLat = Number(params.get("lat"));
     const destinationLon = Number(params.get("lon"));
 
@@ -330,9 +341,13 @@ map.panTo([lat, lon], { animate: true });
         navigator.geolocation.clearWatch(watchId);
       }
 
-     window.location.href = "active-assignment-new.html" + window.location.search;
+    document.getElementById("endBtn").disabled = true;
+document.getElementById("endBtn").textContent = "Navigation Ended";
+      
     });
-
+document.getElementById("startAssignmentBtn").addEventListener("click", () => {
+  window.location.href = "active-assignment-new.html" + window.location.search;
+});
    
   </script>
 
