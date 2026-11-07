@@ -10,6 +10,11 @@
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
   <style>
+  /* GPS transportation icons */
+.transport-icon {
+  font-size: 24px;
+  color: #444444;
+}
     * { box-sizing: border-box; }
 
     html, body {
@@ -144,22 +149,22 @@ display: inline-block;
      onclick="showDriveDetails()"
      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showDriveDetails();}"
      style="flex:1;color:black;font-weight:bold;font-size:13px;cursor:pointer;">
-  <div style="font-size:27px;">🚘</div>
+  <div style="font-size:24px;color:#444444;">🚘</div>
   Drive
 </div>
 
   <div style="flex:1;color:black;font-weight:bold;font-size:13px;">
-    <div style="font-size:27px;">🚌</div>
+  <div style="font-size:24px;color:#444444;">🚌</div>
     Transportation
   </div>
 
   <div style="flex:1;color:black;font-weight:bold;font-size:13px;">
-    <div style="font-size:27px;">🚶</div>
+    <div style="font-size:24px;color:#444444;">🚶</div>
     Walk
   </div>
 
   <div style="flex:1;color:black;font-weight:bold;font-size:13px;">
-    <div style="font-size:27px;">🚲</div>
+    <div style="font-size:24px;color:#444444;">🚲</div>
     Bike
   </div>
 
