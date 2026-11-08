@@ -319,14 +319,7 @@ window.location.href = "gps-page-1.html?" + params.toString();
 };
 
 
-  const startButton = document.createElement("button");
-  startButton.textContent = "Start Assignment";
-  startButton.onclick = () => {
-    sessionStorage.setItem("rg_assignment_id", String(assignment.id));
-    window.location.href =
-     "active-assignment-new.html?assignment_id=" +
-      encodeURIComponent(assignment.id);
-  };
+
 
 const cancelButton = document.createElement("button");
 cancelButton.textContent = "Unassign";
@@ -382,7 +375,7 @@ cancelButton.onclick = async () => {
 };
 
   buttons.appendChild(navigationButton);
-  buttons.appendChild(startButton);
+ 
   buttons.appendChild(cancelButton);
   card.appendChild(buttons);
 }
