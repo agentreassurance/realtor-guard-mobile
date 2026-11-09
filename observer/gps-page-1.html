@@ -150,7 +150,7 @@ display: inline-block;
     <div id="map"></div>
 
   <div class="panel">
-    <h2>GPS Route Preview</h2>
+<h2 style="text-align:center;color:#111111;font-size:28px;font-weight:800;line-height:1.4;margin:16px 0 24px;">Observers, Please Arrive On Time.<span style="display:block;font-size:22px;margin-top:10px;">Thank You!</span></h2>
     
 
 
@@ -164,10 +164,10 @@ display: inline-block;
 
     <p id="status">Waiting for your GPS location...</p>
  
-<p id="details" style="font-size:32px;font-weight:700;color:#333333;line-height:1.3;margin:14px 0;"></p>
 
 
-    <button id="startBtn" disabled style="display:block;width:100%;min-height:76px;padding:20px 30px;border:0;border-radius:40px;background:#00843D;color:white;font-size:24px;font-weight:700;cursor:pointer;">
+
+    <button id="startBtn" disabled style="display:block;width:100%;min-height:76px;padding:20px 30px;border:0;border-radius:40px;background:#CC0000;color:white;font-size:24px;font-weight:700;cursor:pointer;">
      ➤ Start
     </button>
   </div>
@@ -286,7 +286,7 @@ let autoRouteStarted = false;
       const address = $("address").value.trim();
 
       $("startBtn").disabled = true;
-      $("details").textContent = "";
+    
       routeDestination = null;
 
       if (routeLine) {
@@ -381,9 +381,7 @@ let autoRouteStarted = false;
         const miles = (distance / 1609.344).toFixed(1);
         const minutes = Math.ceil(time / 60);
 
-        $("details").textContent =
-          miles + " miles | About " + minutes + " minutes";
-
+       
         setStatus("Driving route ready.");
         $("startBtn").disabled = false;
 
