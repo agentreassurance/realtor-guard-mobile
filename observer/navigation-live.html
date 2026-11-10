@@ -187,7 +187,9 @@ top: 270px;
 
 
 <button id="startAssignmentBtn" type="button" 
-  style="width:100%;margin-top:10px;padding:16px;background:#888;color:white;border:0;border-radius:30px;font-size:18px;font-weight:bold;">
+  
+style="width:100%;margin-top:10px;padding:16px;background:#c62828;color:white;border:0;border-radius:30px;font-size:18px;font-weight:bold;">
+
   Start Assignment
 </button>
 
@@ -226,6 +228,10 @@ voiceBtn.addEventListener("click", () => {
     const assignmentId = params.get("assignment_id");
     const destinationLat = Number(params.get("lat"));
     const destinationLon = Number(params.get("lon"));
+    
+const assignmentDate = params.get("date") || "";
+const assignmentTime = params.get("time") || "";
+
 
     const hasDestination =
       params.has("lat") &&
@@ -461,7 +467,45 @@ map.panTo([lat, lon], { animate: true });
 document.getElementById("startAssignmentBtn").addEventListener("click", () => {
   window.location.href = "active-assignment-new.html" + window.location.search;
 });
-   
+
+const startButton = document.getElementById("startAssignmentBtn");
+
+function updateAssignmentCountdown() {
+  const date = assignmentDate;
+  const time = assignmentTime;
+
+  if (!date || !time) {
+    startButton.style.background = "#c62828";
+    startButton.disabled = true;
+    startButton.textContent = "Waiting for Assignment Time";
+    return;
+  }
+
+  const scheduled = new Date(`${date}T${time}`);
+  if (Number.isNaN(scheduled.getTime())) {
+    startButton.style.background = "#c62828";
+    startButton.disabled = true;
+    startButton.textContent = "Check Assignment Time";
+    return;
+  }
+
+  const remaining = scheduled.getTime() - Date.now();
+
+  if (remaining <= 0) {
+    startButton.style.background = "#16803c";
+    startButton.disabled = false;
+    startButton.textContent = "Start Assignment";
+  } else {
+    const minutes = Math.ceil(remaining / 60000);
+    startButton.style.background = "#c62828";
+    startButton.disabled = true;
+    startButton.textContent = `Starts in ${minutes} min`;
+  }
+}
+
+updateAssignmentCountdown();
+setInterval(updateAssignmentCountdown, 1000);
+
   </script>
 
 </body>
