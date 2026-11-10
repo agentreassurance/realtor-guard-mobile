@@ -287,13 +287,23 @@ if (turnArrow) {
           const lon = position.coords.longitude;
 
           if (!currentMarker) {
-            currentMarker = L.circleMarker([lat, lon], {
-              radius: 9,
-              color: "white",
-              weight: 3,
-              fillColor: "#4169E1",
-              fillOpacity: 1
-            }).addTo(map);
+           
+const arrowIcon = L.divIcon({
+  className: "navigation-arrow",
+  html: `<div style="width:54px;height:54px;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 2px 5px #777);">
+    <svg width="54" height="54" viewBox="0 0 54 54">
+      <path d="M27 3 L47 47 L27 37 L7 47 Z"
+        fill="#4169E1" stroke="white"
+        stroke-width="4" stroke-linejoin="round"/>
+    </svg>
+  </div>`,
+  iconSize: [54, 54],
+  iconAnchor: [27, 27]
+});
+
+currentMarker = L.marker([lat, lon], {
+  icon: arrowIcon
+}).addTo(map);
 
             map.setView([lat, lon], 15);
           } else {
