@@ -93,12 +93,33 @@
     .leaflet-top {
       top: 120px;
     }
+ 
+/* GPS Voice Navigation Button */
+#voiceBtn {
+  position: fixed;
+  right: 16px;
+  top: 190px;
+  z-index: 1000;
+  width: 48px;
+  height: 48px;
+  background: white;
+  color: #333333;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 25px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+  
   </style>
 </head>
 
 <body>
 
   <div id="map"></div>
+
+<button id="voiceBtn" type="button" aria-label="Mute navigation voice" title="Navigation voice on">🔊</button>
 
 
 <div class="turn-banner">
@@ -135,6 +156,27 @@
 
   <script>
     "use strict";
+
+window.navigationVoiceEnabled = true;
+
+const voiceBtn = document.getElementById("voiceBtn");
+
+voiceBtn.addEventListener("click", () => {
+  window.navigationVoiceEnabled = !window.navigationVoiceEnabled;
+
+  voiceBtn.textContent = window.navigationVoiceEnabled ? "🔊" : "🔇";
+  voiceBtn.title = window.navigationVoiceEnabled
+    ? "Navigation voice on"
+    : "Navigation voice muted";
+  voiceBtn.setAttribute(
+    "aria-label",
+    window.navigationVoiceEnabled ? "Mute navigation voice" : "Unmute navigation voice"
+  );
+
+  if (!window.navigationVoiceEnabled && "speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+});
 
     // Replace this placeholder with your existing Geoapify key.
     const GEOAPIFY_KEY = "ce75dfbe2c5347c3907ff060c7ca66fe";
@@ -231,7 +273,9 @@
           step => step.instruction && step.instruction.text
         );
 
-       if (nextStep && "speechSynthesis" in window) {
+      
+if (nextStep && window.navigationVoiceEnabled !== false && "speechSynthesis" in window) {
+
   const spokenInstruction = nextStep.instruction.text;
 
   if (window.lastSpokenInstruction !== spokenInstruction) {
