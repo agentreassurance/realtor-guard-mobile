@@ -128,6 +128,23 @@ top: 270px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
+/* Route Overview Button */
+#routeOverviewBtn {
+  position: fixed;
+  right: 16px;
+  top: 410px;
+  z-index: 1000;
+  width: 48px;
+  height: 48px;
+  background: white;
+  color: #4169e1;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 25px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
   
   </style>
 </head>
@@ -139,6 +156,10 @@ top: 270px;
 <button id="voiceBtn" type="button" aria-label="Mute navigation voice" title="Navigation voice on">🔊</button>
 
 <button id="recenterBtn" type="button" aria-label="Recenter GPS location" title="Recenter GPS">⌖</button>
+
+
+<button id="routeOverviewBtn" type="button" aria-label="Show entire route" title="Route Overview">🗺️</button>
+  
   
 
 
@@ -303,6 +324,17 @@ document.getElementById("recenterBtn").addEventListener("click", () => {
             opacity: 0.95
           }
         }).addTo(map);
+
+document.getElementById("routeOverviewBtn").addEventListener("click", () => {
+  if (routeLine && routeLine.getBounds().isValid()) {
+    map.fitBounds(routeLine.getBounds(), {
+      padding: [50, 50],
+      animate: true
+    });
+  } else {
+    alert("Open navigation from an assignment to view the route.");
+  }
+});
 
         const properties = feature.properties || {};
         const minutes = Math.ceil((properties.time || 0) / 60);
