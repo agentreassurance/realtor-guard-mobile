@@ -305,13 +305,17 @@ if (section === "upcoming") {
   navigationButton.textContent = "Navigation";
   
 navigationButton.onclick = () => {
-  const params = new URLSearchParams({
-    assignment_id: assignment.id,
-    address: assignment.property_address || "",
-    city: assignment.city || "",
-    state: assignment.state || "",
-    zip: assignment.zip || ""
-  });
+ 
+const params = new URLSearchParams({
+  assignment_id: assignment.id,
+  address: assignment.property_address || "",
+  city: assignment.city || "",
+  state: assignment.state || "",
+  zip: assignment.zip || "",
+  date: assignment.date || "",
+  time: assignment.time || ""
+});
+
 
 
 window.location.href = "gps-page-1.html?" + params.toString();
