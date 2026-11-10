@@ -117,18 +117,12 @@
   
 
   <div class="bottom-controls">
-    <div class="travel-info" id="travelInfo">
-      Waiting for GPS...
-    </div>
+    
 
    
-    <button id="endBtn" type="button">
-      End Navigation
-    </button>
+   
  
-<div id="assignmentCountdown" style="background:white;color:#222;text-align:center;padding:12px;margin-top:10px;border-radius:12px;font-weight:bold;">
-  Assignment Starts — Loading...
-</div>
+
 
 <button id="startAssignmentBtn" type="button" 
   style="width:100%;margin-top:10px;padding:16px;background:#888;color:white;border:0;border-radius:30px;font-size:18px;font-weight:bold;">
@@ -183,7 +177,7 @@
 
     const instruction = document.getElementById("instruction");
     const turnDistance = document.getElementById("turnDistance");
-    const travelInfo = document.getElementById("travelInfo");
+  
 
     function formatDistance(meters) {
       const miles = meters / 1609.344;
@@ -230,9 +224,7 @@
         const properties = feature.properties || {};
         const minutes = Math.ceil((properties.time || 0) / 60);
 
-        travelInfo.textContent =
-          (minutes ? minutes + " min • " : "") +
-          formatDistance(properties.distance || 0);
+       
 
         const steps = properties.legs?.[0]?.steps || [];
         const nextStep = steps.find(
@@ -313,7 +305,7 @@ map.panTo([lat, lon], { animate: true });
             instruction.textContent = "↑ GPS location ready";
             turnDistance.textContent =
               "Open navigation from an assignment to load directions";
-            travelInfo.textContent = "Destination not supplied";
+          
             return;
           }
 
@@ -334,17 +326,7 @@ map.panTo([lat, lon], { animate: true });
       );
     }
 
-    document.getElementById("endBtn").addEventListener("click", () => {
-      navigationEnded = true;
-
-      if (watchId !== null) {
-        navigator.geolocation.clearWatch(watchId);
-      }
-
-    document.getElementById("endBtn").disabled = true;
-document.getElementById("endBtn").textContent = "Navigation Ended";
-      
-    });
+   
 document.getElementById("startAssignmentBtn").addEventListener("click", () => {
   window.location.href = "active-assignment-new.html" + window.location.search;
 });
