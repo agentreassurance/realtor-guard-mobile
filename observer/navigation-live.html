@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -491,16 +492,26 @@ function updateAssignmentCountdown() {
 
   const remaining = scheduled.getTime() - Date.now();
 
-  if (remaining <= 0) {
-    startButton.style.background = "#16803c";
-    startButton.disabled = false;
-    startButton.textContent = "Start Assignment";
-  } else {
-    const minutes = Math.ceil(remaining / 60000);
-    startButton.style.background = "#c62828";
-    startButton.disabled = true;
-    startButton.textContent = `Starts in ${minutes} min`;
-  }
+if (remaining <= 0) {
+  startButton.style.background = "#16803c";
+  startButton.disabled = false;
+  startButton.textContent = "Start Assignment";
+} else if (remaining > 300000) {
+  startButton.style.background = "#c62828";
+  startButton.disabled = true;
+  startButton.textContent = "Waiting for Assignment Time";
+} else {
+  const totalSeconds = Math.ceil(remaining / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const countdown =
+    String(minutes).padStart(2, "0") + ":" +
+    String(seconds).padStart(2, "0");
+
+  startButton.style.background = "#c62828";
+  startButton.disabled = true;
+  startButton.textContent = "Assignment Starts in " + countdown;
+}
 }
 
 updateAssignmentCountdown();
