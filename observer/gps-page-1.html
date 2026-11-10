@@ -416,13 +416,25 @@ let autoRouteStarted = false;
         String(routeDestination[0])
       );
 
-      next.searchParams.set(
-        "lon",
-        String(routeDestination[1])
-      );
+     
+next.searchParams.set(
+  "lon",
+  String(routeDestination[1])
+);
 
-      window.location.href = next.href;
-    });
+next.searchParams.set(
+  "date",
+  params.get("date") || ""
+);
+
+next.searchParams.set(
+  "time",
+  params.get("time") || ""
+);
+
+window.location.href = next.href;
+});
+
   
 function showDriveDetails() {
   const details = document.getElementById("details");
