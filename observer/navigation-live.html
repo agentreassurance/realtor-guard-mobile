@@ -468,7 +468,7 @@ map.panTo([lat, lon], { animate: true });
 
    
 document.getElementById("startAssignmentBtn").addEventListener("click", () => {
-  window.location.href = "active-assignment-new.html" + window.location.search;
+window.location.href = "active-assignment-new.html" + (window.location.search || "?assignment_id=" + encodeURIComponent(sessionStorage.getItem("activeAssignmentId") || ""));
 });
 
 const startButton = document.getElementById("startAssignmentBtn");
