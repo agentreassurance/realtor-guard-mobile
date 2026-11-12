@@ -250,11 +250,19 @@
     return 25 + Math.max(0,seconds-3600)*(25/3600);
   }
 
-  function refreshTimer() {
-    const seconds = elapsedSeconds();
-    $("clock").textContent = formatElapsed(seconds);
-    $("pay").textContent = "$" + earnings(seconds).toFixed(2);
+ 
+function refreshTimer() {
+  if (!startedAtMs) {
+    startedAtMs = Date.now();
+    sessionStorage.setItem(storageKey, String(startedAtMs));
   }
+
+  const seconds = Math.max(0, Math.floor((Date.now() - startedAtMs) / 1000));
+
+  document.getElementById("clock").textContent = formatElapsed(seconds);
+  document.getElementById("pay").textContent = "$" + earnings(seconds).toFixed(2);
+}
+
 
   function parseStart(value) {
     if (!value) return null;
