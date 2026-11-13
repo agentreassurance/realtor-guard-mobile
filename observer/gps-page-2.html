@@ -421,6 +421,14 @@ let autoRouteStarted = false;
         String(routeDestination[1])
       );
 
+const assignmentId =
+  new URLSearchParams(window.location.search).get("assignment_id") ||
+  sessionStorage.getItem("activeAssignmentId");
+
+if (assignmentId) {
+  next.searchParams.set("assignment_id", assignmentId);
+}
+
       window.location.href = next.href;
     });
   
