@@ -220,13 +220,24 @@ let autoRouteStarted = false;
       currentPosition = [lat, lon];
 
       if (!userMarker) {
-        userMarker = L.circleMarker(currentPosition, {
-          radius: 9,
-          color: "white",
-          weight: 3,
-          fillColor: "#06245c",
-          fillOpacity: 1
-        }).addTo(map);
+       
+userMarker = L.marker(currentPosition, {
+  icon: L.divIcon({
+    className: "rg-navigation-arrow",
+    html: `<div style="width:64px;height:64px;display:flex;align-items:center;justify-content:center;">
+      <svg width="60" height="60" viewBox="0 0 64 64">
+        <path d="M32 3 L57 57 L32 45 L7 57 Z"
+          fill="#2454C6"
+          stroke="white"
+          stroke-width="4"
+          stroke-linejoin="round"/>
+      </svg>
+    </div>`,
+    iconSize: [64, 64],
+    iconAnchor: [32, 32]
+  })
+}).addTo(map);
+
 
         map.setView(currentPosition, 14);
       } else {
