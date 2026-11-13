@@ -252,8 +252,10 @@
 
  
 
+
 function refreshTimer() {
   if (!startedAtMs || !Number.isFinite(startedAtMs)) {
+    console.error("Timer start time is missing");
     return;
   }
 
@@ -265,6 +267,7 @@ function refreshTimer() {
   $("clock").textContent = formatElapsed(seconds);
   $("pay").textContent = "$" + earnings(seconds).toFixed(2);
 }
+
 
 
 
