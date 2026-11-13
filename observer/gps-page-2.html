@@ -117,7 +117,16 @@
 
 <body>
 
-  <div id="map"></div>
+
+<div id="navBanner" style="position:fixed;top:0;left:0;width:100%;background:#008000;color:white;padding:16px 12px;z-index:1000;display:flex;align-items:center;gap:15px;border-radius:0 0 18px 18px;font-family:Arial,sans-serif;">
+  <span style="font-size:42px;font-weight:bold;">➜</span>
+  <div>
+    <div id="navDirection" style="font-size:20px;font-weight:bold;">Navigation directions</div>
+    <div id="navDistance" style="font-size:16px;">Preparing route...</div>
+  </div>
+</div>
+<div id="map"></div>
+
 
   <div class="panel">
     <h2>GPS Route Preview</h2>
@@ -395,6 +404,15 @@ userMarker = L.marker(currentPosition, {
 
         setStatus("Driving route ready.");
         $("startBtn").disabled = false;
+
+const steps = route.properties?.legs?.[0]?.steps || [];
+const firstStep = steps.find(step => step.instruction?.text);
+
+if (firstStep) {
+  $("navDirection").textContent = firstStep.instruction.text;
+  $("navDistance").textContent =
+    Math.round(firstStep.distance || 0) + " meters";
+}
 
       } catch (error) {
         setStatus(error.message);
