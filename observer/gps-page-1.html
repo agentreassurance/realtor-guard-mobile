@@ -402,7 +402,7 @@ let autoRouteStarted = false;
       if (!routeDestination) return;
 
       const next = new URL(
-        "navigation-live.html",
+             "gps-page-2.html",
         window.location.href
       );
 
@@ -431,6 +431,16 @@ next.searchParams.set(
   "time",
   params.get("time") || ""
 );
+
+const assignmentId =
+  params.get("assignment_id") ||
+  params.get("id") ||
+  sessionStorage.getItem("activeAssignmentId") ||
+  sessionStorage.getItem("rg_assignment_id");
+
+if (assignmentId) {
+  next.searchParams.set("assignment_id", assignmentId);
+}
 
 window.location.href = next.href;
 });
