@@ -472,6 +472,20 @@ function showDriveDetails() {
       : "Waiting for driving route information.");
 }
 
+let gpsVoiceEnabled = true;
+
+function toggleGPSVoice() {
+  gpsVoiceEnabled = !gpsVoiceEnabled;
+
+  if (!gpsVoiceEnabled) {
+    window.speechSynthesis.cancel();
+  }
+
+  alert(gpsVoiceEnabled
+    ? "Voice navigation ON"
+    : "Voice navigation OFF");
+}
+
   </script>
 </body>
 </html>
