@@ -149,6 +149,23 @@ display: inline-block;
  </div>
     <div id="map"></div>
 
+<div style="position:fixed;top:105px;right:15px;z-index:1100;">
+  <button type="button"
+    onclick="document.getElementById('rgInfo').hidden=false"
+    style="width:54px;height:54px;border-radius:50%;border:2px solid #9ca3af;background:white;color:#64748b;font-size:21px;font-weight:900;cursor:pointer;box-shadow:0 2px 8px #0002;">
+    RG
+  </button>
+</div>
+
+<div id="rgInfo" hidden
+  style="position:fixed;top:165px;right:15px;left:15px;max-width:350px;margin-left:auto;background:white;border:2px solid #cbd5e1;border-radius:16px;padding:20px;z-index:1200;box-shadow:0 5px 20px #0003;color:#374151;">
+  <button type="button"
+    onclick="document.getElementById('rgInfo').hidden=true"
+    style="float:right;border:0;background:none;font-size:24px;cursor:pointer;color:#64748b;">&times;</button>
+  <h3>Realtor Guard</h3>
+  <p>Never alone at a showing or open house.</p>
+  <p>Licensed observers help real estate agents feel safer during property showings and open houses.</p>
+</div> 
   <div class="panel">
 <h2 style="text-align:center;color:#111111;font-size:28px;font-weight:800;line-height:1.4;margin:16px 0 24px;">Observers, Please Arrive On Time.<span style="display:block;font-size:22px;margin-top:10px;">Thank You!</span></h2>
     
