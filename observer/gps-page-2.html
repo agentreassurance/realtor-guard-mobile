@@ -401,7 +401,15 @@ const steps = route.properties?.legs?.[0]?.steps || [];
 const firstStep = steps.find(step => step.instruction?.text);
 
 if (firstStep) {
-  $("navDirection").textContent = firstStep.instruction.text;
+ $("navDirection").textContent = firstStep.instruction.text;
+
+if (gpsVoiceEnabled && "speechSynthesis" in window) {
+  window.speechSynthesis.cancel();
+  const voice = new SpeechSynthesisUtterance(firstStep.instruction.text);
+  voice.lang = "en-US";
+  voice.rate = 0.9;
+  window.speechSynthesis.speak(voice);
+}
   $("navDistance").textContent =
     Math.round(firstStep.distance || 0) + " meters";
 }
