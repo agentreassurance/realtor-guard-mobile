@@ -355,9 +355,16 @@ let autoRouteStarted = false;
           map.removeLayer(destinationMarker);
         }
 
-        destinationMarker = L.marker(
-          routeDestination
-        ).addTo(map);
+      
+destinationMarker = L.marker(routeDestination, {
+  icon: L.divIcon({
+    className: "",
+    html: '<div style="width:34px;height:34px;border:2px solid white;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 2px 6px #777;"><img src="../logo.png" style="width:30px;height:30px;object-fit:contain;"></div>',
+    iconSize: [34, 34],
+    iconAnchor: [17, 17]
+  })
+}).addTo(map);
+
 
         const waypoints =
           currentPosition[0] + "," + currentPosition[1] +
