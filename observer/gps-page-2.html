@@ -180,7 +180,14 @@ clip-path: polygon(15% 0, 35% 5%, 50% 0, 65% 5%, 85% 0, 100% 18%, 95% 65%, 80% 8
 
 
     <p id="status">Waiting for your GPS location...</p>
-    <p id="details"></p>
+   <div id="details" style="text-align:center;padding:12px;background:#111;color:white;border-radius:14px;">
+  <div id="etaMinutes" style="font-size:30px;font-weight:bold;">-- min</div>
+  <div style="font-size:15px;margin-top:4px;">
+    <span id="milesRemaining">-- mi</span>
+    <span style="margin:0 8px;">•</span>
+    <span id="arrivalTime">--:--</span>
+  </div>
+</div>
 
 <div style="text-align:center; padding:12px 8px;">
   <div style="color:#a00000; font-size:18px; font-weight:bold;">
