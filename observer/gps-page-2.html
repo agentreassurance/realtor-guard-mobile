@@ -404,6 +404,11 @@ updateTurnByTurnNavigation(lat, lon);
             opacity: 0.95
           }
         }).addTo(map);
+        
+navigationGeometry = route.geometry.coordinates.map(
+  ([lon, lat]) => [lat, lon]
+);
+
 
         map.fitBounds(routeLine.getBounds(), {
           padding: [40, 40],
@@ -453,6 +458,7 @@ if (gpsVoiceEnabled && "speechSynthesis" in window) {
     }
 
 let navigationSteps = [];
+let navigationGeometry = [];    
 let currentTurnIndex = 0;
 let lastSpokenTurn = -1;
 
@@ -462,7 +468,7 @@ function updateTurnByTurnNavigation(lat, lon) {
   const step = navigationSteps[currentTurnIndex];
   if (!step) return;
 
-  const location = step.way_points_location;
+ const location = navigationGeometry?.[step.from_index];
   if (!location) return;
 
   const meters = map.distance([lat, lon], location);
