@@ -181,11 +181,15 @@ clip-path: polygon(15% 0, 35% 5%, 50% 0, 65% 5%, 85% 0, 100% 18%, 95% 65%, 80% 8
 
     <p id="status">Waiting for your GPS location...</p>
    
-<div id="details" style="display:none;">
-  <div id="etaMinutes">-- min</div>
-  <span id="milesRemaining">-- mi</span>
-  <span id="arrivalTime">--:--</span>
+
+<div id="details" style="display:none; width:100%; background:white; border-radius:35px; padding:16px 20px; box-sizing:border-box; text-align:center;">
+  <div id="etaMinutes" style="font-size:32px; font-weight:800; color:#111;">-- min</div>
+  <div style="display:flex; justify-content:center; align-items:center; gap:24px; margin-top:6px; font-size:20px; font-weight:600; color:#333;">
+    <span id="milesRemaining">-- mi</span>
+    <span id="arrivalTime">--:--</span>
+  </div>
 </div>
+
 
 
 
