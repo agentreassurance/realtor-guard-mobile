@@ -430,8 +430,11 @@ const distance =
         const minutes = Math.ceil(time / 60);
 
 
-$("details").textContent =
-  miles + " miles | About " + minutes + " minutes";
+
+$("etaMinutes").textContent = minutes + " min";
+$("milesRemaining").textContent = miles + " mi";
+$("arrivalTime").textContent = new Date(Date.now() + time * 1000).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+
 
         setStatus("Driving route ready.");
         $("startBtn").disabled = false;
