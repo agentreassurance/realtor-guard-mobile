@@ -683,7 +683,7 @@ async function loadAssignments() {
 
       return (
         !Number.isNaN(assignmentDateTime.getTime()) &&
-        assignmentDateTime >= now
+        assignmentDateTime.getTime() > 0
       );
     });
 
