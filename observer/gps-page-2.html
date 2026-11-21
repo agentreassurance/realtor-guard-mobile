@@ -392,7 +392,7 @@ updateTurnByTurnNavigation(lat, lon);
         const routingURL =
           "https://api.geoapify.com/v1/routing?waypoints=" +
           encodeURIComponent(waypoints) +
-          "&mode=drive&apiKey=" +
+        "&mode=drive&details=route_details&apiKey=" +
           encodeURIComponent(GEOAPIFY_KEY);
 
         const routeData = await geoapifyJSON(routingURL);
@@ -419,7 +419,13 @@ navigationGeometry = route.geometry.coordinates.map(
           padding: [40, 40],
           maxZoom: 16
         });
+const roadDetails = route.properties?.legs?.[0]?.steps || [];
+const speedLimit = roadDetails
+  .flatMap(step => step.route_details || [])
+  .find(detail => detail.speed_limit != null)?.speed_limit;
 
+$("speedLimitNumber").textContent =
+  speedLimit != null ? Math.round(speedLimit * 0.621371) : "--";
 
 const distance =
   route.properties?.distance || 0;
