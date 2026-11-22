@@ -485,7 +485,7 @@ function updateTurnByTurnNavigation(lat, lon) {
   const step = navigationSteps[currentTurnIndex];
   if (!step) return;
 
- const location = navigationGeometry?.[step.from_index];
+ const location = navigationGeometry?.[step.to_index];
   if (!location) return;
 
   const meters = map.distance([lat, lon], location);
