@@ -313,7 +313,25 @@ const createAppointmentCard = (appointment) => {
 }
     card.appendChild(line);
   });
+const address = [
+  appointment.property_address,
+  appointment.city,
+  appointment.state
+].filter(Boolean).join(", ");
 
+if (address) {
+  const directions = document.createElement("a");
+  directions.textContent = "Get Directions";
+  directions.href = "https://www.google.com/maps/dir/?api=1&destination=" +
+    encodeURIComponent(address);
+  directions.target = "_blank";
+  directions.rel = "noopener noreferrer";
+  directions.style.cssText =
+    "display:block;background:#a30d1b;color:white;text-align:center;" +
+    "padding:12px;border-radius:10px;margin-top:12px;" +
+    "font-weight:bold;text-decoration:none;";
+  card.appendChild(directions);
+}
   return card;
 };
 
