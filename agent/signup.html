@@ -311,10 +311,14 @@
           Create Agent Account
         </button>
 
-        <div class="message" id="successMessage" role="status">
-          Your information was entered successfully. We will connect this page
-          to the Agent Dashboard during the next build step.
-        </div>
+       
+<div class="message" id="successMessage" role="status">
+  Thank you for registering with Realtor Guard!
+  Your agent account has been created.
+  Your real estate license information will be reviewed.
+  You may log in and access your Agent Dashboard while verification is pending.
+</div>
+
       </form>
     </section>
 
@@ -358,7 +362,9 @@
         behavior: "smooth",
         block: "center"
         });
-      window.location.href = "login.html";
+     setTimeout(function () {
+  window.location.href = "login.html";
+}, 5000);
       });
     
   </script>
